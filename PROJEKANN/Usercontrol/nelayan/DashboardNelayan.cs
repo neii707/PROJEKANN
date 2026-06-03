@@ -22,6 +22,10 @@ namespace PROJEKANN.Usercontrol
             MuatSistemDashboardUtama();
         }
 
+        public DashboardNelayan()
+        {
+        }
+
         private void MuatSistemDashboardUtama()
         {
             try

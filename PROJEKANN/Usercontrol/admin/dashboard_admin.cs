@@ -22,12 +22,12 @@ namespace PROJEKANN.Usercontrol
                     conn.Open();
 
                     string query = @"
-                SELECT 
-                    id AS ""ID"", 
-                    pengguna AS ""Pengguna"", 
-                    aktivitas AS ""Aktivitas"" 
-                FROM v_aktivitas_terkini 
-                LIMIT 10;";
+                        SELECT 
+                            id AS ""ID"", 
+                            pengguna AS ""Pengguna"", 
+                            aktivitas AS ""Aktivitas"" 
+                        FROM v_aktivitas_terkini 
+                        LIMIT 10;";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
@@ -53,10 +53,42 @@ namespace PROJEKANN.Usercontrol
             MuatAktivitasTerkini();
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+        private void label2_Click(object sender, EventArgs e)
         {
-            MuatAktivitasTerkini();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                MessageBox.Show("Form ketemu");
+
+                var halaman = new PROJEKANN.Usercontrol.admin.kelola_akun();
+
+                MessageBox.Show("UserControl berhasil dibuat");
+
+                formUtama.TampilkanHalaman(halaman);
+
+                MessageBox.Show("TampilkanHalaman selesai");
+            }
+        }
     }
 }

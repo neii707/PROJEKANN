@@ -16,9 +16,15 @@ namespace PROJEKANN
 
         public void TampilkanHalaman(UserControl halamanBaru)
         {
-            panel1.Controls.Clear();          
-            halamanBaru.Dock = DockStyle.None; 
-            panel1.Controls.Add(halamanBaru); 
+            if (halamanBaru is PROJEKANN.Usercontrol.dashboard_admin)
+            {
+                this.ClientSize = new System.Drawing.Size(950, 600);
+                this.CenterToScreen(); 
+            }
+
+            panel1.Controls.Clear();
+            halamanBaru.Dock = DockStyle.Fill; 
+            panel1.Controls.Add(halamanBaru);
         }
     }
 }
