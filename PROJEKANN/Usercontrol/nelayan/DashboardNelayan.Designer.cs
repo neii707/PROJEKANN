@@ -191,6 +191,7 @@
             stoklabel_dashboard.Size = new Size(24, 28);
             stoklabel_dashboard.TabIndex = 7;
             stoklabel_dashboard.Text = "0";
+            stoklabel_dashboard.Click += stoklabel_dashboard_Click;
             // 
             // penawaranlabel_dashboard
             // 
@@ -202,6 +203,7 @@
             penawaranlabel_dashboard.Size = new Size(24, 28);
             penawaranlabel_dashboard.TabIndex = 6;
             penawaranlabel_dashboard.Text = "0";
+            penawaranlabel_dashboard.Click += penawaranlabel_dashboard_Click;
             // 
             // namauserlabel_dashboard
             // 

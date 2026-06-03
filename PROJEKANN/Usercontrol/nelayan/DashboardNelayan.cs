@@ -173,5 +173,15 @@ namespace PROJEKANN.Usercontrol
         private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         }
+
+        private void stoklabel_dashboard_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void penawaranlabel_dashboard_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
