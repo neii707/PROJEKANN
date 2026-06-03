@@ -72,10 +72,12 @@ namespace PROJEKANN.Usercontrol
 
         private void button4_Click(object sender, EventArgs e)
         {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_stok());
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi());
         }
 
         private void button1_Click(object sender, EventArgs e)

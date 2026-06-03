@@ -41,7 +41,7 @@
             // 
             // panel1
             // 
-            panel1.BackgroundImage = Properties.Resources._8;
+            panel1.BackgroundImage = Properties.Resources.stok;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
@@ -53,6 +53,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(905, 552);
             panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
             // 
             // button5
             // 

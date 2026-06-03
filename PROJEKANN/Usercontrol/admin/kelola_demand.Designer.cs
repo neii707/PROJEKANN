@@ -29,26 +29,26 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            label1 = new Label();
-            label2 = new Label();
-            button1 = new Button();
-            label3 = new Label();
-            label4 = new Label();
-            textBox1 = new TextBox();
-            dateTimePicker1 = new DateTimePicker();
-            dataGridView1 = new DataGridView();
             button5 = new Button();
             button4 = new Button();
             button3 = new Button();
             button2 = new Button();
             button6 = new Button();
+            dataGridView1 = new DataGridView();
+            dateTimePicker1 = new DateTimePicker();
+            textBox1 = new TextBox();
+            label4 = new Label();
+            label3 = new Label();
+            button1 = new Button();
+            label2 = new Label();
+            label1 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
-            //panel1.BackgroundImage = Properties.Resources._5;
+            panel1.BackgroundImage = Properties.Resources.demand;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
@@ -67,90 +67,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(905, 552);
             panel1.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(248, 77);
-            label1.Name = "label1";
-            label1.Size = new Size(249, 25);
-            label1.TabIndex = 0;
-            label1.Text = "+ TAMBAH DEMAND BARU";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(251, 249);
-            label2.Name = "label2";
-            label2.Size = new Size(207, 25);
-            label2.TabIndex = 1;
-            label2.Text = "LIST TARGET DEMAND";
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.FromArgb(69, 115, 28);
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(262, 186);
-            button1.Name = "button1";
-            button1.Size = new Size(618, 34);
-            button1.TabIndex = 2;
-            button1.Text = "TAMBAH DEMAND";
-            button1.UseVisualStyleBackColor = false;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(261, 117);
-            label3.Name = "label3";
-            label3.Size = new Size(124, 25);
-            label3.TabIndex = 3;
-            label3.Text = "TARGET (KG)";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(597, 117);
-            label4.Name = "label4";
-            label4.Size = new Size(97, 25);
-            label4.TabIndex = 4;
-            label4.Text = "TANGGAL";
-            // 
-            // textBox1
-            // 
-            textBox1.Font = new Font("Segoe UI", 7F);
-            textBox1.Location = new Point(267, 149);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(252, 26);
-            textBox1.TabIndex = 5;
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.CalendarFont = new Font("Segoe UI", 7F);
-            dateTimePicker1.Font = new Font("Segoe UI", 7F);
-            dateTimePicker1.Location = new Point(597, 149);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(283, 26);
-            dateTimePicker1.TabIndex = 6;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.BackgroundColor = Color.FromArgb(228, 254, 233);
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.GridColor = Color.FromArgb(192, 255, 192);
-            dataGridView1.Location = new Point(262, 299);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(618, 206);
-            dataGridView1.TabIndex = 7;
             // 
             // button5
             // 
@@ -222,6 +138,90 @@
             button6.Text = "DASHBOARD";
             button6.TextAlign = ContentAlignment.MiddleLeft;
             button6.UseVisualStyleBackColor = false;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.BackgroundColor = Color.FromArgb(228, 254, 233);
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.GridColor = Color.FromArgb(192, 255, 192);
+            dataGridView1.Location = new Point(262, 299);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(618, 206);
+            dataGridView1.TabIndex = 7;
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.CalendarFont = new Font("Segoe UI", 7F);
+            dateTimePicker1.Font = new Font("Segoe UI", 7F);
+            dateTimePicker1.Location = new Point(597, 149);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(283, 26);
+            dateTimePicker1.TabIndex = 6;
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Segoe UI", 7F);
+            textBox1.Location = new Point(267, 149);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(252, 26);
+            textBox1.TabIndex = 5;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Location = new Point(597, 117);
+            label4.Name = "label4";
+            label4.Size = new Size(97, 25);
+            label4.TabIndex = 4;
+            label4.Text = "TANGGAL";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Location = new Point(261, 117);
+            label3.Name = "label3";
+            label3.Size = new Size(124, 25);
+            label3.TabIndex = 3;
+            label3.Text = "TARGET (KG)";
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(69, 115, 28);
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = SystemColors.ButtonHighlight;
+            button1.Location = new Point(262, 186);
+            button1.Name = "button1";
+            button1.Size = new Size(618, 34);
+            button1.TabIndex = 2;
+            button1.Text = "TAMBAH DEMAND";
+            button1.UseVisualStyleBackColor = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(251, 249);
+            label2.Name = "label2";
+            label2.Size = new Size(207, 25);
+            label2.TabIndex = 1;
+            label2.Text = "LIST TARGET DEMAND";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(248, 77);
+            label1.Name = "label1";
+            label1.Size = new Size(249, 25);
+            label1.TabIndex = 0;
+            label1.Text = "+ TAMBAH DEMAND BARU";
             // 
             // kelola_demand
             // 

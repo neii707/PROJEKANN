@@ -29,5 +29,10 @@ namespace PROJEKANN.Usercontrol.admin
         {
 
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

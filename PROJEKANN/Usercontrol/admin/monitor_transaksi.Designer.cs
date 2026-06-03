@@ -29,19 +29,19 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            button7 = new Button();
-            button3 = new Button();
-            button6 = new Button();
+            dataGridView1 = new DataGridView();
             button5 = new Button();
             button4 = new Button();
-            dataGridView1 = new DataGridView();
+            button3 = new Button();
+            button6 = new Button();
+            button7 = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
-            //panel1.BackgroundImage = Properties.Resources._81;
+            panel1.BackgroundImage = Properties.Resources.stok;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.Controls.Add(dataGridView1);
             panel1.Controls.Add(button5);
@@ -54,48 +54,15 @@
             panel1.Size = new Size(905, 552);
             panel1.TabIndex = 0;
             // 
-            // button7
+            // dataGridView1
             // 
-            button7.BackColor = Color.Transparent;
-            button7.FlatAppearance.BorderSize = 0;
-            button7.FlatStyle = FlatStyle.Flat;
-            button7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button7.ImageAlign = ContentAlignment.MiddleLeft;
-            button7.Location = new Point(31, 112);
-            button7.Name = "button7";
-            button7.Size = new Size(135, 34);
-            button7.TabIndex = 19;
-            button7.Text = "DASHBOARD";
-            button7.TextAlign = ContentAlignment.MiddleLeft;
-            button7.UseVisualStyleBackColor = false;
-            // 
-            // button3
-            // 
-            button3.BackColor = Color.Transparent;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(31, 187);
-            button3.Name = "button3";
-            button3.Size = new Size(175, 34);
-            button3.TabIndex = 22;
-            button3.Text = "KELOLA DEMAND";
-            button3.TextAlign = ContentAlignment.MiddleLeft;
-            button3.UseVisualStyleBackColor = false;
-            // 
-            // button6
-            // 
-            button6.BackColor = Color.Transparent;
-            button6.FlatAppearance.BorderSize = 0;
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button6.Location = new Point(31, 148);
-            button6.Name = "button6";
-            button6.Size = new Size(149, 34);
-            button6.TabIndex = 21;
-            button6.Text = "KELOLA AKUN";
-            button6.TextAlign = ContentAlignment.MiddleLeft;
-            button6.UseVisualStyleBackColor = false;
+            dataGridView1.BackgroundColor = Color.FromArgb(223, 255, 236);
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(273, 101);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(603, 418);
+            dataGridView1.TabIndex = 25;
             // 
             // button5
             // 
@@ -125,15 +92,48 @@
             button4.TextAlign = ContentAlignment.MiddleLeft;
             button4.UseVisualStyleBackColor = false;
             // 
-            // dataGridView1
+            // button3
             // 
-            dataGridView1.BackgroundColor = Color.FromArgb(223, 255, 236);
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(273, 101);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(603, 418);
-            dataGridView1.TabIndex = 25;
+            button3.BackColor = Color.Transparent;
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button3.Location = new Point(31, 187);
+            button3.Name = "button3";
+            button3.Size = new Size(175, 34);
+            button3.TabIndex = 22;
+            button3.Text = "KELOLA DEMAND";
+            button3.TextAlign = ContentAlignment.MiddleLeft;
+            button3.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            button6.BackColor = Color.Transparent;
+            button6.FlatAppearance.BorderSize = 0;
+            button6.FlatStyle = FlatStyle.Flat;
+            button6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button6.Location = new Point(31, 148);
+            button6.Name = "button6";
+            button6.Size = new Size(149, 34);
+            button6.TabIndex = 21;
+            button6.Text = "KELOLA AKUN";
+            button6.TextAlign = ContentAlignment.MiddleLeft;
+            button6.UseVisualStyleBackColor = false;
+            // 
+            // button7
+            // 
+            button7.BackColor = Color.Transparent;
+            button7.FlatAppearance.BorderSize = 0;
+            button7.FlatStyle = FlatStyle.Flat;
+            button7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button7.ImageAlign = ContentAlignment.MiddleLeft;
+            button7.Location = new Point(31, 112);
+            button7.Name = "button7";
+            button7.Size = new Size(135, 34);
+            button7.TabIndex = 19;
+            button7.Text = "DASHBOARD";
+            button7.TextAlign = ContentAlignment.MiddleLeft;
+            button7.UseVisualStyleBackColor = false;
             // 
             // monitor_transaksi
             // 
