@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace PROJEKANN.Usercontrol
 {
-    public partial class dashboard_nelayan : UserControl
+    public partial class Riwayat : UserControl
     {
-        public dashboard_nelayan()
+        public Riwayat()
         {
             InitializeComponent();
         }
