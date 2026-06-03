@@ -20,7 +20,12 @@ namespace PROJEKANN.Usercontrol
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            
+
+        }
+
+        private void dashboard_distributor_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

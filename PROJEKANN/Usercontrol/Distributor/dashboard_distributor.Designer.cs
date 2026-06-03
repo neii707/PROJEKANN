@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dashboard_distributor));
             DashboardDistributor = new Panel();
             btnKeluar = new Button();
-            dataGridView1 = new DataGridView();
+            dgvDashboard = new DataGridView();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
@@ -42,7 +42,7 @@
             btnPanen = new Button();
             btnDashboard = new Button();
             DashboardDistributor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDashboard).BeginInit();
             SuspendLayout();
             // 
             // DashboardDistributor
@@ -50,7 +50,7 @@
             DashboardDistributor.BackgroundImage = (Image)resources.GetObject("DashboardDistributor.BackgroundImage");
             DashboardDistributor.BackgroundImageLayout = ImageLayout.Stretch;
             DashboardDistributor.Controls.Add(btnKeluar);
-            DashboardDistributor.Controls.Add(dataGridView1);
+            DashboardDistributor.Controls.Add(dgvDashboard);
             DashboardDistributor.Controls.Add(label3);
             DashboardDistributor.Controls.Add(label2);
             DashboardDistributor.Controls.Add(label1);
@@ -79,15 +79,15 @@
             btnKeluar.Text = "KELUAR";
             btnKeluar.UseVisualStyleBackColor = false;
             // 
-            // dataGridView1
+            // dgvDashboard
             // 
-            dataGridView1.BackgroundColor = Color.White;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(274, 203);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(611, 324);
-            dataGridView1.TabIndex = 9;
+            dgvDashboard.BackgroundColor = Color.White;
+            dgvDashboard.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDashboard.Location = new Point(274, 203);
+            dgvDashboard.Name = "dgvDashboard";
+            dgvDashboard.RowHeadersWidth = 62;
+            dgvDashboard.Size = new Size(611, 324);
+            dgvDashboard.TabIndex = 9;
             // 
             // label3
             // 
@@ -207,9 +207,10 @@
             Controls.Add(DashboardDistributor);
             Name = "dashboard_distributor";
             Size = new Size(908, 555);
+            Load += dashboard_distributor_Load;
             DashboardDistributor.ResumeLayout(false);
             DashboardDistributor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDashboard).EndInit();
             ResumeLayout(false);
         }
 
@@ -224,7 +225,7 @@
         private Button btnTransaksi;
         private Label label1;
         private Label label2;
-        private DataGridView dataGridView1;
+        private DataGridView dgvDashboard;
         private Label label3;
         private Button btnKeluar;
     }
