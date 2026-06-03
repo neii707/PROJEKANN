@@ -153,6 +153,16 @@ namespace PROJEKANN.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap transaksi {
+            get {
+                object obj = ResourceManager.GetObject("transaksi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap WhatsApp_Image_2026_06_03_at_19_52_15 {
             get {
                 object obj = ResourceManager.GetObject("WhatsApp Image 2026-06-03 at 19.52.15", resourceCulture);
