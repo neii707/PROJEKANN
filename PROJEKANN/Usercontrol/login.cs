@@ -76,8 +76,18 @@ namespace PROJEKANN.Usercontrol
                                     break;
 
                                 case "nelayan":
-            
-                                    mainForm.TampilkanHalaman(new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, username));
+                                    // 1. Bersihkan semua control lama yang menempel di Form1 agar tidak tumpang tindih
+                                    mainForm.Controls.Clear();
+
+                                    // 2. Inisialisasi Dashboard Nelayan dengan membawa parameter username
+                                    PROJEKANN.Usercontrol.DashboardNelayan nelayanDashboard = new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, username);
+
+                                    // 3. ATUR DOCK KE FILL (Ini kunci utama supaya komponennya langsung muncul memenuhi form utama)
+                                    nelayanDashboard.Dock = DockStyle.Fill;
+
+                                    // 4. Masukkan ke dalam mainForm dan paksa muncul ke paling depan
+                                    mainForm.Controls.Add(nelayanDashboard);
+                                    nelayanDashboard.BringToFront();
                                     break;
 
                                 default:
