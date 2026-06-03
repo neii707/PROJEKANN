@@ -56,6 +56,7 @@
             button1.TabIndex = 7;
             button1.Text = "LOGIN";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // textBox4
             // 
@@ -65,6 +66,7 @@
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(163, 14);
             textBox4.TabIndex = 6;
+            textBox4.TextChanged += textBox4_TextChanged_1;
             // 
             // textBox3
             // 
@@ -74,6 +76,7 @@
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(163, 14);
             textBox3.TabIndex = 5;
+            textBox3.TextChanged += textBox3_TextChanged;
             // 
             // login
             // 
