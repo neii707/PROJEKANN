@@ -82,6 +82,12 @@ namespace PROJEKANN.Usercontrol
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin());
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)

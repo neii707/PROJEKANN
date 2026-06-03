@@ -98,6 +98,7 @@
             button3.Text = "KELOLA DEMAND";
             button3.TextAlign = ContentAlignment.MiddleLeft;
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // button6
             // 
@@ -128,6 +129,7 @@
             button7.Text = "DASHBOARD";
             button7.TextAlign = ContentAlignment.MiddleLeft;
             button7.UseVisualStyleBackColor = false;
+            button7.Click += button7_Click;
             // 
             // dataGridView1
             // 
