@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Mengunci file koneksi database agar tidak tabrakan password
+PROJEKANN/database/DBConnection.cs
