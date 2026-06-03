@@ -174,31 +174,34 @@
             // 
             penjualanlabel_dashboard.AutoSize = true;
             penjualanlabel_dashboard.BackColor = Color.Transparent;
-            penjualanlabel_dashboard.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            penjualanlabel_dashboard.Location = new Point(763, 115);
+            penjualanlabel_dashboard.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            penjualanlabel_dashboard.Location = new Point(757, 115);
             penjualanlabel_dashboard.Name = "penjualanlabel_dashboard";
-            penjualanlabel_dashboard.Size = new Size(0, 38);
+            penjualanlabel_dashboard.Size = new Size(24, 28);
             penjualanlabel_dashboard.TabIndex = 8;
+            penjualanlabel_dashboard.Text = "0";
             // 
             // stoklabel_dashboard
             // 
             stoklabel_dashboard.AutoSize = true;
             stoklabel_dashboard.BackColor = Color.Transparent;
-            stoklabel_dashboard.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            stoklabel_dashboard.Location = new Point(312, 115);
+            stoklabel_dashboard.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            stoklabel_dashboard.Location = new Point(306, 123);
             stoklabel_dashboard.Name = "stoklabel_dashboard";
-            stoklabel_dashboard.Size = new Size(0, 38);
+            stoklabel_dashboard.Size = new Size(24, 28);
             stoklabel_dashboard.TabIndex = 7;
+            stoklabel_dashboard.Text = "0";
             // 
             // penawaranlabel_dashboard
             // 
             penawaranlabel_dashboard.AutoSize = true;
             penawaranlabel_dashboard.BackColor = Color.Transparent;
-            penawaranlabel_dashboard.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            penawaranlabel_dashboard.Location = new Point(539, 128);
+            penawaranlabel_dashboard.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            penawaranlabel_dashboard.Location = new Point(526, 123);
             penawaranlabel_dashboard.Name = "penawaranlabel_dashboard";
-            penawaranlabel_dashboard.Size = new Size(0, 32);
+            penawaranlabel_dashboard.Size = new Size(24, 28);
             penawaranlabel_dashboard.TabIndex = 6;
+            penawaranlabel_dashboard.Text = "0";
             // 
             // namauserlabel_dashboard
             // 
