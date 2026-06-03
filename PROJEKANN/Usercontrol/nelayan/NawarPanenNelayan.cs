@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace PROJEKANN.Usercontrol
 {
-    public partial class NawarPanen : UserControl
+    public partial class NawarPanenNelayan : UserControl
     {
-        public NawarPanen()
+        public NawarPanenNelayan()
         {
             InitializeComponent();
         }

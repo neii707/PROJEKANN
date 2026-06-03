@@ -1,90 +1,256 @@
-CREATE TYPE tipe_role AS ENUM ('ADMIN', 'DISTRIBUTOR', 'NELAYAN');
+-- =========================================
+-- ENUM ROLE
+-- =========================================
+
+CREATE TYPE tipe_role AS ENUM (
+'ADMIN',
+'DISTRIBUTOR',
+'NELAYAN'
+);
+
+-- =========================================
+-- USER
+-- =========================================
 
 CREATE TABLE usser (
-    id_user SERIAL,
-    nama VARCHAR(100) NOT NULL,
-    no_hp VARCHAR(20) NOT NULL,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    passwd VARCHAR(50) NOT NULL, 
-    status_konfir_akun VARCHAR(10) NOT NULL,
-    role_pilihan tipe_role NOT NULL, 
-    PRIMARY KEY (id_user)
+id_user SERIAL PRIMARY KEY,
+nama VARCHAR(100) NOT NULL,
+no_hp VARCHAR(20) NOT NULL,
+username VARCHAR(50) UNIQUE NOT NULL,
+passwd VARCHAR(50) NOT NULL,
+status_konfir_akun VARCHAR(20) NOT NULL,
+role_pilihan tipe_role NOT NULL
 );
+
+-- =========================================
+-- DEMAND
+-- ADMIN MEMBUAT DEMAND
+-- =========================================
 
 CREATE TABLE demand (
-    id_demand SERIAL,
-    target_kg NUMERIC(10, 2) NOT NULL,
-    deadline DATE NOT NULL,
-    id_user INT, 
-    PRIMARY KEY (id_demand),
-    FOREIGN KEY (id_user) REFERENCES usser(id_user) ON DELETE SET NULL ON UPDATE CASCADE
+id_demand SERIAL PRIMARY KEY,
+target_kg NUMERIC(10,2) NOT NULL,
+deadline DATE NOT NULL,
+
+id_user INT NOT NULL,
+
+FOREIGN KEY (id_user)
+REFERENCES usser(id_user)
+ON UPDATE CASCADE
+ON DELETE RESTRICT
 );
+
+-- =========================================
+-- PANEN
+-- NELAYAN INPUT PANEN
+-- =========================================
 
 CREATE TABLE panen (
-    id_panen SERIAL,
-    berat_per_kg NUMERIC(10,2) NOT NULL,
-    tanggal DATE NOT NULL,
-    id_user INT,
-    PRIMARY KEY (id_panen),
-    FOREIGN KEY (id_user) REFERENCES usser(id_user) ON DELETE SET NULL ON UPDATE CASCADE
+id_panen SERIAL PRIMARY KEY,
+berat_per_kg NUMERIC(10,2) NOT NULL,
+tanggal DATE NOT NULL,
+id_user INT NOT NULL,
+
+FOREIGN KEY (id_user)
+REFERENCES usser(id_user)
+ON UPDATE CASCADE
+ON DELETE RESTRICT
 );
+
+-- =========================================
+-- GRADE
+-- DISTRIBUTOR MENILAI PANEN
+-- GRADE TERHUBUNG KE DEMAND
+-- =========================================
 
 CREATE TABLE grade (
-    id_grade SERIAL,
-    kategori VARCHAR(50) NOT NULL,
-    keterangan VARCHAR(100),
-    harga_per_kg NUMERIC(10,2) NOT NULL,
-    id_panen INT,
-    id_demand INT,
-    PRIMARY KEY (id_grade),
-    FOREIGN KEY (id_panen) REFERENCES panen(id_panen) ON DELETE SET NULL ON UPDATE CASCADE,
-    FOREIGN KEY (id_demand) REFERENCES demand(id_demand) ON DELETE SET NULL ON UPDATE CASCADE
+id_grade SERIAL PRIMARY KEY,
+kategori VARCHAR(10) NOT NULL,
+keterangan VARCHAR(100),
+
+harga_per_kg NUMERIC(10,2) NOT NULL,
+
+id_panen INT NOT NULL,
+id_demand INT NOT NULL,
+id_distributor INT NOT NULL,
+
+FOREIGN KEY (id_panen)
+REFERENCES panen(id_panen)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+
+FOREIGN KEY (id_demand)
+REFERENCES demand(id_demand)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+
+FOREIGN KEY (id_distributor)
+REFERENCES usser(id_user)
+ON UPDATE CASCADE
+ON DELETE RESTRICT
 );
+
+-- =========================================
+-- TRANSAKSI
+-- SEKALIGUS MENJADI PENAWARAN
+-- =========================================
 
 CREATE TABLE transaksi (
-    id_transaksi SERIAL,
-    tanggal DATE NOT NULL,
-    status_transaksi VARCHAR(50) NOT NULL, 
-    total_pembayaran INT NOT NULL,        
-    id_user INT,                           
-    PRIMARY KEY (id_transaksi),
-    FOREIGN KEY (id_user) REFERENCES usser(id_user) ON DELETE SET NULL ON UPDATE CASCADE
+id_transaksi SERIAL PRIMARY KEY,
+tanggal DATE NOT NULL,
+harga_tawar NUMERIC(10,2) NOT NULL,
+total_pembayaran NUMERIC(12,2),
+status_transaksi VARCHAR(50)
+DEFAULT 'Menunggu',
+konfir_penawaran VARCHAR(50)
+DEFAULT 'Menunggu',
+konfir_pembelian VARCHAR(50)
+DEFAULT 'Menunggu',
+id_grade INT NOT NULL,
+FOREIGN KEY (id_grade)
+REFERENCES grade(id_grade)
+ON UPDATE CASCADE
+ON DELETE CASCADE
 );
 
--- LEBOKNE ISI DATANE 
-INSERT INTO usser (nama, no_hp, username, passwd, status_konfir_akun, role_pilihan)
+-- =========================================
+-- DATA USER
+-- =========================================
+
+INSERT INTO usser
+(nama,no_hp,username,passwd,status_konfir_akun,role_pilihan)
 VALUES
-('martin', '22222222', 'Martin_Edward', 'syatminn', 'Konfirmasi', 'ADMIN'),
-('keonho', '55555555', 'Ahn_Keonho', 'konoepep', 'Konfirmasi', 'DISTRIBUTOR'),
-('juhoon', '33333333', 'Kim_Juhoon', 'jhgntnkk', 'Konfirmasi', 'DISTRIBUTOR'),
-('seonghyeon', '44444444', 'Eom_Seonghyeon', 'eomprooo', 'Konfirmasi', 'NELAYAN'),
-('james', '11111111', 'Zhao_yufan', 'jmsokyey', 'Konfirmasi', 'NELAYAN');
+('Martin','22222222','Martin_Edward','syatminn','Konfirmasi','ADMIN'),
 
-INSERT INTO demand (target_kg, deadline, id_user)
+('PT. Keonho','55555555','Ahn_Keonho','konoepep','Konfirmasi','DISTRIBUTOR'),
+
+('PT. Juhoon','33333333','Kim_Juhoon','jhgntnkk','Konfirmasi','DISTRIBUTOR'),
+
+('Seonghyeon','44444444','Eom_Seonghyeon','eomprooo','Konfirmasi','NELAYAN'),
+
+('James','11111111','Zhao_yufan','jmsokyey','Konfirmasi','NELAYAN');
+
+-- =========================================
+-- DEMAND
+-- ADMIN
+-- =========================================
+
+INSERT INTO demand
+(target_kg,deadline,id_user)
 VALUES
-(500.00, '2026-06-30', 2),
-(300.00, '2026-07-15', 3),
-(450.00, '2026-07-20', 2),
-(600.00, '2026-08-01', 3),
-(350.00, '2026-08-10', 2);
+(500,'2026-06-30',1),
+(300,'2026-07-15',1),
+(450,'2026-07-20',1),
+(600,'2026-08-01',1),
+(350,'2026-08-10',1);
 
-INSERT INTO panen (berat_per_kg, tanggal, id_user)
+-- =========================================
+-- PANEN
+-- NELAYAN
+-- =========================================
+
+INSERT INTO panen
+(berat_per_kg,tanggal,id_user)
 VALUES
-(100.50, '2026-05-01', 1),
-(75.25, '2026-05-02', 4),
-(120.00, '2026-05-03', 1),
-(95.75, '2026-05-04', 4),
-(150.00, '2026-05-05', 1);
+(100.50,'2026-05-01',4),
+(75.25,'2026-05-02',5),
+(120.00,'2026-05-03',4),
+(95.75,'2026-05-04',5),
+(150.00,'2026-05-05',4);
 
-INSERT INTO grade (kategori, keterangan, harga_per_kg, id_panen, id_demand)
+-- =========================================
+-- GRADE
+-- DISTRIBUTOR
+-- =========================================
+
+INSERT INTO grade
+(kategori,keterangan,harga_per_kg,id_panen,id_demand,id_distributor)
 VALUES
-('A', 'Kualitas sangat baik', 15000, 1, 1),
-('B', 'Kualitas baik', 13000, 2, 2),
-('C', 'Kualitas cukup', 11000, 3, 3),
-('A', 'Kualitas sangat baik', 15000, 4, 4),
-('B', 'Kualitas baik', 13000, 5, 5);
+('A','Kualitas sangat baik',15000,1,1,2),
+('B','Kualitas baik',13000,2,2,2),
+('C','Kualitas cukup',11000,3,3,3),
+('A','Kualitas sangat baik',15000,4,4,2),
+('B','Kualitas baik',13000,5,5,3);
 
+-- =========================================
+-- TRANSAKSI / PENAWARAN
+-- =========================================
 
-INSERT INTO transaksi (tanggal, status_transaksi, total_pembayaran)
-VALUES 
-('2026-6-2', 'selesai', '200000')
+INSERT INTO transaksi
+(
+tanggal,
+harga_tawar,
+total_pembayaran,
+status_transaksi,
+konfir_penawaran,
+konfir_pembelian,
+id_grade
+)
+VALUES
+(
+'2026-06-01',
+14500,
+1450000,
+'Selesai',
+'Diterima',
+'Selesai',
+1
+),
+(
+'2026-06-02',
+12500,
+937500,
+'Selesai',
+'Diterima',
+'Selesai',
+2
+);
+
+--view jumlah panen di dashboard distributor
+CREATE OR REPLACE VIEW view_jumlah_panen AS
+SELECT COUNT(*) AS total_panen
+FROM panen;
+
+--view demand aktif di dashboard distributor
+CREATE OR REPLACE VIEW view_demand_aktif AS
+SELECT COUNT(*) AS total_demand
+FROM demand
+WHERE deadline >= CURRENT_DATE;
+
+--view total transaksi di dashboard distributor
+CREATE OR REPLACE VIEW view_total_transaksi AS
+SELECT
+COALESCE(SUM(total_pembayaran),0) AS total_transaksi
+FROM transaksi
+WHERE status_transaksi='Selesai';
+
+--view db distri menampilkan dgv bbrp transaksi paling akhir
+CREATE OR REPLACE VIEW view_dashboard_distributor AS
+SELECT
+    n.nama AS nelayan,
+
+    p.berat_per_kg ||
+    ' Kg - Grade ' ||
+    g.kategori ||
+    ' - Rp ' ||
+    TO_CHAR(t.total_pembayaran, 'FM999G999G999')
+
+    AS aktivitas,
+
+    t.tanggal
+
+FROM transaksi t
+
+JOIN grade g
+ON t.id_grade = g.id_grade
+
+JOIN panen p
+ON g.id_panen = p.id_panen
+
+JOIN usser n
+ON p.id_user = n.id_user
+
+ORDER BY t.tanggal DESC;
+
+--cek view
+SELECT * FROM view_dashboard_distributor;

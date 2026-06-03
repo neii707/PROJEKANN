@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PROJEKANN.Usercontrol
+namespace PROJEKANN.Usercontrol.admin
 {
-    public partial class Riwayat : UserControl
+    public partial class kelola_demand : UserControl
     {
-        public Riwayat()
+        public kelola_demand()
         {
             InitializeComponent();
         }

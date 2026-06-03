@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace PROJEKANN.Usercontrol
 {
-    public partial class Transaksi : UserControl
+    public partial class TransaksiNelayan : UserControl
     {
-        public Transaksi()
+        public TransaksiNelayan()
         {
             InitializeComponent();
         }

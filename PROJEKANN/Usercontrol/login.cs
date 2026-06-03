@@ -7,6 +7,7 @@ using System.Data.Common;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace PROJEKANN.Usercontrol
 {
@@ -30,8 +31,8 @@ namespace PROJEKANN.Usercontrol
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string username = textBox3.Text.Trim();
-            string password = textBox4.Text.Trim();
+            string username = lblNamaUser.Text.Trim();
+            string password = passworduser.Text.Trim();
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -75,9 +76,8 @@ namespace PROJEKANN.Usercontrol
                                     break;
 
                                 case "nelayan":
-                                    DashboardNelayan nelayanDashboard = new DashboardNelayan();
-                                    nelayanDashboard.Dock = DockStyle.Fill;
-                                    mainForm.Controls.Add(nelayanDashboard);
+            
+                                    mainForm.TampilkanHalaman(new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, username));
                                     break;
 
                                 default:
@@ -99,3 +99,4 @@ namespace PROJEKANN.Usercontrol
         }
     }
 }
+

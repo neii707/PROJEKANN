@@ -23,21 +23,10 @@ namespace PROJEKANN.Usercontrol
 
                     string query = @"
                         SELECT 
-                            'NEL0' || p.id_panen AS ""ID"", 
-                            u.nama AS ""Pengguna"", 
-                            'Input Panen (' || p.berat_per_kg || ' Kg)' AS ""Aktivitas""
-                        FROM panen p
-                        JOIN usser u ON p.id_user = u.id_user
-                        
-                        UNION ALL
-                        
-                        SELECT 
-                            'DIS0' || d.id_demand AS ""ID"", 
-                            u.nama AS ""Pengguna"", 
-                            'Minta Demand (' || d.target_kg || ' Kg)' AS ""Aktivitas""
-                        FROM demand d
-                        JOIN usser u ON d.id_user = u.id_user
-                        
+                            id AS ""ID"", 
+                            pengguna AS ""Pengguna"", 
+                            aktivitas AS ""Aktivitas"" 
+                        FROM v_aktivitas_terkini 
                         LIMIT 10;";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
@@ -46,6 +35,7 @@ namespace PROJEKANN.Usercontrol
                         {
                             DataTable dt = new DataTable();
                             da.Fill(dt);
+
                             dataGridView1.DataSource = dt;
                             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         }
@@ -54,7 +44,7 @@ namespace PROJEKANN.Usercontrol
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal memuat aktivitas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Gagal memuat aktivitas lewat View: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -63,10 +53,42 @@ namespace PROJEKANN.Usercontrol
             MuatAktivitasTerkini();
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+        private void label2_Click(object sender, EventArgs e)
         {
-            MuatAktivitasTerkini();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                MessageBox.Show("Form ketemu");
+
+                var halaman = new PROJEKANN.Usercontrol.admin.kelola_akun();
+
+                MessageBox.Show("UserControl berhasil dibuat");
+
+                formUtama.TampilkanHalaman(halaman);
+
+                MessageBox.Show("TampilkanHalaman selesai");
+            }
+        }
     }
 }
