@@ -41,7 +41,7 @@
             // 
             // panel1
             // 
-            panel1.BackgroundImage = Properties.Resources._81;
+            //panel1.BackgroundImage = Properties.Resources._81;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.Controls.Add(dataGridView1);
             panel1.Controls.Add(button5);
