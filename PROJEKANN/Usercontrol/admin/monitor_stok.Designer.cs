@@ -41,7 +41,7 @@
             // 
             // panel1
             // 
-            panel1.BackgroundImage = Properties.Resources._8;
+            panel1.BackgroundImage = Properties.Resources.stok;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
@@ -53,6 +53,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(905, 552);
             panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
             // 
             // button5
             // 
@@ -97,6 +98,7 @@
             button3.Text = "KELOLA DEMAND";
             button3.TextAlign = ContentAlignment.MiddleLeft;
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // button6
             // 
@@ -127,6 +129,7 @@
             button7.Text = "DASHBOARD";
             button7.TextAlign = ContentAlignment.MiddleLeft;
             button7.UseVisualStyleBackColor = false;
+            button7.Click += button7_Click;
             // 
             // dataGridView1
             // 

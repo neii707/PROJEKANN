@@ -43,7 +43,7 @@
             // 
             // panel1
             // 
-            panel1.BackgroundImage = Properties.Resources._6;
+            panel1.BackgroundImage = Properties.Resources.akun;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
@@ -71,6 +71,7 @@
             button5.Text = "MONITOR TRANSAKSI";
             button5.TextAlign = ContentAlignment.MiddleLeft;
             button5.UseVisualStyleBackColor = false;
+            button5.Click += button5_Click;
             // 
             // button4
             // 
@@ -85,6 +86,7 @@
             button4.Text = "MONITOR STOK";
             button4.TextAlign = ContentAlignment.MiddleLeft;
             button4.UseVisualStyleBackColor = false;
+            button4.Click += button4_Click;
             // 
             // button3
             // 
@@ -99,6 +101,7 @@
             button3.Text = "KELOLA DEMAND";
             button3.TextAlign = ContentAlignment.MiddleLeft;
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // button6
             // 
@@ -113,6 +116,7 @@
             button6.Text = "KELOLA AKUN";
             button6.TextAlign = ContentAlignment.MiddleLeft;
             button6.UseVisualStyleBackColor = false;
+            button6.Click += button6_Click;
             // 
             // button7
             // 
@@ -128,6 +132,7 @@
             button7.Text = "DASHBOARD";
             button7.TextAlign = ContentAlignment.MiddleLeft;
             button7.UseVisualStyleBackColor = false;
+            button7.Click += button7_Click;
             // 
             // button2
             // 

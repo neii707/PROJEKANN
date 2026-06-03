@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dashboard_distributor));
             DashboardDistributor = new Panel();
+            lblDemand = new Label();
+            lblNamaUser = new Label();
             btnKeluar = new Button();
             dgvDashboard = new DataGridView();
-            label3 = new Label();
+            lblTotalTransaksi = new Label();
             label2 = new Label();
-            label1 = new Label();
+            lblJumlahPanen = new Label();
             btnRiwayat = new Button();
             btnTransaksi = new Button();
             btnPenawaran = new Button();
@@ -47,13 +48,15 @@
             // 
             // DashboardDistributor
             // 
-            DashboardDistributor.BackgroundImage = (Image)resources.GetObject("DashboardDistributor.BackgroundImage");
+            DashboardDistributor.BackgroundImage = Properties.Resources.WhatsApp_Image_2026_06_03_at_19_52_35;
             DashboardDistributor.BackgroundImageLayout = ImageLayout.Stretch;
+            DashboardDistributor.Controls.Add(lblDemand);
+            DashboardDistributor.Controls.Add(lblNamaUser);
             DashboardDistributor.Controls.Add(btnKeluar);
             DashboardDistributor.Controls.Add(dgvDashboard);
-            DashboardDistributor.Controls.Add(label3);
+            DashboardDistributor.Controls.Add(lblTotalTransaksi);
             DashboardDistributor.Controls.Add(label2);
-            DashboardDistributor.Controls.Add(label1);
+            DashboardDistributor.Controls.Add(lblJumlahPanen);
             DashboardDistributor.Controls.Add(btnRiwayat);
             DashboardDistributor.Controls.Add(btnTransaksi);
             DashboardDistributor.Controls.Add(btnPenawaran);
@@ -65,6 +68,28 @@
             DashboardDistributor.Size = new Size(908, 555);
             DashboardDistributor.TabIndex = 0;
             DashboardDistributor.Paint += panel1_Paint;
+            // 
+            // lblDemand
+            // 
+            lblDemand.AutoSize = true;
+            lblDemand.BackColor = Color.Transparent;
+            lblDemand.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblDemand.Location = new Point(567, 102);
+            lblDemand.Name = "lblDemand";
+            lblDemand.Size = new Size(45, 54);
+            lblDemand.TabIndex = 12;
+            lblDemand.Text = "0";
+            // 
+            // lblNamaUser
+            // 
+            lblNamaUser.AutoSize = true;
+            lblNamaUser.BackColor = Color.Transparent;
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNamaUser.Location = new Point(84, 51);
+            lblNamaUser.Name = "lblNamaUser";
+            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.TabIndex = 11;
+            lblNamaUser.Text = "---";
             // 
             // btnKeluar
             // 
@@ -83,22 +108,22 @@
             // 
             dgvDashboard.BackgroundColor = Color.White;
             dgvDashboard.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDashboard.Location = new Point(274, 203);
+            dgvDashboard.Location = new Point(266, 251);
             dgvDashboard.Name = "dgvDashboard";
             dgvDashboard.RowHeadersWidth = 62;
-            dgvDashboard.Size = new Size(611, 324);
+            dgvDashboard.Size = new Size(624, 285);
             dgvDashboard.TabIndex = 9;
             // 
-            // label3
+            // lblTotalTransaksi
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(822, 105);
-            label3.Name = "label3";
-            label3.Size = new Size(45, 54);
-            label3.TabIndex = 8;
-            label3.Text = "0";
+            lblTotalTransaksi.AutoSize = true;
+            lblTotalTransaksi.BackColor = Color.Transparent;
+            lblTotalTransaksi.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalTransaksi.Location = new Point(791, 105);
+            lblTotalTransaksi.Name = "lblTotalTransaksi";
+            lblTotalTransaksi.Size = new Size(45, 54);
+            lblTotalTransaksi.TabIndex = 8;
+            lblTotalTransaksi.Text = "0";
             // 
             // label2
             // 
@@ -107,20 +132,19 @@
             label2.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(503, 114);
             label2.Name = "label2";
-            label2.Size = new Size(152, 28);
+            label2.Size = new Size(0, 28);
             label2.TabIndex = 7;
-            label2.Text = "0 Terkonfirmasi";
             // 
-            // label1
+            // lblJumlahPanen
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(332, 105);
-            label1.Name = "label1";
-            label1.Size = new Size(45, 54);
-            label1.TabIndex = 6;
-            label1.Text = "0";
+            lblJumlahPanen.AutoSize = true;
+            lblJumlahPanen.BackColor = Color.Transparent;
+            lblJumlahPanen.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblJumlahPanen.Location = new Point(332, 105);
+            lblJumlahPanen.Name = "lblJumlahPanen";
+            lblJumlahPanen.Size = new Size(45, 54);
+            lblJumlahPanen.TabIndex = 6;
+            lblJumlahPanen.Text = "0";
             // 
             // btnRiwayat
             // 
@@ -223,10 +247,12 @@
         private Button btnPanen;
         private Button btnRiwayat;
         private Button btnTransaksi;
-        private Label label1;
+        private Label lblJumlahPanen;
         private Label label2;
         private DataGridView dgvDashboard;
-        private Label label3;
+        private Label lblTotalTransaksi;
         private Button btnKeluar;
+        private Label lblNamaUser;
+        private Label lblDemand;
     }
 }

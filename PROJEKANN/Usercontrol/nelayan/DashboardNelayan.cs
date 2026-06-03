@@ -16,7 +16,8 @@ namespace PROJEKANN.Usercontrol
             InitializeComponent();
             mainForm = form1;
 
-            userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Natachai" : usernameLogin;
+            // Jika kosong, default diganti ke nama asli yang ada di INSERT database kamu (contoh: Seonghyeon)
+            userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Seonghyeon" : usernameLogin;
 
             MuatSistemDashboardUtama();
         }
@@ -25,15 +26,12 @@ namespace PROJEKANN.Usercontrol
         {
             try
             {
-                lbnamauser_dashboard.Text = userLoginAktif;
-
                 HitungStatistikOtomatis();
-
                 MuatTabelPanenTerbaru();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Terjadi masalah saat memuat data: " + ex.Message, "Sistem Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Terjadi masalah saat memuat data dashboard: " + ex.Message, "Sistem Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -45,26 +43,27 @@ namespace PROJEKANN.Usercontrol
                 {
                     kon.Open();
 
-                    string queryStok = "SELECT total_stok FROM view_stok_nelayan WHERE username = @username";
+                    // Diubah dari username menjadi nama asli user
+                    string queryStok = "SELECT total_stok FROM view_stok_nelayan WHERE nama = @nama";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStok, kon))
                     {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        cmd.Parameters.AddWithValue("@nama", userLoginAktif);
                         double totalStok = Convert.ToDouble(cmd.ExecuteScalar() ?? 0);
                         stoklabel_dashboard.Text = totalStok.ToString("N1") + " kg";
                     }
 
-                    string queryPenawaran = "SELECT total_penawaran FROM view_penawaran_nelayan WHERE username = @username";
+                    string queryPenawaran = "SELECT total_penawaran FROM view_penawaran_nelayan WHERE nama = @nama";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPenawaran, kon))
                     {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        cmd.Parameters.AddWithValue("@nama", userLoginAktif);
                         int totalPenawaran = Convert.ToInt32(cmd.ExecuteScalar() ?? 0);
                         penawaranlabel_dashboard.Text = totalPenawaran.ToString() + " Berkas";
                     }
 
-                    string queryPenjualan = "SELECT total_pembayaran FROM view_total_transaksi_nelayan WHERE username = @username";
+                    string queryPenjualan = "SELECT total_penjualan FROM view_total_penjualan_nelayan WHERE nama = @nama";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPenjualan, kon))
                     {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        cmd.Parameters.AddWithValue("@nama", userLoginAktif);
                         decimal totalDuit = Convert.ToDecimal(cmd.ExecuteScalar() ?? 0);
                         penjualanlabel_dashboard.Text = "Rp " + totalDuit.ToString("N0");
                     }
@@ -83,23 +82,102 @@ namespace PROJEKANN.Usercontrol
                 using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
                 {
                     kon.Open();
-                    string queryTabel = "SELECT distributor AS \"Distributor\", " +
-                                       "aktivitas AS \"Aktivitas\", " +
-                                       "tanggal AS \"Tanggal\" " +
+
+                    // Filter WHERE diganti ke kolom nama_nelayan
+                    string queryTabel = "SELECT id_asli, distributor, aktivitas, tanggal, status_asli, nama_lengkap " +
                                        "FROM view_dashboard_nelayan " +
-                                       "WHERE username = @username " +
+                                       "WHERE nama_nelayan = @nama " +
                                        "LIMIT 5";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        cmd.Parameters.AddWithValue("@nama", userLoginAktif);
 
                         using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            dgvDashboard.DataSource = dt;
+                            if (dt.Rows.Count > 0)
+                            {
+                                lbnamauser_dashboard.Text = dt.Rows[0]["nama_lengkap"].ToString();
+                            }
+                            else
+                            {
+                                lbnamauser_dashboard.Text = userLoginAktif;
+                            }
+
+                            DataTable dtBersih = new DataTable();
+                            dtBersih.Columns.Add("ID");
+                            dtBersih.Columns.Add("Grade");
+                            dtBersih.Columns.Add("Berat (kg)");
+                            dtBersih.Columns.Add("Tanggal");
+                            dtBersih.Columns.Add("Status");
+
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                string teksAktivitas = row["aktivitas"].ToString();
+                                string berat = "";
+                                string grade = "";
+
+                                if (teksAktivitas.Contains("Kg") && teksAktivitas.Contains("Grade"))
+                                {
+                                    int indexKg = teksAktivitas.IndexOf("Kg");
+                                    berat = teksAktivitas.Substring(0, indexKg).Trim() + " kg";
+
+                                    int indexGrade = teksAktivitas.IndexOf("Grade") + 5;
+                                    int indexStrip = teksAktivitas.IndexOf("-", indexGrade);
+
+                                    if (indexStrip > indexGrade)
+                                    {
+                                        grade = teksAktivitas.Substring(indexGrade, indexStrip - indexGrade).Trim();
+                                    }
+                                    else
+                                    {
+                                        grade = teksAktivitas.Substring(indexGrade).Trim();
+                                    }
+                                }
+                                else
+                                {
+                                    berat = teksAktivitas;
+                                }
+
+                                string tglFormated = "";
+                                if (row["tanggal"] != DBNull.Value)
+                                {
+                                    if (row["tanggal"] is DateTime dtValue)
+                                    {
+                                        tglFormated = dtValue.ToString("dd/MM/yyyy");
+                                    }
+                                    else
+                                    {
+                                        string rawTanggal = row["tanggal"].ToString();
+                                        if (rawTanggal.Contains(" "))
+                                        {
+                                            rawTanggal = rawTanggal.Split(' ')[0];
+                                        }
+                                        tglFormated = rawTanggal;
+                                    }
+                                }
+
+                                dtBersih.Rows.Add(
+                                    row["id_asli"].ToString(),
+                                    grade,
+                                    berat,
+                                    tglFormated,
+                                    row["status_asli"].ToString()
+                                );
+                            }
+
+                            dgvDashboard.AutoGenerateColumns = false;
+
+                            dgvDashboard.Columns[0].DataPropertyName = "ID";
+                            dgvDashboard.Columns[1].DataPropertyName = "Grade";
+                            dgvDashboard.Columns[2].DataPropertyName = "Berat (kg)";
+                            dgvDashboard.Columns[3].DataPropertyName = "Tanggal";
+                            dgvDashboard.Columns[4].DataPropertyName = "Status";
+
+                            dgvDashboard.DataSource = dtBersih;
                             dgvDashboard.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         }
                     }
@@ -176,12 +254,10 @@ namespace PROJEKANN.Usercontrol
 
         private void stoklabel_dashboard_Click(object sender, EventArgs e)
         {
-
         }
 
         private void penawaranlabel_dashboard_Click(object sender, EventArgs e)
         {
-
         }
     }
 }
