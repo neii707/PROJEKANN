@@ -16,7 +16,6 @@ namespace PROJEKANN.Usercontrol
             InitializeComponent();
             mainForm = form1;
 
-            // Jika username login kosong (misal saat testing langsung), otomatis gunakan "Natachai" atau user bawaan DB
             userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Natachai" : usernameLogin;
 
             MuatSistemDashboardUtama();
@@ -27,7 +26,9 @@ namespace PROJEKANN.Usercontrol
             try
             {
                 lbnamauser_dashboard.Text = userLoginAktif;
+
                 HitungStatistikOtomatis();
+
                 MuatTabelPanenTerbaru();
             }
             catch (Exception ex)
@@ -44,55 +45,27 @@ namespace PROJEKANN.Usercontrol
                 {
                     kon.Open();
 
-                    // =========================================================================
-                    // 1. QUERY STOK PANEN
-                    // Menghitung total berat_per_kg dari tabel panen milik nelayan yang login
-                    // =========================================================================
-                    string queryStok = "SELECT COALESCE(SUM(p.berat_per_kg), 0) " +
-                                       "FROM panen p " +
-                                       "JOIN usser u ON p.id_user = u.id_user " +
-                                       "WHERE u.username = @username";
-
+                    string queryStok = "SELECT total_stok FROM view_stok_nelayan WHERE username = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStok, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        double totalStok = Convert.ToDouble(cmd.ExecuteScalar());
+                        double totalStok = Convert.ToDouble(cmd.ExecuteScalar() ?? 0);
                         stoklabel_dashboard.Text = totalStok.ToString("N1") + " kg";
                     }
 
-                    // =========================================================================
-                    // 2. QUERY PENAWARAN (DARI TABEL TRANSAKSI)
-                    // Menghitung jumlah penawaran yang konfir_penawaran-nya masih 'Menunggu'
-                    // =========================================================================
-                    string queryPenawaran = "SELECT COUNT(*) " +
-                                            "FROM transaksi t " +
-                                            "JOIN grade g ON t.id_grade = g.id_grade " +
-                                            "JOIN panen p ON g.id_panen = p.id_panen " +
-                                            "JOIN usser u ON p.id_user = u.id_user " +
-                                            "WHERE t.konfir_penawaran = 'Menunggu' AND u.username = @username";
-
+                    string queryPenawaran = "SELECT total_penawaran FROM view_penawaran_nelayan WHERE username = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPenawaran, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        int jumlahPenawaran = Convert.ToInt32(cmd.ExecuteScalar());
-                        penawaranlabel_dashboard.Text = jumlahPenawaran.ToString() + " Berkas";
+                        int totalPenawaran = Convert.ToInt32(cmd.ExecuteScalar() ?? 0);
+                        penawaranlabel_dashboard.Text = totalPenawaran.ToString() + " Berkas";
                     }
 
-                    // =========================================================================
-                    // 3. QUERY PENJUALAN (DARI TABEL TRANSAKSI)
-                    // Menghitung total_pembayaran dari transaksi yang status_transaksi-nya 'Selesai'
-                    // =========================================================================
-                    string queryPenjualan = "SELECT COALESCE(SUM(t.total_pembayaran), 0) " +
-                                            "FROM transaksi t " +
-                                            "JOIN grade g ON t.id_grade = g.id_grade " +
-                                            "JOIN panen p ON g.id_panen = p.id_panen " +
-                                            "JOIN usser u ON p.id_user = u.id_user " +
-                                            "WHERE t.status_transaksi = 'Selesai' AND u.username = @username";
-
+                    string queryPenjualan = "SELECT total_pembayaran FROM view_total_transaksi_nelayan WHERE username = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPenjualan, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        decimal totalDuit = Convert.ToDecimal(cmd.ExecuteScalar());
+                        decimal totalDuit = Convert.ToDecimal(cmd.ExecuteScalar() ?? 0);
                         penjualanlabel_dashboard.Text = "Rp " + totalDuit.ToString("N0");
                     }
                 }
@@ -110,22 +83,12 @@ namespace PROJEKANN.Usercontrol
                 using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
                 {
                     kon.Open();
-
-                    // =========================================================================
-                    // 4. QUERY DATAGRIDVIEW PANEN TERBARU
-                    // Mengambil data panen milik nelayan dan mencocokkan Grade dari Distributor jika ada (LEFT JOIN)
-                    // =========================================================================
-                    string queryTabel = "SELECT p.id_panen AS \"ID\", " +
-                                       "COALESCE(g.kategori, '-') AS \"Grade\", " +
-                                       "p.berat_per_kg AS \"Berat (kg)\", " +
-                                       "p.tanggal AS \"Tanggal\", " +
-                                       "COALESCE(t.status_transaksi, 'Menunggu') AS \"Status\" " +
-                                       "FROM panen p " +
-                                       "JOIN usser u ON p.id_user = u.id_user " +
-                                       "LEFT JOIN grade g ON p.id_panen = g.id_panen " +
-                                       "LEFT JOIN transaksi t ON g.id_grade = t.id_grade " +
-                                       "WHERE u.username = @username " +
-                                       "ORDER BY p.id_panen DESC";
+                    string queryTabel = "SELECT distributor AS \"Distributor\", " +
+                                       "aktivitas AS \"Aktivitas\", " +
+                                       "tanggal AS \"Tanggal\" " +
+                                       "FROM view_dashboard_nelayan " +
+                                       "WHERE username = @username " +
+                                       "LIMIT 5";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
@@ -135,9 +98,8 @@ namespace PROJEKANN.Usercontrol
                         {
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
-                            dgvDashboard.DataSource = dt;
 
-                            // Merapikan ukuran kolom tabel di aplikasi secara otomatis
+                            dgvDashboard.DataSource = dt;
                             dgvDashboard.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         }
                     }
@@ -145,7 +107,7 @@ namespace PROJEKANN.Usercontrol
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal memuat tabel panen terbaru: " + ex.Message, "Error Tabel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Gagal memuat tabel aktivitas terbaru: " + ex.Message, "Error Tabel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -180,7 +142,6 @@ namespace PROJEKANN.Usercontrol
 
         private void inputpanenbutton_dashboard_Click(object sender, EventArgs e)
         {
-            // Meneruskan data user yang sedang login aktif ke halaman Kelola Panen
             GantiHalamanFitur(new PROJEKANN.Usercontrol.KelolaPanenNelayan());
         }
 
