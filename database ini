@@ -45,7 +45,9 @@ CREATE TABLE transaksi (
     id_transaksi SERIAL,
     tanggal DATE NOT NULL,
     status_transaksi VARCHAR(50) NOT NULL, 
-    total_pembayaran INT NOT NULL,        
+    total_pembayaran INT NOT NULL,   
+    konfir_penawaran VARCHAR(100) NOT NULL DEFAULT 'Menunggu',
+    konfir_peembelian VARCHAR(100) NOT NULL DEFAULT 'Menunggu',
     id_user INT,                           
     PRIMARY KEY (id_transaksi),
     FOREIGN KEY (id_user) REFERENCES usser(id_user) ON DELETE SET NULL ON UPDATE CASCADE
@@ -88,3 +90,39 @@ VALUES
 INSERT INTO transaksi (tanggal, status_transaksi, total_pembayaran)
 VALUES 
 ('2026-6-2', 'selesai', '200000')
+
+--fitur dashboard distributor
+CREATE VIEW view_dashboard_distributor AS
+SELECT
+    t.id_transaksi,
+    t.tanggal,
+    t.status_transaksi,
+    t.total_pembayaran,
+    u.nama
+FROM transaksi t
+JOIN usser u
+ON t.id_user = u.id_user
+ORDER BY t.id_transaksi DESC;
+
+--ngecek
+SELECT * FROM view_dashboard_distributor;
+
+-- view dashboard admin
+CREATE OR REPLACE VIEW v_aktivitas_terkini AS
+SELECT 
+    'NEL0' || p.id_panen AS id, 
+    u.nama AS pengguna, 
+    'Input Panen (' || p.berat_per_kg || ' Kg)' AS aktivitas
+FROM panen p
+JOIN usser u ON p.id_user = u.id_user
+
+UNION ALL
+
+SELECT 
+    'DIS0' || d.id_demand AS id, 
+    u.nama AS pengguna, 
+    'Minta Demand (' || d.target_kg || ' Kg)' AS aktivitas
+FROM demand d
+JOIN usser u ON d.id_user = u.id_user;
+
+select * from v_aktivitas_terkini;
