@@ -57,7 +57,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 0;
-            //panel1.Paint += panel1_Paint;
             // 
             // label2
             // 
@@ -125,6 +124,7 @@
             button2.Text = "KELOLA AKUN";
             button2.TextAlign = ContentAlignment.MiddleLeft;
             button2.UseVisualStyleBackColor = false;
+            button2.Click += this.button2_Click;
             // 
             // button1
             // 
