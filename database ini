@@ -104,3 +104,23 @@ ORDER BY t.id_transaksi DESC;
 
 --ngecek
 SELECT * FROM view_dashboard_distributor;
+
+-- view dashboard admin
+CREATE OR REPLACE VIEW v_aktivitas_terkini AS
+SELECT 
+    'NEL0' || p.id_panen AS id, 
+    u.nama AS pengguna, 
+    'Input Panen (' || p.berat_per_kg || ' Kg)' AS aktivitas
+FROM panen p
+JOIN usser u ON p.id_user = u.id_user
+
+UNION ALL
+
+SELECT 
+    'DIS0' || d.id_demand AS id, 
+    u.nama AS pengguna, 
+    'Minta Demand (' || d.target_kg || ' Kg)' AS aktivitas
+FROM demand d
+JOIN usser u ON d.id_user = u.id_user;
+
+select * from v_aktivitas_terkini;
