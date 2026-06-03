@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             DashboardDistributor = new Panel();
+            lblDemand = new Label();
             lblNamaUser = new Label();
             btnKeluar = new Button();
             dgvDashboard = new DataGridView();
@@ -41,14 +42,13 @@
             btnGrading = new Button();
             btnPanen = new Button();
             btnDashboard = new Button();
-            lblDemand = new Label();
             DashboardDistributor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDashboard).BeginInit();
             SuspendLayout();
             // 
             // DashboardDistributor
             // 
-            DashboardDistributor.BackgroundImage = Properties.Resources.Dashboard2;
+            DashboardDistributor.BackgroundImage = Properties.Resources.WhatsApp_Image_2026_06_03_at_19_52_35;
             DashboardDistributor.BackgroundImageLayout = ImageLayout.Stretch;
             DashboardDistributor.Controls.Add(lblDemand);
             DashboardDistributor.Controls.Add(lblNamaUser);
@@ -68,6 +68,17 @@
             DashboardDistributor.Size = new Size(908, 555);
             DashboardDistributor.TabIndex = 0;
             DashboardDistributor.Paint += panel1_Paint;
+            // 
+            // lblDemand
+            // 
+            lblDemand.AutoSize = true;
+            lblDemand.BackColor = Color.Transparent;
+            lblDemand.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblDemand.Location = new Point(567, 102);
+            lblDemand.Name = "lblDemand";
+            lblDemand.Size = new Size(45, 54);
+            lblDemand.TabIndex = 12;
+            lblDemand.Text = "0";
             // 
             // lblNamaUser
             // 
@@ -212,17 +223,6 @@
             btnDashboard.TabIndex = 0;
             btnDashboard.Text = "DASHBOARD";
             btnDashboard.UseVisualStyleBackColor = false;
-            // 
-            // lblDemand
-            // 
-            lblDemand.AutoSize = true;
-            lblDemand.BackColor = Color.Transparent;
-            lblDemand.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDemand.Location = new Point(567, 102);
-            lblDemand.Name = "lblDemand";
-            lblDemand.Size = new Size(45, 54);
-            lblDemand.TabIndex = 12;
-            lblDemand.Text = "0";
             // 
             // dashboard_distributor
             // 

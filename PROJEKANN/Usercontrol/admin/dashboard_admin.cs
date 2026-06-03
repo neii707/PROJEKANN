@@ -67,6 +67,7 @@ namespace PROJEKANN.Usercontrol
 
         private void button3_Click(object sender, EventArgs e)
         {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_demand());
         }
 
         private void button4_Click(object sender, EventArgs e)
