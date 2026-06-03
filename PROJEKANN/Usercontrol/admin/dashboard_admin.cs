@@ -13,6 +13,14 @@ namespace PROJEKANN.Usercontrol
             MuatAktivitasTerkini();
         }
 
+        private void GantiHalamanFitur(UserControl ucBaru)
+        {
+            panel1.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            panel1.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
+        }
+
         private void MuatAktivitasTerkini()
         {
             try
@@ -75,20 +83,7 @@ namespace PROJEKANN.Usercontrol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form1 formUtama = this.FindForm() as Form1;
-
-            if (formUtama != null)
-            {
-                MessageBox.Show("Form ketemu");
-
-                var halaman = new PROJEKANN.Usercontrol.admin.kelola_akun();
-
-                MessageBox.Show("UserControl berhasil dibuat");
-
-                formUtama.TampilkanHalaman(halaman);
-
-                MessageBox.Show("TampilkanHalaman selesai");
-            }
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun());
         }
     }
 }

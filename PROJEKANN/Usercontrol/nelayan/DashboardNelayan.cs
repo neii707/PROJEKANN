@@ -15,7 +15,8 @@ namespace PROJEKANN.Usercontrol
         {
             InitializeComponent();
             mainForm = form1;
-            userLoginAktif = usernameLogin;
+
+            userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Natachai" : usernameLogin;
 
             MuatSistemDashboardUtama();
         }
@@ -25,7 +26,9 @@ namespace PROJEKANN.Usercontrol
             try
             {
                 lbnamauser_dashboard.Text = userLoginAktif;
+
                 HitungStatistikOtomatis();
+
                 MuatTabelPanenTerbaru();
             }
             catch (Exception ex)
@@ -42,27 +45,27 @@ namespace PROJEKANN.Usercontrol
                 {
                     kon.Open();
 
-                    string queryStok = "SELECT COALESCE(SUM(berat), 0) FROM panen WHERE status = 'Tersedia' AND nama_user = @username";
+                    string queryStok = "SELECT total_stok FROM view_stok_nelayan WHERE username = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStok, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        double totalStok = Convert.ToDouble(cmd.ExecuteScalar());
+                        double totalStok = Convert.ToDouble(cmd.ExecuteScalar() ?? 0);
                         stoklabel_dashboard.Text = totalStok.ToString("N1") + " kg";
                     }
 
-                    string queryPenawaran = "SELECT COUNT(*) FROM tabel_penawaran WHERE status = 'Pending' AND nama_user = @username";
+                    string queryPenawaran = "SELECT total_penawaran FROM view_penawaran_nelayan WHERE username = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPenawaran, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        int jumlahPenawaran = Convert.ToInt32(cmd.ExecuteScalar());
-                        penawaranlabel_dashboard.Text = jumlahPenawaran.ToString() + " Berkas";
+                        int totalPenawaran = Convert.ToInt32(cmd.ExecuteScalar() ?? 0);
+                        penawaranlabel_dashboard.Text = totalPenawaran.ToString() + " Berkas";
                     }
 
-                    string queryPenjualan = "SELECT COALESCE(SUM(total_harga), 0) FROM tabel_transaksi WHERE status = 'Selesai' AND nama_user = @username";
+                    string queryPenjualan = "SELECT total_pembayaran FROM view_total_transaksi_nelayan WHERE username = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPenjualan, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        decimal totalDuit = Convert.ToDecimal(cmd.ExecuteScalar());
+                        decimal totalDuit = Convert.ToDecimal(cmd.ExecuteScalar() ?? 0);
                         penjualanlabel_dashboard.Text = "Rp " + totalDuit.ToString("N0");
                     }
                 }
@@ -80,7 +83,12 @@ namespace PROJEKANN.Usercontrol
                 using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
                 {
                     kon.Open();
-                    string queryTabel = "SELECT id_panen, grade, berat, tanggal_panen, status FROM panen WHERE nama_user = @username";
+                    string queryTabel = "SELECT distributor AS \"Distributor\", " +
+                                       "aktivitas AS \"Aktivitas\", " +
+                                       "tanggal AS \"Tanggal\" " +
+                                       "FROM view_dashboard_nelayan " +
+                                       "WHERE username = @username " +
+                                       "LIMIT 5";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
@@ -90,12 +98,17 @@ namespace PROJEKANN.Usercontrol
                         {
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
+
                             dgvDashboard.DataSource = dt;
+                            dgvDashboard.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         }
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memuat tabel aktivitas terbaru: " + ex.Message, "Error Tabel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void GantiHalamanFitur(UserControl ucBaru)
@@ -159,6 +172,16 @@ namespace PROJEKANN.Usercontrol
 
         private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+        }
+
+        private void stoklabel_dashboard_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void penawaranlabel_dashboard_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
