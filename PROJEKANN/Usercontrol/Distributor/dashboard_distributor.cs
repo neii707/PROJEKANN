@@ -7,7 +7,6 @@ using System.Text;
 using System.Windows.Forms;
 using Npgsql;
 using PROJEKANN.database;
-using System.Data;
 
 namespace PROJEKANN.Usercontrol
 {
@@ -25,7 +24,46 @@ namespace PROJEKANN.Usercontrol
 
         private void dashboard_distributor_Load(object sender, EventArgs e)
         {
+            MuatTransaksiTerkini();
+        }
 
+        private void MuatTransaksiTerkini()
+        {
+            try
+            {
+                using (NpgsqlConnection conn =
+                    DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT *
+                        FROM view_dashboard_distributor
+                        LIMIT 10;
+                    ";
+
+                    using (NpgsqlCommand cmd =
+                        new NpgsqlCommand(query, conn))
+                    {
+                        using (NpgsqlDataAdapter da =
+                            new NpgsqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+
+                            da.Fill(dt);
+
+                            dgvDashboard.DataSource = dt;
+
+                            dgvDashboard.AutoSizeColumnsMode =
+                                DataGridViewAutoSizeColumnsMode.Fill;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
