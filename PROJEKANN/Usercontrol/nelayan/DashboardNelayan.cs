@@ -42,7 +42,7 @@ namespace PROJEKANN.Usercontrol
                 {
                     kon.Open();
 
-                    string queryStok = "SELECT COALESCE(SUM(berat), 0) FROM tabel_panen WHERE status = 'Tersedia' AND nama_user = @username";
+                    string queryStok = "SELECT COALESCE(SUM(berat), 0) FROM panen WHERE status = 'Tersedia' AND nama_user = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStok, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", userLoginAktif);
@@ -80,7 +80,7 @@ namespace PROJEKANN.Usercontrol
                 using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
                 {
                     kon.Open();
-                    string queryTabel = "SELECT id_panen, grade, berat, tanggal_panen, status FROM tabel_panen WHERE nama_user = @username";
+                    string queryTabel = "SELECT id_panen, grade, berat, tanggal_panen, status FROM panen WHERE nama_user = @username";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
