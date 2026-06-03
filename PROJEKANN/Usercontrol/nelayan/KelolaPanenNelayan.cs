@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace PROJEKANN.Usercontrol
 {
-    public partial class KelolaPanen : UserControl
+    public partial class KelolaPanenNelayan : UserControl
     {
-        public KelolaPanen()
+        public KelolaPanenNelayan()
         {
             InitializeComponent();
         }

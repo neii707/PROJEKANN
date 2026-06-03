@@ -1,12 +1,7 @@
 ﻿using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.Common;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using PROJEKANN;
 
 namespace PROJEKANN.Usercontrol
 {
@@ -22,10 +17,12 @@ namespace PROJEKANN.Usercontrol
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
+
         }
 
         private void textBox4_TextChanged_1(object sender, EventArgs e)
         {
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -33,68 +30,147 @@ namespace PROJEKANN.Usercontrol
             string username = textBox3.Text.Trim();
             string password = textBox4.Text.Trim();
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) ||
+                string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Username dan Password tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Username dan Password tidak boleh kosong!",
+                    "Peringatan",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 return;
             }
 
             try
             {
-                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
+                using (NpgsqlConnection conn =
+                    database.DBConnection.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT role_pilihan FROM usser WHERE username = @username AND passwd = @password";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    string query = @"
+                        SELECT
+                            id_user,
+                            nama,
+                            username,
+                            role_pilihan
+                        FROM usser
+                        WHERE username = @username
+                        AND passwd = @password";
+
+                    using (NpgsqlCommand cmd =
+                        new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@username", username);
-                        cmd.Parameters.AddWithValue("@password", password);
+                        cmd.Parameters.AddWithValue(
+                            "@username",
+                            username);
 
-                        object result = cmd.ExecuteScalar();
+                        cmd.Parameters.AddWithValue(
+                            "@password",
+                            password);
 
-                        if (result != null)
+                        using (NpgsqlDataReader reader =
+                            cmd.ExecuteReader())
                         {
-                            string role = result.ToString().ToLower();
-                            MessageBox.Show("Login Berhasil! Role Anda: " + role, "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                            mainForm.Controls.Clear();
-
-                            switch (role)
+                            if (reader.Read())
                             {
-                                case "admin":
-                                    dashboard_admin adminDashboard = new dashboard_admin();
-                                    adminDashboard.Dock = DockStyle.Fill;
-                                    mainForm.Controls.Add(adminDashboard);
-                                    break;
+                                UserSession.IdUser =
+                                    Convert.ToInt32(
+                                        reader["id_user"]);
 
-                                case "distributor":
-                                    dashboard_distributor distributorDashboard = new dashboard_distributor();
-                                    distributorDashboard.Dock = DockStyle.Fill;
-                                    mainForm.Controls.Add(distributorDashboard);
-                                    break;
+                                UserSession.Nama =
+                                    reader["nama"].ToString();
 
-                                case "nelayan":
-                                    dashboard_nelayan nelayanDashboard = new dashboard_nelayan();
-                                    nelayanDashboard.Dock = DockStyle.Fill;
-                                    mainForm.Controls.Add(nelayanDashboard);
-                                    break;
+                                UserSession.Username =
+                                    reader["username"].ToString();
 
-                                default:
-                                    MessageBox.Show("Role tidak dikenali!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    break;
+                                UserSession.Role =
+                                    reader["role_pilihan"].ToString();
+
+                                string role =
+                                    UserSession.Role.ToLower();
+
+                                MessageBox.Show(
+                                    "Login Berhasil!",
+                                    "Sukses",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+
+                                mainForm.Controls.Clear();
+
+                                switch (role)
+                                {
+                                    case "admin":
+
+                                        dashboard_admin adminDashboard =
+                                            new dashboard_admin();
+
+                                        adminDashboard.Dock =
+                                            DockStyle.Fill;
+
+                                        mainForm.Controls.Add(
+                                            adminDashboard);
+
+                                        break;
+
+                                    case "distributor":
+
+                                        dashboard_distributor distributorDashboard =
+                                            new dashboard_distributor();
+
+                                        distributorDashboard.Dock =
+                                            DockStyle.Fill;
+
+                                        mainForm.Controls.Add(
+                                            distributorDashboard);
+
+                                        break;
+
+                                    case "nelayan":
+
+                                        DashboardNelayan nelayanDashboard =
+                                            new DashboardNelayan();
+
+                                        nelayanDashboard.Dock =
+                                            DockStyle.Fill;
+
+                                        mainForm.Controls.Add(
+                                            nelayanDashboard);
+
+                                        break;
+
+                                    default:
+
+                                        MessageBox.Show(
+                                            "Role tidak dikenali!",
+                                            "Error",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Error);
+
+                                        break;
+                                }
                             }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Username atau Password salah!", "Gagal Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else
+                            {
+                                MessageBox.Show(
+                                    "Username atau Password salah!",
+                                    "Gagal Login",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Terjadi kesalahan koneksi database: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Terjadi kesalahan koneksi database:\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }

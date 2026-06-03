@@ -1,6 +1,6 @@
 ﻿namespace PROJEKANN.Usercontrol
 {
-    partial class KelolaPanen
+    partial class KelolaPanenNelayan
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KelolaPanen));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KelolaPanenNelayan));
             kelolapanenpanel = new Panel();
             dashboardbutton_kelola = new Button();
             inputpanenbutton_kelola = new Button();

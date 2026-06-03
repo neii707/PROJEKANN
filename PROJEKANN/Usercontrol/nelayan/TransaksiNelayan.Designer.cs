@@ -1,6 +1,6 @@
 ﻿namespace PROJEKANN.Usercontrol
 {
-    partial class Transaksi
+    partial class TransaksiNelayan
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Transaksi));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TransaksiNelayan));
             paneltransaksi = new Panel();
             lbnamauser_transaksi = new Label();
             dashboardbutton_transaksi = new Button();

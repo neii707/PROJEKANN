@@ -1,6 +1,6 @@
 ﻿namespace PROJEKANN.Usercontrol
 {
-    partial class NawarPanen
+    partial class NawarPanenNelayan
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NawarPanen));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NawarPanenNelayan));
             panel1 = new Panel();
             dashboardbutton_nawar = new Button();
             inputpanenbutton_nawar = new Button();
