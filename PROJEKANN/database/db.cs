@@ -8,7 +8,7 @@ namespace PROJEKANN.database
     public static class DBConnection
     {
         private static readonly string connectionString =
-            "Host=localhost;Port=5432;Database=projek akhir cweed;Username=postgres;Password=neina776;";
+            "Host=localhost;Port=5432;Database=DBProjek;Username=postgres;Password=060930;";
 
         public static NpgsqlConnection GetConnection()
         {
