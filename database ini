@@ -88,3 +88,19 @@ VALUES
 INSERT INTO transaksi (tanggal, status_transaksi, total_pembayaran)
 VALUES 
 ('2026-6-2', 'selesai', '200000')
+
+--fitur dashboard distributor
+CREATE VIEW view_dashboard_distributor AS
+SELECT
+    t.id_transaksi,
+    t.tanggal,
+    t.status_transaksi,
+    t.total_pembayaran,
+    u.nama
+FROM transaksi t
+JOIN usser u
+ON t.id_user = u.id_user
+ORDER BY t.id_transaksi DESC;
+
+--ngecek
+SELECT * FROM view_dashboard_distributor;
