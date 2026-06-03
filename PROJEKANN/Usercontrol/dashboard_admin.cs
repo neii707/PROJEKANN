@@ -22,23 +22,12 @@ namespace PROJEKANN.Usercontrol
                     conn.Open();
 
                     string query = @"
-                        SELECT 
-                            'NEL0' || p.id_panen AS ""ID"", 
-                            u.nama AS ""Pengguna"", 
-                            'Input Panen (' || p.berat_per_kg || ' Kg)' AS ""Aktivitas""
-                        FROM panen p
-                        JOIN usser u ON p.id_user = u.id_user
-                        
-                        UNION ALL
-                        
-                        SELECT 
-                            'DIS0' || d.id_demand AS ""ID"", 
-                            u.nama AS ""Pengguna"", 
-                            'Minta Demand (' || d.target_kg || ' Kg)' AS ""Aktivitas""
-                        FROM demand d
-                        JOIN usser u ON d.id_user = u.id_user
-                        
-                        LIMIT 10;";
+                SELECT 
+                    id AS ""ID"", 
+                    pengguna AS ""Pengguna"", 
+                    aktivitas AS ""Aktivitas"" 
+                FROM v_aktivitas_terkini 
+                LIMIT 10;";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
@@ -46,6 +35,7 @@ namespace PROJEKANN.Usercontrol
                         {
                             DataTable dt = new DataTable();
                             da.Fill(dt);
+
                             dataGridView1.DataSource = dt;
                             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         }
@@ -54,7 +44,7 @@ namespace PROJEKANN.Usercontrol
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal memuat aktivitas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Gagal memuat aktivitas lewat View: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
