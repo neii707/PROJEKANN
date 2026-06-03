@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardNelayan));
             panel2 = new Panel();
-            labeldemand_dashboard = new Label();
             lbnamauser_dashboard = new Label();
             keluarbutton_dashboard = new Button();
             panenlabel_dashboard = new Label();
@@ -57,7 +56,6 @@
             // 
             panel2.BackgroundImage = (Image)resources.GetObject("panel2.BackgroundImage");
             panel2.BackgroundImageLayout = ImageLayout.Stretch;
-            panel2.Controls.Add(labeldemand_dashboard);
             panel2.Controls.Add(lbnamauser_dashboard);
             panel2.Controls.Add(keluarbutton_dashboard);
             panel2.Controls.Add(panenlabel_dashboard);
@@ -75,18 +73,6 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(908, 555);
             panel2.TabIndex = 1;
-            // 
-            // labeldemand_dashboard
-            // 
-            labeldemand_dashboard.AutoSize = true;
-            labeldemand_dashboard.BackColor = Color.FromArgb(192, 255, 255);
-            labeldemand_dashboard.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            labeldemand_dashboard.Location = new Point(277, 206);
-            labeldemand_dashboard.Name = "labeldemand_dashboard";
-            labeldemand_dashboard.Size = new Size(437, 38);
-            labeldemand_dashboard.TabIndex = 27;
-            labeldemand_dashboard.Text = "Demand Terkini: Memuat Data..";
-            labeldemand_dashboard.Click += labeldemand_dashboard_Click;
             // 
             // lbnamauser_dashboard
             // 
@@ -122,7 +108,7 @@
             panenlabel_dashboard.BackColor = Color.Transparent;
             panenlabel_dashboard.Font = new Font("Book Antiqua", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             panenlabel_dashboard.ForeColor = SystemColors.ControlText;
-            panenlabel_dashboard.Location = new Point(274, 286);
+            panenlabel_dashboard.Location = new Point(274, 216);
             panenlabel_dashboard.Name = "panenlabel_dashboard";
             panenlabel_dashboard.Size = new Size(175, 28);
             panenlabel_dashboard.TabIndex = 11;
@@ -138,15 +124,16 @@
             dgvDashboard.BackgroundColor = Color.FromArgb(192, 255, 255);
             dgvDashboard.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDashboard.Columns.AddRange(new DataGridViewColumn[] { colID, colGrade, colBerat, colTanggal, colStatus });
-            dgvDashboard.Location = new Point(274, 318);
+            dgvDashboard.Location = new Point(274, 247);
             dgvDashboard.MultiSelect = false;
             dgvDashboard.Name = "dgvDashboard";
             dgvDashboard.ReadOnly = true;
             dgvDashboard.RowHeadersVisible = false;
             dgvDashboard.RowHeadersWidth = 62;
             dgvDashboard.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDashboard.Size = new Size(603, 203);
+            dgvDashboard.Size = new Size(603, 256);
             dgvDashboard.TabIndex = 10;
+            dgvDashboard.CellContentClick += dgvDashboard_CellContentClick;
             // 
             // colID
             // 
@@ -331,6 +318,5 @@
         private DataGridViewTextBoxColumn colTanggal;
         private DataGridViewTextBoxColumn colStatus;
         private Label lbnamauser_dashboard;
-        private Label labeldemand_dashboard;
     }
 }

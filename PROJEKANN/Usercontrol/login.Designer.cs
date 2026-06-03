@@ -30,8 +30,8 @@
         {
             panel1 = new Panel();
             button1 = new Button();
-            textBox4 = new TextBox();
-            textBox3 = new TextBox();
+            passworduser = new TextBox();
+            lblNamaUser = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -39,8 +39,8 @@
             // 
             panel1.BackColor = Color.Transparent;
             panel1.Controls.Add(button1);
-            panel1.Controls.Add(textBox4);
-            panel1.Controls.Add(textBox3);
+            panel1.Controls.Add(passworduser);
+            panel1.Controls.Add(lblNamaUser);
             panel1.Location = new Point(0, 6);
             panel1.Name = "panel1";
             panel1.Size = new Size(902, 549);
@@ -58,25 +58,25 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
-            // textBox4
+            // passworduser
             // 
-            textBox4.BorderStyle = BorderStyle.None;
-            textBox4.Font = new Font("Segoe UI", 5F);
-            textBox4.Location = new Point(562, 345);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(163, 14);
-            textBox4.TabIndex = 6;
-            textBox4.TextChanged += textBox4_TextChanged_1;
+            passworduser.BorderStyle = BorderStyle.None;
+            passworduser.Font = new Font("Segoe UI", 5F);
+            passworduser.Location = new Point(562, 345);
+            passworduser.Name = "passworduser";
+            passworduser.Size = new Size(163, 14);
+            passworduser.TabIndex = 6;
+            passworduser.TextChanged += textBox4_TextChanged_1;
             // 
-            // textBox3
+            // lblNamaUser
             // 
-            textBox3.BorderStyle = BorderStyle.None;
-            textBox3.Font = new Font("Segoe UI", 5F);
-            textBox3.Location = new Point(562, 286);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(163, 14);
-            textBox3.TabIndex = 5;
-            textBox3.TextChanged += textBox3_TextChanged;
+            lblNamaUser.BorderStyle = BorderStyle.None;
+            lblNamaUser.Font = new Font("Segoe UI", 5F);
+            lblNamaUser.Location = new Point(562, 286);
+            lblNamaUser.Name = "lblNamaUser";
+            lblNamaUser.Size = new Size(163, 14);
+            lblNamaUser.TabIndex = 5;
+            lblNamaUser.TextChanged += textBox3_TextChanged;
             // 
             // login
             // 
@@ -95,7 +95,7 @@
         #endregion
         private Panel panel1;
         private Button button1;
-        private TextBox textBox4;
-        private TextBox textBox3;
+        private TextBox passworduser;
+        private TextBox lblNamaUser;
     }
 }
