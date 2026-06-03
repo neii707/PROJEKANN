@@ -4,7 +4,6 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-// NAMESPACE DISAMAKAN DENGAN DESIGNER KAMU (TANPA .nelayan)
 namespace PROJEKANN.Usercontrol
 {
     public partial class DashboardNelayan : UserControl
@@ -12,18 +11,13 @@ namespace PROJEKANN.Usercontrol
         private Form1 mainForm;
         private string userLoginAktif;
 
-        // CONSTRUCTOR
         public DashboardNelayan(Form1 form1, string usernameLogin)
         {
-            InitializeComponent(); // Sesaat setelah namespace di atas diganti, ini langsung normal!
+            InitializeComponent();
             mainForm = form1;
             userLoginAktif = usernameLogin;
 
             MuatSistemDashboardUtama();
-        }
-
-        public DashboardNelayan()
-        {
         }
 
         private void MuatSistemDashboardUtama()
@@ -48,7 +42,6 @@ namespace PROJEKANN.Usercontrol
                 {
                     kon.Open();
 
-                    // A. Total Stok Panen
                     string queryStok = "SELECT COALESCE(SUM(berat), 0) FROM tabel_panen WHERE status = 'Tersedia' AND nama_user = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStok, kon))
                     {
@@ -57,7 +50,6 @@ namespace PROJEKANN.Usercontrol
                         stoklabel_dashboard.Text = totalStok.ToString("N1") + " kg";
                     }
 
-                    // B. Total Berkas Penawaran
                     string queryPenawaran = "SELECT COUNT(*) FROM tabel_penawaran WHERE status = 'Pending' AND nama_user = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPenawaran, kon))
                     {
@@ -66,7 +58,6 @@ namespace PROJEKANN.Usercontrol
                         penawaranlabel_dashboard.Text = jumlahPenawaran.ToString() + " Berkas";
                     }
 
-                    // C. Total Penjualan
                     string queryPenjualan = "SELECT COALESCE(SUM(total_harga), 0) FROM tabel_transaksi WHERE status = 'Selesai' AND nama_user = @username";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPenjualan, kon))
                     {
@@ -115,10 +106,6 @@ namespace PROJEKANN.Usercontrol
             ucBaru.BringToFront();
         }
 
-        // =======================================================================
-        // LOGIKA KLIK TOMBOL SIDEBAR MENU 
-        // =======================================================================
-
         private void dashboardbutton_Click(object sender, EventArgs e)
         {
             panel2.Controls.Clear();
@@ -142,7 +129,6 @@ namespace PROJEKANN.Usercontrol
 
         private void inputpanenbutton_dashboard_Click(object sender, EventArgs e)
         {
-            // Kata .nelayan di tengah dihapus
             GantiHalamanFitur(new PROJEKANN.Usercontrol.KelolaPanenNelayan());
         }
 
@@ -158,7 +144,6 @@ namespace PROJEKANN.Usercontrol
 
         private void riwayatbutton_dashboard_Click(object sender, EventArgs e)
         {
-            // Memanggil dengan alamat namespace lengkap menggunakan huruf kecil 'nelayan'
             GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.RiwayatNelayan());
         }
 
@@ -168,16 +153,12 @@ namespace PROJEKANN.Usercontrol
 
             if (konfirmasi == DialogResult.Yes)
             {
-                mainForm.Controls.Clear();
-                PROJEKANN.Usercontrol.login halamanLogin = new PROJEKANN.Usercontrol.login(mainForm);
-                halamanLogin.Dock = DockStyle.Fill;
-                mainForm.Controls.Add(halamanLogin);
+                mainForm.TampilkanHalaman(new PROJEKANN.Usercontrol.login(mainForm));
             }
         }
 
         private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
         }
     }
 }

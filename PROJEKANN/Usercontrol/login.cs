@@ -76,9 +76,8 @@ namespace PROJEKANN.Usercontrol
                                     break;
 
                                 case "nelayan":
-                                    DashboardNelayan nelayanDashboard = new DashboardNelayan();
-                                    nelayanDashboard.Dock = DockStyle.Fill;
-                                    mainForm.Controls.Add(nelayanDashboard);
+            
+                                    mainForm.TampilkanHalaman(new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, username));
                                     break;
 
                                 default:
