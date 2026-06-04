@@ -50,11 +50,11 @@
             // 
             DashboardDistributor.BackgroundImage = Properties.Resources.WhatsApp_Image_2026_06_03_at_19_52_35;
             DashboardDistributor.BackgroundImageLayout = ImageLayout.Stretch;
+            DashboardDistributor.Controls.Add(lblTotalTransaksi);
             DashboardDistributor.Controls.Add(lblDemand);
             DashboardDistributor.Controls.Add(lblNamaUser);
             DashboardDistributor.Controls.Add(btnKeluar);
             DashboardDistributor.Controls.Add(dgvDashboard);
-            DashboardDistributor.Controls.Add(lblTotalTransaksi);
             DashboardDistributor.Controls.Add(label2);
             DashboardDistributor.Controls.Add(lblJumlahPanen);
             DashboardDistributor.Controls.Add(btnRiwayat);
@@ -73,10 +73,10 @@
             // 
             lblDemand.AutoSize = true;
             lblDemand.BackColor = Color.Transparent;
-            lblDemand.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDemand.Location = new Point(567, 102);
+            lblDemand.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            lblDemand.Location = new Point(539, 108);
             lblDemand.Name = "lblDemand";
-            lblDemand.Size = new Size(45, 54);
+            lblDemand.Size = new Size(33, 38);
             lblDemand.TabIndex = 12;
             lblDemand.Text = "0";
             // 
@@ -114,17 +114,6 @@
             dgvDashboard.Size = new Size(624, 285);
             dgvDashboard.TabIndex = 9;
             // 
-            // lblTotalTransaksi
-            // 
-            lblTotalTransaksi.AutoSize = true;
-            lblTotalTransaksi.BackColor = Color.Transparent;
-            lblTotalTransaksi.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTotalTransaksi.Location = new Point(791, 105);
-            lblTotalTransaksi.Name = "lblTotalTransaksi";
-            lblTotalTransaksi.Size = new Size(45, 54);
-            lblTotalTransaksi.TabIndex = 8;
-            lblTotalTransaksi.Text = "0";
-            // 
             // label2
             // 
             label2.AutoSize = true;
@@ -139,10 +128,10 @@
             // 
             lblJumlahPanen.AutoSize = true;
             lblJumlahPanen.BackColor = Color.Transparent;
-            lblJumlahPanen.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblJumlahPanen.Location = new Point(332, 105);
+            lblJumlahPanen.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            lblJumlahPanen.Location = new Point(303, 108);
             lblJumlahPanen.Name = "lblJumlahPanen";
-            lblJumlahPanen.Size = new Size(45, 54);
+            lblJumlahPanen.Size = new Size(33, 38);
             lblJumlahPanen.TabIndex = 6;
             lblJumlahPanen.Text = "0";
             // 
@@ -224,6 +213,17 @@
             btnDashboard.Text = "DASHBOARD";
             btnDashboard.UseVisualStyleBackColor = false;
             // 
+            // lblTotalTransaksi
+            // 
+            lblTotalTransaksi.AutoSize = true;
+            lblTotalTransaksi.BackColor = Color.Transparent;
+            lblTotalTransaksi.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalTransaksi.Location = new Point(741, 108);
+            lblTotalTransaksi.Name = "lblTotalTransaksi";
+            lblTotalTransaksi.Size = new Size(33, 38);
+            lblTotalTransaksi.TabIndex = 13;
+            lblTotalTransaksi.Text = "0";
+            // 
             // dashboard_distributor
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -250,9 +250,9 @@
         private Label lblJumlahPanen;
         private Label label2;
         private DataGridView dgvDashboard;
-        private Label lblTotalTransaksi;
         private Button btnKeluar;
         private Label lblNamaUser;
         private Label lblDemand;
+        private Label lblTotalTransaksi;
     }
 }
