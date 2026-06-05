@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,6 +26,40 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void button1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void tampil_akun()
+        {
+            try
+            {
+                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string query = @"
+                             SELECT 'DIS0' || u.id_user as id,
+		                u.nama as Nama,
+		                u.username as Username,
+		                u.passwd as Password
+                        FROM v_konfir_akun";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+
+                            dataGridView1.DataSource = dt;
+                            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memuat aktivitas lewat View: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

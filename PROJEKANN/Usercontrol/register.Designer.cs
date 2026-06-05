@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            button1 = new Button();
             comboBox1 = new ComboBox();
             textBox6 = new TextBox();
             textBox5 = new TextBox();
             textBox4 = new TextBox();
             textBox3 = new TextBox();
             textBox1 = new TextBox();
-            button1 = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -55,6 +55,16 @@
             panel1.Size = new Size(902, 549);
             panel1.TabIndex = 0;
             // 
+            // button1
+            // 
+            button1.Location = new Point(634, 457);
+            button1.Name = "button1";
+            button1.Size = new Size(112, 34);
+            button1.TabIndex = 14;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // comboBox1
             // 
             comboBox1.BackColor = Color.White;
@@ -64,6 +74,7 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(201, 20);
             comboBox1.TabIndex = 13;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // textBox6
             // 
@@ -90,7 +101,7 @@
             textBox4.BackColor = Color.White;
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Segoe UI", 5F);
-            textBox4.Location = new Point(610, 287);
+            textBox4.Location = new Point(610, 290);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(150, 14);
             textBox4.TabIndex = 10;
@@ -110,19 +121,10 @@
             textBox1.BackColor = Color.White;
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 5F);
-            textBox1.Location = new Point(610, 245);
+            textBox1.Location = new Point(610, 249);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(150, 14);
             textBox1.TabIndex = 8;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(634, 457);
-            button1.Name = "button1";
-            button1.Size = new Size(112, 34);
-            button1.TabIndex = 14;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
             // 
             // register
             // 
