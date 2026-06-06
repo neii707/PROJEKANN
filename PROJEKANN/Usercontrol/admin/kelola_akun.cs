@@ -14,6 +14,7 @@ namespace PROJEKANN.Usercontrol.admin
         public kelola_akun()
         {
             InitializeComponent();
+            tampil_akun();
         }
 
         private void GantiHalamanFitur(UserControl ucBaru)
@@ -26,6 +27,45 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Silakan pilih baris data akun yang ingin dikonfirmasi terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string usernameTerpilih = dataGridView1.SelectedRows[0].Cells["username"].Value.ToString();
+
+            DialogResult dialogResult = MessageBox.Show($"Apakah Anda yakin ingin mengonfirmasi akun dengan username '{usernameTerpilih}'?", "Konfirmasi Akun", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                try
+                {
+                    using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
+                    {
+                        conn.Open();
+
+                        string queryUpdate = @"
+                    UPDATE usser 
+                    SET status_konfir_akun = 'Konfirmasi' 
+                    WHERE username = @username";
+
+                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryUpdate, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@username", usernameTerpilih);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        MessageBox.Show($"Akun '{usernameTerpilih}' berhasil dikonfirmasi dan sekarang sudah aktif!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        tampil_akun();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal mengonfirmasi akun: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void tampil_akun()
@@ -36,13 +76,7 @@ namespace PROJEKANN.Usercontrol.admin
                 {
                     conn.Open();
 
-                    string query = @"
-                        SELECT 'DIS0' || u.id_user as id,
-		                u.nama as Nama,
-		                u.username as Username,
-		                u.passwd as Password,
-		                u.status_konfir_akun as status
-                        FROM v_konfir_akun";
+                    string query = "SELECT * FROM v_konfir_akun2";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
@@ -91,6 +125,49 @@ namespace PROJEKANN.Usercontrol.admin
         private void button5_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Silakan pilih baris data akun yang ingin diblokir terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string usernameTerpilih = dataGridView1.SelectedRows[0].Cells["username"].Value.ToString();
+
+            DialogResult dialogResult = MessageBox.Show($"Apakah Anda yakin ingin memblokir akun dengan username '{usernameTerpilih}'?", "Konfirmasi Akun", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                try
+                {
+                    using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
+                    {
+                        conn.Open();
+
+                        string queryUpdate = @"
+                    UPDATE usser 
+                    SET status_konfir_akun = 'Blokir' 
+                    WHERE username = @username";
+
+                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryUpdate, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@username", usernameTerpilih);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        MessageBox.Show($"Akun '{usernameTerpilih}' berhasil diblokir !", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        tampil_akun();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal memblokir akun: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }
