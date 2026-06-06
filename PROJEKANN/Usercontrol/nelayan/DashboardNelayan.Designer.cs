@@ -84,6 +84,7 @@
             lbnamauser_dashboard.Size = new Size(88, 25);
             lbnamauser_dashboard.TabIndex = 26;
             lbnamauser_dashboard.Text = "Natachai";
+            lbnamauser_dashboard.Click += lbnamauser_dashboard_Click;
             // 
             // keluarbutton_dashboard
             // 

@@ -57,14 +57,12 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.SeaGreen;
-            button1.ForeColor = SystemColors.ControlLightLight;
             button1.Location = new Point(634, 457);
             button1.Name = "button1";
-            button1.Size = new Size(120, 34);
+            button1.Size = new Size(112, 34);
             button1.TabIndex = 14;
-            button1.Text = "REGISTRASI";
-            button1.UseVisualStyleBackColor = false;
+            button1.Text = "register";
+            button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
             // comboBox1
