@@ -153,7 +153,6 @@ namespace PROJEKANN.Usercontrol
             }
         }
 
-<<<<<<< HEAD
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             DashboardDistributor.Controls.Clear();
@@ -210,7 +209,8 @@ namespace PROJEKANN.Usercontrol
             GantiHalamanFitur(
         new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi()
     );
-=======
+        }
+
         private void lblJumlahPanen_Click(object sender, EventArgs e)
         {
 
@@ -224,7 +224,7 @@ namespace PROJEKANN.Usercontrol
         private void lblTotalTransaksi_Click(object sender, EventArgs e)
         {
 
->>>>>>> 11a625e0f1c4d7d1f33889717b171457e7371258
+
         }
     }
 }
