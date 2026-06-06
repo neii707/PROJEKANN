@@ -78,7 +78,7 @@
             passworduser.Font = new Font("Segoe UI", 5F);
             passworduser.Location = new Point(562, 345);
             passworduser.Name = "passworduser";
-            passworduser.Size = new Size(163, 14);
+            passworduser.Size = new Size(194, 14);
             passworduser.TabIndex = 6;
             passworduser.TextChanged += textBox4_TextChanged_1;
             // 
@@ -88,7 +88,7 @@
             lblNamaUser.Font = new Font("Segoe UI", 5F);
             lblNamaUser.Location = new Point(562, 286);
             lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(163, 14);
+            lblNamaUser.Size = new Size(194, 14);
             lblNamaUser.TabIndex = 5;
             lblNamaUser.TextChanged += textBox3_TextChanged;
             // 

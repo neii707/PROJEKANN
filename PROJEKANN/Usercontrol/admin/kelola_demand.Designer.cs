@@ -163,6 +163,7 @@
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(283, 26);
             dateTimePicker1.TabIndex = 6;
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // textBox1
             // 
@@ -171,6 +172,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(252, 26);
             textBox1.TabIndex = 5;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label4
             // 
@@ -205,6 +207,7 @@
             button1.TabIndex = 2;
             button1.Text = "TAMBAH DEMAND";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // label2
             // 

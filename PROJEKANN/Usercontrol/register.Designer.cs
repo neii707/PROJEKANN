@@ -81,9 +81,9 @@
             textBox6.BackColor = Color.White;
             textBox6.BorderStyle = BorderStyle.None;
             textBox6.Font = new Font("Segoe UI", 5F);
-            textBox6.Location = new Point(610, 371);
+            textBox6.Location = new Point(610, 372);
             textBox6.Name = "textBox6";
-            textBox6.Size = new Size(150, 14);
+            textBox6.Size = new Size(193, 14);
             textBox6.TabIndex = 12;
             // 
             // textBox5
@@ -91,9 +91,9 @@
             textBox5.BackColor = Color.White;
             textBox5.BorderStyle = BorderStyle.None;
             textBox5.Font = new Font("Segoe UI", 5F);
-            textBox5.Location = new Point(610, 329);
+            textBox5.Location = new Point(610, 331);
             textBox5.Name = "textBox5";
-            textBox5.Size = new Size(150, 14);
+            textBox5.Size = new Size(193, 14);
             textBox5.TabIndex = 11;
             // 
             // textBox4
@@ -103,7 +103,7 @@
             textBox4.Font = new Font("Segoe UI", 5F);
             textBox4.Location = new Point(610, 290);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(150, 14);
+            textBox4.Size = new Size(193, 14);
             textBox4.TabIndex = 10;
             // 
             // textBox3
@@ -113,7 +113,7 @@
             textBox3.Font = new Font("Segoe UI", 5F);
             textBox3.Location = new Point(610, 209);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(150, 14);
+            textBox3.Size = new Size(193, 14);
             textBox3.TabIndex = 9;
             // 
             // textBox1
@@ -123,7 +123,7 @@
             textBox1.Font = new Font("Segoe UI", 5F);
             textBox1.Location = new Point(610, 249);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(150, 14);
+            textBox1.Size = new Size(193, 14);
             textBox1.TabIndex = 8;
             // 
             // register
