@@ -37,10 +37,11 @@ namespace PROJEKANN.Usercontrol.admin
                     conn.Open();
 
                     string query = @"
-                             SELECT 'DIS0' || u.id_user as id,
+                        SELECT 'DIS0' || u.id_user as id,
 		                u.nama as Nama,
 		                u.username as Username,
-		                u.passwd as Password
+		                u.passwd as Password,
+		                u.status_konfir_akun as status
                         FROM v_konfir_akun";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
