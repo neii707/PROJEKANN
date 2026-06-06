@@ -31,13 +31,13 @@
             dgvRiwayat = new DataGridView();
             panel1 = new Panel();
             lblTotal = new Label();
+            lblSelesai = new Label();
             btnRiwayat = new Button();
             btnTransaksi = new Button();
             btnPenawaran = new Button();
             btnGrading = new Button();
             btnPanen = new Button();
             btnDashboard = new Button();
-            lblSelesai = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvRiwayat).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -82,6 +82,18 @@
             lblTotal.TabIndex = 16;
             lblTotal.Text = "0";
             // 
+            // lblSelesai
+            // 
+            lblSelesai.AutoSize = true;
+            lblSelesai.BackColor = Color.Transparent;
+            lblSelesai.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSelesai.Location = new Point(311, 88);
+            lblSelesai.Name = "lblSelesai";
+            lblSelesai.Size = new Size(22, 25);
+            lblSelesai.TabIndex = 15;
+            lblSelesai.Text = "0";
+            lblSelesai.Click += label1_Click;
+            // 
             // btnRiwayat
             // 
             btnRiwayat.BackColor = Color.Transparent;
@@ -94,6 +106,7 @@
             btnRiwayat.TabIndex = 14;
             btnRiwayat.Text = "RIWAYAT TRANSAKSI";
             btnRiwayat.UseVisualStyleBackColor = false;
+            btnRiwayat.Click += btnRiwayat_Click_1;
             // 
             // btnTransaksi
             // 
@@ -107,6 +120,7 @@
             btnTransaksi.TabIndex = 13;
             btnTransaksi.Text = "TRANSAKSI";
             btnTransaksi.UseVisualStyleBackColor = false;
+            btnTransaksi.Click += btnTransaksi_Click_1;
             // 
             // btnPenawaran
             // 
@@ -120,6 +134,7 @@
             btnPenawaran.TabIndex = 12;
             btnPenawaran.Text = "PENAWARAN";
             btnPenawaran.UseVisualStyleBackColor = false;
+            btnPenawaran.Click += btnPenawaran_Click_1;
             // 
             // btnGrading
             // 
@@ -133,6 +148,7 @@
             btnGrading.TabIndex = 11;
             btnGrading.Text = "GRADING";
             btnGrading.UseVisualStyleBackColor = false;
+            btnGrading.Click += btnGrading_Click_1;
             // 
             // btnPanen
             // 
@@ -146,6 +162,7 @@
             btnPanen.TabIndex = 10;
             btnPanen.Text = "LIHAT PANEN";
             btnPanen.UseVisualStyleBackColor = false;
+            btnPanen.Click += btnPanen_Click_1;
             // 
             // btnDashboard
             // 
@@ -159,18 +176,7 @@
             btnDashboard.TabIndex = 9;
             btnDashboard.Text = "DASHBOARD";
             btnDashboard.UseVisualStyleBackColor = false;
-            // 
-            // lblSelesai
-            // 
-            lblSelesai.AutoSize = true;
-            lblSelesai.BackColor = Color.Transparent;
-            lblSelesai.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblSelesai.Location = new Point(311, 88);
-            lblSelesai.Name = "lblSelesai";
-            lblSelesai.Size = new Size(22, 25);
-            lblSelesai.TabIndex = 15;
-            lblSelesai.Text = "0";
-            lblSelesai.Click += label1_Click;
+            btnDashboard.Click += btnDashboard_Click;
             // 
             // RiwayatTransaksi
             // 

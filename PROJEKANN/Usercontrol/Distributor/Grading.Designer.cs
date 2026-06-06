@@ -93,6 +93,7 @@
             btnDashboard.Size = new Size(121, 25);
             btnDashboard.TabIndex = 9;
             btnDashboard.Text = "DASHBOARD";
+            btnDashboard.Click += btnDashboard_Click;
             // 
             // btnRiwayat
             // 
@@ -158,6 +159,7 @@
             btnPanen.TabIndex = 4;
             btnPanen.Text = "LIHAT PANEN";
             btnPanen.UseVisualStyleBackColor = false;
+            btnPanen.Click += btnPanen_Click_1;
             // 
             // btnTetapkan
             // 

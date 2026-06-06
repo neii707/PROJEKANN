@@ -58,49 +58,6 @@ namespace PROJEKANN.Usercontrol.Distributor
             }
         }
 
-        private void GantiHalamanFitur(UserControl ucBaru)
-        {
-            panel1.Controls.Clear();
-            ucBaru.Dock = DockStyle.Fill;
-            panel1.Controls.Add(ucBaru);
-            ucBaru.BringToFront();
-        }
-
-        private void btnPanen_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.lihat_panen()
-    );
-        }
-
-        private void btnGrading_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-       new PROJEKANN.Usercontrol.Distributor.Grading()
-   );
-        }
-
-        private void btnPenawaran_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Penawaran()
-    );
-        }
-
-        private void btnTransaksi_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Transaksi()
-    );
-        }
-
-        private void btnRiwayat_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi()
-    );
-        }
-
         private void dgvTransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -165,6 +122,44 @@ namespace PROJEKANN.Usercontrol.Distributor
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void GantiHalamanFitur(UserControl ucBaru)
+        {
+            panel1.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            panel1.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
+        }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor());
+        }
+
+        private void btnPanen_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.lihat_panen());
+        }
+
+        private void btnGrading_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Grading());
+        }
+
+        private void btnPenawaran_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Penawaran());
+        }
+
+        private void btnTransaksi_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Transaksi());
+        }
+
+        private void btnRiwayat_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi());
         }
     }
 }

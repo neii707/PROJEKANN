@@ -242,5 +242,15 @@ namespace PROJEKANN.Usercontrol.Distributor
         new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi()
     );
         }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor());
+        }
+
+        private void btnPanen_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.lihat_panen());
+        }
     }
 }
