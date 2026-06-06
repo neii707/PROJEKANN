@@ -1,4 +1,7 @@
-﻿using System;
+﻿using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.WinForms;
+using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,6 +25,8 @@ namespace PROJEKANN.Usercontrol.admin
             panel1.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
+
+       
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
