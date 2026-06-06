@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Npgsql;
+using PROJEKANN.database;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,9 +12,162 @@ namespace PROJEKANN.Usercontrol.Distributor
 {
     public partial class Transaksi : UserControl
     {
+        int idTransaksiTerpilih = 0;
         public Transaksi()
         {
             InitializeComponent();
         }
+
+        private void Transaksi_Load(object sender, EventArgs e)
+        {
+            TampilDataTransaksi();
+        }
+
+        private void TampilDataTransaksi()
+        {
+            try
+            {
+                using (NpgsqlConnection conn =
+                    DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT *
+                        FROM view_transaksi_distributor;
+                    ";
+
+                    using (NpgsqlDataAdapter da =
+                        new NpgsqlDataAdapter(query, conn))
+                    {
+                        DataTable dt = new DataTable();
+
+                        da.Fill(dt);
+
+                        dgvTransaksi.DataSource = dt;
+
+                        dgvTransaksi.AutoSizeColumnsMode =
+                            DataGridViewAutoSizeColumnsMode.Fill;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void dgvTransaksi_CellClick(
+            object sender,
+            DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                idTransaksiTerpilih =
+                    Convert.ToInt32(
+                    dgvTransaksi.Rows[e.RowIndex]
+                    .Cells["id_transaksi"].Value);
+            }
+        }
+
+        private void btnKonfirmasi_Click(
+            object sender,
+            EventArgs e)
+        {
+            if (idTransaksiTerpilih == 0)
+            {
+                MessageBox.Show(
+                    "Pilih transaksi dulu!");
+                return;
+            }
+
+            DialogResult hasil =
+                MessageBox.Show(
+                    "Konfirmasi pembayaran cash?",
+                    "Konfirmasi",
+                    MessageBoxButtons.YesNo);
+
+            if (hasil == DialogResult.Yes)
+            {
+                try
+                {
+                    using (NpgsqlConnection conn =
+                        DBConnection.GetConnection())
+                    {
+                        conn.Open();
+
+                        string query = @"
+                            UPDATE transaksi
+                            SET
+                                status_transaksi = 'Selesai',
+                                konfir_pembelian = 'Selesai'
+                            WHERE id_transaksi = @id;
+                        ";
+
+                        using (NpgsqlCommand cmd =
+                            new NpgsqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue(
+                                "@id",
+                                idTransaksiTerpilih);
+
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        MessageBox.Show(
+                            "Pembayaran berhasil dikonfirmasi!");
+
+                        TampilDataTransaksi();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+        private void GantiHalamanFitur(UserControl ucBaru)
+        {
+            panel1.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            panel1.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
+        }
+
+        private void btnPanen_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.lihat_panen()
+    );
+        }
+
+        private void btnGrading_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+       new PROJEKANN.Usercontrol.Distributor.Grading()
+   );
+        }
+
+        private void btnPenawaran_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.Penawaran()
+    );
+        }
+
+        private void btnTransaksi_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.Transaksi()
+    );
+        }
+
+        private void btnRiwayat_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi()
+    );
+        }
     }
 }
+
