@@ -62,37 +62,27 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void button2_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.lihat_panen()
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.lihat_panen());
         }
 
         private void btnGrading_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Grading()
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Grading());
         }
 
         private void btnPenawaran_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-       new PROJEKANN.Usercontrol.Distributor.Penawaran()
-   );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Penawaran());
         }
 
         private void btnTransaksi_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Transaksi()
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Transaksi());
         }
 
         private void btnRiwayat_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi()
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi());
         }
     }
 }

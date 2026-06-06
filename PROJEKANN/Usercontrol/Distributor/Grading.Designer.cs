@@ -107,6 +107,7 @@
             btnRiwayat.TabIndex = 8;
             btnRiwayat.Text = "RIWAYAT TRANSAKSI";
             btnRiwayat.UseVisualStyleBackColor = false;
+            btnRiwayat.Click += btnRiwayat_Click_1;
             // 
             // btnTransaksi
             // 
@@ -120,6 +121,7 @@
             btnTransaksi.TabIndex = 7;
             btnTransaksi.Text = "TRANSAKSI";
             btnTransaksi.UseVisualStyleBackColor = false;
+            btnTransaksi.Click += btnTransaksi_Click_1;
             // 
             // btnPenawaran
             // 
@@ -133,6 +135,7 @@
             btnPenawaran.TabIndex = 6;
             btnPenawaran.Text = "PENAWARAN";
             btnPenawaran.UseVisualStyleBackColor = false;
+            btnPenawaran.Click += btnPenawaran_Click_1;
             // 
             // btnGrading
             // 
@@ -146,6 +149,7 @@
             btnGrading.TabIndex = 5;
             btnGrading.Text = "GRADING";
             btnGrading.UseVisualStyleBackColor = false;
+            btnGrading.Click += btnGrading_Click_1;
             // 
             // btnPanen
             // 
