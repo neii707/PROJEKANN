@@ -16,6 +16,7 @@ namespace PROJEKANN.Usercontrol.Distributor
         public Transaksi()
         {
             InitializeComponent();
+            TampilDataTransaksi();
         }
 
         private void Transaksi_Load(object sender, EventArgs e)
@@ -57,9 +58,50 @@ namespace PROJEKANN.Usercontrol.Distributor
             }
         }
 
-        private void dgvTransaksi_CellClick(
-            object sender,
-            DataGridViewCellEventArgs e)
+        private void GantiHalamanFitur(UserControl ucBaru)
+        {
+            panel1.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            panel1.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
+        }
+
+        private void btnPanen_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.lihat_panen()
+    );
+        }
+
+        private void btnGrading_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+       new PROJEKANN.Usercontrol.Distributor.Grading()
+   );
+        }
+
+        private void btnPenawaran_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.Penawaran()
+    );
+        }
+
+        private void btnTransaksi_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.Transaksi()
+    );
+        }
+
+        private void btnRiwayat_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi()
+    );
+        }
+
+        private void dgvTransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -70,9 +112,7 @@ namespace PROJEKANN.Usercontrol.Distributor
             }
         }
 
-        private void btnKonfirmasi_Click(
-            object sender,
-            EventArgs e)
+        private void btnKonfirmasi_Click_1(object sender, EventArgs e)
         {
             if (idTransaksiTerpilih == 0)
             {
@@ -125,48 +165,6 @@ namespace PROJEKANN.Usercontrol.Distributor
                     MessageBox.Show(ex.Message);
                 }
             }
-        }
-        private void GantiHalamanFitur(UserControl ucBaru)
-        {
-            panel1.Controls.Clear();
-            ucBaru.Dock = DockStyle.Fill;
-            panel1.Controls.Add(ucBaru);
-            ucBaru.BringToFront();
-        }
-
-        private void btnPanen_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.lihat_panen()
-    );
-        }
-
-        private void btnGrading_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-       new PROJEKANN.Usercontrol.Distributor.Grading()
-   );
-        }
-
-        private void btnPenawaran_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Penawaran()
-    );
-        }
-
-        private void btnTransaksi_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Transaksi()
-    );
-        }
-
-        private void btnRiwayat_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi()
-    );
         }
     }
 }

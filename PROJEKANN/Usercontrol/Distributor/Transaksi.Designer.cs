@@ -52,6 +52,7 @@
             btnKonfirmasi.TabIndex = 1;
             btnKonfirmasi.Text = "KONFIRMASI";
             btnKonfirmasi.UseVisualStyleBackColor = false;
+            btnKonfirmasi.Click += btnKonfirmasi_Click_1;
             // 
             // panel1
             // 
@@ -157,6 +158,7 @@
             dgvTransaksi.RowHeadersWidth = 62;
             dgvTransaksi.Size = new Size(621, 384);
             dgvTransaksi.TabIndex = 0;
+            dgvTransaksi.CellContentClick += dgvTransaksi_CellContentClick;
             // 
             // Transaksi
             // 
