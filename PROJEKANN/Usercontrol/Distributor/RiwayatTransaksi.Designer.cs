@@ -28,18 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RiwayatTransaksi));
             dataGridView1 = new DataGridView();
             panel1 = new Panel();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
             button7 = new Button();
             button6 = new Button();
             button5 = new Button();
             button4 = new Button();
             button3 = new Button();
             button2 = new Button();
+            label1 = new Label();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -56,8 +54,10 @@
             // 
             // panel1
             // 
-            panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
+            panel1.BackgroundImage = Properties.Resources.riwayat_transaksi;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
             panel1.Controls.Add(button7);
             panel1.Controls.Add(button6);
             panel1.Controls.Add(button5);
@@ -65,34 +65,10 @@
             panel1.Controls.Add(button3);
             panel1.Controls.Add(button2);
             panel1.Controls.Add(dataGridView1);
-            panel1.Controls.Add(textBox3);
-            panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(textBox1);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 1;
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(688, 84);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(131, 31);
-            textBox3.TabIndex = 2;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(500, 84);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(69, 31);
-            textBox2.TabIndex = 1;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(370, 84);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(65, 31);
-            textBox1.TabIndex = 0;
             // 
             // button7
             // 
@@ -172,6 +148,29 @@
             button2.Text = "DASHBOARD";
             button2.UseVisualStyleBackColor = false;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(311, 88);
+            label1.Name = "label1";
+            label1.Size = new Size(22, 25);
+            label1.TabIndex = 15;
+            label1.Text = "0";
+            label1.Click += label1_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(499, 88);
+            label2.Name = "label2";
+            label2.Size = new Size(22, 25);
+            label2.TabIndex = 16;
+            label2.Text = "0";
+            // 
             // RiwayatTransaksi
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -189,14 +188,13 @@
 
         private DataGridView dataGridView1;
         private Panel panel1;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private TextBox textBox1;
         private Button button7;
         private Button button6;
         private Button button5;
         private Button button4;
         private Button button3;
         private Button button2;
+        private Label label2;
+        private Label label1;
     }
 }

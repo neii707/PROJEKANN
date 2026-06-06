@@ -14,5 +14,7 @@ namespace PROJEKANN.Usercontrol.Distributor
         {
             InitializeComponent();
         }
+
+       
     }
 }

@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             DashboardDistributor = new Panel();
+            label1 = new Label();
+            lblTotalTransaksi = new Label();
             lblDemand = new Label();
             lblNamaUser = new Label();
             btnKeluar = new Button();
             dgvDashboard = new DataGridView();
-            lblTotalTransaksi = new Label();
             label2 = new Label();
             lblJumlahPanen = new Label();
             btnRiwayat = new Button();
@@ -50,6 +51,7 @@
             // 
             DashboardDistributor.BackgroundImage = Properties.Resources.WhatsApp_Image_2026_06_03_at_19_52_35;
             DashboardDistributor.BackgroundImageLayout = ImageLayout.Stretch;
+            DashboardDistributor.Controls.Add(label1);
             DashboardDistributor.Controls.Add(lblTotalTransaksi);
             DashboardDistributor.Controls.Add(lblDemand);
             DashboardDistributor.Controls.Add(lblNamaUser);
@@ -68,6 +70,28 @@
             DashboardDistributor.Size = new Size(908, 555);
             DashboardDistributor.TabIndex = 0;
             DashboardDistributor.Paint += panel1_Paint;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            label1.Location = new Point(266, 194);
+            label1.Name = "label1";
+            label1.Size = new Size(240, 38);
+            label1.TabIndex = 14;
+            label1.Text = "Transaksi Terakhir";
+            // 
+            // lblTotalTransaksi
+            // 
+            lblTotalTransaksi.AutoSize = true;
+            lblTotalTransaksi.BackColor = Color.Transparent;
+            lblTotalTransaksi.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalTransaksi.Location = new Point(741, 108);
+            lblTotalTransaksi.Name = "lblTotalTransaksi";
+            lblTotalTransaksi.Size = new Size(33, 38);
+            lblTotalTransaksi.TabIndex = 13;
+            lblTotalTransaksi.Text = "0";
             // 
             // lblDemand
             // 
@@ -108,10 +132,10 @@
             // 
             dgvDashboard.BackgroundColor = Color.White;
             dgvDashboard.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDashboard.Location = new Point(266, 251);
+            dgvDashboard.Location = new Point(266, 235);
             dgvDashboard.Name = "dgvDashboard";
             dgvDashboard.RowHeadersWidth = 62;
-            dgvDashboard.Size = new Size(624, 285);
+            dgvDashboard.Size = new Size(624, 301);
             dgvDashboard.TabIndex = 9;
             // 
             // label2
@@ -147,6 +171,7 @@
             btnRiwayat.TabIndex = 5;
             btnRiwayat.Text = "RIWAYAT TRANSAKSI";
             btnRiwayat.UseVisualStyleBackColor = false;
+            btnRiwayat.Click += btnRiwayat_Click;
             // 
             // btnTransaksi
             // 
@@ -160,6 +185,7 @@
             btnTransaksi.TabIndex = 4;
             btnTransaksi.Text = "TRANSAKSI";
             btnTransaksi.UseVisualStyleBackColor = false;
+            btnTransaksi.Click += btnTransaksi_Click;
             // 
             // btnPenawaran
             // 
@@ -173,6 +199,7 @@
             btnPenawaran.TabIndex = 3;
             btnPenawaran.Text = "PENAWARAN";
             btnPenawaran.UseVisualStyleBackColor = false;
+            btnPenawaran.Click += btnPenawaran_Click;
             // 
             // btnGrading
             // 
@@ -186,6 +213,7 @@
             btnGrading.TabIndex = 2;
             btnGrading.Text = "GRADING";
             btnGrading.UseVisualStyleBackColor = false;
+            btnGrading.Click += btnGrading_Click;
             // 
             // btnPanen
             // 
@@ -199,6 +227,7 @@
             btnPanen.TabIndex = 1;
             btnPanen.Text = "LIHAT PANEN";
             btnPanen.UseVisualStyleBackColor = false;
+            btnPanen.Click += btnPanen_Click;
             // 
             // btnDashboard
             // 
@@ -212,17 +241,7 @@
             btnDashboard.TabIndex = 0;
             btnDashboard.Text = "DASHBOARD";
             btnDashboard.UseVisualStyleBackColor = false;
-            // 
-            // lblTotalTransaksi
-            // 
-            lblTotalTransaksi.AutoSize = true;
-            lblTotalTransaksi.BackColor = Color.Transparent;
-            lblTotalTransaksi.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTotalTransaksi.Location = new Point(741, 108);
-            lblTotalTransaksi.Name = "lblTotalTransaksi";
-            lblTotalTransaksi.Size = new Size(33, 38);
-            lblTotalTransaksi.TabIndex = 13;
-            lblTotalTransaksi.Text = "0";
+            btnDashboard.Click += btnDashboard_Click;
             // 
             // dashboard_distributor
             // 
@@ -254,5 +273,6 @@
         private Label lblNamaUser;
         private Label lblDemand;
         private Label lblTotalTransaksi;
+        private Label label1;
     }
 }

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Npgsql;
+using PROJEKANN.database;
+using PROJEKANN.Usercontrol.Distributor;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Npgsql;
-using PROJEKANN.database;
 
 namespace PROJEKANN.Usercontrol
 {
@@ -151,7 +152,63 @@ namespace PROJEKANN.Usercontrol
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void GantiHalamanFitur(UserControl ucBaru)
+        {
+            DashboardDistributor.Controls.Clear();
+
+            ucBaru.Dock = DockStyle.Fill;
+
+            DashboardDistributor.Controls.Add(ucBaru);
+
+            ucBaru.BringToFront();
+        }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                formUtama.TampilkanHalaman(
+                    new PROJEKANN.Usercontrol.dashboard_distributor()
+                );
+            }
+        }
+
+        private void btnPanen_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.lihat_panen()
+    );
+        }
+
+        private void btnGrading_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+       new PROJEKANN.Usercontrol.Distributor.Grading()
+   );
+        }
+
+        private void btnPenawaran_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.Penawaran()
+    );
+        }
+
+        private void btnTransaksi_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.Transaksi()
+    );
+        }
+
+        private void btnRiwayat_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(
+        new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi()
+    );
+        }
     }
-
-
 }
