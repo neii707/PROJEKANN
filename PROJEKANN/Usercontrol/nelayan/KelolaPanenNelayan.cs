@@ -9,29 +9,52 @@ namespace PROJEKANN.Usercontrol
     {
         private Form1 mainForm;
         private string userLoginAktif;
-
-        // Constructor menerima Form1 dan Session Username dari Dashboard
+        private int idPanenTerpilih = 0;
         public KelolaPanenNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
             this.mainForm = form1;
 
-            // Mengamankan username login agar tidak kosong saat dimuat
-            this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Natachai" : usernameLogin;
+            this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin;
 
-            // Menampilkan nama user aktif pada label pojok kiri atas
-            lbnamauser_kelola.Text = this.userLoginAktif;
+            TampilkanNamaAsliUser();
 
-            // Inisialisasi nilai awal komponen input
-            numBerat.Value = 0;
-            dtptanggalpanen.Value = DateTime.Now;
+            ResetFormInput();
 
             MuatTabelPanenSaya();
         }
 
-        /// <summary>
-        /// Mengambil data riwayat panen nelayan dan memasukkannya ke DataGridView
-        /// </summary>
+        private void TampilkanNamaAsliUser()
+        {
+            try
+            {
+                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
+                {
+                    kon.Open();
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
+                    {
+                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            lbnamauser_kelola.Text = result.ToString();
+                        }
+                        else
+                        {
+                            lbnamauser_kelola.Text = userLoginAktif;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                lbnamauser_kelola.Text = userLoginAktif;
+            }
+        }
+
         private void MuatTabelPanenSaya()
         {
             try
@@ -39,8 +62,7 @@ namespace PROJEKANN.Usercontrol
                 using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
                 {
                     kon.Open();
-                    // Query mengambil view yang memfilter berdasarkan username nelayan aktif
-                    string query = "SELECT id, berat, grade, harga_per_kg, status FROM view_riwayat_panen_nelayan WHERE username_nelayan = @username";
+                    string query = "SELECT id, berat, grade, harga_per_kg, status FROM view_riwayat_panen_nelayan WHERE username_nelayan = @username ORDER BY id DESC";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
                     {
@@ -51,17 +73,15 @@ namespace PROJEKANN.Usercontrol
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            // Matikan auto-generate agar struktur desainer yang kamu buat tidak berantakan
                             dgvriwayatpanen.AutoGenerateColumns = false;
 
-                            // Memetakan DataPropertyName ke kolom-kolom yang sudah kamu deklarasikan di designer
                             colID.DataPropertyName = "id";
+                            colID.Name = "colID"; 
                             colBerat.DataPropertyName = "berat";
                             colGrade.DataPropertyName = "grade";
                             colHarga.DataPropertyName = "harga_per_kg";
                             colStatus.DataPropertyName = "status";
 
-                            // Mengikat data table ke DataGridView
                             dgvriwayatpanen.DataSource = dt;
                         }
                     }
@@ -69,23 +89,25 @@ namespace PROJEKANN.Usercontrol
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal memuat riwayat panen: " + ex.Message, "Error Tabel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sistem gagal memuat riwayat panen ke tabel: " + ex.Message, "Error Tabel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // ==========================================
-        // LOGIKATOMBOL: SIMPAN & HAPUS DATA PANEN
-        // ==========================================
-
+        private void ResetFormInput()
+        {
+            numBerat.Value = 0;
+            dtptanggalpanen.Value = DateTime.Now;
+            idPanenTerpilih = 0;
+            simpanpanen_kelola.Text = "simpan";
+        }
         private void simpanpanen_kelola_Click(object sender, EventArgs e)
         {
             double beratInput = Convert.ToDouble(numBerat.Value);
             DateTime tanggalInput = dtptanggalpanen.Value;
 
-            // Validasi input berat
             if (beratInput <= 0)
             {
-                MessageBox.Show("Silakan masukkan berat panen yang valid (lebih dari 0 kg)!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Silakan masukkan berat panen yang valid (harus lebih besar dari 0 kg)!", "Peringatan Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -95,7 +117,6 @@ namespace PROJEKANN.Usercontrol
                 {
                     kon.Open();
 
-                    // 1. Dapatkan id_user dari tabel usser berdasarkan username login
                     int idUser = 0;
                     string queryUser = "SELECT id_user FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmdUser = new NpgsqlCommand(queryUser, kon))
@@ -106,47 +127,70 @@ namespace PROJEKANN.Usercontrol
 
                     if (idUser == 0)
                     {
-                        MessageBox.Show("Sesi user tidak ditemukan di database. Silakan login kembali.", "Error Profil", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Sesi user Anda tidak valid. Silakan lakukan login ulang.", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    // 2. Lakukan Insert data ke tabel panen asli
-                    string queryInsert = "INSERT INTO panen (id_user, berat_per_kg, tanggal_panen) VALUES (@id_user, @berat, @tanggal)";
-                    using (NpgsqlCommand cmdInsert = new NpgsqlCommand(queryInsert, kon))
+                    if (idPanenTerpilih == 0)
                     {
-                        cmdInsert.Parameters.AddWithValue("@id_user", idUser);
-                        cmdInsert.Parameters.AddWithValue("@berat", beratInput);
-                        cmdInsert.Parameters.AddWithValue("@tanggal", tanggalInput);
+                        string queryInsert = "INSERT INTO panen (id_user, berat_per_kg, tanggal) VALUES (@id_user, @berat, @tanggal)";
+                        using (NpgsqlCommand cmdInsert = new NpgsqlCommand(queryInsert, kon))
+                        {
+                            cmdInsert.Parameters.AddWithValue("@id_user", idUser);
+                            cmdInsert.Parameters.AddWithValue("@berat", beratInput);
+                            cmdInsert.Parameters.AddWithValue("@tanggal", tanggalInput);
 
-                        cmdInsert.ExecuteNonQuery();
+                            cmdInsert.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Data panen berhasil ditambahkan! Menunggu penilaian grading dari distributor.", "Sukses Menyimpan", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        string queryCekGrade = "SELECT COUNT(*) FROM grade WHERE id_panen = @id";
+                        using (NpgsqlCommand cmdCek = new NpgsqlCommand(queryCekGrade, kon))
+                        {
+                            cmdCek.Parameters.AddWithValue("@id", idPanenTerpilih);
+                            if (Convert.ToInt32(cmdCek.ExecuteScalar()) > 0)
+                            {
+                                MessageBox.Show("Gagal merubah data! Data panen ini sudah dinilai/di-grade oleh pihak distributor dan telah dikunci.", "Akses Terkunci", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                ResetFormInput();
+                                return;
+                            }
+                        }
+
+                        string queryUpdate = "UPDATE panen SET berat_per_kg = @berat, tanggal = @tanggal WHERE id_panen = @id";
+                        using (NpgsqlCommand cmdUpdate = new NpgsqlCommand(queryUpdate, kon))
+                        {
+                            cmdUpdate.Parameters.AddWithValue("@berat", beratInput);
+                            cmdUpdate.Parameters.AddWithValue("@tanggal", tanggalInput);
+                            cmdUpdate.Parameters.AddWithValue("@id", idPanenTerpilih);
+
+                            cmdUpdate.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Perubahan data panen berhasil diperbarui!", "Sukses Diperbarui", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    MessageBox.Show("Data panen berhasil ditambahkan! Menunggu proses grading dari distributor.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Reset form input dan segarkan isi tabel
-                    numBerat.Value = 0;
+                    ResetFormInput();
                     MuatTabelPanenSaya();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal menyimpan data panen: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Terjadi kendala saat memproses database: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void hapuspanen_kelola_Click(object sender, EventArgs e)
         {
-            // Validasi baris data yang ditunjuk
             if (dgvriwayatpanen.CurrentRow == null)
             {
-                MessageBox.Show("Silakan pilih salah satu data panen pada tabel di bawah terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Silakan tentukan data panen pada tabel di bawah terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Mengambil ID panen dari baris terpilih pada kolom colID
-            string idPanenTerpilih = dgvriwayatpanen.CurrentRow.Cells["colID"].Value.ToString();
+            string idPanenTerpilihText = dgvriwayatpanen.CurrentRow.Cells["colID"].Value.ToString();
 
-            DialogResult konfirmasi = MessageBox.Show($"Apakah Anda yakin ingin menghapus data panen dengan ID {idPanenTerpilih}?", "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult konfirmasi = MessageBox.Show($"Apakah Anda yakin ingin menghapus data panen dengan ID {idPanenTerpilihText} secara permanen?", "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (konfirmasi == DialogResult.Yes)
             {
@@ -155,41 +199,92 @@ namespace PROJEKANN.Usercontrol
                     using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
                     {
                         kon.Open();
-                        // Proteksi SQL: Data tidak bisa dihapus jika relasi ID sudah masuk ke tabel grading distributor
                         string queryHapus = "DELETE FROM panen WHERE id_panen = @id AND id_panen NOT IN (SELECT id_panen FROM grade)";
 
                         using (NpgsqlCommand cmd = new NpgsqlCommand(queryHapus, kon))
                         {
-                            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(idPanenTerpilih));
+                            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(idPanenTerpilihText));
                             int hasilEksekusi = cmd.ExecuteNonQuery();
 
                             if (hasilEksekusi > 0)
                             {
-                                MessageBox.Show("Data panen sukses dihapus.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show("Data panen berhasil dihapus dari sistem.", "Sukses Terhapus", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                             else
                             {
-                                MessageBox.Show("Gagal menghapus! Data ini sudah dinilai/di-grade oleh distributor dan terkunci.", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                MessageBox.Show("Gagal menghapus! Data panen ini sudah dinilai/di-grade oleh distributor sehingga dikunci sistem.", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                             }
                         }
                     }
-                    // Refresh isi DataGridView
+
+                    ResetFormInput();
                     MuatTabelPanenSaya();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Terjadi error sistem saat menghapus data: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Gagal memproses penghapusan data: " + ex.Message, "Error Sistem Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        // ==========================================
-        // SIDEBAR MENUS: NAVIGASI MULTI-USERCONTROL
-        // ==========================================
+        private void dgvriwayatpanen_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvriwayatpanen.CurrentRow != null)
+            {
+                try
+                {
+                    DataGridViewRow row = dgvriwayatpanen.Rows[e.RowIndex];
+
+                    if (row.Cells["colID"].Value != null && row.Cells["colID"].Value != DBNull.Value)
+                    {
+                        idPanenTerpilih = Convert.ToInt32(row.Cells["colID"].Value);
+                        numBerat.Value = Convert.ToDecimal(row.Cells["colBerat"].Value);
+                        simpanpanen_kelola.Text = "Ubah Data";
+                    }
+                }
+                catch
+                {
+                    ResetFormInput();
+                }
+            }
+        }
 
         private void GantiHalamanFitur(UserControl ucBaru)
         {
-            mainForm.TampilkanHalaman(ucBaru);
+            if (ucBaru == null) return;
+
+            try
+            {
+                Panel panelInduk = this.Parent as Panel;
+
+                if (panelInduk != null)
+                {
+                    panelInduk.Controls.Clear();
+                    ucBaru.Dock = DockStyle.Fill;
+                    panelInduk.Controls.Add(ucBaru);
+                    ucBaru.BringToFront();
+                }
+                else if (this.Parent != null)
+                {
+                    Control indukUtama = this.Parent;
+                    indukUtama.Controls.Remove(this);
+                    ucBaru.Dock = DockStyle.Fill;
+                    indukUtama.Controls.Add(ucBaru);
+                    ucBaru.BringToFront();
+                }
+                else
+                {
+                    Form1 formAktif = Application.OpenForms["Form1"] as Form1;
+                    if (formAktif != null)
+                    {
+                        formAktif.TampilkanHalaman(ucBaru);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal berpindah halaman: " + ex.Message, "Sistem Navigasi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dashboardbutton_kelola_Click(object sender, EventArgs e)
@@ -199,7 +294,7 @@ namespace PROJEKANN.Usercontrol
 
         private void inputpanenbutton_kelola_Click(object sender, EventArgs e)
         {
-            // Karena ini halaman ini sendiri, panggil refresh tabel saja
+            ResetFormInput();
             MuatTabelPanenSaya();
         }
 
@@ -213,12 +308,17 @@ namespace PROJEKANN.Usercontrol
             GantiHalamanFitur(new PROJEKANN.Usercontrol.TransaksiNelayan(mainForm, userLoginAktif));
         }
 
+        private void riwayatbutton_kelola_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.RiwayatNelayan(mainForm, userLoginAktif));
+        }
+
         private void keluarbutton_kelola_Click(object sender, EventArgs e)
         {
-            DialogResult konfirmasi = MessageBox.Show("Apakah Anda yakin ingin keluar dari aplikasi?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult konfirmasi = MessageBox.Show("Apakah Anda yakin ingin keluar dari aplikasi?", "Logout Sistem", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (konfirmasi == DialogResult.Yes)
             {
-                mainForm.TampilkanHalaman(new PROJEKANN.Usercontrol.login(mainForm));
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login(mainForm));
             }
         }
     }
