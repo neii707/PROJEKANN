@@ -25,51 +25,37 @@ namespace PROJEKANN.Usercontrol
 
         private void dashboard_distributor_Load(object sender, EventArgs e)
         {
-            MuatTransaksiTerkini();
-
+            MuatTransaksiPalingAkhir();
             MuatJumlahPanen();
-
             MuatDemand();
-
-            MuatTotalTransaksi();
+            MuatJumlahTransaksiSelesai();
         }
 
-        private void MuatTransaksiTerkini()
+        private void MuatTransaksiPalingAkhir()
         {
             try
             {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
+                using (NpgsqlConnection conn = DBConnection.GetConnection())
                 {
                     conn.Open();
 
-                    string query = @"
-                        SELECT *
-                        FROM view_dashboard_distributor
-                        LIMIT 10;
-                    ";
+                    string query = "SELECT * FROM view_transaksi_paling_akhir;";
 
-                    using (NpgsqlCommand cmd =
-                        new NpgsqlCommand(query, conn))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
                     {
-                        using (NpgsqlDataAdapter da =
-                            new NpgsqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
+                        DataTable dt = new DataTable();
 
-                            da.Fill(dt);
+                        da.Fill(dt);
 
-                            dgvDashboard.DataSource = dt;
+                        dgvDashboard.DataSource = dt;
 
-                            dgvDashboard.AutoSizeColumnsMode =
-                                DataGridViewAutoSizeColumnsMode.Fill;
-                        }
+                        dgvDashboard.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Gagal memuat transaksi: " + ex.Message);
             }
         }
 
@@ -77,19 +63,15 @@ namespace PROJEKANN.Usercontrol
         {
             try
             {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
+                using (NpgsqlConnection conn = DBConnection.GetConnection())
                 {
                     conn.Open();
 
-                    string query =
-                        "SELECT total_panen FROM view_jumlah_panen";
+                    string query = "SELECT total_panen FROM view_jumlah_panen";
 
-                    NpgsqlCommand cmd =
-                        new NpgsqlCommand(query, conn);
+                    NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
 
-                    lblJumlahPanen.Text =
-                        cmd.ExecuteScalar().ToString();
+                    lblJumlahPanen.Text = cmd.ExecuteScalar().ToString();
                 }
             }
             catch (Exception ex)
@@ -107,44 +89,49 @@ namespace PROJEKANN.Usercontrol
                 {
                     conn.Open();
 
-                    string query =
-                        "SELECT total_demand FROM view_demand_aktif";
+                    string query = "SELECT total_demand FROM view_demand_aktif";
 
                     NpgsqlCommand cmd =
                         new NpgsqlCommand(query, conn);
 
-                    lblDemand.Text =
-                        cmd.ExecuteScalar().ToString();
+                    decimal totalDemand = Convert.ToDecimal(cmd.ExecuteScalar());
+
+                    if (totalDemand >= 1000)
+                    {
+                        lblDemand.Text =
+                            (totalDemand / 1000).ToString("N1") + " Ton";
+                    }
+                    else if (totalDemand >= 100)
+                    {
+                        lblDemand.Text =
+                            (totalDemand / 100).ToString("N1") + " Kwintal";
+                    }
+                    else
+                    {
+                        lblDemand.Text =
+                            totalDemand.ToString("N0") + " Kg";
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Gagal memuat demand: " + ex.Message);
             }
         }
 
-        private void MuatTotalTransaksi()
+        private void MuatJumlahTransaksiSelesai()
         {
             try
             {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
+                using (NpgsqlConnection conn = DBConnection.GetConnection())
                 {
                     conn.Open();
 
-                    string query =
-                        "SELECT total_transaksi FROM view_total_transaksi";
+                    string query = "SELECT total_transaksi FROM view_total_transaksi";
 
-                    NpgsqlCommand cmd =
-                        new NpgsqlCommand(query, conn);
+                    NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
 
-                    object hasil =
-                        cmd.ExecuteScalar();
-
-                    lblTotalTransaksi.Text =
-                        "Rp " +
-                        Convert.ToDecimal(hasil)
-                        .ToString("N0");
+                    lblTotalTransaksi.Text = cmd.ExecuteScalar().ToString();
                 }
             }
             catch (Exception ex)
@@ -178,37 +165,27 @@ namespace PROJEKANN.Usercontrol
 
         private void btnPanen_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.lihat_panen()
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.lihat_panen());
         }
 
         private void btnGrading_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-       new PROJEKANN.Usercontrol.Distributor.Grading()
-   );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Grading());
         }
 
         private void btnPenawaran_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Penawaran()
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Penawaran());
         }
 
         private void btnTransaksi_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Transaksi()
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Transaksi());
         }
 
         private void btnRiwayat_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi()
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi());
         }
 
         private void lblJumlahPanen_Click(object sender, EventArgs e)
