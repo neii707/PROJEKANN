@@ -26,7 +26,6 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         /// <summary>
         /// Mengambil data agregat dari database untuk mengisi bar statistik 
-        /// sesuai format visual pada file image_a3c2c1.png
         /// </summary>
         private void MuatRangkumanStatistik()
         {
@@ -57,7 +56,7 @@ namespace PROJEKANN.Usercontrol.nelayan
                                 int totalSelesai = Convert.ToInt32(reader["total_selesai"]);
                                 decimal totalNilaiSelesai = Convert.ToDecimal(reader["total_nilai"]);
 
-                                // Mengganti tulisan "Loading Data.." menjadi rangkuman data (seperti file image_a3c2c1.png)
+                                // Mengganti tulisan "Loading Data.." menjadi rangkuman data
                                 if (totallabel_riwayat != null)
                                 {
                                     totallabel_riwayat.Text = $"Total Transaksi: {totalTransaksi} | Selesai: {totalSelesai} transaksi | Total Nilai Selesai: Rp {totalNilaiSelesai:N0}";
@@ -96,10 +95,10 @@ namespace PROJEKANN.Usercontrol.nelayan
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            // Mengunci dgvTransaksi (bawaan dari designer Anda) agar kolom tidak berantakan
+                            // Mengunci dgvTransaksi agar kolom tidak berantakan
                             dgvTransaksi.AutoGenerateColumns = false;
 
-                            // Pemetaan eksplisit ke objek kolom DataGridView di designer Anda (Sesuai susunan file image_a3be5f.png)
+                            // Pemetaan eksplisit ke objek kolom DataGridView di designer Anda
                             colID.DataPropertyName = "id";
                             colDistributor.DataPropertyName = "distributor";
                             colNelayan.DataPropertyName = "nelayan";
@@ -121,33 +120,75 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // ==========================================
-        // SIDEBAR MENUS: NAVIGASI PINDAH HALAMAN
-        // ==========================================
-        private void GantiHalaman(UserControl ucBaru)
+        // ==========================================================
+        // SIDEBAR NAVIGATION PANEL MENU (SINKRON DENGAN PAGES LAIN)
+        // ==========================================================
+        private void GantiHalamanFitur(UserControl ucBaru)
         {
-            mainForm.TampilkanHalaman(ucBaru);
+            if (ucBaru == null) return;
+
+            try
+            {
+                // Menggunakan logika penataan panel yang konsisten mencegah penumpukan UserControl
+                Panel panelInduk = this.Parent as Panel;
+
+                if (panelInduk != null)
+                {
+                    panelInduk.Controls.Clear();
+                    ucBaru.Dock = DockStyle.Fill;
+                    panelInduk.Controls.Add(ucBaru);
+                    ucBaru.BringToFront();
+                }
+                else if (this.Parent != null)
+                {
+                    Control indukUtama = this.Parent;
+                    indukUtama.Controls.Remove(this);
+                    ucBaru.Dock = DockStyle.Fill;
+                    indukUtama.Controls.Add(ucBaru);
+                    ucBaru.BringToFront();
+                }
+                else
+                {
+                    // Fallback jika memanggil method dari Form1 langsung
+                    if (mainForm != null)
+                    {
+                        mainForm.TampilkanHalaman(ucBaru);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal berpindah halaman: " + ex.Message, "Sistem Navigasi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dashboardbutton_riwayat_Click(object sender, EventArgs e)
         {
-            GantiHalaman(new DashboardNelayan(mainForm, userLoginAktif));
+            // PERBAIKAN: Menambahkan 'PROJEKANN.Usercontrol.nelayan.' jika Dashboard berada di folder nelayan
+            // Jika ternyata Dashboard ada di folder luar (Usercontrol), ganti menjadi PROJEKANN.Usercontrol.DashboardNelayan
+            try
+            {
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, userLoginAktif));
+            }
+            catch
+            {
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, userLoginAktif));
+            }
         }
 
         private void inputpanenbutton_riwayat_Click(object sender, EventArgs e)
         {
-            GantiHalaman(new KelolaPanenNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.KelolaPanenNelayan(mainForm, userLoginAktif));
         }
 
         private void penawaranbutton_riwayat_Click(object sender, EventArgs e)
         {
-            GantiHalaman(new NawarPanenNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.NawarPanenNelayan(mainForm, userLoginAktif));
         }
 
         private void transaksibutton_riwayat_Click(object sender, EventArgs e)
         {
-            // Pastikan Anda memetakan nama kelas halaman transaksi nelayan Anda dengan benar di sini
-            GantiHalaman(new TransaksiNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.TransaksiNelayan(mainForm, userLoginAktif));
         }
 
         private void riwayatbutton_riwayat_Click(object sender, EventArgs e)
@@ -159,7 +200,10 @@ namespace PROJEKANN.Usercontrol.nelayan
         private void keluarbutton_riwayat_Click(object sender, EventArgs e)
         {
             DialogResult k = MessageBox.Show("Apakah anda yakin ingin keluar aplikasi?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (k == DialogResult.Yes) GantiHalaman(new login(mainForm));
+            if (k == DialogResult.Yes)
+            {
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login(mainForm));
+            }
         }
     }
 }

@@ -28,32 +28,80 @@
         /// </summary>
         private void InitializeComponent()
         {
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
+            LiveChartsCore.Drawing.Padding padding1 = new LiveChartsCore.Drawing.Padding();
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
+            LiveChartsCore.Drawing.Padding padding2 = new LiveChartsCore.Drawing.Padding();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(monitor_stok));
             panel1 = new Panel();
+            cartesianChart1 = new LiveChartsCore.SkiaSharpView.WinForms.CartesianChart();
             button5 = new Button();
             button4 = new Button();
             button3 = new Button();
             button6 = new Button();
             button7 = new Button();
-            dataGridView1 = new DataGridView();
+            keluarbutton_dashboard = new Button();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackgroundImage = Properties.Resources.stok;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(keluarbutton_dashboard);
+            panel1.Controls.Add(cartesianChart1);
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
             panel1.Controls.Add(button3);
             panel1.Controls.Add(button6);
             panel1.Controls.Add(button7);
-            panel1.Controls.Add(dataGridView1);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(905, 552);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
+            // 
+            // cartesianChart1
+            // 
+            cartesianChart1.AutoUpdateEnabled = true;
+            cartesianChart1.ChartTheme = null;
+            skDefaultLegend1.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultLegend1.Content = null;
+            skDefaultLegend1.IsValid = false;
+            skDefaultLegend1.Opacity = 1F;
+            padding1.Bottom = 0F;
+            padding1.Left = 0F;
+            padding1.Right = 0F;
+            padding1.Top = 0F;
+            skDefaultLegend1.Padding = padding1;
+            skDefaultLegend1.RemoveOnCompleted = false;
+            skDefaultLegend1.RotateTransform = 0F;
+            skDefaultLegend1.X = 0F;
+            skDefaultLegend1.Y = 0F;
+            cartesianChart1.Legend = skDefaultLegend1;
+            cartesianChart1.Location = new Point(282, 108);
+            cartesianChart1.MatchAxesScreenDataRatio = false;
+            cartesianChart1.Name = "cartesianChart1";
+            cartesianChart1.Size = new Size(580, 400);
+            cartesianChart1.TabIndex = 23;
+            skDefaultTooltip1.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultTooltip1.Content = null;
+            skDefaultTooltip1.IsValid = false;
+            skDefaultTooltip1.Opacity = 1F;
+            padding2.Bottom = 0F;
+            padding2.Left = 0F;
+            padding2.Right = 0F;
+            padding2.Top = 0F;
+            skDefaultTooltip1.Padding = padding2;
+            skDefaultTooltip1.RemoveOnCompleted = false;
+            skDefaultTooltip1.RotateTransform = 0F;
+            skDefaultTooltip1.Wedge = 10;
+            skDefaultTooltip1.X = 0F;
+            skDefaultTooltip1.Y = 0F;
+            cartesianChart1.Tooltip = skDefaultTooltip1;
+            cartesianChart1.TooltipFindingStrategy = LiveChartsCore.Measure.TooltipFindingStrategy.Automatic;
+            cartesianChart1.UpdaterThrottler = TimeSpan.Parse("00:00:00.0500000");
+            cartesianChart1.Load += cartesianChart1_Load;
             // 
             // button5
             // 
@@ -131,15 +179,22 @@
             button7.UseVisualStyleBackColor = false;
             button7.Click += button7_Click;
             // 
-            // dataGridView1
+            // keluarbutton_dashboard
             // 
-            dataGridView1.BackgroundColor = Color.FromArgb(224, 254, 233);
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(266, 104);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(615, 415);
-            dataGridView1.TabIndex = 0;
+            keluarbutton_dashboard.BackColor = Color.Transparent;
+            keluarbutton_dashboard.BackgroundImage = (Image)resources.GetObject("keluarbutton_dashboard.BackgroundImage");
+            keluarbutton_dashboard.BackgroundImageLayout = ImageLayout.Stretch;
+            keluarbutton_dashboard.Cursor = Cursors.Hand;
+            keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
+            keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
+            keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            keluarbutton_dashboard.Location = new Point(-20, 503);
+            keluarbutton_dashboard.Name = "keluarbutton_dashboard";
+            keluarbutton_dashboard.Size = new Size(85, 46);
+            keluarbutton_dashboard.TabIndex = 15;
+            keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
+            keluarbutton_dashboard.UseVisualStyleBackColor = false;
+            keluarbutton_dashboard.Click += keluarbutton_dashboard_Click;
             // 
             // monitor_stok
             // 
@@ -149,18 +204,18 @@
             Name = "monitor_stok";
             Size = new Size(908, 555);
             panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel panel1;
-        private DataGridView dataGridView1;
         private Button button5;
         private Button button4;
         private Button button3;
         private Button button6;
         private Button button7;
+        private LiveChartsCore.SkiaSharpView.WinForms.CartesianChart cartesianChart1;
+        private Button keluarbutton_dashboard;
     }
 }

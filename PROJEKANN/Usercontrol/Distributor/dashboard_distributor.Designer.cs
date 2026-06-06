@@ -29,7 +29,10 @@
         private void InitializeComponent()
         {
             DashboardDistributor = new Panel();
+<<<<<<< HEAD
             label1 = new Label();
+=======
+>>>>>>> 11a625e0f1c4d7d1f33889717b171457e7371258
             lblTotalTransaksi = new Label();
             lblDemand = new Label();
             lblNamaUser = new Label();
@@ -71,6 +74,7 @@
             DashboardDistributor.TabIndex = 0;
             DashboardDistributor.Paint += panel1_Paint;
             // 
+<<<<<<< HEAD
             // label1
             // 
             label1.AutoSize = true;
@@ -82,6 +86,8 @@
             label1.TabIndex = 14;
             label1.Text = "Transaksi Terakhir";
             // 
+=======
+>>>>>>> 11a625e0f1c4d7d1f33889717b171457e7371258
             // lblTotalTransaksi
             // 
             lblTotalTransaksi.AutoSize = true;
@@ -92,6 +98,10 @@
             lblTotalTransaksi.Size = new Size(33, 38);
             lblTotalTransaksi.TabIndex = 13;
             lblTotalTransaksi.Text = "0";
+<<<<<<< HEAD
+=======
+            lblTotalTransaksi.Click += lblTotalTransaksi_Click;
+>>>>>>> 11a625e0f1c4d7d1f33889717b171457e7371258
             // 
             // lblDemand
             // 
@@ -103,6 +113,7 @@
             lblDemand.Size = new Size(33, 38);
             lblDemand.TabIndex = 12;
             lblDemand.Text = "0";
+            lblDemand.Click += lblDemand_Click;
             // 
             // lblNamaUser
             // 
@@ -158,6 +169,7 @@
             lblJumlahPanen.Size = new Size(33, 38);
             lblJumlahPanen.TabIndex = 6;
             lblJumlahPanen.Text = "0";
+            lblJumlahPanen.Click += lblJumlahPanen_Click;
             // 
             // btnRiwayat
             // 
@@ -241,7 +253,10 @@
             btnDashboard.TabIndex = 0;
             btnDashboard.Text = "DASHBOARD";
             btnDashboard.UseVisualStyleBackColor = false;
+<<<<<<< HEAD
             btnDashboard.Click += btnDashboard_Click;
+=======
+>>>>>>> 11a625e0f1c4d7d1f33889717b171457e7371258
             // 
             // dashboard_distributor
             // 

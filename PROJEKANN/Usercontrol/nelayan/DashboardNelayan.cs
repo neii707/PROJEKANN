@@ -10,22 +10,54 @@ namespace PROJEKANN.Usercontrol
     public partial class DashboardNelayan : UserControl
     {
         private Form1 mainForm;
-        private string userLoginAktif;
+        private string userLoginAktif; 
 
         public DashboardNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
             mainForm = form1;
-            // Jika username kosong, otomatis menggunakan "James" sesuai data di database kamu
-            userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "James" : usernameLogin;
+
+            userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Zhao_yufan" : usernameLogin;
+
+            TampilkanNamaUser();
 
             MuatSistemDashboardUtama();
         }
 
+        private void TampilkanNamaUser()
+        {
+            try
+            {
+                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
+                {
+                    kon.Open();
+
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
+                    {
+                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            lbnamauser_dashboard.Text = result.ToString();
+                        }
+                        else
+                        {
+                            lbnamauser_dashboard.Text = userLoginAktif; 
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                lbnamauser_dashboard.Text = userLoginAktif; 
+            }
+        }
+
         private void MuatSistemDashboardUtama()
         {
-            // Dibungkus try-catch per fungsi agar kalau ada data error, 
-            // tombol menu di UI TIDAK IKUT MACET/DEAD lock.
             try { HitungStatistikOtomatis(); } catch { }
             try { MuatTabelPanenTerbaru(); } catch { }
         }
@@ -36,7 +68,6 @@ namespace PROJEKANN.Usercontrol
             {
                 kon.Open();
 
-                // 1. Ambil Total Stok
                 string queryStok = "SELECT total_stok FROM view_stok_nelayan WHERE username = @username";
                 using (NpgsqlCommand cmd = new NpgsqlCommand(queryStok, kon))
                 {
@@ -46,7 +77,6 @@ namespace PROJEKANN.Usercontrol
                     stoklabel_dashboard.Text = totalStok.ToString("N1") + " kg";
                 }
 
-                // 2. Hitung jumlah berkas penawaran langsung (Aman dari error column tidak ada)
                 string queryPenawaran = @"
                     SELECT COUNT(*) 
                     FROM transaksi t
@@ -62,7 +92,6 @@ namespace PROJEKANN.Usercontrol
                     penawaranlabel_dashboard.Text = totalPenawaran.ToString() + " Berkas";
                 }
 
-                // 3. Ambil Total Penjualan
                 string queryPenjualan = "SELECT total_penjualan FROM view_total_penjualan_nelayan WHERE username = @username";
                 using (NpgsqlCommand cmd = new NpgsqlCommand(queryPenjualan, kon))
                 {
@@ -80,7 +109,6 @@ namespace PROJEKANN.Usercontrol
             {
                 kon.Open();
 
-                // Ambil data yang benar-benar ada di view dashboard
                 string queryTabel = "SELECT id_asli, aktivitas, tanggal, status_asli, nama_lengkap " +
                                    "FROM view_dashboard_nelayan " +
                                    "WHERE username_nelayan = @username " +
@@ -95,12 +123,6 @@ namespace PROJEKANN.Usercontrol
                         DataTable dt = new DataTable();
                         adapter.Fill(dt);
 
-                        if (dt.Rows.Count > 0)
-                        {
-                            lbnamauser_dashboard.Text = dt.Rows[0]["nama_lengkap"].ToString();
-                        }
-
-                        // Buat struktur tabel bersih yang MENYESUAIKAN 5 KOLOM di Designer kamu
                         DataTable dtBersih = new DataTable();
                         dtBersih.Columns.Add("ID");
                         dtBersih.Columns.Add("Grade");
@@ -151,7 +173,6 @@ namespace PROJEKANN.Usercontrol
                             );
                         }
 
-                        // Sinkronisasi ke DataGridView DataPropertyName
                         dgvDashboard.AutoGenerateColumns = false;
                         dgvDashboard.Columns[0].DataPropertyName = "ID";
                         dgvDashboard.Columns[1].DataPropertyName = "Grade";
@@ -165,31 +186,23 @@ namespace PROJEKANN.Usercontrol
             }
         }
 
-        // =======================================================
-        // NAVIGASI FIX: Memaksa Penggantian Kontrol Secara Langsung
-        // =======================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;
 
             try
             {
-                // Ambil panel penampung tempat Dashboard ini berada saat ini
                 Panel panelInduk = this.Parent as Panel;
 
                 if (panelInduk != null)
                 {
-                    // Bersihkan isi panel penampung utama tersebut
                     panelInduk.Controls.Clear();
-
-                    // Set ukuran penuh dan masukkan UserControl baru
                     ucBaru.Dock = DockStyle.Fill;
                     panelInduk.Controls.Add(ucBaru);
                     ucBaru.BringToFront();
                 }
                 else if (this.Parent != null)
                 {
-                    // Jika terpasang langsung pada Form tanpa perantara Panel
                     Control indukUtama = this.Parent;
                     indukUtama.Controls.Remove(this);
                     ucBaru.Dock = DockStyle.Fill;
@@ -198,7 +211,6 @@ namespace PROJEKANN.Usercontrol
                 }
                 else
                 {
-                    // Jalur Cadangan Akhir: Mencari Form Utama yang sedang aktif lewat Windows
                     Form1 formAktif = Application.OpenForms["Form1"] as Form1;
                     if (formAktif != null)
                     {
@@ -239,7 +251,13 @@ namespace PROJEKANN.Usercontrol
 
         private void keluarbutton_dashboard_Click(object sender, EventArgs e)
         {
-            DialogResult konfirmasi = MessageBox.Show("Apakah Anda yakin ingin keluar?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult konfirmasi = MessageBox.Show(
+                "Apakah Anda yakin ingin keluar dari program?",
+                "Konfirmasi Keluar",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
             if (konfirmasi == DialogResult.Yes)
             {
                 GantiHalamanFitur(new login(mainForm));
@@ -249,5 +267,6 @@ namespace PROJEKANN.Usercontrol
         private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void stoklabel_dashboard_Click(object sender, EventArgs e) { }
         private void penawaranlabel_dashboard_Click(object sender, EventArgs e) { }
+        private void lbnamauser_dashboard_Click(object sender, EventArgs e) { }
     }
 }
