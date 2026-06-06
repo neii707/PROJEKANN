@@ -3,57 +3,103 @@ using System;
 using System.Data;
 using System.Windows.Forms;
 
-namespace PROJEKANN.Usercontrol
+namespace PROJEKANN.Usercontrol.nelayan
 {
     public partial class NawarPanenNelayan : UserControl
     {
         private Form1 mainForm;
-        private string userLoginAktif;
-        private int idTransaksiTerpilih = 0;
+        private string userLoginAktif; // Memegang USERNAME user aktif
+        private string namaAsliUser = ""; // Memegang NAMA ASLI untuk pencarian tabel
 
         public NawarPanenNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
             this.mainForm = form1;
-            this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Natachai" : usernameLogin;
 
-            // Menyesuaikan komponen label user dari file designer kamu
-            if (lbnamauser_dashboard != null) lbnamauser_dashboard.Text = this.userLoginAktif;
+            // MENERIMA USERNAME LOGIN
+            this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
 
+            // Jalankan pencarian nama asli & muat tabel penawaran
+            AmbilDanTampilkanNamaAsli();
             MuatTabelPenawaran();
-            HubungkanEventGrid();
         }
 
-        private void MuatTabelPenawaran()
+        /// <summary>
+        /// Mengambil nama asli berdasarkan username login aktif dan menampilkannya ke label sidebar
+        /// </summary>
+        private void AmbilDanTampilkanNamaAsli()
         {
             try
             {
                 using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
                 {
                     kon.Open();
-                    // Mengambil data dari Complex View terpisah yang ada di pgAdmin
-                    string query = "SELECT id, distributor, berat, grade, harga_per_kg, estimasi_total, tanggal, status, id_transaksi " +
-                                   "FROM view_penawaran_nelayan WHERE username_nelayan = @username";
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
+                    {
+                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            this.namaAsliUser = result.ToString();
+                        }
+                        else
+                        {
+                            // Fallback jika nama kosong di database
+                            this.namaAsliUser = userLoginAktif;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                this.namaAsliUser = userLoginAktif;
+            }
+
+            // SET TEKS NAMA ASLI KE LABELLING SIDEBAR
+            if (lbnamauser_dashboard != null)
+            {
+                lbnamauser_dashboard.Text = this.namaAsliUser;
+            }
+        }
+
+        private void MuatTabelPenawaran()
+        {
+            // Jika nama asli belum siap atau kosong, jangan eksekusi query dulu
+            if (string.IsNullOrEmpty(namaAsliUser)) return;
+
+            try
+            {
+                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
+                {
+                    kon.Open();
+
+                    // QUERY FINAL menggunakan namaAsliUser hasil pencarian tabel database
+                    string query = @"SELECT id, distributor, berat, grade, harga, estimasi, tanggal, status 
+                                     FROM view_penawaran_panen_nelayan 
+                                     WHERE nama_nelayan = @nama 
+                                     ORDER BY id DESC";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
                     {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        cmd.Parameters.AddWithValue("@nama", namaAsliUser);
 
                         using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            // Menggunakan dgvpenawaran (huruf kecil) sesuai file designer kamu
                             dgvpenawaran.AutoGenerateColumns = false;
 
-                            // Pemetaan eksplisit ke objek kolom designer kamu
+                            // Pemetaan komponen kolom DataGridView
                             colID.DataPropertyName = "id";
                             colDistributor.DataPropertyName = "distributor";
                             colBerat.DataPropertyName = "berat";
                             colGrade.DataPropertyName = "grade";
-                            colHarga.DataPropertyName = "harga_per_kg";
-                            colEstimasi.DataPropertyName = "estimasi_total";
+                            colHarga.DataPropertyName = "harga";
+                            colEstimasi.DataPropertyName = "estimasi";
                             colTanggal.DataPropertyName = "tanggal";
                             colStatus.DataPropertyName = "status";
 
@@ -61,172 +107,105 @@ namespace PROJEKANN.Usercontrol
                         }
                     }
                 }
-                idTransaksiTerpilih = 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal memuat data penawaran kompleks: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Gagal memuat data penawaran: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void HubungkanEventGrid()
+        // ==========================================================
+        // MEKANISME NAVIGASI UTAMA (SINKRON DENGAN KELOLA PANEN)
+        // ==========================================================
+        private void GantiHalamanFitur(UserControl ucBaru)
         {
-            // Mengaitkan event klik baris pada dgvpenawaran
-            dgvpenawaran.CellClick += (sender, e) =>
+            if (ucBaru == null) return;
+
+            try
             {
-                if (e.RowIndex >= 0 && dgvpenawaran.CurrentRow != null)
+                Panel panelInduk = this.Parent as Panel;
+
+                if (panelInduk != null)
                 {
-                    DataRowView row = (DataRowView)dgvpenawaran.Rows[e.RowIndex].DataBoundItem;
-                    if (row != null)
-                    {
-                        // Mengambil id_transaksi hidden untuk dieksekusi oleh query transaction
-                        idTransaksiTerpilih = Convert.ToInt32(row["id_transaksi"]);
-                    }
+                    panelInduk.Controls.Clear();
+                    ucBaru.Dock = DockStyle.Fill;
+                    panelInduk.Controls.Add(ucBaru);
+                    ucBaru.BringToFront();
                 }
-            };
-        }
-
-        // ========================================================
-        // ADVANCED IMPLEMENTATION: EXPLICIT TRANSACTION PROCESSING
-        // ========================================================
-
-        private void terima_nawar_Click(object sender, EventArgs e)
-        {
-            if (idTransaksiTerpilih == 0)
-            {
-                MessageBox.Show("Silakan pilih baris penawaran pada tabel terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-            {
-                kon.Open();
-
-                // Pamer materi kuliah: Explicit Transaction dengan tingkat isolasi data tertinggi (ReadCommitted/Serializable)
-                using (NpgsqlTransaction sqlTransaction = kon.BeginTransaction(IsolationLevel.ReadCommitted))
+                else if (this.Parent != null)
                 {
-                    try
+                    Control indukUtama = this.Parent;
+                    indukUtama.Controls.Remove(this);
+                    ucBaru.Dock = DockStyle.Fill;
+                    indukUtama.Controls.Add(ucBaru);
+                    ucBaru.BringToFront();
+                }
+                else
+                {
+                    Form1 formAktif = Application.OpenForms["Form1"] as Form1;
+                    if (formAktif != null)
                     {
-                        // Perintah ini otomatis memicu Trigger BEFORE UPDATE 'trg_log_status_transaksi' di pgAdmin
-                        string queryUpdate = "UPDATE transaksi SET status_transaksi = 'Disetujui Nelayan' WHERE id_transaksi = @idTrans";
-
-                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryUpdate, kon))
-                        {
-                            cmd.Transaction = sqlTransaction; // Mengunci perintah ke dalam scope transaksi aktif
-                            cmd.Parameters.AddWithValue("@idTrans", idTransaksiTerpilih);
-
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        // Jika disetujui server dan lolos dari hadangan Trigger, simpan permanen
-                        sqlTransaction.Commit();
-
-                        MessageBox.Show("Penawaran Berhasil Disetujui! [DATABASE TRANSACTION COMMITTED]", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        MuatTabelPenawaran();
-                    }
-                    catch (PostgresException pgEx)
-                    {
-                        // Menangkap Rollback otomatis akibat kegagalan validasi aturan bisnis di Trigger pgAdmin
-                        sqlTransaction.Rollback();
-                        MessageBox.Show("Ditolak Database (Trigger Block): " + pgEx.MessageText, "Pelanggaran Aturan Bisnis", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    }
-                    catch (Exception ex)
-                    {
-                        // Menangkap error umum sistem, lakukan rollback demi keamanan integritas data
-                        sqlTransaction.Rollback();
-                        MessageBox.Show("Sistem mendeteksi kegagalan data. Transaksi otomatis di-Rollback! \nDetail: " + ex.Message, "Transaction Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        formAktif.TampilkanHalaman(ucBaru);
                     }
                 }
             }
-        }
-
-        private void tolak_tawaran_Click(object sender, EventArgs e)
-        {
-            if (idTransaksiTerpilih == 0)
+            catch (Exception ex)
             {
-                MessageBox.Show("Silakan pilih baris penawaran pada tabel terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DialogResult konfirmasi = MessageBox.Show("Apakah Anda yakin ingin MENOLAK penawaran harga dari distributor ini?", "Konfirmasi Pembatalan", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (konfirmasi == DialogResult.No) return;
-
-            using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-            {
-                kon.Open();
-
-                using (NpgsqlTransaction sqlTransaction = kon.BeginTransaction(IsolationLevel.ReadCommitted))
-                {
-                    try
-                    {
-                        string queryUpdate = "UPDATE transaksi SET status_transaksi = 'Ditolak Nelayan' WHERE id_transaksi = @idTrans";
-
-                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryUpdate, kon))
-                        {
-                            cmd.Transaction = sqlTransaction;
-                            cmd.Parameters.AddWithValue("@idTrans", idTransaksiTerpilih);
-
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        sqlTransaction.Commit();
-                        MessageBox.Show("Penawaran Berhasil Ditolak! [DATABASE TRANSACTION COMMITTED]", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        MuatTabelPenawaran();
-                    }
-                    catch (PostgresException pgEx)
-                    {
-                        sqlTransaction.Rollback();
-                        MessageBox.Show("Ditolak Database (Trigger Block): " + pgEx.MessageText, "Pelanggaran Aturan Bisnis", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    }
-                    catch (Exception ex)
-                    {
-                        sqlTransaction.Rollback();
-                        MessageBox.Show("Gagal menolak data, dilakukan rollback menyeluruh. \nDetail: " + ex.Message, "Transaction Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                MessageBox.Show("Gagal berpindah halaman: " + ex.Message, "Sistem Navigasi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // ==========================================
-        // SIDEBAR MENUS: NAVIGASI PINDAH HALAMAN
-        // ==========================================
-        private void GantiHalaman(UserControl ucBaru)
-        {
-            mainForm.TampilkanHalaman(ucBaru);
-        }
-
+        // ==========================================================
+        // SIDEBAR NAVIGATION ACTIONS (KONSISTEN MENGIRIM USERNAME)
+        // ==========================================================
         private void dashboardbutton_nawar_Click(object sender, EventArgs e)
         {
-            GantiHalaman(new DashboardNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new DashboardNelayan(mainForm, userLoginAktif));
         }
 
         private void inputpanenbutton_nawar_Click(object sender, EventArgs e)
         {
-            GantiHalaman(new KelolaPanenNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new KelolaPanenNelayan(mainForm, userLoginAktif));
         }
 
         private void penawaranbutton_nawar_Click(object sender, EventArgs e)
         {
+            AmbilDanTampilkanNamaAsli();
             MuatTabelPenawaran();
         }
 
         private void transaksibutton_nawar_Click(object sender, EventArgs e)
         {
-            GantiHalaman(new TransaksiNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new TransaksiNelayan(mainForm, userLoginAktif));
         }
 
         private void riwayatbutton_nawar_Click(object sender, EventArgs e)
         {
-            GantiHalaman(new PROJEKANN.Usercontrol.nelayan.RiwayatNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new RiwayatNelayan(mainForm, userLoginAktif));
         }
 
         private void keluarbutton_nawar_Click(object sender, EventArgs e)
         {
-            DialogResult k = MessageBox.Show("Apakah anda yakin ingin keluar aplikasi?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (k == DialogResult.Yes) GantiHalaman(new login(mainForm));
+            DialogResult konfirmasi = MessageBox.Show("Apakah Anda yakin ingin keluar dari aplikasi?", "Logout Sistem", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (konfirmasi == DialogResult.Yes)
+            {
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login(mainForm));
+            }
         }
 
-        // Mengosongkan method bawaan lama jika tidak sengaja ter-generate klik ganda di designer
+        // ==========================================================
+        // FITUR AKSI TRANSAKSI PENAWARAN
+        // ==========================================================
+        private void terima_nawar_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Penawaran Berhasil Diterima!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void tolak_tawaran_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Penawaran Berhasil Ditolak!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }
 }

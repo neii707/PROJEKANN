@@ -1,4 +1,4 @@
-﻿namespace PROJEKANN.Usercontrol
+﻿namespace PROJEKANN.Usercontrol.nelayan
 {
     partial class NawarPanenNelayan
     {
@@ -30,14 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NawarPanenNelayan));
             panel1 = new Panel();
-            dashboardbutton_nawar = new Button();
-            inputpanenbutton_nawar = new Button();
-            penawaranbutton_nawar = new Button();
-            transaksibutton_nawar = new Button();
-            riwayatbutton_nawar = new Button();
-            keluarbutton_nawar = new Button();
-            lbnamauser_dashboard = new Label();
-            labeldatanawar_nawar = new Label();
+            terima_tolak_tawaran = new Label();
+            tolak_tawaran = new Button();
+            terima_nawar = new Button();
             dgvpenawaran = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
             colDistributor = new DataGridViewTextBoxColumn();
@@ -47,9 +42,14 @@
             colEstimasi = new DataGridViewTextBoxColumn();
             colTanggal = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
-            terima_nawar = new Button();
-            tolak_tawaran = new Button();
-            terima_tolak_tawaran = new Label();
+            labeldatanawar_nawar = new Label();
+            lbnamauser_dashboard = new Label();
+            keluarbutton_nawar = new Button();
+            riwayatbutton_nawar = new Button();
+            transaksibutton_nawar = new Button();
+            penawaranbutton_nawar = new Button();
+            inputpanenbutton_nawar = new Button();
+            dashboardbutton_nawar = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvpenawaran).BeginInit();
             SuspendLayout();
@@ -75,118 +75,44 @@
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 0;
             // 
-            // dashboardbutton_nawar
+            // terima_tolak_tawaran
             // 
-            dashboardbutton_nawar.BackColor = Color.Transparent;
-            dashboardbutton_nawar.FlatAppearance.BorderSize = 0;
-            dashboardbutton_nawar.FlatStyle = FlatStyle.Flat;
-            dashboardbutton_nawar.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dashboardbutton_nawar.Location = new Point(33, 114);
-            dashboardbutton_nawar.Name = "dashboardbutton_nawar";
-            dashboardbutton_nawar.Size = new Size(119, 26);
-            dashboardbutton_nawar.TabIndex = 1;
-            dashboardbutton_nawar.Text = "DASHBOARD";
-            dashboardbutton_nawar.UseVisualStyleBackColor = false;
-            dashboardbutton_nawar.Click += dashboardbutton_nawar_Click;
+            terima_tolak_tawaran.AutoSize = true;
+            terima_tolak_tawaran.BackColor = Color.Transparent;
+            terima_tolak_tawaran.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            terima_tolak_tawaran.Location = new Point(258, 471);
+            terima_tolak_tawaran.Name = "terima_tolak_tawaran";
+            terima_tolak_tawaran.Size = new Size(210, 19);
+            terima_tolak_tawaran.TabIndex = 32;
+            terima_tolak_tawaran.Text = "Terima atau Tolak penawaran.";
             // 
-            // inputpanenbutton_nawar
+            // tolak_tawaran
             // 
-            inputpanenbutton_nawar.BackColor = Color.Transparent;
-            inputpanenbutton_nawar.FlatAppearance.BorderSize = 0;
-            inputpanenbutton_nawar.FlatStyle = FlatStyle.Flat;
-            inputpanenbutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            inputpanenbutton_nawar.Location = new Point(36, 163);
-            inputpanenbutton_nawar.Name = "inputpanenbutton_nawar";
-            inputpanenbutton_nawar.Size = new Size(143, 26);
-            inputpanenbutton_nawar.TabIndex = 2;
-            inputpanenbutton_nawar.Text = "KELOLA PANEN";
-            inputpanenbutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
-            inputpanenbutton_nawar.UseVisualStyleBackColor = false;
-            inputpanenbutton_nawar.Click += inputpanenbutton_nawar_Click;
+            tolak_tawaran.BackColor = Color.Red;
+            tolak_tawaran.FlatAppearance.BorderSize = 0;
+            tolak_tawaran.FlatStyle = FlatStyle.Flat;
+            tolak_tawaran.Font = new Font("Calibri", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tolak_tawaran.Location = new Point(351, 499);
+            tolak_tawaran.Name = "tolak_tawaran";
+            tolak_tawaran.Size = new Size(81, 41);
+            tolak_tawaran.TabIndex = 31;
+            tolak_tawaran.Text = "Tolak";
+            tolak_tawaran.UseVisualStyleBackColor = false;
+            tolak_tawaran.Click += tolak_tawaran_Click;
             // 
-            // penawaranbutton_nawar
+            // terima_nawar
             // 
-            penawaranbutton_nawar.BackColor = Color.Transparent;
-            penawaranbutton_nawar.FlatAppearance.BorderSize = 0;
-            penawaranbutton_nawar.FlatStyle = FlatStyle.Flat;
-            penawaranbutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            penawaranbutton_nawar.Location = new Point(36, 190);
-            penawaranbutton_nawar.Name = "penawaranbutton_nawar";
-            penawaranbutton_nawar.Size = new Size(180, 26);
-            penawaranbutton_nawar.TabIndex = 3;
-            penawaranbutton_nawar.Text = "PENAWARAN PANEN";
-            penawaranbutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
-            penawaranbutton_nawar.UseVisualStyleBackColor = false;
-            penawaranbutton_nawar.Click += penawaranbutton_nawar_Click;
-            // 
-            // transaksibutton_nawar
-            // 
-            transaksibutton_nawar.BackColor = Color.Transparent;
-            transaksibutton_nawar.FlatAppearance.BorderSize = 0;
-            transaksibutton_nawar.FlatStyle = FlatStyle.Flat;
-            transaksibutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            transaksibutton_nawar.Location = new Point(35, 219);
-            transaksibutton_nawar.Name = "transaksibutton_nawar";
-            transaksibutton_nawar.Size = new Size(105, 26);
-            transaksibutton_nawar.TabIndex = 4;
-            transaksibutton_nawar.Text = "TRANSAKSI";
-            transaksibutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
-            transaksibutton_nawar.UseVisualStyleBackColor = false;
-            transaksibutton_nawar.Click += transaksibutton_nawar_Click;
-            // 
-            // riwayatbutton_nawar
-            // 
-            riwayatbutton_nawar.BackColor = Color.Transparent;
-            riwayatbutton_nawar.FlatAppearance.BorderSize = 0;
-            riwayatbutton_nawar.FlatStyle = FlatStyle.Flat;
-            riwayatbutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            riwayatbutton_nawar.Location = new Point(35, 264);
-            riwayatbutton_nawar.Name = "riwayatbutton_nawar";
-            riwayatbutton_nawar.Size = new Size(180, 26);
-            riwayatbutton_nawar.TabIndex = 5;
-            riwayatbutton_nawar.Text = "RIWAYAT TRANSAKSI";
-            riwayatbutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
-            riwayatbutton_nawar.UseVisualStyleBackColor = false;
-            riwayatbutton_nawar.Click += riwayatbutton_nawar_Click;
-            // 
-            // keluarbutton_nawar
-            // 
-            keluarbutton_nawar.BackColor = Color.Transparent;
-            keluarbutton_nawar.BackgroundImage = (Image)resources.GetObject("keluarbutton_nawar.BackgroundImage");
-            keluarbutton_nawar.BackgroundImageLayout = ImageLayout.Stretch;
-            keluarbutton_nawar.Cursor = Cursors.Hand;
-            keluarbutton_nawar.FlatAppearance.BorderSize = 0;
-            keluarbutton_nawar.FlatStyle = FlatStyle.Flat;
-            keluarbutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_nawar.Location = new Point(-19, 486);
-            keluarbutton_nawar.Name = "keluarbutton_nawar";
-            keluarbutton_nawar.Size = new Size(110, 69);
-            keluarbutton_nawar.TabIndex = 13;
-            keluarbutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
-            keluarbutton_nawar.UseVisualStyleBackColor = false;
-            keluarbutton_nawar.Click += keluarbutton_nawar_Click;
-            // 
-            // lbnamauser_dashboard
-            // 
-            lbnamauser_dashboard.AutoSize = true;
-            lbnamauser_dashboard.BackColor = Color.Transparent;
-            lbnamauser_dashboard.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbnamauser_dashboard.Location = new Point(91, 49);
-            lbnamauser_dashboard.Name = "lbnamauser_dashboard";
-            lbnamauser_dashboard.Size = new Size(88, 25);
-            lbnamauser_dashboard.TabIndex = 27;
-            lbnamauser_dashboard.Text = "Natachai";
-            // 
-            // labeldatanawar_nawar
-            // 
-            labeldatanawar_nawar.AutoSize = true;
-            labeldatanawar_nawar.BackColor = Color.Transparent;
-            labeldatanawar_nawar.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            labeldatanawar_nawar.Location = new Point(258, 84);
-            labeldatanawar_nawar.Name = "labeldatanawar_nawar";
-            labeldatanawar_nawar.Size = new Size(528, 21);
-            labeldatanawar_nawar.TabIndex = 28;
-            labeldatanawar_nawar.Text = "Berikut adalah penawaran harga dari Distributor untuk panen Anda.";
+            terima_nawar.BackColor = Color.LimeGreen;
+            terima_nawar.FlatAppearance.BorderSize = 0;
+            terima_nawar.FlatStyle = FlatStyle.Flat;
+            terima_nawar.Font = new Font("Calibri", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            terima_nawar.Location = new Point(263, 499);
+            terima_nawar.Name = "terima_nawar";
+            terima_nawar.Size = new Size(81, 41);
+            terima_nawar.TabIndex = 30;
+            terima_nawar.Text = "Terima";
+            terima_nawar.UseVisualStyleBackColor = false;
+            terima_nawar.Click += terima_nawar_Click;
             // 
             // dgvpenawaran
             // 
@@ -261,51 +187,125 @@
             colStatus.Name = "colStatus";
             colStatus.ReadOnly = true;
             // 
-            // terima_nawar
+            // labeldatanawar_nawar
             // 
-            terima_nawar.BackColor = Color.LimeGreen;
-            terima_nawar.FlatAppearance.BorderSize = 0;
-            terima_nawar.FlatStyle = FlatStyle.Flat;
-            terima_nawar.Font = new Font("Calibri", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            terima_nawar.Location = new Point(263, 499);
-            terima_nawar.Name = "terima_nawar";
-            terima_nawar.Size = new Size(81, 41);
-            terima_nawar.TabIndex = 30;
-            terima_nawar.Text = "Terima";
-            terima_nawar.UseVisualStyleBackColor = false;
-            terima_nawar.Click += terima_nawar_Click;
+            labeldatanawar_nawar.AutoSize = true;
+            labeldatanawar_nawar.BackColor = Color.Transparent;
+            labeldatanawar_nawar.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            labeldatanawar_nawar.Location = new Point(258, 84);
+            labeldatanawar_nawar.Name = "labeldatanawar_nawar";
+            labeldatanawar_nawar.Size = new Size(528, 21);
+            labeldatanawar_nawar.TabIndex = 28;
+            labeldatanawar_nawar.Text = "Berikut adalah penawaran harga dari Distributor untuk panen Anda.";
             // 
-            // tolak_tawaran
+            // lbnamauser_dashboard
             // 
-            tolak_tawaran.BackColor = Color.Red;
-            tolak_tawaran.FlatAppearance.BorderSize = 0;
-            tolak_tawaran.FlatStyle = FlatStyle.Flat;
-            tolak_tawaran.Font = new Font("Calibri", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            tolak_tawaran.Location = new Point(351, 499);
-            tolak_tawaran.Name = "tolak_tawaran";
-            tolak_tawaran.Size = new Size(81, 41);
-            tolak_tawaran.TabIndex = 31;
-            tolak_tawaran.Text = "Tolak";
-            tolak_tawaran.UseVisualStyleBackColor = false;
-            tolak_tawaran.Click += tolak_tawaran_Click;
+            lbnamauser_dashboard.AutoSize = true;
+            lbnamauser_dashboard.BackColor = Color.Transparent;
+            lbnamauser_dashboard.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbnamauser_dashboard.Location = new Point(91, 49);
+            lbnamauser_dashboard.Name = "lbnamauser_dashboard";
+            lbnamauser_dashboard.Size = new Size(88, 25);
+            lbnamauser_dashboard.TabIndex = 27;
+            lbnamauser_dashboard.Text = "Natachai";
             // 
-            // terima_tolak_tawaran
+            // keluarbutton_nawar
             // 
-            terima_tolak_tawaran.AutoSize = true;
-            terima_tolak_tawaran.BackColor = Color.Transparent;
-            terima_tolak_tawaran.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            terima_tolak_tawaran.Location = new Point(258, 471);
-            terima_tolak_tawaran.Name = "terima_tolak_tawaran";
-            terima_tolak_tawaran.Size = new Size(210, 19);
-            terima_tolak_tawaran.TabIndex = 32;
-            terima_tolak_tawaran.Text = "Terima atau Tolak penawaran.";
+            keluarbutton_nawar.BackColor = Color.Transparent;
+            keluarbutton_nawar.BackgroundImage = (Image)resources.GetObject("keluarbutton_nawar.BackgroundImage");
+            keluarbutton_nawar.BackgroundImageLayout = ImageLayout.Stretch;
+            keluarbutton_nawar.Cursor = Cursors.Hand;
+            keluarbutton_nawar.FlatAppearance.BorderSize = 0;
+            keluarbutton_nawar.FlatStyle = FlatStyle.Flat;
+            keluarbutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            keluarbutton_nawar.Location = new Point(-19, 486);
+            keluarbutton_nawar.Name = "keluarbutton_nawar";
+            keluarbutton_nawar.Size = new Size(110, 69);
+            keluarbutton_nawar.TabIndex = 13;
+            keluarbutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
+            keluarbutton_nawar.UseVisualStyleBackColor = false;
+            keluarbutton_nawar.Click += keluarbutton_nawar_Click;
             // 
-            // NawarPanen
+            // riwayatbutton_nawar
+            // 
+            riwayatbutton_nawar.BackColor = Color.Transparent;
+            riwayatbutton_nawar.FlatAppearance.BorderSize = 0;
+            riwayatbutton_nawar.FlatStyle = FlatStyle.Flat;
+            riwayatbutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            riwayatbutton_nawar.Location = new Point(35, 264);
+            riwayatbutton_nawar.Name = "riwayatbutton_nawar";
+            riwayatbutton_nawar.Size = new Size(180, 26);
+            riwayatbutton_nawar.TabIndex = 5;
+            riwayatbutton_nawar.Text = "RIWAYAT TRANSAKSI";
+            riwayatbutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
+            riwayatbutton_nawar.UseVisualStyleBackColor = false;
+            riwayatbutton_nawar.Click += riwayatbutton_nawar_Click;
+            // 
+            // transaksibutton_nawar
+            // 
+            transaksibutton_nawar.BackColor = Color.Transparent;
+            transaksibutton_nawar.FlatAppearance.BorderSize = 0;
+            transaksibutton_nawar.FlatStyle = FlatStyle.Flat;
+            transaksibutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            transaksibutton_nawar.Location = new Point(35, 219);
+            transaksibutton_nawar.Name = "transaksibutton_nawar";
+            transaksibutton_nawar.Size = new Size(105, 26);
+            transaksibutton_nawar.TabIndex = 4;
+            transaksibutton_nawar.Text = "TRANSAKSI";
+            transaksibutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
+            transaksibutton_nawar.UseVisualStyleBackColor = false;
+            transaksibutton_nawar.Click += transaksibutton_nawar_Click;
+            // 
+            // penawaranbutton_nawar
+            // 
+            penawaranbutton_nawar.BackColor = Color.Transparent;
+            penawaranbutton_nawar.FlatAppearance.BorderSize = 0;
+            penawaranbutton_nawar.FlatStyle = FlatStyle.Flat;
+            penawaranbutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            penawaranbutton_nawar.Location = new Point(36, 190);
+            penawaranbutton_nawar.Name = "penawaranbutton_nawar";
+            penawaranbutton_nawar.Size = new Size(180, 26);
+            penawaranbutton_nawar.TabIndex = 3;
+            penawaranbutton_nawar.Text = "PENAWARAN PANEN";
+            penawaranbutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
+            penawaranbutton_nawar.UseVisualStyleBackColor = false;
+            penawaranbutton_nawar.Click += penawaranbutton_nawar_Click;
+            // 
+            // inputpanenbutton_nawar
+            // 
+            inputpanenbutton_nawar.BackColor = Color.Transparent;
+            inputpanenbutton_nawar.FlatAppearance.BorderSize = 0;
+            inputpanenbutton_nawar.FlatStyle = FlatStyle.Flat;
+            inputpanenbutton_nawar.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            inputpanenbutton_nawar.Location = new Point(36, 163);
+            inputpanenbutton_nawar.Name = "inputpanenbutton_nawar";
+            inputpanenbutton_nawar.Size = new Size(143, 26);
+            inputpanenbutton_nawar.TabIndex = 2;
+            inputpanenbutton_nawar.Text = "KELOLA PANEN";
+            inputpanenbutton_nawar.TextAlign = ContentAlignment.MiddleLeft;
+            inputpanenbutton_nawar.UseVisualStyleBackColor = false;
+            inputpanenbutton_nawar.Click += inputpanenbutton_nawar_Click;
+            // 
+            // dashboardbutton_nawar
+            // 
+            dashboardbutton_nawar.BackColor = Color.Transparent;
+            dashboardbutton_nawar.FlatAppearance.BorderSize = 0;
+            dashboardbutton_nawar.FlatStyle = FlatStyle.Flat;
+            dashboardbutton_nawar.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dashboardbutton_nawar.Location = new Point(33, 114);
+            dashboardbutton_nawar.Name = "dashboardbutton_nawar";
+            dashboardbutton_nawar.Size = new Size(119, 26);
+            dashboardbutton_nawar.TabIndex = 1;
+            dashboardbutton_nawar.Text = "DASHBOARD";
+            dashboardbutton_nawar.UseVisualStyleBackColor = false;
+            dashboardbutton_nawar.Click += dashboardbutton_nawar_Click;
+            // 
+            // NawarPanenNelayan
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panel1);
-            Name = "NawarPanen";
+            Name = "NawarPanenNelayan";
             Size = new Size(908, 555);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

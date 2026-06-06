@@ -151,6 +151,11 @@ namespace PROJEKANN.Usercontrol
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 
 

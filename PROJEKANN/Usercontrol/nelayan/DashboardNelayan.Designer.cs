@@ -1,4 +1,4 @@
-﻿namespace PROJEKANN.Usercontrol
+﻿namespace PROJEKANN.Usercontrol.nelayan
 {
     partial class DashboardNelayan
     {

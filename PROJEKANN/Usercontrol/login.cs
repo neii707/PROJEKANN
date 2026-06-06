@@ -28,13 +28,10 @@ namespace PROJEKANN.Usercontrol
             panel1.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-        }
 
-        private void textBox4_TextChanged_1(object sender, EventArgs e)
-        {
-        }
+        private void textBox3_TextChanged(object sender, EventArgs e) { }
+
+        private void textBox4_TextChanged_1(object sender, EventArgs e) { }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -83,11 +80,10 @@ namespace PROJEKANN.Usercontrol
                                     break;
 
                                 case "nelayan":
-
-                                    mainForm.TampilkanHalaman(new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, username));
-                                    mainForm.Controls.Clear();
-                                    PROJEKANN.Usercontrol.DashboardNelayan nelayanDashboard = new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, username);
+                                    // Menggunakan sub-namespace .nelayan yang baru agar tidak memicu compile error
+                                    PROJEKANN.Usercontrol.nelayan.DashboardNelayan nelayanDashboard = new PROJEKANN.Usercontrol.nelayan.DashboardNelayan(mainForm, username);
                                     nelayanDashboard.Dock = DockStyle.Fill;
+
                                     mainForm.Controls.Add(nelayanDashboard);
                                     nelayanDashboard.BringToFront();
                                     break;
@@ -116,4 +112,3 @@ namespace PROJEKANN.Usercontrol
         }
     }
 }
-

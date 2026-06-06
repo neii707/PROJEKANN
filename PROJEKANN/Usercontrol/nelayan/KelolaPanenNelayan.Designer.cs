@@ -1,4 +1,4 @@
-﻿namespace PROJEKANN.Usercontrol
+﻿namespace PROJEKANN.Usercontrol.nelayan
 {
     partial class KelolaPanenNelayan
     {
@@ -112,6 +112,7 @@
             dgvriwayatpanen.Size = new Size(639, 223);
             dgvriwayatpanen.TabIndex = 24;
             dgvriwayatpanen.CellClick += dgvriwayatpanen_CellClick;
+            dgvriwayatpanen.CellContentClick += dgvriwayatpanen_CellContentClick;
             // 
             // colID
             // 

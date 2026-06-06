@@ -30,14 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RiwayatNelayan));
             riwayatpanel = new Panel();
-            lbnamauser_riwayat = new Label();
-            dashboardbutton_riwayat = new Button();
-            inputpanenbutton_riwayat = new Button();
-            penawaranbutton_riwayat = new Button();
-            transaksibutton_riwayat = new Button();
-            riwayatbutton_riwayat = new Button();
-            keluarbutton_riwayat = new Button();
-            totallabel_riwayat = new Label();
             dgvTransaksi = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
             colDistributor = new DataGridViewTextBoxColumn();
@@ -48,6 +40,14 @@
             colTotal = new DataGridViewTextBoxColumn();
             colTanggal = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
+            totallabel_riwayat = new Label();
+            keluarbutton_riwayat = new Button();
+            riwayatbutton_riwayat = new Button();
+            transaksibutton_riwayat = new Button();
+            penawaranbutton_riwayat = new Button();
+            inputpanenbutton_riwayat = new Button();
+            dashboardbutton_riwayat = new Button();
+            lbnamauser_riwayat = new Label();
             riwayatpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
             SuspendLayout();
@@ -69,119 +69,6 @@
             riwayatpanel.Name = "riwayatpanel";
             riwayatpanel.Size = new Size(908, 555);
             riwayatpanel.TabIndex = 0;
-            // 
-            // lbnamauser_riwayat
-            // 
-            lbnamauser_riwayat.AutoSize = true;
-            lbnamauser_riwayat.BackColor = Color.Transparent;
-            lbnamauser_riwayat.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbnamauser_riwayat.Location = new Point(92, 47);
-            lbnamauser_riwayat.Name = "lbnamauser_riwayat";
-            lbnamauser_riwayat.Size = new Size(88, 25);
-            lbnamauser_riwayat.TabIndex = 27;
-            lbnamauser_riwayat.Text = "Natachai";
-            // 
-            // dashboardbutton_riwayat
-            // 
-            dashboardbutton_riwayat.BackColor = Color.Transparent;
-            dashboardbutton_riwayat.FlatAppearance.BorderSize = 0;
-            dashboardbutton_riwayat.FlatStyle = FlatStyle.Flat;
-            dashboardbutton_riwayat.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dashboardbutton_riwayat.Location = new Point(31, 114);
-            dashboardbutton_riwayat.Name = "dashboardbutton_riwayat";
-            dashboardbutton_riwayat.Size = new Size(119, 26);
-            dashboardbutton_riwayat.TabIndex = 28;
-            dashboardbutton_riwayat.Text = "DASHBOARD";
-            dashboardbutton_riwayat.UseVisualStyleBackColor = false;
-            dashboardbutton_riwayat.Click += dashboardbutton_riwayat_Click;
-            // 
-            // inputpanenbutton_riwayat
-            // 
-            inputpanenbutton_riwayat.BackColor = Color.Transparent;
-            inputpanenbutton_riwayat.FlatAppearance.BorderSize = 0;
-            inputpanenbutton_riwayat.FlatStyle = FlatStyle.Flat;
-            inputpanenbutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            inputpanenbutton_riwayat.Location = new Point(36, 162);
-            inputpanenbutton_riwayat.Name = "inputpanenbutton_riwayat";
-            inputpanenbutton_riwayat.Size = new Size(143, 26);
-            inputpanenbutton_riwayat.TabIndex = 29;
-            inputpanenbutton_riwayat.Text = "KELOLA PANEN";
-            inputpanenbutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
-            inputpanenbutton_riwayat.UseVisualStyleBackColor = false;
-            inputpanenbutton_riwayat.Click += inputpanenbutton_riwayat_Click;
-            // 
-            // penawaranbutton_riwayat
-            // 
-            penawaranbutton_riwayat.BackColor = Color.Transparent;
-            penawaranbutton_riwayat.FlatAppearance.BorderSize = 0;
-            penawaranbutton_riwayat.FlatStyle = FlatStyle.Flat;
-            penawaranbutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            penawaranbutton_riwayat.Location = new Point(36, 191);
-            penawaranbutton_riwayat.Name = "penawaranbutton_riwayat";
-            penawaranbutton_riwayat.Size = new Size(180, 26);
-            penawaranbutton_riwayat.TabIndex = 30;
-            penawaranbutton_riwayat.Text = "PENAWARAN PANEN";
-            penawaranbutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
-            penawaranbutton_riwayat.UseVisualStyleBackColor = false;
-            penawaranbutton_riwayat.Click += penawaranbutton_riwayat_Click;
-            // 
-            // transaksibutton_riwayat
-            // 
-            transaksibutton_riwayat.BackColor = Color.Transparent;
-            transaksibutton_riwayat.FlatAppearance.BorderSize = 0;
-            transaksibutton_riwayat.FlatStyle = FlatStyle.Flat;
-            transaksibutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            transaksibutton_riwayat.Location = new Point(39, 220);
-            transaksibutton_riwayat.Name = "transaksibutton_riwayat";
-            transaksibutton_riwayat.Size = new Size(105, 26);
-            transaksibutton_riwayat.TabIndex = 31;
-            transaksibutton_riwayat.Text = "TRANSAKSI";
-            transaksibutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
-            transaksibutton_riwayat.UseVisualStyleBackColor = false;
-            transaksibutton_riwayat.Click += transaksibutton_riwayat_Click;
-            // 
-            // riwayatbutton_riwayat
-            // 
-            riwayatbutton_riwayat.BackColor = Color.Transparent;
-            riwayatbutton_riwayat.FlatAppearance.BorderSize = 0;
-            riwayatbutton_riwayat.FlatStyle = FlatStyle.Flat;
-            riwayatbutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            riwayatbutton_riwayat.Location = new Point(33, 264);
-            riwayatbutton_riwayat.Name = "riwayatbutton_riwayat";
-            riwayatbutton_riwayat.Size = new Size(180, 26);
-            riwayatbutton_riwayat.TabIndex = 32;
-            riwayatbutton_riwayat.Text = "RIWAYAT TRANSAKSI";
-            riwayatbutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
-            riwayatbutton_riwayat.UseVisualStyleBackColor = false;
-            riwayatbutton_riwayat.Click += riwayatbutton_riwayat_Click;
-            // 
-            // keluarbutton_riwayat
-            // 
-            keluarbutton_riwayat.BackColor = Color.Transparent;
-            keluarbutton_riwayat.BackgroundImage = (Image)resources.GetObject("keluarbutton_riwayat.BackgroundImage");
-            keluarbutton_riwayat.BackgroundImageLayout = ImageLayout.Stretch;
-            keluarbutton_riwayat.Cursor = Cursors.Hand;
-            keluarbutton_riwayat.FlatAppearance.BorderSize = 0;
-            keluarbutton_riwayat.FlatStyle = FlatStyle.Flat;
-            keluarbutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_riwayat.Location = new Point(-17, 486);
-            keluarbutton_riwayat.Name = "keluarbutton_riwayat";
-            keluarbutton_riwayat.Size = new Size(110, 69);
-            keluarbutton_riwayat.TabIndex = 33;
-            keluarbutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
-            keluarbutton_riwayat.UseVisualStyleBackColor = false;
-            keluarbutton_riwayat.Click += keluarbutton_riwayat_Click;
-            // 
-            // totallabel_riwayat
-            // 
-            totallabel_riwayat.AutoSize = true;
-            totallabel_riwayat.BackColor = Color.Transparent;
-            totallabel_riwayat.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            totallabel_riwayat.Location = new Point(321, 130);
-            totallabel_riwayat.Name = "totallabel_riwayat";
-            totallabel_riwayat.Size = new Size(135, 25);
-            totallabel_riwayat.TabIndex = 34;
-            totallabel_riwayat.Text = "Loading Data..";
             // 
             // dgvTransaksi
             // 
@@ -262,6 +149,119 @@
             colStatus.MinimumWidth = 8;
             colStatus.Name = "colStatus";
             colStatus.ReadOnly = true;
+            // 
+            // totallabel_riwayat
+            // 
+            totallabel_riwayat.AutoSize = true;
+            totallabel_riwayat.BackColor = Color.Transparent;
+            totallabel_riwayat.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            totallabel_riwayat.Location = new Point(312, 131);
+            totallabel_riwayat.Name = "totallabel_riwayat";
+            totallabel_riwayat.Size = new Size(135, 25);
+            totallabel_riwayat.TabIndex = 34;
+            totallabel_riwayat.Text = "Loading Data..";
+            // 
+            // keluarbutton_riwayat
+            // 
+            keluarbutton_riwayat.BackColor = Color.Transparent;
+            keluarbutton_riwayat.BackgroundImage = (Image)resources.GetObject("keluarbutton_riwayat.BackgroundImage");
+            keluarbutton_riwayat.BackgroundImageLayout = ImageLayout.Stretch;
+            keluarbutton_riwayat.Cursor = Cursors.Hand;
+            keluarbutton_riwayat.FlatAppearance.BorderSize = 0;
+            keluarbutton_riwayat.FlatStyle = FlatStyle.Flat;
+            keluarbutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            keluarbutton_riwayat.Location = new Point(-17, 486);
+            keluarbutton_riwayat.Name = "keluarbutton_riwayat";
+            keluarbutton_riwayat.Size = new Size(110, 69);
+            keluarbutton_riwayat.TabIndex = 33;
+            keluarbutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
+            keluarbutton_riwayat.UseVisualStyleBackColor = false;
+            keluarbutton_riwayat.Click += keluarbutton_riwayat_Click;
+            // 
+            // riwayatbutton_riwayat
+            // 
+            riwayatbutton_riwayat.BackColor = Color.Transparent;
+            riwayatbutton_riwayat.FlatAppearance.BorderSize = 0;
+            riwayatbutton_riwayat.FlatStyle = FlatStyle.Flat;
+            riwayatbutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            riwayatbutton_riwayat.Location = new Point(33, 264);
+            riwayatbutton_riwayat.Name = "riwayatbutton_riwayat";
+            riwayatbutton_riwayat.Size = new Size(180, 26);
+            riwayatbutton_riwayat.TabIndex = 32;
+            riwayatbutton_riwayat.Text = "RIWAYAT TRANSAKSI";
+            riwayatbutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
+            riwayatbutton_riwayat.UseVisualStyleBackColor = false;
+            riwayatbutton_riwayat.Click += riwayatbutton_riwayat_Click;
+            // 
+            // transaksibutton_riwayat
+            // 
+            transaksibutton_riwayat.BackColor = Color.Transparent;
+            transaksibutton_riwayat.FlatAppearance.BorderSize = 0;
+            transaksibutton_riwayat.FlatStyle = FlatStyle.Flat;
+            transaksibutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            transaksibutton_riwayat.Location = new Point(39, 220);
+            transaksibutton_riwayat.Name = "transaksibutton_riwayat";
+            transaksibutton_riwayat.Size = new Size(105, 26);
+            transaksibutton_riwayat.TabIndex = 31;
+            transaksibutton_riwayat.Text = "TRANSAKSI";
+            transaksibutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
+            transaksibutton_riwayat.UseVisualStyleBackColor = false;
+            transaksibutton_riwayat.Click += transaksibutton_riwayat_Click;
+            // 
+            // penawaranbutton_riwayat
+            // 
+            penawaranbutton_riwayat.BackColor = Color.Transparent;
+            penawaranbutton_riwayat.FlatAppearance.BorderSize = 0;
+            penawaranbutton_riwayat.FlatStyle = FlatStyle.Flat;
+            penawaranbutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            penawaranbutton_riwayat.Location = new Point(36, 191);
+            penawaranbutton_riwayat.Name = "penawaranbutton_riwayat";
+            penawaranbutton_riwayat.Size = new Size(180, 26);
+            penawaranbutton_riwayat.TabIndex = 30;
+            penawaranbutton_riwayat.Text = "PENAWARAN PANEN";
+            penawaranbutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
+            penawaranbutton_riwayat.UseVisualStyleBackColor = false;
+            penawaranbutton_riwayat.Click += penawaranbutton_riwayat_Click;
+            // 
+            // inputpanenbutton_riwayat
+            // 
+            inputpanenbutton_riwayat.BackColor = Color.Transparent;
+            inputpanenbutton_riwayat.FlatAppearance.BorderSize = 0;
+            inputpanenbutton_riwayat.FlatStyle = FlatStyle.Flat;
+            inputpanenbutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            inputpanenbutton_riwayat.Location = new Point(36, 162);
+            inputpanenbutton_riwayat.Name = "inputpanenbutton_riwayat";
+            inputpanenbutton_riwayat.Size = new Size(143, 26);
+            inputpanenbutton_riwayat.TabIndex = 29;
+            inputpanenbutton_riwayat.Text = "KELOLA PANEN";
+            inputpanenbutton_riwayat.TextAlign = ContentAlignment.MiddleLeft;
+            inputpanenbutton_riwayat.UseVisualStyleBackColor = false;
+            inputpanenbutton_riwayat.Click += inputpanenbutton_riwayat_Click;
+            // 
+            // dashboardbutton_riwayat
+            // 
+            dashboardbutton_riwayat.BackColor = Color.Transparent;
+            dashboardbutton_riwayat.FlatAppearance.BorderSize = 0;
+            dashboardbutton_riwayat.FlatStyle = FlatStyle.Flat;
+            dashboardbutton_riwayat.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dashboardbutton_riwayat.Location = new Point(31, 114);
+            dashboardbutton_riwayat.Name = "dashboardbutton_riwayat";
+            dashboardbutton_riwayat.Size = new Size(119, 26);
+            dashboardbutton_riwayat.TabIndex = 28;
+            dashboardbutton_riwayat.Text = "DASHBOARD";
+            dashboardbutton_riwayat.UseVisualStyleBackColor = false;
+            dashboardbutton_riwayat.Click += dashboardbutton_riwayat_Click;
+            // 
+            // lbnamauser_riwayat
+            // 
+            lbnamauser_riwayat.AutoSize = true;
+            lbnamauser_riwayat.BackColor = Color.Transparent;
+            lbnamauser_riwayat.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbnamauser_riwayat.Location = new Point(92, 47);
+            lbnamauser_riwayat.Name = "lbnamauser_riwayat";
+            lbnamauser_riwayat.Size = new Size(88, 25);
+            lbnamauser_riwayat.TabIndex = 27;
+            lbnamauser_riwayat.Text = "Natachai";
             // 
             // RiwayatNelayan
             // 

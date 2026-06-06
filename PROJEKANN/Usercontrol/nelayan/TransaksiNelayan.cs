@@ -1,15 +1,16 @@
 ﻿using Npgsql;
-using PROJEKANN.Usercontrol.nelayan;
 using System;
 using System.Data;
 using System.Windows.Forms;
 
-namespace PROJEKANN.Usercontrol
+// Disamakan ke subfolder nelayan agar satu ekosistem tanpa error namespace
+namespace PROJEKANN.Usercontrol.nelayan
 {
     public partial class TransaksiNelayan : UserControl
     {
         private Form1 mainForm;
-        private string userLoginAktif;
+        private string userLoginAktif; // Memegang USERNAME user aktif
+        private string namaAsliUser = ""; // Memegang NAMA ASLI untuk label di UI
 
         public TransaksiNelayan(Form1 form1, string usernameLogin)
         {
@@ -17,13 +18,54 @@ namespace PROJEKANN.Usercontrol
             this.mainForm = form1;
 
             // Definisikan user fallback jika string parameter kosong
-            this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Natachai" : usernameLogin;
+            this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
 
-            // Sinkronisasi teks nama pengguna aktif ke label designer Anda
-            if (lbnamauser_transaksi != null)
-                lbnamauser_transaksi.Text = this.userLoginAktif;
+            // Jalankan konverter untuk mencari nama asli di database dan set ke label sidebar
+            AmbilDanTampilkanNamaAsli();
 
+            // Tetap muat tabel transaksi aktif menggunakan username
             MuatTabelTransaksiAktif();
+        }
+
+        /// <summary>
+        /// Mengambil nama asli berdasarkan username login aktif dan menampilkannya ke label sidebar
+        /// </summary>
+        private void AmbilDanTampilkanNamaAsli()
+        {
+            try
+            {
+                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
+                {
+                    kon.Open();
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
+                    {
+                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            this.namaAsliUser = result.ToString();
+                        }
+                        else
+                        {
+                            // Fallback jika nama di database ternyata kosong
+                            this.namaAsliUser = userLoginAktif;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                this.namaAsliUser = userLoginAktif;
+            }
+
+            // Sinkronisasi teks nama pengguna asli ke label designer Anda
+            if (lbnamauser_transaksi != null)
+            {
+                lbnamauser_transaksi.Text = this.namaAsliUser;
+            }
         }
 
         /// <summary>
@@ -48,7 +90,7 @@ namespace PROJEKANN.Usercontrol
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            // Mengunci dgvtransaksi agar kolom costumized di designer Anda tidak terduplikasi otomatis
+                            // Mengunci dgvtransaksi agar kolom customized di designer Anda tidak terduplikasi otomatis
                             dgvtransaksi.AutoGenerateColumns = false;
 
                             // Pemetaan eksplisit berdasarkan nama kolom di berkas .Designer.cs Anda
@@ -129,11 +171,35 @@ namespace PROJEKANN.Usercontrol
         }
 
         // ==========================================
-        // ROUTING MENU: PERPINDAHAN USER CONTROL
+        // ROUTING MENU: PERPINDAHAN USER CONTROL AMAN
         // ==========================================
         private void GantiHalaman(UserControl ucBaru)
         {
-            mainForm.TampilkanHalaman(ucBaru);
+            if (ucBaru == null) return;
+
+            try
+            {
+                // Mencari panel kontainer utama tempat UserControl menempel
+                Panel panelInduk = this.Parent as Panel;
+
+                if (panelInduk != null)
+                {
+                    panelInduk.Controls.Clear();
+                    ucBaru.Dock = DockStyle.Fill;
+                    panelInduk.Controls.Add(ucBaru);
+                    ucBaru.BringToFront();
+                }
+                else
+                {
+                    // Fallback jika panel induk tidak terbaca langsung, panggil method Form utama
+                    mainForm.TampilkanHalaman(ucBaru);
+                }
+            }
+            catch
+            {
+                // Fallback terakhir lewat metode default mainForm Anda
+                mainForm.TampilkanHalaman(ucBaru);
+            }
         }
 
         private void dashboardbutton_transaksi_Click(object sender, EventArgs e)
@@ -153,24 +219,25 @@ namespace PROJEKANN.Usercontrol
 
         private void transaksibutton_transaksi_Click(object sender, EventArgs e)
         {
+            AmbilDanTampilkanNamaAsli();
             MuatTabelTransaksiAktif();
         }
 
         private void riwayatbutton_transaksi_Click(object sender, EventArgs e)
         {
-            // Berpindah ke user control riwayat nelayan yang sudah disesuaikan sebelumnya
             GantiHalaman(new RiwayatNelayan(mainForm, userLoginAktif));
         }
 
         private void keluarbutton_transaksi_Click(object sender, EventArgs e)
         {
             DialogResult k = MessageBox.Show("Apakah anda yakin ingin keluar aplikasi?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (k == DialogResult.Yes) GantiHalaman(new login(mainForm));
+            if (k == DialogResult.Yes)
+            {
+                // Keluar menuju halaman login di luar folder nelayan
+                GantiHalaman(new PROJEKANN.Usercontrol.login(mainForm));
+            }
         }
 
-        private void paneltransaksi_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        private void paneltransaksi_Paint(object sender, PaintEventArgs e) { }
     }
 }
