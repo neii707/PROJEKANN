@@ -1,4 +1,5 @@
-﻿using LiveChartsCore.SkiaSharpView;
+﻿using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.WinForms;
 using Npgsql;
 using System;
@@ -16,6 +17,7 @@ namespace PROJEKANN.Usercontrol.admin
         public monitor_transaksi()
         {
             InitializeComponent();
+            TampilkanMultiLineChart();
         }
 
         private void GantiHalamanFitur(UserControl ucBaru)
@@ -26,7 +28,97 @@ namespace PROJEKANN.Usercontrol.admin
             ucBaru.BringToFront();
         }
 
-       
+
+        private void TampilkanMultiLineChart()
+        {
+            List<int> dataGradeA = new List<int>();
+            List<int> dataGradeB = new List<int>();
+            List<int> dataGradeC = new List<int>();
+            List<string> labelBulan = new List<string>();
+
+            try
+            {
+                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT bulan, grade, total_transaksi FROM v_grafik_line_transaksi";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                string bulan = dr["bulan"].ToString().Trim();
+                                string grade = dr["grade"].ToString().Trim().ToUpper();
+                                int total = Convert.ToInt32(dr["total_transaksi"]);
+
+                                if (!labelBulan.Contains(bulan))
+                                {
+                                    labelBulan.Add(bulan);
+                                }
+
+                                if (grade == "A")
+                                {
+                                    dataGradeA.Add(total);
+                                }
+                                else if (grade == "B")
+                                {
+                                    dataGradeB.Add(total);
+                                }
+                                else if (grade == "C")
+                                {
+                                    dataGradeC.Add(total);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                cartesianChart1.Series = new ISeries[]
+                {
+                    new LineSeries<int>
+                    {
+                        Name = "Grade A",
+                        Values = dataGradeA,
+                        GeometrySize = 10
+                    },
+                    new LineSeries<int>
+                    {
+                        Name = "Grade B",
+                        Values = dataGradeB,
+                        GeometrySize = 10
+                    },
+                    new LineSeries<int>
+                    {
+                        Name = "Grade C",
+                        Values = dataGradeC,
+                        GeometrySize = 10
+                    }
+                };
+
+                cartesianChart1.XAxes = new Axis[]
+                {
+                    new Axis
+                    {
+                        Name = "Bulan",
+                        Labels = labelBulan.ToArray()
+                    }
+                };
+
+                cartesianChart1.YAxes = new Axis[]
+                {
+                    new Axis
+                    {
+                        Name = "Jumlah Transaksi Selesai"
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memuat multi-line chart: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
