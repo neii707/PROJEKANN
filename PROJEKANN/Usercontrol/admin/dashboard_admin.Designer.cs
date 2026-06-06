@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dashboard_admin));
             panel1 = new Panel();
+            keluarbutton_dashboard = new Button();
             label2 = new Label();
             button5 = new Button();
             button4 = new Button();
@@ -37,6 +39,8 @@
             button1 = new Button();
             dataGridView1 = new DataGridView();
             label1 = new Label();
+            label3 = new Label();
+            label4 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -45,6 +49,9 @@
             // 
             panel1.BackgroundImage = Properties.Resources.dashboard_admin;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(keluarbutton_dashboard);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
@@ -57,6 +64,23 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 0;
+            // 
+            // keluarbutton_dashboard
+            // 
+            keluarbutton_dashboard.BackColor = Color.Transparent;
+            keluarbutton_dashboard.BackgroundImage = (Image)resources.GetObject("keluarbutton_dashboard.BackgroundImage");
+            keluarbutton_dashboard.BackgroundImageLayout = ImageLayout.Stretch;
+            keluarbutton_dashboard.Cursor = Cursors.Hand;
+            keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
+            keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
+            keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            keluarbutton_dashboard.Location = new Point(-29, 492);
+            keluarbutton_dashboard.Name = "keluarbutton_dashboard";
+            keluarbutton_dashboard.Size = new Size(102, 63);
+            keluarbutton_dashboard.TabIndex = 13;
+            keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
+            keluarbutton_dashboard.UseVisualStyleBackColor = false;
+            keluarbutton_dashboard.Click += keluarbutton_dashboard_Click;
             // 
             // label2
             // 
@@ -169,6 +193,28 @@
             label1.TabIndex = 0;
             label1.Text = "AKTIVITAS TERKINI";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label3.Location = new Point(567, 121);
+            label3.Name = "label3";
+            label3.Size = new Size(33, 38);
+            label3.TabIndex = 14;
+            label3.Text = "0";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label4.Location = new Point(795, 121);
+            label4.Name = "label4";
+            label4.Size = new Size(33, 38);
+            label4.TabIndex = 15;
+            label4.Text = "0";
+            // 
             // dashboard_admin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -195,5 +241,8 @@
         private Button button3;
         private Button button2;
         private Label label2;
+        private Button keluarbutton_dashboard;
+        private Label label4;
+        private Label label3;
     }
 }

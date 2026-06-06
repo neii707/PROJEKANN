@@ -151,6 +151,21 @@ namespace PROJEKANN.Usercontrol
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void lblJumlahPanen_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblDemand_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTotalTransaksi_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(monitor_transaksi));
             LiveChartsCore.Drawing.Padding padding1 = new LiveChartsCore.Drawing.Padding();
             LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
             LiveChartsCore.Drawing.Padding padding2 = new LiveChartsCore.Drawing.Padding();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(monitor_transaksi));
             panel1 = new Panel();
             cartesianChart1 = new LiveChartsCore.SkiaSharpView.WinForms.CartesianChart();
             button5 = new Button();
@@ -40,6 +40,7 @@
             button3 = new Button();
             button6 = new Button();
             button7 = new Button();
+            keluarbutton_dashboard = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -47,6 +48,7 @@
             // 
             panel1.BackgroundImage = Properties.Resources.transaksi;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(keluarbutton_dashboard);
             panel1.Controls.Add(cartesianChart1);
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
@@ -176,6 +178,23 @@
             button7.UseVisualStyleBackColor = false;
             button7.Click += button7_Click;
             // 
+            // keluarbutton_dashboard
+            // 
+            keluarbutton_dashboard.BackColor = Color.Transparent;
+            keluarbutton_dashboard.BackgroundImage = (Image)resources.GetObject("keluarbutton_dashboard.BackgroundImage");
+            keluarbutton_dashboard.BackgroundImageLayout = ImageLayout.Stretch;
+            keluarbutton_dashboard.Cursor = Cursors.Hand;
+            keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
+            keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
+            keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            keluarbutton_dashboard.Location = new Point(-23, 509);
+            keluarbutton_dashboard.Name = "keluarbutton_dashboard";
+            keluarbutton_dashboard.Size = new Size(85, 46);
+            keluarbutton_dashboard.TabIndex = 15;
+            keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
+            keluarbutton_dashboard.UseVisualStyleBackColor = false;
+            keluarbutton_dashboard.Click += keluarbutton_dashboard_Click;
+            // 
             // monitor_transaksi
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -196,5 +215,6 @@
         private Button button5;
         private Button button4;
         private LiveChartsCore.SkiaSharpView.WinForms.CartesianChart cartesianChart1;
+        private Button keluarbutton_dashboard;
     }
 }

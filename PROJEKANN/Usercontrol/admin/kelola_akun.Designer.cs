@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(kelola_akun));
             panel1 = new Panel();
             button5 = new Button();
             button4 = new Button();
@@ -37,6 +38,7 @@
             button2 = new Button();
             button1 = new Button();
             dataGridView1 = new DataGridView();
+            keluarbutton_dashboard = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -45,6 +47,7 @@
             // 
             panel1.BackgroundImage = Properties.Resources.akun;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(keluarbutton_dashboard);
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
             panel1.Controls.Add(button3);
@@ -167,6 +170,23 @@
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
+            // keluarbutton_dashboard
+            // 
+            keluarbutton_dashboard.BackColor = Color.Transparent;
+            keluarbutton_dashboard.BackgroundImage = (Image)resources.GetObject("keluarbutton_dashboard.BackgroundImage");
+            keluarbutton_dashboard.BackgroundImageLayout = ImageLayout.Stretch;
+            keluarbutton_dashboard.Cursor = Cursors.Hand;
+            keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
+            keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
+            keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            keluarbutton_dashboard.Location = new Point(-21, 509);
+            keluarbutton_dashboard.Name = "keluarbutton_dashboard";
+            keluarbutton_dashboard.Size = new Size(85, 46);
+            keluarbutton_dashboard.TabIndex = 14;
+            keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
+            keluarbutton_dashboard.UseVisualStyleBackColor = false;
+            keluarbutton_dashboard.Click += keluarbutton_dashboard_Click;
+            // 
             // kelola_akun
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -190,5 +210,6 @@
         private Button button3;
         private Button button6;
         private Button button7;
+        private Button keluarbutton_dashboard;
     }
 }

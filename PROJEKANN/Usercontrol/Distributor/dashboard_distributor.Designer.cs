@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             DashboardDistributor = new Panel();
+            lblTotalTransaksi = new Label();
             lblDemand = new Label();
             lblNamaUser = new Label();
             btnKeluar = new Button();
             dgvDashboard = new DataGridView();
-            lblTotalTransaksi = new Label();
             label2 = new Label();
             lblJumlahPanen = new Label();
             btnRiwayat = new Button();
@@ -69,6 +69,18 @@
             DashboardDistributor.TabIndex = 0;
             DashboardDistributor.Paint += panel1_Paint;
             // 
+            // lblTotalTransaksi
+            // 
+            lblTotalTransaksi.AutoSize = true;
+            lblTotalTransaksi.BackColor = Color.Transparent;
+            lblTotalTransaksi.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalTransaksi.Location = new Point(741, 108);
+            lblTotalTransaksi.Name = "lblTotalTransaksi";
+            lblTotalTransaksi.Size = new Size(33, 38);
+            lblTotalTransaksi.TabIndex = 13;
+            lblTotalTransaksi.Text = "0";
+            lblTotalTransaksi.Click += lblTotalTransaksi_Click;
+            // 
             // lblDemand
             // 
             lblDemand.AutoSize = true;
@@ -79,6 +91,7 @@
             lblDemand.Size = new Size(33, 38);
             lblDemand.TabIndex = 12;
             lblDemand.Text = "0";
+            lblDemand.Click += lblDemand_Click;
             // 
             // lblNamaUser
             // 
@@ -134,6 +147,7 @@
             lblJumlahPanen.Size = new Size(33, 38);
             lblJumlahPanen.TabIndex = 6;
             lblJumlahPanen.Text = "0";
+            lblJumlahPanen.Click += lblJumlahPanen_Click;
             // 
             // btnRiwayat
             // 
@@ -212,17 +226,6 @@
             btnDashboard.TabIndex = 0;
             btnDashboard.Text = "DASHBOARD";
             btnDashboard.UseVisualStyleBackColor = false;
-            // 
-            // lblTotalTransaksi
-            // 
-            lblTotalTransaksi.AutoSize = true;
-            lblTotalTransaksi.BackColor = Color.Transparent;
-            lblTotalTransaksi.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTotalTransaksi.Location = new Point(741, 108);
-            lblTotalTransaksi.Name = "lblTotalTransaksi";
-            lblTotalTransaksi.Size = new Size(33, 38);
-            lblTotalTransaksi.TabIndex = 13;
-            lblTotalTransaksi.Text = "0";
             // 
             // dashboard_distributor
             // 
