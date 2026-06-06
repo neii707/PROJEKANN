@@ -21,6 +21,13 @@ namespace PROJEKANN.Usercontrol
             mainForm = form1;
         }
 
+        private void GantiHalaman(UserControl ucBaru)
+        {
+            panel1.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            panel1.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
+        }
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
         }
@@ -101,6 +108,11 @@ namespace PROJEKANN.Usercontrol
             {
                 MessageBox.Show("Terjadi kesalahan koneksi database: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            mainForm.TampilkanHalaman(new PROJEKANN.Usercontrol.register(mainForm));
         }
     }
 }

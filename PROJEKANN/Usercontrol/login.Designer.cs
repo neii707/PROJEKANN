@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            button2 = new Button();
             button1 = new Button();
             passworduser = new TextBox();
             lblNamaUser = new TextBox();
@@ -38,6 +39,7 @@
             // panel1
             // 
             panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(button2);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(passworduser);
             panel1.Controls.Add(lblNamaUser);
@@ -45,6 +47,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(902, 549);
             panel1.TabIndex = 5;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.SeaGreen;
+            button2.ForeColor = SystemColors.ButtonHighlight;
+            button2.Location = new Point(593, 457);
+            button2.Name = "button2";
+            button2.Size = new Size(112, 34);
+            button2.TabIndex = 8;
+            button2.Text = "REGISTER";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // button1
             // 
@@ -97,5 +111,6 @@
         private Button button1;
         private TextBox passworduser;
         private TextBox lblNamaUser;
+        private Button button2;
     }
 }
