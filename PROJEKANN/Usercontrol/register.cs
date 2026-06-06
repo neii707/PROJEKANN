@@ -36,6 +36,12 @@ namespace PROJEKANN.Usercontrol
             string alamat = textBox4.Text.Trim();
             string username = textBox5.Text.Trim();
             string password = textBox6.Text.Trim();
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(nama) || string.IsNullOrEmpty(telp) || string.IsNullOrEmpty(alamat))
+            {
+                MessageBox.Show("Data tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
