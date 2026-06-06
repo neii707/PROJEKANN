@@ -28,34 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Penawaran));
-            dataGridView1 = new DataGridView();
+            dgvPenawaran = new DataGridView();
             panel1 = new Panel();
-            button1 = new Button();
-            textBox1 = new TextBox();
-            button2 = new Button();
             button7 = new Button();
             button6 = new Button();
             button5 = new Button();
             button4 = new Button();
             button3 = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            button2 = new Button();
+            btnKirim = new Button();
+            txtHargaTawar = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)dgvPenawaran).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dgvPenawaran
             // 
-            dataGridView1.BackgroundColor = Color.White;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(268, 101);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(621, 312);
-            dataGridView1.TabIndex = 0;
+            dgvPenawaran.BackgroundColor = Color.White;
+            dgvPenawaran.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPenawaran.Location = new Point(267, 113);
+            dgvPenawaran.Name = "dgvPenawaran";
+            dgvPenawaran.RowHeadersWidth = 62;
+            dgvPenawaran.Size = new Size(621, 331);
+            dgvPenawaran.TabIndex = 0;
+            dgvPenawaran.CellContentClick += dgvPenawaran_CellContentClick;
             // 
             // panel1
             // 
-            panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
+            panel1.BackgroundImage = Properties.Resources.Penawaran;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.Controls.Add(button7);
             panel1.Controls.Add(button6);
@@ -63,44 +63,13 @@
             panel1.Controls.Add(button4);
             panel1.Controls.Add(button3);
             panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(dataGridView1);
+            panel1.Controls.Add(btnKirim);
+            panel1.Controls.Add(txtHargaTawar);
+            panel1.Controls.Add(dgvPenawaran);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 1;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.DarkSeaGreen;
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(660, 450);
-            button1.Name = "button1";
-            button1.Size = new Size(84, 36);
-            button1.TabIndex = 2;
-            button1.Text = "KIRIM";
-            button1.UseVisualStyleBackColor = false;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(495, 453);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(150, 31);
-            textBox1.TabIndex = 1;
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.Transparent;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(27, 113);
-            button2.Name = "button2";
-            button2.Size = new Size(137, 34);
-            button2.TabIndex = 4;
-            button2.Text = "DASHBOARD";
-            button2.UseVisualStyleBackColor = false;
             // 
             // button7
             // 
@@ -167,6 +136,38 @@
             button3.Text = "LIHAT PANEN";
             button3.UseVisualStyleBackColor = false;
             // 
+            // button2
+            // 
+            button2.BackColor = Color.Transparent;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.Location = new Point(27, 113);
+            button2.Name = "button2";
+            button2.Size = new Size(137, 34);
+            button2.TabIndex = 4;
+            button2.Text = "DASHBOARD";
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // btnKirim
+            // 
+            btnKirim.BackColor = Color.DarkSeaGreen;
+            btnKirim.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKirim.Location = new Point(660, 450);
+            btnKirim.Name = "btnKirim";
+            btnKirim.Size = new Size(84, 36);
+            btnKirim.TabIndex = 2;
+            btnKirim.Text = "KIRIM";
+            btnKirim.UseVisualStyleBackColor = false;
+            btnKirim.Click += btnKirim_Click;
+            // 
+            // txtHargaTawar
+            // 
+            txtHargaTawar.Location = new Point(495, 453);
+            txtHargaTawar.Name = "txtHargaTawar";
+            txtHargaTawar.Size = new Size(150, 31);
+            txtHargaTawar.TabIndex = 1;
+            // 
             // Penawaran
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -174,7 +175,8 @@
             Controls.Add(panel1);
             Name = "Penawaran";
             Size = new Size(908, 555);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Load += Penawaran_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvPenawaran).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -182,10 +184,10 @@
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView dgvPenawaran;
         private Panel panel1;
-        private Button button1;
-        private TextBox textBox1;
+        private Button btnKirim;
+        private TextBox txtHargaTawar;
         private Button button2;
         private Button button7;
         private Button button6;
