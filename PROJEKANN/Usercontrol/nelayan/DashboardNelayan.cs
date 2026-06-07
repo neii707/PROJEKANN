@@ -1,25 +1,29 @@
 ﻿using Npgsql;
-using PROJEKANN.Usercontrol.nelayan;
 using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace PROJEKANN.Usercontrol
+// Disamakan ke subfolder nelayan agar satu ekosistem
+namespace PROJEKANN.Usercontrol.nelayan
 {
     public partial class DashboardNelayan : UserControl
     {
         private Form1 mainForm;
-        private string userLoginAktif; 
+        private string userLoginAktif;
 
         public DashboardNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
             mainForm = form1;
+<<<<<<< HEAD
+
+            userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Zhao_yufan" : usernameLogin.Trim();
+=======
             userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Zhao_yufan" : usernameLogin;
+>>>>>>> de68506a83f0f6f865c4b4a00a2b4ffc723d6846
 
             TampilkanNamaUser();
-
             MuatSistemDashboardUtama();
         }
 
@@ -30,7 +34,6 @@ namespace PROJEKANN.Usercontrol
                 using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
                 {
                     kon.Open();
-
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
@@ -44,14 +47,14 @@ namespace PROJEKANN.Usercontrol
                         }
                         else
                         {
-                            lbnamauser_dashboard.Text = userLoginAktif; 
+                            lbnamauser_dashboard.Text = userLoginAktif;
                         }
                     }
                 }
             }
             catch
             {
-                lbnamauser_dashboard.Text = userLoginAktif; 
+                lbnamauser_dashboard.Text = userLoginAktif;
             }
         }
 
@@ -108,10 +111,15 @@ namespace PROJEKANN.Usercontrol
             {
                 kon.Open();
 
-                string queryTabel = "SELECT id_asli, aktivitas, tanggal, status_asli, nama_lengkap " +
-                                   "FROM view_dashboard_nelayan " +
-                                   "WHERE username_nelayan = @username " +
-                                   "LIMIT 5";
+                string queryTabel = @"SELECT id_asli, aktivitas, tanggal, nama_lengkap,
+                             CASE 
+                                 WHEN status_asli IS NULL OR TRIM(status_asli) = '' THEN 'menunggu grading' 
+                                 ELSE status_asli 
+                             END as status_asli 
+                      FROM view_dashboard_nelayan 
+                      WHERE username_nelayan = @username 
+                        AND (status_asli IS NULL OR LOWER(status_asli) != 'selesai')
+                      LIMIT 5";
 
                 using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                 {
@@ -185,6 +193,9 @@ namespace PROJEKANN.Usercontrol
             }
         }
 
+        // ==========================================================
+        // MEKANISME NAVIGASI UTAMA
+        // ==========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;
@@ -223,6 +234,9 @@ namespace PROJEKANN.Usercontrol
             }
         }
 
+        // ==========================================================
+        // SIDEBAR NAVIGATION ACTIONS (BISA SALING SINKRON SEFOLDER)
+        // ==========================================================
         private void dashboardbutton_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new DashboardNelayan(mainForm, userLoginAktif));
@@ -259,7 +273,8 @@ namespace PROJEKANN.Usercontrol
 
             if (konfirmasi == DialogResult.Yes)
             {
-                GantiHalamanFitur(new login(mainForm));
+                // Jembatan balik ke login utama (berada di luar folder nelayan)
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login(mainForm));
             }
         }
 

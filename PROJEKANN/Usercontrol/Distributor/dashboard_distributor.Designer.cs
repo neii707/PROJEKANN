@@ -29,7 +29,10 @@
         private void InitializeComponent()
         {
             DashboardDistributor = new Panel();
+<<<<<<< HEAD
+=======
             label1 = new Label();
+>>>>>>> de68506a83f0f6f865c4b4a00a2b4ffc723d6846
             lblTotalTransaksi = new Label();
             lblDemand = new Label();
             lblNamaUser = new Label();
@@ -71,6 +74,8 @@
             DashboardDistributor.TabIndex = 0;
             DashboardDistributor.Paint += panel1_Paint;
             // 
+<<<<<<< HEAD
+=======
             // label1
             // 
             label1.AutoSize = true;
@@ -82,6 +87,7 @@
             label1.TabIndex = 14;
             label1.Text = "Transaksi Terakhir";
             // 
+>>>>>>> de68506a83f0f6f865c4b4a00a2b4ffc723d6846
             // lblTotalTransaksi
             // 
             lblTotalTransaksi.AutoSize = true;
@@ -92,7 +98,10 @@
             lblTotalTransaksi.Size = new Size(33, 38);
             lblTotalTransaksi.TabIndex = 13;
             lblTotalTransaksi.Text = "0";
+<<<<<<< HEAD
+=======
             lblTotalTransaksi.Click += lblTotalTransaksi_Click;
+>>>>>>> de68506a83f0f6f865c4b4a00a2b4ffc723d6846
             // 
             // lblDemand
             // 
@@ -247,7 +256,10 @@
             btnDashboard.TabIndex = 0;
             btnDashboard.Text = "DASHBOARD";
             btnDashboard.UseVisualStyleBackColor = false;
+<<<<<<< HEAD
+=======
             btnDashboard.Click += btnDashboard_Click;
+>>>>>>> de68506a83f0f6f865c4b4a00a2b4ffc723d6846
             // 
             // dashboard_distributor
             // 

@@ -8,20 +8,62 @@ namespace PROJEKANN.Usercontrol.nelayan
     public partial class RiwayatNelayan : UserControl
     {
         private Form1 mainForm;
-        private string userLoginAktif;
+        private string userLoginAktif; // Memegang USERNAME user aktif
+        private string namaAsliUser = ""; // Memegang NAMA ASLI untuk kebutuhan tampilan label UI
 
         public RiwayatNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
             this.mainForm = form1;
-            this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Natachai" : usernameLogin;
+            this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
 
-            // Menyesuaikan label user berdasarkan file designer Anda
-            if (lbnamauser_riwayat != null)
-                lbnamauser_riwayat.Text = this.userLoginAktif;
+            // Jalankan pencarian nama asli berdasarkan username, lalu tempel ke label UI
+            AmbilDanTampilkanNamaAsli();
 
+            // Statistik dan tabel tetap dimuat menggunakan data username (karena nama kolom di PostgreSQL View Anda bertipe username)
             MuatRangkumanStatistik();
             MuatTabelRiwayat();
+        }
+
+        /// <summary>
+        /// Mengambil nama asli berdasarkan username login aktif dan menampilkannya ke label sidebar riwayat
+        /// </summary>
+        private void AmbilDanTampilkanNamaAsli()
+        {
+            try
+            {
+                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
+                {
+                    kon.Open();
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
+                    {
+                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            this.namaAsliUser = result.ToString();
+                        }
+                        else
+                        {
+                            // Fallback jika nama kosong di database
+                            this.namaAsliUser = userLoginAktif;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                this.namaAsliUser = userLoginAktif;
+            }
+
+            // Menyesuaikan label user berdasarkan file designer Anda dengan NAMA ASLI
+            if (lbnamauser_riwayat != null)
+            {
+                lbnamauser_riwayat.Text = this.namaAsliUser;
+            }
         }
 
         /// <summary>
@@ -121,7 +163,7 @@ namespace PROJEKANN.Usercontrol.nelayan
         }
 
         // ==========================================================
-        // SIDEBAR NAVIGATION PANEL MENU (SINKRON DENGAN PAGES LAIN)
+        // SIDEBAR NAVIGATION PANEL MENU (SERUMPUN DALAM SUB-NAMESPACE)
         // ==========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
@@ -129,7 +171,6 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             try
             {
-                // Menggunakan logika penataan panel yang konsisten mencegah penumpukan UserControl
                 Panel panelInduk = this.Parent as Panel;
 
                 if (panelInduk != null)
@@ -149,11 +190,7 @@ namespace PROJEKANN.Usercontrol.nelayan
                 }
                 else
                 {
-                    // Fallback jika memanggil method dari Form1 langsung
-                    if (mainForm != null)
-                    {
-                        mainForm.TampilkanHalaman(ucBaru);
-                    }
+                    mainForm?.TampilkanHalaman(ucBaru);
                 }
             }
             catch (Exception ex)
@@ -164,35 +201,27 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void dashboardbutton_riwayat_Click(object sender, EventArgs e)
         {
-            // PERBAIKAN: Menambahkan 'PROJEKANN.Usercontrol.nelayan.' jika Dashboard berada di folder nelayan
-            // Jika ternyata Dashboard ada di folder luar (Usercontrol), ganti menjadi PROJEKANN.Usercontrol.DashboardNelayan
-            try
-            {
-                GantiHalamanFitur(new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, userLoginAktif));
-            }
-            catch
-            {
-                GantiHalamanFitur(new PROJEKANN.Usercontrol.DashboardNelayan(mainForm, userLoginAktif));
-            }
+            GantiHalamanFitur(new DashboardNelayan(mainForm, userLoginAktif));
         }
 
         private void inputpanenbutton_riwayat_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.KelolaPanenNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new KelolaPanenNelayan(mainForm, userLoginAktif));
         }
 
         private void penawaranbutton_riwayat_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.NawarPanenNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new NawarPanenNelayan(mainForm, userLoginAktif));
         }
 
         private void transaksibutton_riwayat_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.TransaksiNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new TransaksiNelayan(mainForm, userLoginAktif));
         }
 
         private void riwayatbutton_riwayat_Click(object sender, EventArgs e)
         {
+            AmbilDanTampilkanNamaAsli();
             MuatRangkumanStatistik();
             MuatTabelRiwayat();
         }
