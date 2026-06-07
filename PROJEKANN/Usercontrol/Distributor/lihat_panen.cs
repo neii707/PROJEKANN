@@ -6,6 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.DataFormats;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -16,15 +18,17 @@ namespace PROJEKANN.Usercontrol.Distributor
         public lihat_panen(Form1 form1, string username)
         {
             InitializeComponent();
+
+            this.mainForm = form1;
+            this.userLoginAktif = username;
+
             lihatPanen();
             TampilkanNamaUser();
         }
 
         private void lihat_panen_Load(object sender, EventArgs e)
         {
-            InitializeComponent();
-            lihatPanen();
-            TampilkanNamaUser();
+
         }
 
         private void lihatPanen()

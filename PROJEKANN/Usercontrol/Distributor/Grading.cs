@@ -91,12 +91,6 @@ namespace PROJEKANN.Usercontrol.Distributor
             }
         }
 
-        private void Grading_Load(object sender, EventArgs e)
-        {
-            TampilDataPanen();
-            TampilkanNamaUser();
-        }
-
         private void btnTetapkan_Click(object sender, EventArgs e)
         {
             try
@@ -234,6 +228,10 @@ namespace PROJEKANN.Usercontrol.Distributor
         private void Grading_Load_1(object sender, EventArgs e)
         {
             TampilDataPanen();
+
+            TampilkanNamaUser();
+
+            cbGrade.Items.Clear();
 
             cbGrade.Items.Add("A");
             cbGrade.Items.Add("B");

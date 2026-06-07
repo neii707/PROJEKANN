@@ -19,6 +19,8 @@ namespace PROJEKANN.Usercontrol.Distributor
         {
             InitializeComponent();
             TampilkanNamaUser();
+            this.mainForm = form1;
+            this.userLoginAktif = username;
         }
 
         private void Penawaran_Load(object sender, EventArgs e)

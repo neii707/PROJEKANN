@@ -7,6 +7,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.DataFormats;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -17,17 +19,18 @@ namespace PROJEKANN.Usercontrol.Distributor
         public RiwayatTransaksi(Form1 form1, string username)
         {
             InitializeComponent();
+
+            this.mainForm = form1;
+            this.userLoginAktif = username;
+
             TampilRiwayat();
             HitungStatistik();
             TampilkanNamaUser();
         }
 
-        private void RiwayatTransaksi_Load(object sender, EventArgs e)
+        private void RiwayatTransaksi_Load(object sender,EventArgs e)
         {
-            InitializeComponent();
-            TampilRiwayat();
-            HitungStatistik();
-            TampilkanNamaUser();
+
         }
 
         private void TampilRiwayat()

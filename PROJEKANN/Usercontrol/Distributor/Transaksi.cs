@@ -19,6 +19,10 @@ namespace PROJEKANN.Usercontrol.Distributor
         public Transaksi(Form1 form1, string username)
         {
             InitializeComponent();
+
+            this.mainForm = form1;
+            this.userLoginAktif = username;
+
             TampilDataTransaksi();
             TampilkanNamaUser();
         }
