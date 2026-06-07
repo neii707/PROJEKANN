@@ -78,7 +78,7 @@ namespace PROJEKANN.Usercontrol
                 {
                     conn.Open();
 
-                    string query = "SELECT * FROM view_transaksi_palin_akhir;";
+                    string query = "SELECT * FROM view_transaksi_paling_akhir;";
 
                     using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
                     {
@@ -128,7 +128,7 @@ namespace PROJEKANN.Usercontrol
                 {
                     conn.Open();
 
-                    string query = "SELECT total_demand FROM view_deman_aktif";
+                    string query = "SELECT total_demand FROM view_demand_aktif";
 
                     NpgsqlCommand cmd =
                         new NpgsqlCommand(query, conn);
