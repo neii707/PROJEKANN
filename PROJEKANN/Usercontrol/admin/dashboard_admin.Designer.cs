@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dashboard_admin));
             panel1 = new Panel();
+            label4 = new Label();
+            label3 = new Label();
             keluarbutton_dashboard = new Button();
             label2 = new Label();
             button5 = new Button();
@@ -39,8 +41,6 @@
             button1 = new Button();
             dataGridView1 = new DataGridView();
             label1 = new Label();
-            label3 = new Label();
-            label4 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -65,6 +65,32 @@
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 0;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label4.ForeColor = SystemColors.ButtonHighlight;
+            label4.Location = new Point(795, 121);
+            label4.Name = "label4";
+            label4.Size = new Size(33, 38);
+            label4.TabIndex = 15;
+            label4.Text = "0";
+            label4.Click += label4_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label3.ForeColor = SystemColors.ButtonHighlight;
+            label3.Location = new Point(529, 122);
+            label3.Name = "label3";
+            label3.Size = new Size(28, 32);
+            label3.TabIndex = 14;
+            label3.Text = "0";
+            label3.Click += label3_Click;
+            // 
             // keluarbutton_dashboard
             // 
             keluarbutton_dashboard.BackColor = Color.Transparent;
@@ -86,7 +112,9 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label2.FlatStyle = FlatStyle.Flat;
+            label2.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = SystemColors.ButtonHighlight;
             label2.Location = new Point(341, 121);
             label2.Name = "label2";
             label2.Size = new Size(33, 38);
@@ -100,9 +128,9 @@
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.Location = new Point(36, 263);
+            button5.Location = new Point(27, 260);
             button5.Name = "button5";
-            button5.Size = new Size(219, 34);
+            button5.Size = new Size(213, 34);
             button5.TabIndex = 6;
             button5.Text = "MONITOR TRANSAKSI";
             button5.TextAlign = ContentAlignment.MiddleLeft;
@@ -115,9 +143,9 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.Location = new Point(36, 227);
+            button4.Location = new Point(27, 225);
             button4.Name = "button4";
-            button4.Size = new Size(219, 34);
+            button4.Size = new Size(197, 34);
             button4.TabIndex = 5;
             button4.Text = "MONITOR STOK";
             button4.TextAlign = ContentAlignment.MiddleLeft;
@@ -130,7 +158,7 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(36, 187);
+            button3.Location = new Point(26, 185);
             button3.Name = "button3";
             button3.Size = new Size(175, 34);
             button3.TabIndex = 4;
@@ -145,7 +173,7 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(36, 147);
+            button2.Location = new Point(26, 146);
             button2.Name = "button2";
             button2.Size = new Size(149, 34);
             button2.TabIndex = 3;
@@ -161,7 +189,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ImageAlign = ContentAlignment.MiddleLeft;
-            button1.Location = new Point(36, 111);
+            button1.Location = new Point(26, 113);
             button1.Name = "button1";
             button1.Size = new Size(135, 34);
             button1.TabIndex = 2;
@@ -192,28 +220,6 @@
             label1.Size = new Size(181, 25);
             label1.TabIndex = 0;
             label1.Text = "AKTIVITAS TERKINI";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label3.Location = new Point(567, 121);
-            label3.Name = "label3";
-            label3.Size = new Size(33, 38);
-            label3.TabIndex = 14;
-            label3.Text = "0";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label4.Location = new Point(795, 121);
-            label4.Name = "label4";
-            label4.Size = new Size(33, 38);
-            label4.TabIndex = 15;
-            label4.Text = "0";
             // 
             // dashboard_admin
             // 

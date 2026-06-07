@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using PROJEKANN.database;
 using System;
 using System.Data;
 using System.Windows.Forms;
@@ -11,6 +12,9 @@ namespace PROJEKANN.Usercontrol
         {
             InitializeComponent();
             MuatAktivitasTerkini();
+            labelakun();
+            labelstok();
+            labeltransaksi();
         }
 
         private void GantiHalamanFitur(UserControl ucBaru)
@@ -19,6 +23,91 @@ namespace PROJEKANN.Usercontrol
             ucBaru.Dock = DockStyle.Fill;
             panel1.Controls.Add(ucBaru);
             ucBaru.BringToFront();
+        }
+
+        private void labelakun()
+        {
+            try
+            {
+                using (NpgsqlConnection conn =
+                    DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string query =
+                        "select * from v_labelakun";
+
+                    NpgsqlCommand cmd =
+                        new NpgsqlCommand(query, conn);
+
+                    object hasil =
+                        cmd.ExecuteScalar();
+
+                    label2.Text =
+                        cmd.ExecuteScalar().ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void labelstok()
+        {
+            try
+            {
+                using (NpgsqlConnection conn =
+                    DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string query =
+                        "SELECT * FROM v_labelstok";
+
+                    NpgsqlCommand cmd =
+                        new NpgsqlCommand(query, conn);
+
+                    object hasil =
+                        cmd.ExecuteScalar();
+
+                    label3.Text =
+                        cmd.ExecuteScalar().ToString()
+                        + " KG";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void labeltransaksi()
+        {
+            try
+            {
+                using (NpgsqlConnection conn =
+                    DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string query =
+                        "SELECT * FROM v_labeltransaksi";
+
+                    NpgsqlCommand cmd =
+                        new NpgsqlCommand(query, conn);
+
+                    object hasil =
+                        cmd.ExecuteScalar();
+
+                    label4.Text =
+                        cmd.ExecuteScalar().ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void MuatAktivitasTerkini()
@@ -108,6 +197,16 @@ namespace PROJEKANN.Usercontrol
             {
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
