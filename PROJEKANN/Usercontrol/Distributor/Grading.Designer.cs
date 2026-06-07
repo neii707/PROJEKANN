@@ -30,6 +30,7 @@
         {
             dgvGrading = new DataGridView();
             panel1 = new Panel();
+            btnKeluar = new Button();
             txtKeterangan = new TextBox();
             btnDashboard = new Label();
             btnRiwayat = new Button();
@@ -39,7 +40,7 @@
             btnPanen = new Button();
             btnTetapkan = new Button();
             cbGrade = new ComboBox();
-            btnKeluar = new Button();
+            lblNamaUser = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvGrading).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -59,6 +60,7 @@
             // 
             panel1.BackgroundImage = Properties.Resources.grade;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(lblNamaUser);
             panel1.Controls.Add(btnKeluar);
             panel1.Controls.Add(txtKeterangan);
             panel1.Controls.Add(btnDashboard);
@@ -75,6 +77,20 @@
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 1;
             panel1.Paint += panel1_Paint;
+            // 
+            // btnKeluar
+            // 
+            btnKeluar.BackColor = Color.Transparent;
+            btnKeluar.FlatAppearance.BorderSize = 0;
+            btnKeluar.FlatStyle = FlatStyle.Flat;
+            btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKeluar.Location = new Point(24, 515);
+            btnKeluar.Name = "btnKeluar";
+            btnKeluar.Size = new Size(112, 34);
+            btnKeluar.TabIndex = 11;
+            btnKeluar.Text = "KELUAR";
+            btnKeluar.UseVisualStyleBackColor = false;
+            btnKeluar.Click += btnKeluar_Click;
             // 
             // txtKeterangan
             // 
@@ -188,19 +204,16 @@
             cbGrade.TabIndex = 1;
             cbGrade.SelectedIndexChanged += cbGrade_SelectedIndexChanged;
             // 
-            // btnKeluar
+            // lblNamaUser
             // 
-            btnKeluar.BackColor = Color.Transparent;
-            btnKeluar.FlatAppearance.BorderSize = 0;
-            btnKeluar.FlatStyle = FlatStyle.Flat;
-            btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(24, 515);
-            btnKeluar.Name = "btnKeluar";
-            btnKeluar.Size = new Size(112, 34);
-            btnKeluar.TabIndex = 11;
-            btnKeluar.Text = "KELUAR";
-            btnKeluar.UseVisualStyleBackColor = false;
-            btnKeluar.Click += btnKeluar_Click;
+            lblNamaUser.AutoSize = true;
+            lblNamaUser.BackColor = Color.Transparent;
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNamaUser.Location = new Point(86, 50);
+            lblNamaUser.Name = "lblNamaUser";
+            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.TabIndex = 12;
+            lblNamaUser.Text = "---";
             // 
             // Grading
             // 
@@ -230,5 +243,6 @@
         private Label btnDashboard;
         private TextBox txtKeterangan;
         private Button btnKeluar;
+        private Label lblNamaUser;
     }
 }

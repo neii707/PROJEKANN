@@ -30,6 +30,7 @@
         {
             dgvRiwayat = new DataGridView();
             panel1 = new Panel();
+            btnKeluar = new Button();
             lblTotal = new Label();
             lblSelesai = new Label();
             btnRiwayat = new Button();
@@ -38,7 +39,7 @@
             btnGrading = new Button();
             btnPanen = new Button();
             btnDashboard = new Button();
-            btnKeluar = new Button();
+            lblNamaUser = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvRiwayat).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -58,6 +59,7 @@
             // 
             panel1.BackgroundImage = Properties.Resources.riwayat_transaksi;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(lblNamaUser);
             panel1.Controls.Add(btnKeluar);
             panel1.Controls.Add(lblTotal);
             panel1.Controls.Add(lblSelesai);
@@ -72,6 +74,21 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 1;
+            // 
+            // btnKeluar
+            // 
+            btnKeluar.BackColor = Color.Transparent;
+            btnKeluar.FlatAppearance.BorderSize = 0;
+            btnKeluar.FlatStyle = FlatStyle.Flat;
+            btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKeluar.Location = new Point(7, 513);
+            btnKeluar.Name = "btnKeluar";
+            btnKeluar.Size = new Size(116, 34);
+            btnKeluar.TabIndex = 14;
+            btnKeluar.Text = "KELUAR";
+            btnKeluar.TextAlign = ContentAlignment.MiddleRight;
+            btnKeluar.UseVisualStyleBackColor = false;
+            btnKeluar.Click += btnKeluar_Click;
             // 
             // lblTotal
             // 
@@ -180,20 +197,16 @@
             btnDashboard.UseVisualStyleBackColor = false;
             btnDashboard.Click += btnDashboard_Click;
             // 
-            // btnKeluar
+            // lblNamaUser
             // 
-            btnKeluar.BackColor = Color.Transparent;
-            btnKeluar.FlatAppearance.BorderSize = 0;
-            btnKeluar.FlatStyle = FlatStyle.Flat;
-            btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(7, 513);
-            btnKeluar.Name = "btnKeluar";
-            btnKeluar.Size = new Size(116, 34);
-            btnKeluar.TabIndex = 14;
-            btnKeluar.Text = "KELUAR";
-            btnKeluar.TextAlign = ContentAlignment.MiddleRight;
-            btnKeluar.UseVisualStyleBackColor = false;
-            btnKeluar.Click += btnKeluar_Click;
+            lblNamaUser.AutoSize = true;
+            lblNamaUser.BackColor = Color.Transparent;
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNamaUser.Location = new Point(80, 47);
+            lblNamaUser.Name = "lblNamaUser";
+            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.TabIndex = 17;
+            lblNamaUser.Text = "---";
             // 
             // RiwayatTransaksi
             // 
@@ -221,5 +234,6 @@
         private Label lblTotal;
         private Label lblSelesai;
         private Button btnKeluar;
+        private Label lblNamaUser;
     }
 }
