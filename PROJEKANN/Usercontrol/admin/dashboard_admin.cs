@@ -8,13 +8,18 @@ namespace PROJEKANN.Usercontrol
 {
     public partial class dashboard_admin : UserControl
     {
-        public dashboard_admin()
+        private Form1 mainForm;
+        private string userLoginAktif;
+        public dashboard_admin(Form1 form1, string username)
         {
             InitializeComponent();
             MuatAktivitasTerkini();
             labelakun();
             labelstok();
             labeltransaksi();
+            this.mainForm = form1;
+            this.userLoginAktif = username;
+
         }
 
         private void GantiHalamanFitur(UserControl ucBaru)
@@ -174,7 +179,7 @@ namespace PROJEKANN.Usercontrol
 
             if (formUtama != null)
             {
-                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin());
+                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin(formUtama, this.userLoginAktif));
             }
         }
 

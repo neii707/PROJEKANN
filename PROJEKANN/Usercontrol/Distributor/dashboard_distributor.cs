@@ -8,14 +8,19 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.DataFormats;
 
 namespace PROJEKANN.Usercontrol
 {
     public partial class dashboard_distributor : UserControl
     {
-        public dashboard_distributor()
+        private Form1 mainForm;
+        private string userLoginAktif;
+        public dashboard_distributor(Form1 form1, string username)
         {
             InitializeComponent();
+            this.mainForm = form1;
+            this.userLoginAktif = username;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -25,10 +30,44 @@ namespace PROJEKANN.Usercontrol
 
         private void dashboard_distributor_Load(object sender, EventArgs e)
         {
+           
             MuatTransaksiPalingAkhir();
             MuatJumlahPanen();
             MuatDemand();
             MuatJumlahTransaksiSelesai();
+            TampilkanNamaUser();
+        }
+
+        private void TampilkanNamaUser()
+        {
+            try
+            {
+                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
+                {
+                    kon.Open();
+
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
+                    {
+                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            lblNamaUser.Text = result.ToString();
+                        }
+                        else
+                        {
+                            lblNamaUser.Text = userLoginAktif;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                lblNamaUser.Text = userLoginAktif;
+            }
         }
 
         private void MuatTransaksiPalingAkhir()
@@ -39,7 +78,7 @@ namespace PROJEKANN.Usercontrol
                 {
                     conn.Open();
 
-                    string query = "SELECT * FROM view_transaksi_paling_akhir;";
+                    string query = "SELECT * FROM view_transaksi_palin_akhir;";
 
                     using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
                     {
@@ -89,7 +128,7 @@ namespace PROJEKANN.Usercontrol
                 {
                     conn.Open();
 
-                    string query = "SELECT total_demand FROM view_demand_aktif";
+                    string query = "SELECT total_demand FROM view_deman_aktif";
 
                     NpgsqlCommand cmd =
                         new NpgsqlCommand(query, conn);
@@ -140,6 +179,7 @@ namespace PROJEKANN.Usercontrol
             }
         }
 
+
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             DashboardDistributor.Controls.Clear();
@@ -158,7 +198,7 @@ namespace PROJEKANN.Usercontrol
             if (formUtama != null)
             {
                 formUtama.TampilkanHalaman(
-                    new PROJEKANN.Usercontrol.dashboard_distributor()
+                    new PROJEKANN.Usercontrol.dashboard_distributor(formUtama, this.userLoginAktif)
                 );
             }
         }
@@ -201,6 +241,16 @@ namespace PROJEKANN.Usercontrol
         private void lblTotalTransaksi_Click(object sender, EventArgs e)
         {
 
+
+        }
+
+        private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lblNamaUser_Click(object sender, EventArgs e)
+        {
 
         }
     }

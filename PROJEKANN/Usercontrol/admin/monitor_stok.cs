@@ -14,6 +14,8 @@ namespace PROJEKANN.Usercontrol.admin
 {
     public partial class monitor_stok : UserControl
     {
+        private Form1 mainForm;
+        private string userLoginAktif;
         public monitor_stok()
         {
             InitializeComponent();
@@ -140,7 +142,12 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void button7_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin());
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin(formUtama, this.userLoginAktif));
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)

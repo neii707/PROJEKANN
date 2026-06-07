@@ -10,8 +10,11 @@ using System.Windows.Forms;
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
+    
     public partial class Transaksi : UserControl
     {
+        private Form1 mainForm;
+        private string userLoginAktif;
         int idTransaksiTerpilih = 0;
         public Transaksi()
         {
@@ -134,7 +137,14 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void btnDashboard_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor());
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                formUtama.TampilkanHalaman(
+                    new PROJEKANN.Usercontrol.dashboard_distributor(formUtama, this.userLoginAktif)
+                );
+            }
         }
 
         private void btnPanen_Click_1(object sender, EventArgs e)

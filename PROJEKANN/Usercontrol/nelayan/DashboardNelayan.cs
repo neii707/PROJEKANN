@@ -16,7 +16,6 @@ namespace PROJEKANN.Usercontrol
         {
             InitializeComponent();
             mainForm = form1;
-
             userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Zhao_yufan" : usernameLogin;
 
             TampilkanNamaUser();

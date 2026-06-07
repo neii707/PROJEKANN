@@ -12,7 +12,8 @@ namespace PROJEKANN.Usercontrol.Distributor
 {
     public partial class Penawaran : UserControl
     {
-
+        private Form1 mainForm;
+        private string userLoginAktif;
         int idGradeTerpilih = 0;
         public Penawaran()
         {
@@ -174,7 +175,14 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void button2_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor());
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                formUtama.TampilkanHalaman(
+                    new PROJEKANN.Usercontrol.dashboard_distributor(formUtama, this.userLoginAktif)
+                );
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)

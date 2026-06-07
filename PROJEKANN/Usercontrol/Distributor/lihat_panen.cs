@@ -11,6 +11,8 @@ namespace PROJEKANN.Usercontrol.Distributor
 {
     public partial class lihat_panen : UserControl
     {
+        private Form1 mainForm;
+        private string userLoginAktif;
         public lihat_panen()
         {
             InitializeComponent();
@@ -56,8 +58,15 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void btnPanen_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor());
-   
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                formUtama.TampilkanHalaman(
+                    new PROJEKANN.Usercontrol.dashboard_distributor(formUtama, this.userLoginAktif)
+                );
+            }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
