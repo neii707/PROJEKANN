@@ -11,6 +11,8 @@ namespace PROJEKANN.Usercontrol.admin
 {
     public partial class kelola_demand : UserControl
     {
+        private Form1 mainForm;
+        private string userLoginAktif;
         public kelola_demand()
         {
             InitializeComponent();
@@ -27,7 +29,12 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void button6_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin());
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin(formUtama, this.userLoginAktif));
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -79,7 +86,7 @@ namespace PROJEKANN.Usercontrol.admin
                     }
 
                     MessageBox.Show("Data demand baru berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    tampil_demand();           
+                    tampil_demand();
                 }
 
             }
@@ -125,6 +132,21 @@ namespace PROJEKANN.Usercontrol.admin
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void keluarbutton_dashboard_Click(object sender, EventArgs e)
+        {
+            DialogResult konfirmasi = MessageBox.Show(
+                "Apakah Anda yakin ingin keluar dari program?",
+                "Konfirmasi Keluar",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (konfirmasi == DialogResult.Yes)
+            {
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
+            }
         }
     }
 }

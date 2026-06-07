@@ -6,11 +6,15 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.DataFormats;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PROJEKANN.Usercontrol.admin
 {
     public partial class kelola_akun : UserControl
     {
+        private Form1 mainForm;
+        private string userLoginAktif;
         public kelola_akun()
         {
             InitializeComponent();
@@ -104,7 +108,12 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void button7_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin());
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin(formUtama, this.userLoginAktif));
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -167,6 +176,21 @@ namespace PROJEKANN.Usercontrol.admin
                 {
                     MessageBox.Show("Gagal memblokir akun: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void keluarbutton_dashboard_Click(object sender, EventArgs e)
+        {
+            DialogResult konfirmasi = MessageBox.Show(
+                "Apakah Anda yakin ingin keluar dari program?",
+                "Konfirmasi Keluar",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (konfirmasi == DialogResult.Yes)
+            {
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
         }
     }

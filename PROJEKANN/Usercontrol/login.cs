@@ -68,13 +68,13 @@ namespace PROJEKANN.Usercontrol
                             switch (role)
                             {
                                 case "admin":
-                                    dashboard_admin adminDashboard = new dashboard_admin();
+                                    dashboard_admin adminDashboard = new dashboard_admin(mainForm, username);
                                     adminDashboard.Dock = DockStyle.Fill;
                                     mainForm.Controls.Add(adminDashboard);
                                     break;
 
                                 case "distributor":
-                                    dashboard_distributor distributorDashboard = new dashboard_distributor();
+                                    dashboard_distributor distributorDashboard = new dashboard_distributor(mainForm, username);
                                     distributorDashboard.Dock = DockStyle.Fill;
                                     mainForm.Controls.Add(distributorDashboard);
                                     break;

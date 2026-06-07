@@ -31,12 +31,13 @@
             panel1 = new Panel();
             label1 = new Label();
             dataGridView1 = new DataGridView();
-            button6 = new Button();
-            button5 = new Button();
-            button4 = new Button();
-            button3 = new Button();
+            btnRiwayat = new Button();
+            btnTransaksi = new Button();
+            btnPenawaran = new Button();
+            btnGrading = new Button();
             button2 = new Button();
-            button1 = new Button();
+            btnPanen = new Button();
+            btnKeluar = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -45,14 +46,15 @@
             // 
             panel1.BackgroundImage = Properties.Resources.WhatsApp_Image_2026_06_03_at_19_52_15;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(btnKeluar);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(dataGridView1);
-            panel1.Controls.Add(button6);
-            panel1.Controls.Add(button5);
-            panel1.Controls.Add(button4);
-            panel1.Controls.Add(button3);
+            panel1.Controls.Add(btnRiwayat);
+            panel1.Controls.Add(btnTransaksi);
+            panel1.Controls.Add(btnPenawaran);
+            panel1.Controls.Add(btnGrading);
             panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
+            panel1.Controls.Add(btnPanen);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(908, 555);
@@ -79,57 +81,61 @@
             dataGridView1.Size = new Size(627, 416);
             dataGridView1.TabIndex = 6;
             // 
-            // button6
+            // btnRiwayat
             // 
-            button6.BackColor = Color.Transparent;
-            button6.FlatAppearance.BorderSize = 0;
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button6.Location = new Point(34, 298);
-            button6.Name = "button6";
-            button6.Size = new Size(198, 34);
-            button6.TabIndex = 5;
-            button6.Text = "RIWAYAT TRANSAKSI";
-            button6.UseVisualStyleBackColor = false;
+            btnRiwayat.BackColor = Color.Transparent;
+            btnRiwayat.FlatAppearance.BorderSize = 0;
+            btnRiwayat.FlatStyle = FlatStyle.Flat;
+            btnRiwayat.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnRiwayat.Location = new Point(34, 298);
+            btnRiwayat.Name = "btnRiwayat";
+            btnRiwayat.Size = new Size(198, 34);
+            btnRiwayat.TabIndex = 5;
+            btnRiwayat.Text = "RIWAYAT TRANSAKSI";
+            btnRiwayat.UseVisualStyleBackColor = false;
+            btnRiwayat.Click += btnRiwayat_Click;
             // 
-            // button5
+            // btnTransaksi
             // 
-            button5.BackColor = Color.Transparent;
-            button5.FlatAppearance.BorderSize = 0;
-            button5.FlatStyle = FlatStyle.Flat;
-            button5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.Location = new Point(37, 261);
-            button5.Name = "button5";
-            button5.Size = new Size(115, 34);
-            button5.TabIndex = 4;
-            button5.Text = "TRANSAKSI";
-            button5.UseVisualStyleBackColor = false;
+            btnTransaksi.BackColor = Color.Transparent;
+            btnTransaksi.FlatAppearance.BorderSize = 0;
+            btnTransaksi.FlatStyle = FlatStyle.Flat;
+            btnTransaksi.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTransaksi.Location = new Point(37, 261);
+            btnTransaksi.Name = "btnTransaksi";
+            btnTransaksi.Size = new Size(115, 34);
+            btnTransaksi.TabIndex = 4;
+            btnTransaksi.Text = "TRANSAKSI";
+            btnTransaksi.UseVisualStyleBackColor = false;
+            btnTransaksi.Click += btnTransaksi_Click;
             // 
-            // button4
+            // btnPenawaran
             // 
-            button4.BackColor = Color.Transparent;
-            button4.FlatAppearance.BorderSize = 0;
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.Location = new Point(37, 223);
-            button4.Name = "button4";
-            button4.Size = new Size(130, 34);
-            button4.TabIndex = 3;
-            button4.Text = "PENAWARAN";
-            button4.UseVisualStyleBackColor = false;
+            btnPenawaran.BackColor = Color.Transparent;
+            btnPenawaran.FlatAppearance.BorderSize = 0;
+            btnPenawaran.FlatStyle = FlatStyle.Flat;
+            btnPenawaran.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnPenawaran.Location = new Point(37, 223);
+            btnPenawaran.Name = "btnPenawaran";
+            btnPenawaran.Size = new Size(130, 34);
+            btnPenawaran.TabIndex = 3;
+            btnPenawaran.Text = "PENAWARAN";
+            btnPenawaran.UseVisualStyleBackColor = false;
+            btnPenawaran.Click += btnPenawaran_Click;
             // 
-            // button3
+            // btnGrading
             // 
-            button3.BackColor = Color.Transparent;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(33, 183);
-            button3.Name = "button3";
-            button3.Size = new Size(112, 34);
-            button3.TabIndex = 2;
-            button3.Text = "GRADING";
-            button3.UseVisualStyleBackColor = false;
+            btnGrading.BackColor = Color.Transparent;
+            btnGrading.FlatAppearance.BorderSize = 0;
+            btnGrading.FlatStyle = FlatStyle.Flat;
+            btnGrading.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGrading.Location = new Point(33, 183);
+            btnGrading.Name = "btnGrading";
+            btnGrading.Size = new Size(112, 34);
+            btnGrading.TabIndex = 2;
+            btnGrading.Text = "GRADING";
+            btnGrading.UseVisualStyleBackColor = false;
+            btnGrading.Click += btnGrading_Click;
             // 
             // button2
             // 
@@ -143,19 +149,36 @@
             button2.TabIndex = 1;
             button2.Text = "LIHAT PANEN";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
-            // button1
+            // btnPanen
             // 
-            button1.BackColor = Color.Transparent;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(37, 111);
-            button1.Name = "button1";
-            button1.Size = new Size(130, 34);
-            button1.TabIndex = 0;
-            button1.Text = "DASHBOARD";
-            button1.UseVisualStyleBackColor = false;
+            btnPanen.BackColor = Color.Transparent;
+            btnPanen.FlatAppearance.BorderSize = 0;
+            btnPanen.FlatStyle = FlatStyle.Flat;
+            btnPanen.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnPanen.Location = new Point(37, 111);
+            btnPanen.Name = "btnPanen";
+            btnPanen.Size = new Size(130, 34);
+            btnPanen.TabIndex = 8;
+            btnPanen.Text = "DASHBOARD";
+            btnPanen.UseVisualStyleBackColor = false;
+            btnPanen.Click += btnPanen_Click;
+            // 
+            // btnKeluar
+            // 
+            btnKeluar.BackColor = Color.Transparent;
+            btnKeluar.FlatAppearance.BorderSize = 0;
+            btnKeluar.FlatStyle = FlatStyle.Flat;
+            btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKeluar.Location = new Point(0, 515);
+            btnKeluar.Name = "btnKeluar";
+            btnKeluar.Size = new Size(116, 34);
+            btnKeluar.TabIndex = 12;
+            btnKeluar.Text = "KELUAR";
+            btnKeluar.TextAlign = ContentAlignment.MiddleRight;
+            btnKeluar.UseVisualStyleBackColor = false;
+            btnKeluar.Click += btnKeluar_Click;
             // 
             // lihat_panen
             // 
@@ -173,13 +196,14 @@
         #endregion
 
         private Panel panel1;
-        private Button button1;
-        private Button button5;
-        private Button button4;
-        private Button button3;
+        private Button btnPanen;
+        private Button btnTransaksi;
+        private Button btnPenawaran;
+        private Button btnGrading;
         private Button button2;
         private DataGridView dataGridView1;
-        private Button button6;
+        private Button btnRiwayat;
         private Label label1;
+        private Button btnKeluar;
     }
 }

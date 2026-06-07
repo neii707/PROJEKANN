@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Npgsql;
+using PROJEKANN.database;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,9 +12,171 @@ namespace PROJEKANN.Usercontrol.Distributor
 {
     public partial class RiwayatTransaksi : UserControl
     {
+        private Form1 mainForm;
+        private string userLoginAktif;
         public RiwayatTransaksi()
         {
             InitializeComponent();
+            TampilRiwayat();
+            HitungStatistik();
+        }
+
+        private void TampilRiwayat()
+        {
+            try
+            {
+                using (NpgsqlConnection conn =
+                    DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string query = @"
+                SELECT *
+                FROM view_riwayat_transaksi;
+            ";
+
+                    using (NpgsqlDataAdapter da =
+                        new NpgsqlDataAdapter(query, conn))
+                    {
+                        DataTable dt = new DataTable();
+
+                        da.Fill(dt);
+
+                        dgvRiwayat.DataSource = dt;
+
+                        dgvRiwayat.AutoSizeColumnsMode =
+                            DataGridViewAutoSizeColumnsMode.Fill;
+
+                        dgvRiwayat.Columns["harga_tawar"].DefaultCellStyle.Format = "N0";
+
+                        dgvRiwayat.Columns["total_pembayaran"].DefaultCellStyle.Format = "N0";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void HitungStatistik()
+        {
+            try
+            {
+                using (NpgsqlConnection conn =
+                    DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string queryJumlah = @"
+                SELECT COUNT(*)
+                FROM transaksi
+                WHERE status_transaksi = 'Selesai';
+            ";
+
+                    using (NpgsqlCommand cmdJumlah =
+                        new NpgsqlCommand(queryJumlah, conn))
+                    {
+                        lblSelesai.Text =
+                            cmdJumlah.ExecuteScalar().ToString();
+                    }
+
+                    string queryTotal = @"
+                SELECT COALESCE(
+                    SUM(total_pembayaran), 0
+                )
+                FROM transaksi
+                WHERE status_transaksi = 'Selesai';
+            ";
+
+                    using (NpgsqlCommand cmdTotal =
+                        new NpgsqlCommand(queryTotal, conn))
+                    {
+                        decimal total =
+                        Convert.ToDecimal(
+                        cmdTotal.ExecuteScalar()
+                         );
+
+                        lblTotal.Text =
+                            "Rp " +
+                            total.ToString("N0");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void GantiHalamanFitur(UserControl ucBaru)
+        {
+            panel1.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            panel1.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            Form1 formUtama = this.FindForm() as Form1;
+
+            if (formUtama != null)
+            {
+                formUtama.TampilkanHalaman(
+                    new PROJEKANN.Usercontrol.dashboard_distributor(formUtama, this.userLoginAktif)
+                );
+            }
+        }
+
+        private void btnPanen_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.lihat_panen());
+        }
+
+        private void btnGrading_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Grading());
+        }
+
+        private void btnPenawaran_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Penawaran());
+        }
+
+        private void btnTransaksi_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Transaksi());
+        }
+
+        private void btnRiwayat_Click_1(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi());
+        }
+
+        private void btnKeluar_Click(object sender, EventArgs e)
+        {
+            DialogResult konfirmasi = MessageBox.Show(
+               "Apakah Anda yakin ingin keluar dari program?",
+               "Konfirmasi Keluar",
+               MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question
+           );
+
+            if (konfirmasi == DialogResult.Yes)
+            {
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
+            }
         }
     }
 }

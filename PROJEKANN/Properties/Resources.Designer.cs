@@ -103,6 +103,16 @@ namespace PROJEKANN.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap grade {
+            get {
+                object obj = ResourceManager.GetObject("grade", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LOGIN1 {
             get {
                 object obj = ResourceManager.GetObject("LOGIN1", resourceCulture);
@@ -116,6 +126,16 @@ namespace PROJEKANN.Properties {
         internal static System.Drawing.Bitmap new_login {
             get {
                 object obj = ResourceManager.GetObject("new login", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Penawaran {
+            get {
+                object obj = ResourceManager.GetObject("Penawaran", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +163,29 @@ namespace PROJEKANN.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap riwayat_transaksi {
+            get {
+                object obj = ResourceManager.GetObject("riwayat transaksi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap stok {
             get {
                 object obj = ResourceManager.GetObject("stok", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tentukan_grade {
+            get {
+                object obj = ResourceManager.GetObject("tentukan grade", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
