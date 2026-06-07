@@ -130,6 +130,7 @@
             btnKeluar.TabIndex = 10;
             btnKeluar.Text = "KELUAR";
             btnKeluar.UseVisualStyleBackColor = false;
+            btnKeluar.Click += btnKeluar_Click;
             // 
             // dgvDashboard
             // 

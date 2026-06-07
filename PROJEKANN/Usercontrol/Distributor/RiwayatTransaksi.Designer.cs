@@ -38,6 +38,7 @@
             btnGrading = new Button();
             btnPanen = new Button();
             btnDashboard = new Button();
+            btnKeluar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvRiwayat).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -57,6 +58,7 @@
             // 
             panel1.BackgroundImage = Properties.Resources.riwayat_transaksi;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(btnKeluar);
             panel1.Controls.Add(lblTotal);
             panel1.Controls.Add(lblSelesai);
             panel1.Controls.Add(btnRiwayat);
@@ -178,6 +180,21 @@
             btnDashboard.UseVisualStyleBackColor = false;
             btnDashboard.Click += btnDashboard_Click;
             // 
+            // btnKeluar
+            // 
+            btnKeluar.BackColor = Color.Transparent;
+            btnKeluar.FlatAppearance.BorderSize = 0;
+            btnKeluar.FlatStyle = FlatStyle.Flat;
+            btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKeluar.Location = new Point(7, 513);
+            btnKeluar.Name = "btnKeluar";
+            btnKeluar.Size = new Size(116, 34);
+            btnKeluar.TabIndex = 14;
+            btnKeluar.Text = "KELUAR";
+            btnKeluar.TextAlign = ContentAlignment.MiddleRight;
+            btnKeluar.UseVisualStyleBackColor = false;
+            btnKeluar.Click += btnKeluar_Click;
+            // 
             // RiwayatTransaksi
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -203,5 +220,6 @@
         private Button btnDashboard;
         private Label lblTotal;
         private Label lblSelesai;
+        private Button btnKeluar;
     }
 }

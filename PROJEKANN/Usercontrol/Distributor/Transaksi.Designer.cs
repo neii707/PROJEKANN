@@ -38,6 +38,7 @@
             btnPanen = new Button();
             btnDashboard = new Button();
             dgvTransaksi = new DataGridView();
+            btnKeluar = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
             SuspendLayout();
@@ -58,6 +59,7 @@
             // 
             panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(btnKeluar);
             panel1.Controls.Add(btnRiwayat);
             panel1.Controls.Add(btnTransaksi);
             panel1.Controls.Add(btnPenawaran);
@@ -166,6 +168,21 @@
             dgvTransaksi.TabIndex = 0;
             dgvTransaksi.CellContentClick += dgvTransaksi_CellContentClick;
             // 
+            // btnKeluar
+            // 
+            btnKeluar.BackColor = Color.Transparent;
+            btnKeluar.FlatAppearance.BorderSize = 0;
+            btnKeluar.FlatStyle = FlatStyle.Flat;
+            btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKeluar.Location = new Point(6, 515);
+            btnKeluar.Name = "btnKeluar";
+            btnKeluar.Size = new Size(116, 34);
+            btnKeluar.TabIndex = 15;
+            btnKeluar.Text = "KELUAR";
+            btnKeluar.TextAlign = ContentAlignment.MiddleRight;
+            btnKeluar.UseVisualStyleBackColor = false;
+            btnKeluar.Click += btnKeluar_Click;
+            // 
             // Transaksi
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -189,5 +206,6 @@
         private Button btnGrading;
         private Button btnPanen;
         private Button btnDashboard;
+        private Button btnKeluar;
     }
 }
