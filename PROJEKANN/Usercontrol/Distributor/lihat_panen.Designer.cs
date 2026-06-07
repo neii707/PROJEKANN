@@ -37,6 +37,7 @@
             btnGrading = new Button();
             button2 = new Button();
             btnPanen = new Button();
+            btnKeluar = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -45,6 +46,7 @@
             // 
             panel1.BackgroundImage = Properties.Resources.WhatsApp_Image_2026_06_03_at_19_52_15;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(btnKeluar);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(dataGridView1);
             panel1.Controls.Add(btnRiwayat);
@@ -163,6 +165,21 @@
             btnPanen.UseVisualStyleBackColor = false;
             btnPanen.Click += btnPanen_Click;
             // 
+            // btnKeluar
+            // 
+            btnKeluar.BackColor = Color.Transparent;
+            btnKeluar.FlatAppearance.BorderSize = 0;
+            btnKeluar.FlatStyle = FlatStyle.Flat;
+            btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKeluar.Location = new Point(0, 515);
+            btnKeluar.Name = "btnKeluar";
+            btnKeluar.Size = new Size(116, 34);
+            btnKeluar.TabIndex = 12;
+            btnKeluar.Text = "KELUAR";
+            btnKeluar.TextAlign = ContentAlignment.MiddleRight;
+            btnKeluar.UseVisualStyleBackColor = false;
+            btnKeluar.Click += btnKeluar_Click;
+            // 
             // lihat_panen
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -187,5 +204,6 @@
         private DataGridView dataGridView1;
         private Button btnRiwayat;
         private Label label1;
+        private Button btnKeluar;
     }
 }

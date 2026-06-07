@@ -14,7 +14,7 @@ namespace PROJEKANN.Usercontrol.Distributor
         public lihat_panen()
         {
             InitializeComponent();
-            lihatPanen();   
+            lihatPanen();
         }
         private void lihatPanen()
         {
@@ -25,7 +25,7 @@ namespace PROJEKANN.Usercontrol.Distributor
                     conn.Open();
 
                     string query = "SELECT *FROM view_lihat_panen";
-                    
+
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
@@ -57,7 +57,7 @@ namespace PROJEKANN.Usercontrol.Distributor
         private void btnPanen_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor());
-   
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -83,6 +83,21 @@ namespace PROJEKANN.Usercontrol.Distributor
         private void btnRiwayat_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi());
+        }
+
+        private void btnKeluar_Click(object sender, EventArgs e)
+        {
+            DialogResult konfirmasi = MessageBox.Show(
+                "Apakah Anda yakin ingin keluar dari program?",
+                "Konfirmasi Keluar",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (konfirmasi == DialogResult.Yes)
+            {
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
+            }
         }
     }
 }

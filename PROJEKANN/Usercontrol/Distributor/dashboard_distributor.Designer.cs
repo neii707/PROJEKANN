@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             DashboardDistributor = new Panel();
-
             label1 = new Label();
             lblTotalTransaksi = new Label();
             lblDemand = new Label();
@@ -82,6 +81,9 @@
             label1.Size = new Size(240, 38);
             label1.TabIndex = 14;
             label1.Text = "Transaksi Terakhir";
+            // 
+            // lblTotalTransaksi
+            // 
             lblTotalTransaksi.AutoSize = true;
             lblTotalTransaksi.BackColor = Color.Transparent;
             lblTotalTransaksi.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -90,9 +92,7 @@
             lblTotalTransaksi.Size = new Size(33, 38);
             lblTotalTransaksi.TabIndex = 13;
             lblTotalTransaksi.Text = "0";
-
             lblTotalTransaksi.Click += lblTotalTransaksi_Click;
-
             // 
             // lblDemand
             // 
@@ -129,6 +129,7 @@
             btnKeluar.TabIndex = 10;
             btnKeluar.Text = "KELUAR";
             btnKeluar.UseVisualStyleBackColor = false;
+            btnKeluar.Click += btnKeluar_Click;
             // 
             // dgvDashboard
             // 
@@ -245,7 +246,6 @@
             btnDashboard.Text = "DASHBOARD";
             btnDashboard.UseVisualStyleBackColor = false;
             btnDashboard.Click += btnDashboard_Click;
-
             // 
             // dashboard_distributor
             // 
