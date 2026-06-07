@@ -180,8 +180,7 @@ namespace PROJEKANN.Usercontrol
             }
         }
 
-<<<<<<< HEAD
-=======
+
 
         private void GantiHalamanFitur(UserControl ucBaru)
         {
@@ -240,18 +239,16 @@ namespace PROJEKANN.Usercontrol
 
         }
 
->>>>>>> de68506a83f0f6f865c4b4a00a2b4ffc723d6846
         private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
-<<<<<<< HEAD
-=======
+
 
         private void lblNamaUser_Click(object sender, EventArgs e)
         {
 
         }
->>>>>>> de68506a83f0f6f865c4b4a00a2b4ffc723d6846
+
     }
 }

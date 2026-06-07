@@ -16,12 +16,10 @@ namespace PROJEKANN.Usercontrol.nelayan
         {
             InitializeComponent();
             mainForm = form1;
-<<<<<<< HEAD
 
             userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Zhao_yufan" : usernameLogin.Trim();
-=======
+
             userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Zhao_yufan" : usernameLogin;
->>>>>>> de68506a83f0f6f865c4b4a00a2b4ffc723d6846
 
             TampilkanNamaUser();
             MuatSistemDashboardUtama();
