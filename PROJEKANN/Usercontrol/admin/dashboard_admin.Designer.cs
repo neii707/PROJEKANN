@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dashboard_admin));
             panel1 = new Panel();
+            label5 = new Label();
             label4 = new Label();
             label3 = new Label();
             keluarbutton_dashboard = new Button();
@@ -49,6 +50,7 @@
             // 
             panel1.BackgroundImage = Properties.Resources.dashboard_admin;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(label5);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(keluarbutton_dashboard);
@@ -64,6 +66,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 0;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Location = new Point(81, 54);
+            label5.Name = "label5";
+            label5.Size = new Size(63, 25);
+            label5.TabIndex = 16;
+            label5.Text = "label5";
+            label5.Click += label5_Click;
             // 
             // label4
             // 
@@ -250,5 +264,6 @@
         private Button keluarbutton_dashboard;
         private Label label4;
         private Label label3;
+        private Label label5;
     }
 }

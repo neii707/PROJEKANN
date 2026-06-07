@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(kelola_demand));
             panel1 = new Panel();
+            label5 = new Label();
+            keluarbutton_dashboard = new Button();
             button5 = new Button();
             button4 = new Button();
             button3 = new Button();
@@ -43,7 +45,6 @@
             button1 = new Button();
             label2 = new Label();
             label1 = new Label();
-            keluarbutton_dashboard = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -52,6 +53,7 @@
             // 
             panel1.BackgroundImage = Properties.Resources.demand;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(label5);
             panel1.Controls.Add(keluarbutton_dashboard);
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
@@ -70,6 +72,35 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(905, 552);
             panel1.TabIndex = 0;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Location = new Point(81, 54);
+            label5.Name = "label5";
+            label5.Size = new Size(63, 25);
+            label5.TabIndex = 17;
+            label5.Text = "label5";
+            label5.Click += label5_Click;
+            // 
+            // keluarbutton_dashboard
+            // 
+            keluarbutton_dashboard.BackColor = Color.Transparent;
+            keluarbutton_dashboard.BackgroundImage = (Image)resources.GetObject("keluarbutton_dashboard.BackgroundImage");
+            keluarbutton_dashboard.BackgroundImageLayout = ImageLayout.Stretch;
+            keluarbutton_dashboard.Cursor = Cursors.Hand;
+            keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
+            keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
+            keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            keluarbutton_dashboard.Location = new Point(-22, 503);
+            keluarbutton_dashboard.Name = "keluarbutton_dashboard";
+            keluarbutton_dashboard.Size = new Size(85, 46);
+            keluarbutton_dashboard.TabIndex = 15;
+            keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
+            keluarbutton_dashboard.UseVisualStyleBackColor = false;
+            keluarbutton_dashboard.Click += keluarbutton_dashboard_Click;
             // 
             // button5
             // 
@@ -234,23 +265,6 @@
             label1.TabIndex = 0;
             label1.Text = "+ TAMBAH DEMAND BARU";
             // 
-            // keluarbutton_dashboard
-            // 
-            keluarbutton_dashboard.BackColor = Color.Transparent;
-            keluarbutton_dashboard.BackgroundImage = (Image)resources.GetObject("keluarbutton_dashboard.BackgroundImage");
-            keluarbutton_dashboard.BackgroundImageLayout = ImageLayout.Stretch;
-            keluarbutton_dashboard.Cursor = Cursors.Hand;
-            keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
-            keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
-            keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_dashboard.Location = new Point(-22, 503);
-            keluarbutton_dashboard.Name = "keluarbutton_dashboard";
-            keluarbutton_dashboard.Size = new Size(85, 46);
-            keluarbutton_dashboard.TabIndex = 15;
-            keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
-            keluarbutton_dashboard.UseVisualStyleBackColor = false;
-            keluarbutton_dashboard.Click += keluarbutton_dashboard_Click;
-            // 
             // kelola_demand
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -281,5 +295,6 @@
         private Button button2;
         private Button button6;
         private Button keluarbutton_dashboard;
+        private Label label5;
     }
 }

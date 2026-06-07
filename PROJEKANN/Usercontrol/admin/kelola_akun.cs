@@ -15,10 +15,45 @@ namespace PROJEKANN.Usercontrol.admin
     {
         private Form1 mainForm;
         private string userLoginAktif;
-        public kelola_akun()
+        public kelola_akun(Form1 form1, string username)
         {
             InitializeComponent();
+            this.mainForm = form1;
+            this.userLoginAktif = username;
             tampil_akun();
+            TampilkanNamaUser();
+        }
+
+        private void TampilkanNamaUser()
+        {
+            try
+            {
+                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
+                {
+                    kon.Open();
+
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
+                    {
+                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            label5.Text = result.ToString();
+                        }
+                        else
+                        {
+                            label5.Text = userLoginAktif;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                label5.Text = userLoginAktif;
+            }
         }
 
         private void GantiHalamanFitur(UserControl ucBaru)
@@ -108,32 +143,27 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Form1 formUtama = this.FindForm() as Form1;
-
-            if (formUtama != null)
-            {
-                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin(formUtama, this.userLoginAktif));
-            }
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin(this.mainForm, this.userLoginAktif));
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun(this.mainForm, this.userLoginAktif));
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_demand());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_demand(this.mainForm, this.userLoginAktif));
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_stok());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_stok(this.mainForm, this.userLoginAktif));
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi(this.mainForm, this.userLoginAktif));
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -192,6 +222,11 @@ namespace PROJEKANN.Usercontrol.admin
             {
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
