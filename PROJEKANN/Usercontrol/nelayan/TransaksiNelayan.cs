@@ -9,27 +9,21 @@ namespace PROJEKANN.Usercontrol.nelayan
     public partial class TransaksiNelayan : UserControl
     {
         private Form1 mainForm;
-        private string userLoginAktif; // Memegang USERNAME user aktif
-        private string namaAsliUser = ""; // Memegang NAMA ASLI untuk label di UI
+        private string userLoginAktif;
+        private string namaAsliUser = "";
 
         public TransaksiNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
             this.mainForm = form1;
 
-            // Definisikan user fallback jika string parameter kosong
             this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
 
-            // Jalankan konverter untuk mencari nama asli di database dan set ke label sidebar
             AmbilDanTampilkanNamaAsli();
 
-            // Tetap muat tabel transaksi aktif menggunakan username
             MuatTabelTransaksiAktif();
         }
 
-        /// <summary>
-        /// Mengambil nama asli berdasarkan username login aktif dan menampilkannya ke label sidebar
-        /// </summary>
         private void AmbilDanTampilkanNamaAsli()
         {
             try
@@ -50,7 +44,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                         }
                         else
                         {
-                            // Fallback jika nama di database ternyata kosong
                             this.namaAsliUser = userLoginAktif;
                         }
                     }
@@ -61,16 +54,12 @@ namespace PROJEKANN.Usercontrol.nelayan
                 this.namaAsliUser = userLoginAktif;
             }
 
-            // Sinkronisasi teks nama pengguna asli ke label designer Anda
             if (lbnamauser_transaksi != null)
             {
                 lbnamauser_transaksi.Text = this.namaAsliUser;
             }
         }
 
-        /// <summary>
-        /// Mengambil data transaksi berjalan via View PostgreSQL
-        /// </summary>
         private void MuatTabelTransaksiAktif()
         {
             try
@@ -90,10 +79,8 @@ namespace PROJEKANN.Usercontrol.nelayan
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            // Mengunci dgvtransaksi agar kolom customized di designer Anda tidak terduplikasi otomatis
                             dgvtransaksi.AutoGenerateColumns = false;
 
-                            // Pemetaan eksplisit berdasarkan nama kolom di berkas .Designer.cs Anda
                             colID.DataPropertyName = "id";
                             colDistributor.DataPropertyName = "distributor";
                             colBerat.DataPropertyName = "berat";
@@ -112,19 +99,14 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        /// <summary>
-        /// Mengeksekusi perubahan status transaksi menjadi 'selesai' dengan SQL Transaction ACID Guard
-        /// </summary>
         private void konfirmasi_transaksi_Click(object sender, EventArgs e)
         {
-            // Proteksi jika user belum memilih baris data apa pun di grid view
             if (dgvtransaksi.CurrentRow == null)
             {
                 MessageBox.Show("Pilih baris transaksi pada tabel terlebih dahulu sebelum menekan tombol konfirmasi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Membaca nilai ID dari kolom sel yang terpilih
             int idTransaksiSelected = Convert.ToInt32(dgvtransaksi.CurrentRow.Cells["colID"].Value);
 
             DialogResult dr = MessageBox.Show($"Apakah Anda yakin ingin memberikan konfirmasi selesai pada transaksi ID {idTransaksiSelected}?",
@@ -136,7 +118,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                 {
                     kon.Open();
 
-                    // MEMULAI TRANSAKSI AMAN (Mencegah data corrupt jika koneksi terputus di tengah jalan)
                     using (NpgsqlTransaction sqlTrans = kon.BeginTransaction())
                     {
                         try
@@ -152,16 +133,13 @@ namespace PROJEKANN.Usercontrol.nelayan
                                 cmd.ExecuteNonQuery();
                             }
 
-                            // Commit data ke server jika berhasil mutlak
                             sqlTrans.Commit();
                             MessageBox.Show($"Transaksi #{idTransaksiSelected} sukses ditutup dan dipindahkan ke riwayat archive.", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            // Muat ulang isi grid data transaksi aktif
                             MuatTabelTransaksiAktif();
                         }
                         catch (Exception ex)
                         {
-                            // Batalkan seluruh kodingan update di atas jika terjadi kegagalan sistem
                             sqlTrans.Rollback();
                             MessageBox.Show("Gagal mengonfirmasi transaksi. Perubahan database dibatalkan: " + ex.Message, "Transaction Rollback", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
@@ -170,16 +148,12 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // ==========================================
-        // ROUTING MENU: PERPINDAHAN USER CONTROL AMAN
-        // ==========================================
         private void GantiHalaman(UserControl ucBaru)
         {
             if (ucBaru == null) return;
 
             try
             {
-                // Mencari panel kontainer utama tempat UserControl menempel
                 Panel panelInduk = this.Parent as Panel;
 
                 if (panelInduk != null)
@@ -191,13 +165,11 @@ namespace PROJEKANN.Usercontrol.nelayan
                 }
                 else
                 {
-                    // Fallback jika panel induk tidak terbaca langsung, panggil method Form utama
                     mainForm.TampilkanHalaman(ucBaru);
                 }
             }
             catch
             {
-                // Fallback terakhir lewat metode default mainForm Anda
                 mainForm.TampilkanHalaman(ucBaru);
             }
         }
@@ -233,7 +205,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             DialogResult k = MessageBox.Show("Apakah anda yakin ingin keluar aplikasi?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (k == DialogResult.Yes)
             {
-                // Keluar menuju halaman login di luar folder nelayan
                 GantiHalaman(new PROJEKANN.Usercontrol.login(mainForm));
             }
         }

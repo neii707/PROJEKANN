@@ -8,8 +8,8 @@ namespace PROJEKANN.Usercontrol.nelayan
     public partial class RiwayatNelayan : UserControl
     {
         private Form1 mainForm;
-        private string userLoginAktif; // Memegang USERNAME user aktif
-        private string namaAsliUser = ""; // Memegang NAMA ASLI untuk kebutuhan tampilan label UI
+        private string userLoginAktif; 
+        private string namaAsliUser = "";
 
         public RiwayatNelayan(Form1 form1, string usernameLogin)
         {
@@ -17,17 +17,12 @@ namespace PROJEKANN.Usercontrol.nelayan
             this.mainForm = form1;
             this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
 
-            // Jalankan pencarian nama asli berdasarkan username, lalu tempel ke label UI
             AmbilDanTampilkanNamaAsli();
 
-            // Statistik dan tabel tetap dimuat menggunakan data username (karena nama kolom di PostgreSQL View Anda bertipe username)
             MuatRangkumanStatistik();
             MuatTabelRiwayat();
         }
 
-        /// <summary>
-        /// Mengambil nama asli berdasarkan username login aktif dan menampilkannya ke label sidebar riwayat
-        /// </summary>
         private void AmbilDanTampilkanNamaAsli()
         {
             try
@@ -48,7 +43,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                         }
                         else
                         {
-                            // Fallback jika nama kosong di database
                             this.namaAsliUser = userLoginAktif;
                         }
                     }
@@ -59,16 +53,12 @@ namespace PROJEKANN.Usercontrol.nelayan
                 this.namaAsliUser = userLoginAktif;
             }
 
-            // Menyesuaikan label user berdasarkan file designer Anda dengan NAMA ASLI
             if (lbnamauser_riwayat != null)
             {
                 lbnamauser_riwayat.Text = this.namaAsliUser;
             }
         }
 
-        /// <summary>
-        /// Mengambil data agregat dari database untuk mengisi bar statistik 
-        /// </summary>
         private void MuatRangkumanStatistik()
         {
             try
@@ -77,7 +67,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                 {
                     kon.Open();
 
-                    // QUERY AGREGASI: Menghitung total data dan akumulasi finansial secara real-time
                     string queryStatistik = @"
                         SELECT 
                             COUNT(id) as total_transaksi,
@@ -98,7 +87,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                                 int totalSelesai = Convert.ToInt32(reader["total_selesai"]);
                                 decimal totalNilaiSelesai = Convert.ToDecimal(reader["total_nilai"]);
 
-                                // Mengganti tulisan "Loading Data.." menjadi rangkuman data
                                 if (totallabel_riwayat != null)
                                 {
                                     totallabel_riwayat.Text = $"Total Transaksi: {totalTransaksi} | Selesai: {totalSelesai} transaksi | Total Nilai Selesai: Rp {totalNilaiSelesai:N0}";
@@ -114,9 +102,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        /// <summary>
-        /// Memuat riwayat data ke DataGridView (dgvTransaksi) sesuai pemetaan kolom di file designer Anda
-        /// </summary>
         private void MuatTabelRiwayat()
         {
             try
@@ -137,10 +122,8 @@ namespace PROJEKANN.Usercontrol.nelayan
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            // Mengunci dgvTransaksi agar kolom tidak berantakan
                             dgvTransaksi.AutoGenerateColumns = false;
 
-                            // Pemetaan eksplisit ke objek kolom DataGridView di designer Anda
                             colID.DataPropertyName = "id";
                             colDistributor.DataPropertyName = "distributor";
                             colNelayan.DataPropertyName = "nelayan";
@@ -162,9 +145,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // ==========================================================
-        // SIDEBAR NAVIGATION PANEL MENU (SERUMPUN DALAM SUB-NAMESPACE)
-        // ==========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;

@@ -12,7 +12,6 @@ namespace PROJEKANN.Usercontrol.nelayan
         private string namaAsliUser = "";
         private int idPanenTerpilih = 0;
 
-        // Konstruktor Utama
         public KelolaPanenNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
@@ -108,7 +107,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // Disesuaikan dengan nama komponen di desainer Anda yang dilaporkan error
         private void simpanpanen_kelola_Click(object sender, EventArgs e)
         {
             double beratInput = Convert.ToDouble(numBerat.Value);
@@ -182,10 +180,8 @@ namespace PROJEKANN.Usercontrol.nelayan
         {
             if (dgvriwayatpanen.CurrentRow == null) return;
 
-            // 1. Ambil status panen dari baris DataGridView yang sedang ditunjuk
             string statusPanen = dgvriwayatpanen.CurrentRow.Cells["colStatus"].Value.ToString().ToLower();
 
-            // 2. Validasi: Hanya boleh dihapus jika statusnya masih 'menunggu grading'
             if (statusPanen == "menunggu grading")
             {
                 string idPanenTerpilihText = dgvriwayatpanen.CurrentRow.Cells["colID"].Value.ToString();
@@ -216,7 +212,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
             else
             {
-                // Jika statusnya selain 'menunggu grading' (Berarti sudah berstatus 'Telah Dinilai' / masuk ke proses penawaran)
                 MessageBox.Show("Data tidak bisa dihapus karena sudah di-grade atau diproses oleh distributor!", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
@@ -283,12 +278,8 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // ==========================================
-        // EVENT NAVIGATION BUTTONS (SINKRON & VALID)
-        // ==========================================
         private void dashboardbutton_kelola_Click(object sender, EventArgs e)
         {
-            // Diperbaiki agar kembali ke DashboardNelayan
             Ganti(new DashboardNelayan(mainForm, userLoginAktif));
         }
 
@@ -299,13 +290,11 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void penawaranbutton_kelola_Click(object sender, EventArgs e)
         {
-            // Diaktifkan dan diarahkan ke halaman penawaran nelayan yang benar
             Ganti(new NawarPanenNelayan(mainForm, userLoginAktif));
         }
 
         private void transaksibutton_kelola_Click(object sender, EventArgs e)
         {
-            // Diluruskan ke TransaksiNelayan (bukan ke halaman admin)
             Ganti(new TransaksiNelayan(mainForm, userLoginAktif));
         }
 
