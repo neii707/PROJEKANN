@@ -256,7 +256,9 @@ ORDER BY t.tanggal DESC;
 --cek view
 SELECT * FROM view_dashboard_distributor;
 
--- admin view
+-- =========================================
+-- VIEW PUNYAK ADMIN
+-- =========================================
 CREATE OR REPLACE VIEW v_aktivitas_terkini AS
 SELECT 
     'NEL0' || p.id_panen AS id, 
