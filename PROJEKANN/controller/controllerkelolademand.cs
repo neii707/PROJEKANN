@@ -8,7 +8,6 @@ namespace PROJEKANN.controller
 {
     public class ControllerKelolaDemand
     {
-        // 1. Mengambil paketan nama user dan list tabel v_demand
         public ModelKelolaDemand AmbilHalamanDemand(string username)
         {
             ModelKelolaDemand model = new ModelKelolaDemand();
@@ -20,7 +19,6 @@ namespace PROJEKANN.controller
                 {
                     conn.Open();
 
-                    // Ambil nama asli user
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, conn))
                     {
@@ -29,7 +27,6 @@ namespace PROJEKANN.controller
                         if (res != null && res != DBNull.Value) model.NamaUserReal = res.ToString();
                     }
 
-                    // Ambil list data demand dari database View
                     string queryTabel = "SELECT * FROM v_demand";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
@@ -50,10 +47,8 @@ namespace PROJEKANN.controller
             return model;
         }
 
-        // 2. Memasukkan data demand baru berdasarkan user login yang aktif
         public bool TambahDemand(int targetKg, DateTime deadline, string usernameAktif)
         {
-            // Query dinamis mencari id_user asli dari tabel usser berdasarkan username login
             string queryInsert = @"
                 INSERT INTO demand (target_kg, deadline, id_user) 
                 VALUES (@target, @deadline, (SELECT id_user FROM usser WHERE username = @username LIMIT 1))";

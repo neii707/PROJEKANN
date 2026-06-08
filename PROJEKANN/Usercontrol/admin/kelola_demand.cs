@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using PROJEKANN.controller; // 🚀 Akses ke folder controller
-using PROJEKANN.model;      // 🚀 Akses ke folder model
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.admin
 {
@@ -9,10 +9,7 @@ namespace PROJEKANN.Usercontrol.admin
     {
         private Form1 mainForm;
         private string userLoginAktif;
-
-        // Buat instance pengendali logika
         private ControllerKelolaDemand _controller = new ControllerKelolaDemand();
-
         public kelola_demand(Form1 form1, string username)
         {
             InitializeComponent();
@@ -24,13 +21,8 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void SegarkanDataTampilan()
         {
-            // 1. Minta paketan data ke controller
             ModelKelolaDemand data = _controller.AmbilHalamanDemand(this.userLoginAktif);
-
-            // 2. Pasang data nama real ke komponen UI
             label5.Text = data.NamaUserReal;
-
-            // 3. Masukkan data tabel ke DataGridView
             if (data.TabelDemand != null)
             {
                 dataGridView1.DataSource = data.TabelDemand;
@@ -46,9 +38,6 @@ namespace PROJEKANN.Usercontrol.admin
             ucBaru.BringToFront();
         }
 
-        // ========================================================
-        // 🔵 TOMBOL 1: TAMBAH DATA DEMAND
-        // ========================================================
         private void button1_Click(object sender, EventArgs e)
         {
             string targetRaw = textBox1.Text.Trim();
@@ -60,25 +49,20 @@ namespace PROJEKANN.Usercontrol.admin
                 return;
             }
 
-            // Validasi input angka target KG
             if (!int.TryParse(targetRaw, out int targetKg))
             {
                 MessageBox.Show("Target KG harus berupa angka yang valid!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Jalankan perintah insert melalui controller
             if (_controller.TambahDemand(targetKg, tanggal, this.userLoginAktif))
             {
                 MessageBox.Show("Data demand baru berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                textBox1.Clear(); // Kosongkan form input
-                SegarkanDataTampilan(); // Reload UI
+                textBox1.Clear(); 
+                SegarkanDataTampilan();
             }
         }
 
-        // ========================================================
-        // 🗺️ TOMBOL NAVIGASI MENU (TETAP DI VIEW)
-        // ========================================================
         private void button6_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin(this.mainForm, this.userLoginAktif));

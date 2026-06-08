@@ -8,19 +8,16 @@ namespace PROJEKANN.controller
 {
     public class ControllerKelolaAkun
     {
-        // 1. Fungsi untuk menarik data dashboard kelola akun secara kolektif
         public ModelKelolaAkun AmbilHalamanKelolaAkun(string username)
         {
             ModelKelolaAkun model = new ModelKelolaAkun();
-            model.NamaUserReal = username; // Default
+            model.NamaUserReal = username; 
 
             try
             {
                 using (NpgsqlConnection conn = DBConnection.GetConnection())
                 {
                     conn.Open();
-
-                    // Ambil nama asli user
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, conn))
                     {
@@ -29,7 +26,6 @@ namespace PROJEKANN.controller
                         if (res != null && res != DBNull.Value) model.NamaUserReal = res.ToString();
                     }
 
-                    // Ambil list akun lewat database view punyamu
                     string queryTabel = "SELECT * FROM v_konfir_akun2";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
@@ -50,7 +46,7 @@ namespace PROJEKANN.controller
             return model;
         }
 
-        // 2. Fungsi modular untuk mengubah status konfirmasi akun (Bisa untuk Konfirmasi / Blokir)
+
         public bool UpdateStatusAkun(string username, string statusBaru)
         {
             string queryUpdate = "UPDATE usser SET status_konfir_akun = @status WHERE username = @username";

@@ -23,8 +23,6 @@ namespace PROJEKANN.Usercontrol
         private void MuatSeluruhDashboard()
         {
             DashboardAdminModel data = _controller.AmbilSemuaDataDashboard(this.userLoginAktif);
-
-            // Mengambil data murni dari properti Model yang sudah diperbaiki
             label5.Text = data.NamaUser;
             label2.Text = data.LabelAkun;
             label3.Text = data.LabelStok;

@@ -18,7 +18,6 @@ namespace PROJEKANN.controller
                 {
                     conn.Open();
 
-                    // 1. Ambil Nama Asli User
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, conn))
                     {
@@ -27,7 +26,6 @@ namespace PROJEKANN.controller
                         if (res != null && res != DBNull.Value) model.NamaUserReal = res.ToString();
                     }
 
-                    // 2. Ambil Data Grafik Transaksi
                     string queryGrafik = "SELECT bulan, grade, total_transaksi FROM v_grafik_line_transaksi";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryGrafik, conn))
                     {

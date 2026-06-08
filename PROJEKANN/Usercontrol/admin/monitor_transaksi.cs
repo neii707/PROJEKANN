@@ -2,8 +2,8 @@
 using System.Windows.Forms;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
-using PROJEKANN.controller; // 🚀 Akses ke folder controller
-using PROJEKANN.model;      // 🚀 Akses ke folder model
+using PROJEKANN.controller; 
+using PROJEKANN.model; 
 
 namespace PROJEKANN.Usercontrol.admin
 {
@@ -11,10 +11,7 @@ namespace PROJEKANN.Usercontrol.admin
     {
         private Form1 mainForm;
         private string userLoginAktif;
-
-        // Daftarkan controller baru
         private ControllerMonitorTransaksi _controller = new ControllerMonitorTransaksi();
-
         public monitor_transaksi(Form1 form1, string username)
         {
             InitializeComponent();
@@ -26,13 +23,8 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void SegarkanDataTampilan()
         {
-            // 1. Ambil paketan data dari controller
             ModelMonitorTransaksi data = _controller.AmbilDataMonitorTransaksi(this.userLoginAktif);
-
-            // 2. Set label nama admin
             label5.Text = data.NamaUserReal;
-
-            // 3. Konfigurasi LiveCharts untuk data transaksi selesai
             cartesianChart1.Series = new ISeries[]
             {
                 new LineSeries<int>
@@ -81,9 +73,6 @@ namespace PROJEKANN.Usercontrol.admin
             ucBaru.BringToFront();
         }
 
-        // ========================================================
-        // 🗺️ TOMBOL NAVIGASI MENU (TETAP DI VIEW)
-        // ========================================================
         private void button7_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin(this.mainForm, this.userLoginAktif));

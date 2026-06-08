@@ -22,7 +22,6 @@ namespace PROJEKANN.controller
                 {
                     conn.Open();
 
-                    // 1. Ambil Nama Asli User
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, conn))
                     {
@@ -31,7 +30,7 @@ namespace PROJEKANN.controller
                         if (res != null && res != DBNull.Value) model.NamaUserReal = res.ToString();
                     }
 
-                    // 2. Ambil Tabel Transaksi Terakhir
+
                     string queryTabel = "SELECT * FROM view_transaksi_paling_akhir;";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
@@ -43,7 +42,6 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    // 3. Ambil Jumlah Panen
                     string queryPanen = "SELECT total_panen FROM view_jumlah_panen";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPanen, conn))
                     {
@@ -51,7 +49,7 @@ namespace PROJEKANN.controller
                         if (resPanen != null && resPanen != DBNull.Value) model.TeksJumlahPanen = resPanen.ToString();
                     }
 
-                    // 4. Ambil Jumlah Transaksi Selesai
+
                     string queryTotalTrx = "SELECT total_transaksi FROM view_total_transaksi";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTotalTrx, conn))
                     {
@@ -59,7 +57,7 @@ namespace PROJEKANN.controller
                         if (resTrx != null && resTrx != DBNull.Value) model.TeksTotalTransaksi = resTrx.ToString();
                     }
 
-                    // 5. Ambil Demand Aktif & Hitung Konversi Satuan
+
                     string queryDemand = "SELECT total_demand FROM view_demand_aktif";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryDemand, conn))
                     {

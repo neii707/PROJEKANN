@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using PROJEKANN.controller; // 🚀 Akses jalan ke folder controller
-using PROJEKANN.model;      // 🚀 Akses jalan ke folder model
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.admin
 {
@@ -9,10 +9,7 @@ namespace PROJEKANN.Usercontrol.admin
     {
         private Form1 mainForm;
         private string userLoginAktif;
-
-        // Panggil controller sebagai pengendali data
         private ControllerKelolaAkun _controller = new ControllerKelolaAkun();
-
         public kelola_akun(Form1 form1, string username)
         {
             InitializeComponent();
@@ -24,13 +21,8 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void SegarkanDataTampilan()
         {
-            // 1. Minta paketan data ke controller
             ModelKelolaAkun data = _controller.AmbilHalamanKelolaAkun(this.userLoginAktif);
-
-            // 2. Tampilkan nama user ke label
             label5.Text = data.NamaUserReal;
-
-            // 3. Masukkan tabel view ke DataGridView milikmu
             if (data.TabelAkun != null)
             {
                 dataGridView1.DataSource = data.TabelAkun;
@@ -46,9 +38,6 @@ namespace PROJEKANN.Usercontrol.admin
             ucBaru.BringToFront();
         }
 
-        // ========================================================
-        // 🟢 TOMBOL 1: KONFIRMASI AKUN
-        // ========================================================
         private void button1_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count == 0)
@@ -62,18 +51,14 @@ namespace PROJEKANN.Usercontrol.admin
 
             if (dialogResult == DialogResult.Yes)
             {
-                // Cukup suruh controller ganti status ke 'Konfirmasi'
                 if (_controller.UpdateStatusAkun(usernameTerpilih, "Konfirmasi"))
                 {
                     MessageBox.Show($"Akun '{usernameTerpilih}' berhasil dikonfirmasi dan sekarang sudah aktif!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    SegarkanDataTampilan(); // Reload data UI
+                    SegarkanDataTampilan(); 
                 }
             }
         }
 
-        // ========================================================
-        // 🔴 TOMBOL 2: BLOKIR AKUN
-        // ========================================================
         private void button2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count == 0)
@@ -87,18 +72,14 @@ namespace PROJEKANN.Usercontrol.admin
 
             if (dialogResult == DialogResult.Yes)
             {
-                // Cukup suruh controller ganti status ke 'Blokir'
                 if (_controller.UpdateStatusAkun(usernameTerpilih, "Blokir"))
                 {
                     MessageBox.Show($"Akun '{usernameTerpilih}' berhasil diblokir !", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    SegarkanDataTampilan(); // Reload data UI
+                    SegarkanDataTampilan();
                 }
             }
         }
 
-        // ========================================================
-        // 🗺️ TOMBOL NAVIGASI MENU (TETAP DI VIEW)
-        // ========================================================
         private void button7_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin(this.mainForm, this.userLoginAktif));
