@@ -1,11 +1,7 @@
-﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
+using PROJEKANN.controller; // 🚀 Akses ke folder controller
+using PROJEKANN.model;      // 🚀 Akses ke folder model
 
 namespace PROJEKANN.Usercontrol.admin
 {
@@ -13,44 +9,32 @@ namespace PROJEKANN.Usercontrol.admin
     {
         private Form1 mainForm;
         private string userLoginAktif;
+
+        // Buat instance pengendali logika
+        private ControllerKelolaDemand _controller = new ControllerKelolaDemand();
+
         public kelola_demand(Form1 form1, string username)
         {
             InitializeComponent();
             this.mainForm = form1;
             this.userLoginAktif = username;
-            tampil_demand();
-            TampilkanNamaUser();
+
+            SegarkanDataTampilan();
         }
 
-        private void TampilkanNamaUser()
+        private void SegarkanDataTampilan()
         {
-            try
+            // 1. Minta paketan data ke controller
+            ModelKelolaDemand data = _controller.AmbilHalamanDemand(this.userLoginAktif);
+
+            // 2. Pasang data nama real ke komponen UI
+            label5.Text = data.NamaUserReal;
+
+            // 3. Masukkan data tabel ke DataGridView
+            if (data.TabelDemand != null)
             {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
-
-                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        object result = cmd.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            label5.Text = result.ToString();
-                        }
-                        else
-                        {
-                            label5.Text = userLoginAktif;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                label5.Text = userLoginAktif;
+                dataGridView1.DataSource = data.TabelDemand;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
@@ -62,6 +46,39 @@ namespace PROJEKANN.Usercontrol.admin
             ucBaru.BringToFront();
         }
 
+        // ========================================================
+        // 🔵 TOMBOL 1: TAMBAH DATA DEMAND
+        // ========================================================
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string targetRaw = textBox1.Text.Trim();
+            DateTime tanggal = dateTimePicker1.Value.Date;
+
+            if (string.IsNullOrEmpty(targetRaw))
+            {
+                MessageBox.Show("Data tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Validasi input angka target KG
+            if (!int.TryParse(targetRaw, out int targetKg))
+            {
+                MessageBox.Show("Target KG harus berupa angka yang valid!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Jalankan perintah insert melalui controller
+            if (_controller.TambahDemand(targetKg, tanggal, this.userLoginAktif))
+            {
+                MessageBox.Show("Data demand baru berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                textBox1.Clear(); // Kosongkan form input
+                SegarkanDataTampilan(); // Reload UI
+            }
+        }
+
+        // ========================================================
+        // 🗺️ TOMBOL NAVIGASI MENU (TETAP DI VIEW)
+        // ========================================================
         private void button6_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin(this.mainForm, this.userLoginAktif));
@@ -87,83 +104,6 @@ namespace PROJEKANN.Usercontrol.admin
             GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi(this.mainForm, this.userLoginAktif));
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string targetkg = textBox1.Text.Trim();
-            DateTime tanggal = dateTimePicker1.Value.Date;
-
-            if (string.IsNullOrEmpty(targetkg))
-            {
-                MessageBox.Show("Data tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            try
-            {
-                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = @"
-                INSERT INTO demand (target_kg, deadline, id_user) 
-                VALUES (@target, @tanggal, '1')";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@target", Convert.ToInt32(targetkg));
-                        cmd.Parameters.AddWithValue("@tanggal", tanggal);
-
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    MessageBox.Show("Data demand baru berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    tampil_demand();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal menyimpan data: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void tampil_demand()
-        {
-            try
-            {
-                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = "SELECT * FROM v_demand";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                    {
-                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
-
-                            dataGridView1.DataSource = dt;
-                            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memuat aktivitas lewat View: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void keluarbutton_dashboard_Click(object sender, EventArgs e)
         {
             DialogResult konfirmasi = MessageBox.Show(
@@ -179,9 +119,8 @@ namespace PROJEKANN.Usercontrol.admin
             }
         }
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void textBox1_TextChanged(object sender, EventArgs e) { }
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e) { }
+        private void label5_Click(object sender, EventArgs e) { }
     }
 }

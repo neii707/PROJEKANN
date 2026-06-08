@@ -1,5 +1,5 @@
-﻿using Npgsql;
-using PROJEKANN.database;
+﻿using PROJEKANN.controller;
+using PROJEKANN.model;
 using System;
 using System.Data;
 using System.Windows.Forms;
@@ -10,49 +10,30 @@ namespace PROJEKANN.Usercontrol
     {
         private Form1 mainForm;
         private string userLoginAktif;
+        private DashboardAdminController _controller = new DashboardAdminController();
+
         public dashboard_admin(Form1 form1, string username)
         {
             InitializeComponent();
             this.mainForm = form1;
             this.userLoginAktif = username;
-            MuatAktivitasTerkini();
-            labelakun();
-            labelstok();
-            labeltransaksi();
-            TampilkanNamaUser();
-
-
+            MuatSeluruhDashboard();
         }
 
-        private void TampilkanNamaUser()
+        private void MuatSeluruhDashboard()
         {
-            try
+            DashboardAdminModel data = _controller.AmbilSemuaDataDashboard(this.userLoginAktif);
+
+            // Mengambil data murni dari properti Model yang sudah diperbaiki
+            label5.Text = data.NamaUser;
+            label2.Text = data.LabelAkun;
+            label3.Text = data.LabelStok;
+            label4.Text = data.LabelTransaksi;
+
+            if (data.TabelAktivitas != null)
             {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
-
-                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        object result = cmd.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            label5.Text = result.ToString();
-                        }
-                        else
-                        {
-                            label5.Text = userLoginAktif;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                label5.Text = userLoginAktif;
+                dataGridView1.DataSource = data.TabelAktivitas;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
@@ -62,134 +43,6 @@ namespace PROJEKANN.Usercontrol
             ucBaru.Dock = DockStyle.Fill;
             panel1.Controls.Add(ucBaru);
             ucBaru.BringToFront();
-        }
-
-        private void labelakun()
-        {
-            try
-            {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query =
-                        "select * from v_labelakun";
-
-                    NpgsqlCommand cmd =
-                        new NpgsqlCommand(query, conn);
-
-                    object hasil =
-                        cmd.ExecuteScalar();
-
-                    label2.Text =
-                        cmd.ExecuteScalar().ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void labelstok()
-        {
-            try
-            {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query =
-                        "SELECT * FROM v_labelstok";
-
-                    NpgsqlCommand cmd =
-                        new NpgsqlCommand(query, conn);
-
-                    object hasil =
-                        cmd.ExecuteScalar();
-
-                    label3.Text =
-                        cmd.ExecuteScalar().ToString()
-                        + " KG";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void labeltransaksi()
-        {
-            try
-            {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query =
-                        "SELECT * FROM v_labeltransaksi";
-
-                    NpgsqlCommand cmd =
-                        new NpgsqlCommand(query, conn);
-
-                    object hasil =
-                        cmd.ExecuteScalar();
-
-                    label4.Text =
-                        cmd.ExecuteScalar().ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void MuatAktivitasTerkini()
-        {
-            try
-            {
-                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = @"
-                        SELECT 
-                            id AS ""ID"", 
-                            pengguna AS ""Pengguna"", 
-                            aktivitas AS ""Aktivitas"" 
-                        FROM v_aktivitas_terkini 
-                        LIMIT 10;";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                    {
-                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
-
-                            dataGridView1.DataSource = dt;
-                            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memuat aktivitas lewat View: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void aktivitas(object sender, DataGridViewCellEventArgs e)
-        {
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -212,7 +65,6 @@ namespace PROJEKANN.Usercontrol
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin(this.mainForm, this.userLoginAktif));
         }
 
-
         private void button2_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun(this.mainForm, this.userLoginAktif));
@@ -233,24 +85,11 @@ namespace PROJEKANN.Usercontrol
             }
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void aktivitas(object sender, DataGridViewCellEventArgs e) { }
+        private void label2_Click(object sender, EventArgs e) { }
+        private void label3_Click(object sender, EventArgs e) { }
+        private void label4_Click(object sender, EventArgs e) { }
+        private void label5_Click(object sender, EventArgs e) { }
+        private void label6_Click(object sender, EventArgs e) { }
     }
 }
