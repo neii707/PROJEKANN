@@ -33,7 +33,6 @@
             LiveChartsCore.Drawing.Padding padding1 = new LiveChartsCore.Drawing.Padding();
             LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
             LiveChartsCore.Drawing.Padding padding2 = new LiveChartsCore.Drawing.Padding();
-            panel1 = new Panel();
             label5 = new Label();
             keluarbutton_dashboard = new Button();
             cartesianChart1 = new LiveChartsCore.SkiaSharpView.WinForms.CartesianChart();
@@ -42,26 +41,7 @@
             button3 = new Button();
             button6 = new Button();
             button7 = new Button();
-            panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.BackgroundImage = Properties.Resources.stok;
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(label5);
-            panel1.Controls.Add(keluarbutton_dashboard);
-            panel1.Controls.Add(cartesianChart1);
-            panel1.Controls.Add(button5);
-            panel1.Controls.Add(button4);
-            panel1.Controls.Add(button3);
-            panel1.Controls.Add(button6);
-            panel1.Controls.Add(button7);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(905, 552);
-            panel1.TabIndex = 0;
-            panel1.Paint += panel1_Paint;
             // 
             // label5
             // 
@@ -84,7 +64,7 @@
             keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
             keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
             keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_dashboard.Location = new Point(-20, 503);
+            keluarbutton_dashboard.Location = new Point(-14, 509);
             keluarbutton_dashboard.Name = "keluarbutton_dashboard";
             keluarbutton_dashboard.Size = new Size(85, 46);
             keluarbutton_dashboard.TabIndex = 15;
@@ -214,17 +194,23 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.stok;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(keluarbutton_dashboard);
+            Controls.Add(button3);
+            Controls.Add(button6);
+            Controls.Add(button7);
+            Controls.Add(button4);
+            Controls.Add(button5);
+            Controls.Add(cartesianChart1);
+            Controls.Add(label5);
             Name = "monitor_stok";
             Size = new Size(908, 555);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel panel1;
         private Button button5;
         private Button button4;
         private Button button3;
