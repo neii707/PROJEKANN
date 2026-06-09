@@ -1,14 +1,8 @@
-﻿using Npgsql;
-using PROJEKANN.database;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using static System.Windows.Forms.DataFormats;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using PROJEKANN.controller; // 🚀 Hubungkan folder controller
+using PROJEKANN.model;      // 🚀 Hubungkan folder model
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -16,160 +10,75 @@ namespace PROJEKANN.Usercontrol.Distributor
     {
         private Form1 mainForm;
         private string userLoginAktif;
+
+        // Inisialisasi object controller distributor
+        private ControllerRiwayatDistributor _controller = new ControllerRiwayatDistributor();
+
         public RiwayatTransaksi(Form1 form1, string username)
         {
             InitializeComponent();
-
             this.mainForm = form1;
             this.userLoginAktif = username;
 
-            TampilRiwayat();
-            HitungStatistik();
-            TampilkanNamaUser();
+            SegarkanDataTampilan();
         }
 
-        private void RiwayatTransaksi_Load(object sender,EventArgs e)
-        {
+        private void RiwayatTransaksi_Load(object sender, EventArgs e) { }
 
-        }
-
-        private void TampilRiwayat()
+        private void SegarkanDataTampilan()
         {
-            try
+            // 1. Ambil paket bundle data olahan dari controller
+            ModelRiwayatDistributor data = _controller.AmbilSemuaDataRiwayat(this.userLoginAktif);
+
+            // 2. Tampilkan Nama User ke Komponen View
+            if (lblNamaUser != null)
             {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
+                lblNamaUser.Text = data.NamaUserReal;
+            }
+
+            // 3. Tampilkan Data Statistik ke Komponen View
+            if (lblSelesai != null)
+            {
+                lblSelesai.Text = data.TotalSelesai;
+            }
+            if (lblTotal != null)
+            {
+                lblTotal.Text = "Rp " + data.TotalPembayaran.ToString("N0");
+            }
+
+            // 4. Bind Data ke DataGridView dan Atur Format Penulisan Angka Desimal
+            if (data.TabelRiwayat != null && dgvRiwayat != null)
+            {
+                dgvRiwayat.DataSource = data.TabelRiwayat;
+                dgvRiwayat.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                if (dgvRiwayat.Columns.Contains("harga_tawar"))
                 {
-                    conn.Open();
-
-                    string query = @"
-                SELECT *
-                FROM view_riwayat_transaksi;
-            ";
-
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(query, conn))
-                    {
-                        DataTable dt = new DataTable();
-
-                        da.Fill(dt);
-
-                        dgvRiwayat.DataSource = dt;
-
-                        dgvRiwayat.AutoSizeColumnsMode =
-                            DataGridViewAutoSizeColumnsMode.Fill;
-
-                        dgvRiwayat.Columns["harga_tawar"].DefaultCellStyle.Format = "N0";
-
-                        dgvRiwayat.Columns["total_pembayaran"].DefaultCellStyle.Format = "N0";
-                    }
+                    dgvRiwayat.Columns["harga_tawar"].DefaultCellStyle.Format = "N0";
+                }
+                if (dgvRiwayat.Columns.Contains("total_pembayaran"))
+                {
+                    dgvRiwayat.Columns["total_pembayaran"].DefaultCellStyle.Format = "N0";
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
         }
 
-        private void HitungStatistik()
-        {
-            try
-            {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string queryJumlah = @"
-                SELECT COUNT(*)
-                FROM transaksi
-                WHERE status_transaksi = 'Selesai';
-            ";
-
-                    using (NpgsqlCommand cmdJumlah =
-                        new NpgsqlCommand(queryJumlah, conn))
-                    {
-                        lblSelesai.Text =
-                            cmdJumlah.ExecuteScalar().ToString();
-                    }
-
-                    string queryTotal = @"
-                SELECT COALESCE(
-                    SUM(total_pembayaran), 0
-                )
-                FROM transaksi
-                WHERE status_transaksi = 'Selesai';
-            ";
-
-                    using (NpgsqlCommand cmdTotal =
-                        new NpgsqlCommand(queryTotal, conn))
-                    {
-                        decimal total =
-                        Convert.ToDecimal(
-                        cmdTotal.ExecuteScalar()
-                         );
-
-                        lblTotal.Text =
-                            "Rp " +
-                            total.ToString("N0");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void TampilkanNamaUser()
-        {
-            try
-            {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
-
-                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        object result = cmd.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            lblNamaUser.Text = result.ToString();
-                        }
-                        else
-                        {
-                            lblNamaUser.Text = userLoginAktif;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                lblNamaUser.Text = userLoginAktif;
-            }
-        }
-
+        // ========================================================
+        // 🗺️ SISTEM NAVIGASI FITUR MENU ASLI BAWAAN PROGRAM
+        // ========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
+            if (ucBaru == null) return;
+
             panel1.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
             panel1.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
+        private void label1_Click(object sender, EventArgs e) { }
 
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
         private void btnDashboard_Click(object sender, EventArgs e)
         {
@@ -198,7 +107,7 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void btnRiwayat_Click_1(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi(this.mainForm, this.userLoginAktif));
+            SegarkanDataTampilan();
         }
 
         private void btnKeluar_Click(object sender, EventArgs e)

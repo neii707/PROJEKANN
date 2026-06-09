@@ -1,69 +1,50 @@
-﻿using Npgsql;
-using PROJEKANN.database;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using PROJEKANN.controller; // 🚀 Hubungkan folder controller
+using PROJEKANN.model;      // 🚀 Hubungkan folder model
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
-    
     public partial class Transaksi : UserControl
     {
         private Form1 mainForm;
         private string userLoginAktif;
-        int idTransaksiTerpilih = 0;
+        private int idTransaksiTerpilih = 0;
+
+        // Instansiasi objek controller transaksi distributor
+        private ControllerDistributorTransaksi _controller = new ControllerDistributorTransaksi();
+
         public Transaksi(Form1 form1, string username)
         {
             InitializeComponent();
-
             this.mainForm = form1;
             this.userLoginAktif = username;
 
-            TampilDataTransaksi();
-            TampilkanNamaUser();
+            SegarkanDataTransaksi();
         }
 
         private void Transaksi_Load(object sender, EventArgs e)
         {
-            TampilDataTransaksi();
-            TampilkanNamaUser();
+            SegarkanDataTransaksi();
         }
 
-        private void TampilDataTransaksi()
+        private void SegarkanDataTransaksi()
         {
-            try
+            // 1. Tarik bungkusan data dari controller
+            ModelDistributorTransaksi data = _controller.AmbilDataAwal(this.userLoginAktif);
+
+            // 2. Tempel nama asli ke label UI desainer
+            if (lblNamaUser != null)
             {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = @"
-                        SELECT *
-                        FROM view_transaksi_distributor;
-                    ";
-
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(query, conn))
-                    {
-                        DataTable dt = new DataTable();
-
-                        da.Fill(dt);
-
-                        dgvTransaksi.DataSource = dt;
-
-                        dgvTransaksi.AutoSizeColumnsMode =
-                            DataGridViewAutoSizeColumnsMode.Fill;
-                    }
-                }
+                lblNamaUser.Text = data.NamaAsliUser;
             }
-            catch (Exception ex)
+
+            // 3. Ikat data ke DataGridView
+            if (data.TabelTransaksi != null)
             {
-                MessageBox.Show(ex.Message);
+                dgvTransaksi.DataSource = data.TabelTransaksi;
+                dgvTransaksi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
@@ -71,10 +52,8 @@ namespace PROJEKANN.Usercontrol.Distributor
         {
             if (e.RowIndex >= 0)
             {
-                idTransaksiTerpilih =
-                    Convert.ToInt32(
-                    dgvTransaksi.Rows[e.RowIndex]
-                    .Cells["id_transaksi"].Value);
+                // Mengambil nilai ID transaksi dari baris grid yang diklik
+                idTransaksiTerpilih = Convert.ToInt32(dgvTransaksi.Rows[e.RowIndex].Cells["id_transaksi"].Value);
             }
         }
 
@@ -82,91 +61,34 @@ namespace PROJEKANN.Usercontrol.Distributor
         {
             if (idTransaksiTerpilih == 0)
             {
-                MessageBox.Show(
-                    "Pilih transaksi dulu!");
+                MessageBox.Show("Pilih transaksi dulu!");
                 return;
             }
 
-            DialogResult hasil =
-                MessageBox.Show(
-                    "Konfirmasi pembayaran cash?",
-                    "Konfirmasi",
-                    MessageBoxButtons.YesNo);
+            DialogResult hasil = MessageBox.Show("Konfirmasi pembayaran cash?", "Konfirmasi", MessageBoxButtons.YesNo);
 
             if (hasil == DialogResult.Yes)
             {
-                try
+                // Kirim perintah update ke controller
+                bool sukses = _controller.KonfirmasiPembayaranCash(idTransaksiTerpilih);
+
+                if (sukses)
                 {
-                    using (NpgsqlConnection conn =
-                        DBConnection.GetConnection())
-                    {
-                        conn.Open();
+                    MessageBox.Show("Pembayaran berhasil dikonfirmasi!");
 
-                        string query = @"
-                            UPDATE transaksi
-                            SET
-                                status_transaksi = 'Selesai',
-                                konfir_pembelian = 'Selesai'
-                            WHERE id_transaksi = @id;
-                        ";
-
-                        using (NpgsqlCommand cmd =
-                            new NpgsqlCommand(query, conn))
-                        {
-                            cmd.Parameters.AddWithValue(
-                                "@id",
-                                idTransaksiTerpilih);
-
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        MessageBox.Show(
-                            "Pembayaran berhasil dikonfirmasi!");
-
-                        TampilDataTransaksi();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
+                    // Reset selection ID dan segarkan tabel kembali
+                    idTransaksiTerpilih = 0;
+                    SegarkanDataTransaksi();
                 }
             }
         }
 
-        private void TampilkanNamaUser()
-        {
-            try
-            {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
-
-                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        object result = cmd.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            lblNamaUser.Text = result.ToString();
-                        }
-                        else
-                        {
-                            lblNamaUser.Text = userLoginAktif;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                lblNamaUser.Text = userLoginAktif;
-            }
-        }
-
+        // ========================================================
+        // 🗺️ SISTEM NAVIGASI DISTRIBUTOR (TETAP DI VIEW UTAMA)
+        // ========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
+            if (ucBaru == null) return;
             panel1.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
             panel1.Controls.Add(ucBaru);
@@ -219,4 +141,3 @@ namespace PROJEKANN.Usercontrol.Distributor
         }
     }
 }
-

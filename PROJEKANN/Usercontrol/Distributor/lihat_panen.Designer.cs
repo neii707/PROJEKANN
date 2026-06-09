@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            lblNamaUser = new Label();
             btnKeluar = new Button();
             label1 = new Label();
             dataGridView1 = new DataGridView();
@@ -38,7 +39,6 @@
             btnGrading = new Button();
             button2 = new Button();
             btnPanen = new Button();
-            lblNamaUser = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -62,6 +62,17 @@
             panel1.Size = new Size(908, 555);
             panel1.TabIndex = 0;
             // 
+            // lblNamaUser
+            // 
+            lblNamaUser.AutoSize = true;
+            lblNamaUser.BackColor = Color.Transparent;
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNamaUser.Location = new Point(83, 49);
+            lblNamaUser.Name = "lblNamaUser";
+            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.TabIndex = 13;
+            lblNamaUser.Text = "---";
+            // 
             // btnKeluar
             // 
             btnKeluar.BackColor = Color.Transparent;
@@ -75,6 +86,7 @@
             btnKeluar.Text = "KELUAR";
             btnKeluar.TextAlign = ContentAlignment.MiddleRight;
             btnKeluar.UseVisualStyleBackColor = false;
+            btnKeluar.Click += btnKeluar_Click;
             // 
             // label1
             // 
@@ -180,17 +192,6 @@
             btnPanen.Text = "DASHBOARD";
             btnPanen.UseVisualStyleBackColor = false;
             btnPanen.Click += btnPanen_Click;
-            // 
-            // lblNamaUser
-            // 
-            lblNamaUser.AutoSize = true;
-            lblNamaUser.BackColor = Color.Transparent;
-            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNamaUser.Location = new Point(83, 49);
-            lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(33, 25);
-            lblNamaUser.TabIndex = 13;
-            lblNamaUser.Text = "---";
             // 
             // lihat_panen
             // 

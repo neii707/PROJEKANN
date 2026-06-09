@@ -1,12 +1,8 @@
-﻿using Npgsql;
-using PROJEKANN.database;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using PROJEKANN.controller; // 🚀 Hubungkan folder controller
+using PROJEKANN.model;      // 🚀 Hubungkan folder model
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -14,52 +10,39 @@ namespace PROJEKANN.Usercontrol.Distributor
     {
         private Form1 mainForm;
         private string userLoginAktif;
-        int idGradeTerpilih = 0;
+        private int idGradeTerpilih = 0;
+
+        // Deklarasi controller penawaran distributor
+        private ControllerDistributorPenawaran _controller = new ControllerDistributorPenawaran();
+
         public Penawaran(Form1 form1, string username)
         {
             InitializeComponent();
-            TampilkanNamaUser();
             this.mainForm = form1;
             this.userLoginAktif = username;
         }
 
         private void Penawaran_Load(object sender, EventArgs e)
         {
-            TampilDataPenawaran();
-            TampilkanNamaUser();
+            SegarkanDataPenawaran();
         }
 
-        private void TampilDataPenawaran()
+        private void SegarkanDataPenawaran()
         {
-            try
+            // 1. Tarik paket data olahan dari controller
+            ModelDistributorPenawaran data = _controller.AmbilDataAwal(this.userLoginAktif);
+
+            // 2. Tampilkan Nama User ke label desainer
+            if (lblNamaUser != null)
             {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = @"
-                SELECT *
-                FROM view_penawaran;
-            ";
-
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(query, conn))
-                    {
-                        DataTable dt = new DataTable();
-
-                        da.Fill(dt);
-
-                        dgvPenawaran.DataSource = dt;
-
-                        dgvPenawaran.AutoSizeColumnsMode =
-                            DataGridViewAutoSizeColumnsMode.Fill;
-                    }
-                }
+                lblNamaUser.Text = data.NamaAsliUser;
             }
-            catch (Exception ex)
+
+            // 3. Masukkan tabel data ke DataGridView
+            if (data.TabelPenawaran != null)
             {
-                MessageBox.Show(ex.Message);
+                dgvPenawaran.DataSource = data.TabelPenawaran;
+                dgvPenawaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
@@ -67,114 +50,47 @@ namespace PROJEKANN.Usercontrol.Distributor
         {
             if (e.RowIndex >= 0)
             {
-                idGradeTerpilih =
-                    Convert.ToInt32(
-                    dgvPenawaran.Rows[e.RowIndex]
-                    .Cells["id_grade"].Value
-                );
+                // Ambil nilai cell id_grade dari baris terpilih
+                idGradeTerpilih = Convert.ToInt32(dgvPenawaran.Rows[e.RowIndex].Cells["id_grade"].Value);
             }
         }
 
         private void btnKirim_Click(object sender, EventArgs e)
         {
-            try
+            // Validasi Input Kosong bawaan program
+            if (idGradeTerpilih == 0)
             {
-                if (idGradeTerpilih == 0)
-                {
-                    MessageBox.Show(
-                        "Pilih data terlebih dahulu!"
-                    );
-
-                    return;
-                }
-
-                if (txtHargaTawar.Text == "")
-                {
-                    MessageBox.Show(
-                        "Harga tawar harus diisi!"
-                    );
-
-                    return;
-                }
-
-                decimal hargaTawar =
-                    Convert.ToDecimal(
-                        txtHargaTawar.Text
-                    );
-
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query =
-                    "CALL tambah_penawaran(@harga, @idGrade)";
-
-                    using (NpgsqlCommand cmd =
-                        new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue(
-                            "@harga",
-                            hargaTawar
-                        );
-
-                        cmd.Parameters.AddWithValue(
-                            "@idGrade",
-                            idGradeTerpilih
-                        );
-
-                        cmd.ExecuteNonQuery();
-
-                        MessageBox.Show(
-                            "Penawaran berhasil dikirim!"
-                        );
-
-                        txtHargaTawar.Clear();
-
-                        TampilDataPenawaran();
-                    }
-                }
+                MessageBox.Show("Pilih data terlebih dahulu!");
+                return;
             }
-            catch (Exception ex)
+
+            if (string.IsNullOrEmpty(txtHargaTawar.Text))
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Harga tawar harus diisi!");
+                return;
+            }
+
+            decimal hargaTawar = Convert.ToDecimal(txtHargaTawar.Text);
+
+            // Jalankan perintah insert lewat Stored Procedure di controller
+            bool sukses = _controller.KirimHargaPenawaran(hargaTawar, idGradeTerpilih);
+
+            if (sukses)
+            {
+                MessageBox.Show("Penawaran berhasil dikirim!");
+                txtHargaTawar.Clear();
+
+                // Segarkan kembali data gridview
+                SegarkanDataPenawaran();
             }
         }
 
-        private void TampilkanNamaUser()
-        {
-            try
-            {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
-
-                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        object result = cmd.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            lblNamaUser.Text = result.ToString();
-                        }
-                        else
-                        {
-                            lblNamaUser.Text = userLoginAktif;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                lblNamaUser.Text = userLoginAktif;
-            }
-        }
-
+        // ========================================================
+        // 🗺️ SISTEM NAVIGASI DISTRIBUTOR (TETAP DI VIEW UTAMA)
+        // ========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
+            if (ucBaru == null) return;
             panel1.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
             panel1.Controls.Add(ucBaru);
@@ -183,30 +99,22 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void btnGrading_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-       new PROJEKANN.Usercontrol.Distributor.Grading(this.mainForm, this.userLoginAktif)
-   );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Grading(this.mainForm, this.userLoginAktif));
         }
 
         private void btnPenawaran_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Penawaran(this.mainForm, this.userLoginAktif)
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Penawaran(this.mainForm, this.userLoginAktif));
         }
 
         private void btnTransaksi_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Transaksi(this.mainForm, this.userLoginAktif)
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Transaksi(this.mainForm, this.userLoginAktif));
         }
 
         private void btnRiwayat_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi(this.mainForm, this.userLoginAktif)
-    );
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi(this.mainForm, this.userLoginAktif));
         }
 
         private void button2_Click(object sender, EventArgs e)

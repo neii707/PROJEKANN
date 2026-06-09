@@ -1,0 +1,83 @@
+﻿using Npgsql;
+using PROJEKANN.database;
+using PROJEKANN.model;
+using System;
+using System.Data;
+
+namespace PROJEKANN.controller
+{
+    public class ControllerDistributorTransaksi
+    {
+        // 1. Mengambil data awal untuk Grid dan Label Nama
+        public ModelDistributorTransaksi AmbilDataAwal(string username)
+        {
+            ModelDistributorTransaksi model = new ModelDistributorTransaksi();
+            model.NamaAsliUser = username;
+
+            try
+            {
+                using (NpgsqlConnection conn = DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    // Ambil nama asli user
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@username", username);
+                        object result = cmd.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            model.NamaAsliUser = result.ToString();
+                        }
+                    }
+
+                    // Ambil data transaksi aktif distributor
+                    string queryTabel = "SELECT * FROM view_transaksi_distributor";
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, conn))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        model.TabelTransaksi = dt;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message, "Error Database");
+            }
+
+            return model;
+        }
+
+        // 2. Mengubah status transaksi menjadi Selesai (Update)
+        public bool KonfirmasiPembayaranCash(int idTransaksi)
+        {
+            try
+            {
+                using (NpgsqlConnection conn = DBConnection.GetConnection())
+                {
+                    conn.Open();
+                    string query = @"
+                        UPDATE transaksi 
+                        SET 
+                            status_transaksi = 'Selesai', 
+                            konfir_pembelian = 'Selesai' 
+                        WHERE id_transaksi = @id;";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", idTransaksi);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message, "Error Update Transaksi");
+                return false;
+            }
+        }
+    }
+}

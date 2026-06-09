@@ -1,0 +1,82 @@
+﻿using Npgsql;
+using PROJEKANN.database;
+using PROJEKANN.model;
+using System;
+using System.Data;
+
+namespace PROJEKANN.controller
+{
+    public class ControllerGrading
+    {
+        // 1. Mengambil data nama user dan isi tabel panen yang siap di-grade
+        public ModelGrading AmbilDataGrading(string username)
+        {
+            ModelGrading model = new ModelGrading();
+            model.NamaUserReal = username;
+
+            try
+            {
+                using (NpgsqlConnection kon = DBConnection.GetConnection())
+                {
+                    kon.Open();
+
+                    // Query Nama Real User
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
+                    {
+                        cmd.Parameters.AddWithValue("@username", username);
+                        object result = cmd.ExecuteScalar();
+                        if (result != null && result != DBNull.Value) model.NamaUserReal = result.ToString();
+                    }
+
+                    // Query Mengambil View Grading Panen
+                    string queryTabel = "SELECT * FROM view_grading_panen;";
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, kon))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        model.TabelGradingPanen = dt;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Gagal mengambil data database: " + ex.Message, "Error Controller");
+            }
+
+            return model;
+        }
+
+        // 2. Mengeksekusi penentuan grade ke database
+        public bool TetapkanGradePanen(int idPanen, string gradeDipilih, string keterangan, decimal harga)
+        {
+            try
+            {
+                using (NpgsqlConnection conn = DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string queryInsert = @"
+                        INSERT INTO grade (kategori, keterangan, harga_per_kg, id_panen, id_demand, id_distributor)
+                        VALUES (@kategori, @keterangan, @harga, @idPanen, 1, 2);";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryInsert, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@kategori", gradeDipilih);
+                        cmd.Parameters.AddWithValue("@keterangan", keterangan);
+                        cmd.Parameters.AddWithValue("@harga", harga);
+                        cmd.Parameters.AddWithValue("@idPanen", idPanen);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Gagal grading : " + ex.Message, "Error Database");
+                return false;
+            }
+        }
+    }
+}

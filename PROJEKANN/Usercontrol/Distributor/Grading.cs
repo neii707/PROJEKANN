@@ -1,14 +1,8 @@
-﻿using Npgsql;
-using PROJEKANN.database;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using static System.Windows.Forms.DataFormats;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using PROJEKANN.controller; // 🚀 Hubungkan folder controller
+using PROJEKANN.model;      // 🚀 Hubungkan folder model
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -16,191 +10,82 @@ namespace PROJEKANN.Usercontrol.Distributor
     {
         private Form1 mainForm;
         private string userLoginAktif;
-        int idPanenTerpilih = 0;
+        private int idPanenTerpilih = 0;
+
+        // Inisialisasi jembatan controller
+        private ControllerGrading _controller = new ControllerGrading();
+
         public Grading(Form1 form1, string username)
         {
             InitializeComponent();
             this.mainForm = form1;
             this.userLoginAktif = username;
-            TampilkanNamaUser();
         }
 
-        private void TampilkanNamaUser()
+        private void Grading_Load_1(object sender, EventArgs e)
         {
-            try
-            {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
+            SegarkanTampilanGrading();
 
-                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        object result = cmd.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            lblNamaUser.Text = result.ToString();
-                        }
-                        else
-                        {
-                            lblNamaUser.Text = userLoginAktif;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                lblNamaUser.Text = userLoginAktif;
-            }
+            // Setup pilihan combobox item bawaan
+            cbGrade.Items.Clear();
+            cbGrade.Items.Add("A");
+            cbGrade.Items.Add("B");
+            cbGrade.Items.Add("C");
         }
 
-        private void TampilDataPanen()
+        private void SegarkanTampilanGrading()
         {
-            try
+            // 1. Minta kiriman data terpusat ke controller
+            ModelGrading data = _controller.AmbilDataGrading(this.userLoginAktif);
+
+            // 2. Tampilkan nama user
+            lblNamaUser.Text = data.NamaUserReal;
+
+            // 3. Masukkan data ke DataGridView desainer
+            if (data.TabelGradingPanen != null)
             {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = @"
-                SELECT *
-                FROM view_grading_panen;
-            ";
-
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(query, conn))
-                    {
-                        DataTable dt = new DataTable();
-
-                        da.Fill(dt);
-
-                        dgvGrading.DataSource = dt;
-
-                        dgvGrading.AutoSizeColumnsMode =
-                            DataGridViewAutoSizeColumnsMode.Fill;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                dgvGrading.DataSource = data.TabelGradingPanen;
+                dgvGrading.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
         private void btnTetapkan_Click(object sender, EventArgs e)
         {
-            try
+            if (idPanenTerpilih == 0)
             {
-                if (idPanenTerpilih == 0)
-                {
-                    MessageBox.Show(
-                        "Pilih data panen terlebih dahulu!"
-                    );
-
-                    return;
-                }
-
-                if (cbGrade.SelectedItem == null)
-                {
-                    MessageBox.Show(
-                        "Pilih grade terlebih dahulu!"
-                    );
-
-                    return;
-                }
-
-                string gradeDipilih =
-                    cbGrade.SelectedItem.ToString();
-
-                string keterangan =
-                    txtKeterangan.Text;
-
-                decimal harga = 0;
-
-                if (gradeDipilih == "A")
-                {
-                    harga = 18000;
-                }
-                else if (gradeDipilih == "B")
-                {
-                    harga = 13000;
-                }
-                else
-                {
-                    harga = 5000;
-                }
-
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = @"
-        INSERT INTO grade
-        (
-            kategori,
-            keterangan,
-            harga_per_kg,
-            id_panen,
-            id_demand,
-            id_distributor
-        )
-        VALUES
-        (
-            @kategori,
-            @keterangan,
-            @harga,
-            @idPanen,
-            1,
-            2
-        );
-    ";
-
-                    using (NpgsqlCommand cmd =
-                        new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue(
-                            "@kategori",
-                            gradeDipilih
-                        );
-
-                        cmd.Parameters.AddWithValue(
-                            "@keterangan",
-                            keterangan
-                        );
-
-                        cmd.Parameters.AddWithValue(
-                            "@harga",
-                            harga
-                        );
-
-                        cmd.Parameters.AddWithValue(
-                            "@idPanen",
-                            idPanenTerpilih
-                        );
-
-                        cmd.ExecuteNonQuery();
-
-                        MessageBox.Show(
-                            "Grade berhasil ditetapkan!"
-                        );
-
-                        cbGrade.SelectedIndex = -1;
-                        txtKeterangan.Clear();
-
-                        TampilDataPanen();
-                    }
-                }
+                MessageBox.Show("Pilih data panen terlebih dahulu!", "Validasi Sistem");
+                return;
             }
-            catch (Exception ex)
+
+            if (cbGrade.SelectedItem == null)
             {
-                MessageBox.Show(
-                    "Gagal grading : " + ex.Message
-                );
+                MessageBox.Show("Pilih grade terlebih dahulu!", "Validasi Sistem");
+                return;
+            }
+
+            string gradeDipilih = cbGrade.SelectedItem.ToString();
+            string keterangan = txtKeterangan.Text;
+            decimal harga = 0;
+
+            // Logika penentuan tarif harga asli bawaan program kamu
+            if (gradeDipilih == "A") harga = 18000;
+            else if (gradeDipilih == "B") harga = 13000;
+            else harga = 5000;
+
+            // Kirim data ke controller untuk disimpan
+            bool berhasil = _controller.TetapkanGradePanen(idPanenTerpilih, gradeDipilih, keterangan, harga);
+
+            if (berhasil)
+            {
+                MessageBox.Show("Grade berhasil ditetapkan!", "Sukses");
+
+                // Reset form input
+                idPanenTerpilih = 0;
+                cbGrade.SelectedIndex = -1;
+                txtKeterangan.Clear();
+
+                // Refresh isi tabel
+                SegarkanTampilanGrading();
             }
         }
 
@@ -208,77 +93,23 @@ namespace PROJEKANN.Usercontrol.Distributor
         {
             if (e.RowIndex >= 0)
             {
-                idPanenTerpilih = Convert.ToInt32(
-                    dgvGrading.Rows[e.RowIndex]
-                    .Cells["id_panen"].Value
-                );
+                if (dgvGrading.Rows[e.RowIndex].Cells["id_panen"].Value != null)
+                {
+                    idPanenTerpilih = Convert.ToInt32(dgvGrading.Rows[e.RowIndex].Cells["id_panen"].Value);
+                }
             }
         }
 
-        private void cbGrade_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Grading_Load_1(object sender, EventArgs e)
-        {
-            TampilDataPanen();
-
-            TampilkanNamaUser();
-
-            cbGrade.Items.Clear();
-
-            cbGrade.Items.Add("A");
-            cbGrade.Items.Add("B");
-            cbGrade.Items.Add("C");
-        }
-
+        // ========================================================
+        // 🗺️ SISTEM NAVIGASI INTERFACES MENU DISTRIBUTOR
+        // ========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
+            if (ucBaru == null) return;
             panel1.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
             panel1.Controls.Add(ucBaru);
             ucBaru.BringToFront();
-        }
-
-        private void btnPanen_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.lihat_panen(this.mainForm, this.userLoginAktif)
-    );
-        }
-
-        private void btnGrading_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-       new PROJEKANN.Usercontrol.Distributor.Grading(this.mainForm, this.userLoginAktif)
-   );
-        }
-
-        private void btnPenawaran_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Penawaran(this.mainForm, this.userLoginAktif)
-    );
-        }
-
-        private void btnTransaksi_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.Transaksi(this.mainForm, this.userLoginAktif)
-    );
-        }
-
-        private void btnRiwayat_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(
-        new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi(this.mainForm, this.userLoginAktif)
-    );
         }
 
         private void btnDashboard_Click(object sender, EventArgs e)
@@ -286,9 +117,19 @@ namespace PROJEKANN.Usercontrol.Distributor
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor(this.mainForm, this.userLoginAktif));
         }
 
+        private void btnPanen_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.lihat_panen(this.mainForm, this.userLoginAktif));
+        }
+
         private void btnPanen_Click_1(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.lihat_panen(this.mainForm, this.userLoginAktif));
+        }
+
+        private void btnGrading_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Grading(this.mainForm, this.userLoginAktif));
         }
 
         private void btnGrading_Click_1(object sender, EventArgs e)
@@ -296,14 +137,29 @@ namespace PROJEKANN.Usercontrol.Distributor
             GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Grading(this.mainForm, this.userLoginAktif));
         }
 
+        private void btnPenawaran_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Penawaran(this.mainForm, this.userLoginAktif));
+        }
+
         private void btnPenawaran_Click_1(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Penawaran(this.mainForm, this.userLoginAktif));
         }
 
+        private void btnTransaksi_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Transaksi(this.mainForm, this.userLoginAktif));
+        }
+
         private void btnTransaksi_Click_1(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.Transaksi(this.mainForm, this.userLoginAktif));
+        }
+
+        private void btnRiwayat_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi(this.mainForm, this.userLoginAktif));
         }
 
         private void btnRiwayat_Click_1(object sender, EventArgs e)
@@ -325,5 +181,9 @@ namespace PROJEKANN.Usercontrol.Distributor
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
         }
+
+        // Kosongan Event Handlers bawaan desainer agar tidak corrupt
+        private void cbGrade_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
     }
 }
