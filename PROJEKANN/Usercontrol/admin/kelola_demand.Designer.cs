@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(kelola_demand));
-            panel1 = new Panel();
             label5 = new Label();
             keluarbutton_dashboard = new Button();
             button5 = new Button();
@@ -45,33 +44,8 @@
             button1 = new Button();
             label2 = new Label();
             label1 = new Label();
-            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.BackgroundImage = Properties.Resources.demand;
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(label5);
-            panel1.Controls.Add(keluarbutton_dashboard);
-            panel1.Controls.Add(button5);
-            panel1.Controls.Add(button4);
-            panel1.Controls.Add(button3);
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(button6);
-            panel1.Controls.Add(dataGridView1);
-            panel1.Controls.Add(dateTimePicker1);
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(label1);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(905, 552);
-            panel1.TabIndex = 0;
             // 
             // label5
             // 
@@ -94,7 +68,7 @@
             keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
             keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
             keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_dashboard.Location = new Point(-22, 503);
+            keluarbutton_dashboard.Location = new Point(-19, 509);
             keluarbutton_dashboard.Name = "keluarbutton_dashboard";
             keluarbutton_dashboard.Size = new Size(85, 46);
             keluarbutton_dashboard.TabIndex = 15;
@@ -269,18 +243,31 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.demand;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(button2);
+            Controls.Add(button5);
+            Controls.Add(button6);
+            Controls.Add(dataGridView1);
+            Controls.Add(textBox1);
+            Controls.Add(label3);
+            Controls.Add(dateTimePicker1);
+            Controls.Add(label4);
+            Controls.Add(label1);
+            Controls.Add(button1);
+            Controls.Add(button4);
+            Controls.Add(label2);
+            Controls.Add(button3);
+            Controls.Add(keluarbutton_dashboard);
+            Controls.Add(label5);
             Name = "kelola_demand";
             Size = new Size(908, 555);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel panel1;
         private Label label1;
         private Label label4;
         private Label label3;
