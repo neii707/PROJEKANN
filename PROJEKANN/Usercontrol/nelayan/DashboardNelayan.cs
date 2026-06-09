@@ -4,7 +4,6 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-// Disamakan ke subfolder nelayan agar satu ekosistem
 namespace PROJEKANN.Usercontrol.nelayan
 {
     public partial class DashboardNelayan : UserControl
@@ -191,9 +190,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // ==========================================================
-        // MEKANISME NAVIGASI UTAMA
-        // ==========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;
@@ -232,9 +228,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // ==========================================================
-        // SIDEBAR NAVIGATION ACTIONS (BISA SALING SINKRON SEFOLDER)
-        // ==========================================================
         private void dashboardbutton_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new DashboardNelayan(mainForm, userLoginAktif));
@@ -271,7 +264,6 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             if (konfirmasi == DialogResult.Yes)
             {
-                // Jembatan balik ke login utama (berada di luar folder nelayan)
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login(mainForm));
             }
         }

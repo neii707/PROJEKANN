@@ -8,25 +8,20 @@ namespace PROJEKANN.Usercontrol.nelayan
     public partial class NawarPanenNelayan : UserControl
     {
         private Form1 mainForm;
-        private string userLoginAktif; // Memegang USERNAME user aktif
-        private string namaAsliUser = ""; // Memegang NAMA ASLI untuk pencarian tabel
+        private string userLoginAktif;
+        private string namaAsliUser = ""; 
 
         public NawarPanenNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
             this.mainForm = form1;
 
-            // MENERIMA USERNAME LOGIN
             this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
 
-            // Jalankan pencarian nama asli & muat tabel penawaran
             AmbilDanTampilkanNamaAsli();
             MuatTabelPenawaran();
         }
 
-        /// <summary>
-        /// Mengambil nama asli berdasarkan username login aktif dan menampilkannya ke label sidebar
-        /// </summary>
         private void AmbilDanTampilkanNamaAsli()
         {
             try
@@ -47,7 +42,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                         }
                         else
                         {
-                            // Fallback jika nama kosong di database
                             this.namaAsliUser = userLoginAktif;
                         }
                     }
@@ -58,7 +52,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                 this.namaAsliUser = userLoginAktif;
             }
 
-            // SET TEKS NAMA ASLI KE LABELLING SIDEBAR
             if (lbnamauser_dashboard != null)
             {
                 lbnamauser_dashboard.Text = this.namaAsliUser;
@@ -67,7 +60,6 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void MuatTabelPenawaran()
         {
-            // Jika nama asli belum siap atau kosong, jangan eksekusi query dulu
             if (string.IsNullOrEmpty(namaAsliUser)) return;
 
             try
@@ -76,7 +68,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                 {
                     kon.Open();
 
-                    // QUERY FINAL menggunakan namaAsliUser hasil pencarian tabel database
                     string query = @"SELECT id, distributor, berat, grade, harga, estimasi, tanggal, status 
                                      FROM view_penawaran_panen_nelayan 
                                      WHERE nama_nelayan = @nama 
@@ -93,7 +84,6 @@ namespace PROJEKANN.Usercontrol.nelayan
 
                             dgvpenawaran.AutoGenerateColumns = false;
 
-                            // Pemetaan komponen kolom DataGridView
                             colID.DataPropertyName = "id";
                             colDistributor.DataPropertyName = "distributor";
                             colBerat.DataPropertyName = "berat";
@@ -114,9 +104,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // ==========================================================
-        // MEKANISME NAVIGASI UTAMA (SINKRON DENGAN KELOLA PANEN)
-        // ==========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;
@@ -155,9 +142,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // ==========================================================
-        // SIDEBAR NAVIGATION ACTIONS (KONSISTEN MENGIRIM USERNAME)
-        // ==========================================================
         private void dashboardbutton_nawar_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new DashboardNelayan(mainForm, userLoginAktif));
@@ -193,9 +177,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // ==========================================================
-        // FITUR AKSI TRANSAKSI PENAWARAN
-        // ==========================================================
         private void terima_nawar_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Penawaran Berhasil Diterima!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
