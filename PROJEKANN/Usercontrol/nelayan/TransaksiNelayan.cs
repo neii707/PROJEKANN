@@ -76,28 +76,10 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void GantiHalaman(UserControl ucBaru)
         {
-            if (ucBaru == null) return;
-
-            try
-            {
-                Panel panelInduk = this.Parent as Panel;
-
-                if (panelInduk != null)
-                {
-                    panelInduk.Controls.Clear();
-                    ucBaru.Dock = DockStyle.Fill;
-                    panelInduk.Controls.Add(ucBaru);
-                    ucBaru.BringToFront();
-                }
-                else
-                {
-                    mainForm.TampilkanHalaman(ucBaru);
-                }
-            }
-            catch
-            {
-                mainForm.TampilkanHalaman(ucBaru);
-            }
+            this.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            this.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
         }
 
         private void dashboardbutton_transaksi_Click(object sender, EventArgs e)

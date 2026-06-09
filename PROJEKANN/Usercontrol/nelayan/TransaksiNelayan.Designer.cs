@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TransaksiNelayan));
-            paneltransaksi = new Panel();
             konfirmasi_transaksi = new Button();
             dgvtransaksi = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
@@ -45,28 +44,8 @@
             inputpanenbutton_transaksi = new Button();
             dashboardbutton_transaksi = new Button();
             lbnamauser_transaksi = new Label();
-            paneltransaksi.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvtransaksi).BeginInit();
             SuspendLayout();
-            // 
-            // paneltransaksi
-            // 
-            paneltransaksi.BackgroundImage = (Image)resources.GetObject("paneltransaksi.BackgroundImage");
-            paneltransaksi.BackgroundImageLayout = ImageLayout.Stretch;
-            paneltransaksi.Controls.Add(konfirmasi_transaksi);
-            paneltransaksi.Controls.Add(dgvtransaksi);
-            paneltransaksi.Controls.Add(keluarbutton_transaksi);
-            paneltransaksi.Controls.Add(riwayatbutton_transaksi);
-            paneltransaksi.Controls.Add(transaksibutton_transaksi);
-            paneltransaksi.Controls.Add(penawaranbutton_transaksi);
-            paneltransaksi.Controls.Add(inputpanenbutton_transaksi);
-            paneltransaksi.Controls.Add(dashboardbutton_transaksi);
-            paneltransaksi.Controls.Add(lbnamauser_transaksi);
-            paneltransaksi.Location = new Point(0, 0);
-            paneltransaksi.Name = "paneltransaksi";
-            paneltransaksi.Size = new Size(908, 555);
-            paneltransaksi.TabIndex = 0;
-            paneltransaksi.Paint += paneltransaksi_Paint;
             // 
             // konfirmasi_transaksi
             // 
@@ -149,7 +128,7 @@
             keluarbutton_transaksi.FlatAppearance.BorderSize = 0;
             keluarbutton_transaksi.FlatStyle = FlatStyle.Flat;
             keluarbutton_transaksi.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_transaksi.Location = new Point(-22, 486);
+            keluarbutton_transaksi.Location = new Point(-19, 485);
             keluarbutton_transaksi.Name = "keluarbutton_transaksi";
             keluarbutton_transaksi.Size = new Size(110, 69);
             keluarbutton_transaksi.TabIndex = 33;
@@ -246,18 +225,25 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(paneltransaksi);
+            BackgroundImage = Properties.Resources.LOGIN__6_1;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(konfirmasi_transaksi);
+            Controls.Add(dgvtransaksi);
+            Controls.Add(keluarbutton_transaksi);
+            Controls.Add(riwayatbutton_transaksi);
+            Controls.Add(transaksibutton_transaksi);
+            Controls.Add(penawaranbutton_transaksi);
+            Controls.Add(inputpanenbutton_transaksi);
+            Controls.Add(dashboardbutton_transaksi);
+            Controls.Add(lbnamauser_transaksi);
             Name = "TransaksiNelayan";
             Size = new Size(908, 555);
-            paneltransaksi.ResumeLayout(false);
-            paneltransaksi.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvtransaksi).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel paneltransaksi;
         private Label lbnamauser_transaksi;
         private Button dashboardbutton_transaksi;
         private Button inputpanenbutton_transaksi;

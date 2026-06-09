@@ -135,11 +135,11 @@ namespace PROJEKANN.Usercontrol.nelayan
                 }
                 else
                 {
-                    if (kelolapanenpanel != null)
+                    if (this != null)
                     {
-                        kelolapanenpanel.Controls.Clear();
+                        this.Controls.Clear();
                         ucBaru.Dock = DockStyle.Fill;
-                        kelolapanenpanel.Controls.Add(ucBaru);
+                        this.Controls.Add(ucBaru);
                         ucBaru.BringToFront();
                     }
                     else
