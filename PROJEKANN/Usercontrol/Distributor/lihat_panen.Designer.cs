@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new Panel();
             lblNamaUser = new Label();
             btnKeluar = new Button();
             label1 = new Label();
@@ -39,28 +38,8 @@
             btnGrading = new Button();
             button2 = new Button();
             btnPanen = new Button();
-            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.BackgroundImage = Properties.Resources.WhatsApp_Image_2026_06_03_at_19_52_15;
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(lblNamaUser);
-            panel1.Controls.Add(btnKeluar);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(dataGridView1);
-            panel1.Controls.Add(btnRiwayat);
-            panel1.Controls.Add(btnTransaksi);
-            panel1.Controls.Add(btnPenawaran);
-            panel1.Controls.Add(btnGrading);
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(btnPanen);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(908, 555);
-            panel1.TabIndex = 0;
             // 
             // lblNamaUser
             // 
@@ -79,7 +58,7 @@
             btnKeluar.FlatAppearance.BorderSize = 0;
             btnKeluar.FlatStyle = FlatStyle.Flat;
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(0, 515);
+            btnKeluar.Location = new Point(8, 515);
             btnKeluar.Name = "btnKeluar";
             btnKeluar.Size = new Size(116, 34);
             btnKeluar.TabIndex = 12;
@@ -197,18 +176,26 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.lihat_paneh_dis;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(lblNamaUser);
+            Controls.Add(btnKeluar);
+            Controls.Add(dataGridView1);
+            Controls.Add(label1);
+            Controls.Add(btnRiwayat);
+            Controls.Add(btnTransaksi);
+            Controls.Add(btnPenawaran);
+            Controls.Add(btnGrading);
+            Controls.Add(button2);
+            Controls.Add(btnPanen);
             Name = "lihat_panen";
             Size = new Size(908, 555);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel panel1;
         private Button btnPanen;
         private Button btnTransaksi;
         private Button btnPenawaran;

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             dgvGrading = new DataGridView();
-            panel1 = new Panel();
+            lblNamaUser = new Label();
             btnKeluar = new Button();
             txtKeterangan = new TextBox();
             btnDashboard = new Label();
@@ -40,9 +40,7 @@
             btnPanen = new Button();
             btnTetapkan = new Button();
             cbGrade = new ComboBox();
-            lblNamaUser = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvGrading).BeginInit();
-            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // dgvGrading
@@ -56,27 +54,16 @@
             dgvGrading.TabIndex = 0;
             dgvGrading.CellContentClick += dgvGrading_CellContentClick;
             // 
-            // panel1
+            // lblNamaUser
             // 
-            panel1.BackgroundImage = Properties.Resources.grade;
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(lblNamaUser);
-            panel1.Controls.Add(btnKeluar);
-            panel1.Controls.Add(txtKeterangan);
-            panel1.Controls.Add(btnDashboard);
-            panel1.Controls.Add(btnRiwayat);
-            panel1.Controls.Add(btnTransaksi);
-            panel1.Controls.Add(btnPenawaran);
-            panel1.Controls.Add(btnGrading);
-            panel1.Controls.Add(btnPanen);
-            panel1.Controls.Add(btnTetapkan);
-            panel1.Controls.Add(cbGrade);
-            panel1.Controls.Add(dgvGrading);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(908, 555);
-            panel1.TabIndex = 1;
-            panel1.Paint += panel1_Paint;
+            lblNamaUser.AutoSize = true;
+            lblNamaUser.BackColor = Color.Transparent;
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNamaUser.Location = new Point(86, 50);
+            lblNamaUser.Name = "lblNamaUser";
+            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.TabIndex = 12;
+            lblNamaUser.Text = "---";
             // 
             // btnKeluar
             // 
@@ -84,9 +71,9 @@
             btnKeluar.FlatAppearance.BorderSize = 0;
             btnKeluar.FlatStyle = FlatStyle.Flat;
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(24, 515);
+            btnKeluar.Location = new Point(6, 515);
             btnKeluar.Name = "btnKeluar";
-            btnKeluar.Size = new Size(112, 34);
+            btnKeluar.Size = new Size(146, 34);
             btnKeluar.TabIndex = 11;
             btnKeluar.Text = "KELUAR";
             btnKeluar.UseVisualStyleBackColor = false;
@@ -204,35 +191,35 @@
             cbGrade.TabIndex = 1;
             cbGrade.SelectedIndexChanged += cbGrade_SelectedIndexChanged;
             // 
-            // lblNamaUser
-            // 
-            lblNamaUser.AutoSize = true;
-            lblNamaUser.BackColor = Color.Transparent;
-            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNamaUser.Location = new Point(86, 50);
-            lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(33, 25);
-            lblNamaUser.TabIndex = 12;
-            lblNamaUser.Text = "---";
-            // 
             // Grading
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.grading_dis;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(lblNamaUser);
+            Controls.Add(btnKeluar);
+            Controls.Add(txtKeterangan);
+            Controls.Add(btnDashboard);
+            Controls.Add(btnRiwayat);
+            Controls.Add(btnTransaksi);
+            Controls.Add(btnPenawaran);
+            Controls.Add(btnGrading);
+            Controls.Add(btnPanen);
+            Controls.Add(btnTetapkan);
+            Controls.Add(cbGrade);
+            Controls.Add(dgvGrading);
             Name = "Grading";
             Size = new Size(908, 555);
             Load += Grading_Load_1;
             ((System.ComponentModel.ISupportInitialize)dgvGrading).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private DataGridView dgvGrading;
-        private Panel panel1;
         private Button btnTetapkan;
         private ComboBox cbGrade;
         private Button btnRiwayat;

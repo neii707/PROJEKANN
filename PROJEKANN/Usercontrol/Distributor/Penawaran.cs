@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-using PROJEKANN.controller; // 🚀 Hubungkan folder controller
-using PROJEKANN.model;      // 🚀 Hubungkan folder model
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -12,7 +12,6 @@ namespace PROJEKANN.Usercontrol.Distributor
         private string userLoginAktif;
         private int idGradeTerpilih = 0;
 
-        // Deklarasi controller penawaran distributor
         private ControllerDistributorPenawaran _controller = new ControllerDistributorPenawaran();
 
         public Penawaran(Form1 form1, string username)
@@ -29,16 +28,14 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void SegarkanDataPenawaran()
         {
-            // 1. Tarik paket data olahan dari controller
+
             ModelDistributorPenawaran data = _controller.AmbilDataAwal(this.userLoginAktif);
 
-            // 2. Tampilkan Nama User ke label desainer
             if (lblNamaUser != null)
             {
                 lblNamaUser.Text = data.NamaAsliUser;
             }
 
-            // 3. Masukkan tabel data ke DataGridView
             if (data.TabelPenawaran != null)
             {
                 dgvPenawaran.DataSource = data.TabelPenawaran;
@@ -50,14 +47,12 @@ namespace PROJEKANN.Usercontrol.Distributor
         {
             if (e.RowIndex >= 0)
             {
-                // Ambil nilai cell id_grade dari baris terpilih
                 idGradeTerpilih = Convert.ToInt32(dgvPenawaran.Rows[e.RowIndex].Cells["id_grade"].Value);
             }
         }
 
         private void btnKirim_Click(object sender, EventArgs e)
         {
-            // Validasi Input Kosong bawaan program
             if (idGradeTerpilih == 0)
             {
                 MessageBox.Show("Pilih data terlebih dahulu!");
@@ -72,7 +67,6 @@ namespace PROJEKANN.Usercontrol.Distributor
 
             decimal hargaTawar = Convert.ToDecimal(txtHargaTawar.Text);
 
-            // Jalankan perintah insert lewat Stored Procedure di controller
             bool sukses = _controller.KirimHargaPenawaran(hargaTawar, idGradeTerpilih);
 
             if (sukses)
@@ -80,20 +74,16 @@ namespace PROJEKANN.Usercontrol.Distributor
                 MessageBox.Show("Penawaran berhasil dikirim!");
                 txtHargaTawar.Clear();
 
-                // Segarkan kembali data gridview
                 SegarkanDataPenawaran();
             }
         }
 
-        // ========================================================
-        // 🗺️ SISTEM NAVIGASI DISTRIBUTOR (TETAP DI VIEW UTAMA)
-        // ========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;
-            panel1.Controls.Clear();
+            this.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
-            panel1.Controls.Add(ucBaru);
+            this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 

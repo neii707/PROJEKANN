@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Transaksi));
             btnKonfirmasi = new Button();
-            panel1 = new Panel();
+            lblNamaUser = new Label();
             btnKeluar = new Button();
             btnRiwayat = new Button();
             btnTransaksi = new Button();
@@ -39,8 +38,6 @@
             btnPanen = new Button();
             btnDashboard = new Button();
             dgvTransaksi = new DataGridView();
-            lblNamaUser = new Label();
-            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
             SuspendLayout();
             // 
@@ -56,24 +53,16 @@
             btnKonfirmasi.UseVisualStyleBackColor = false;
             btnKonfirmasi.Click += btnKonfirmasi_Click_1;
             // 
-            // panel1
+            // lblNamaUser
             // 
-            panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(lblNamaUser);
-            panel1.Controls.Add(btnKeluar);
-            panel1.Controls.Add(btnRiwayat);
-            panel1.Controls.Add(btnTransaksi);
-            panel1.Controls.Add(btnPenawaran);
-            panel1.Controls.Add(btnGrading);
-            panel1.Controls.Add(btnPanen);
-            panel1.Controls.Add(btnDashboard);
-            panel1.Controls.Add(btnKonfirmasi);
-            panel1.Controls.Add(dgvTransaksi);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(908, 555);
-            panel1.TabIndex = 1;
+            lblNamaUser.AutoSize = true;
+            lblNamaUser.BackColor = Color.Transparent;
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNamaUser.Location = new Point(80, 47);
+            lblNamaUser.Name = "lblNamaUser";
+            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.TabIndex = 16;
+            lblNamaUser.Text = "---";
             // 
             // btnKeluar
             // 
@@ -81,7 +70,7 @@
             btnKeluar.FlatAppearance.BorderSize = 0;
             btnKeluar.FlatStyle = FlatStyle.Flat;
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(6, 515);
+            btnKeluar.Location = new Point(3, 515);
             btnKeluar.Name = "btnKeluar";
             btnKeluar.Size = new Size(116, 34);
             btnKeluar.TabIndex = 15;
@@ -96,7 +85,7 @@
             btnRiwayat.FlatAppearance.BorderSize = 0;
             btnRiwayat.FlatStyle = FlatStyle.Flat;
             btnRiwayat.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRiwayat.Location = new Point(38, 304);
+            btnRiwayat.Location = new Point(38, 297);
             btnRiwayat.Name = "btnRiwayat";
             btnRiwayat.Size = new Size(194, 34);
             btnRiwayat.TabIndex = 14;
@@ -110,7 +99,7 @@
             btnTransaksi.FlatAppearance.BorderSize = 0;
             btnTransaksi.FlatStyle = FlatStyle.Flat;
             btnTransaksi.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnTransaksi.Location = new Point(32, 265);
+            btnTransaksi.Location = new Point(32, 259);
             btnTransaksi.Name = "btnTransaksi";
             btnTransaksi.Size = new Size(129, 34);
             btnTransaksi.TabIndex = 13;
@@ -124,7 +113,7 @@
             btnPenawaran.FlatAppearance.BorderSize = 0;
             btnPenawaran.FlatStyle = FlatStyle.Flat;
             btnPenawaran.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPenawaran.Location = new Point(30, 229);
+            btnPenawaran.Location = new Point(30, 224);
             btnPenawaran.Name = "btnPenawaran";
             btnPenawaran.Size = new Size(147, 34);
             btnPenawaran.TabIndex = 12;
@@ -138,7 +127,7 @@
             btnGrading.FlatAppearance.BorderSize = 0;
             btnGrading.FlatStyle = FlatStyle.Flat;
             btnGrading.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGrading.Location = new Point(33, 190);
+            btnGrading.Location = new Point(33, 184);
             btnGrading.Name = "btnGrading";
             btnGrading.Size = new Size(112, 34);
             btnGrading.TabIndex = 11;
@@ -152,7 +141,7 @@
             btnPanen.FlatAppearance.BorderSize = 0;
             btnPanen.FlatStyle = FlatStyle.Flat;
             btnPanen.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPanen.Location = new Point(28, 152);
+            btnPanen.Location = new Point(28, 146);
             btnPanen.Name = "btnPanen";
             btnPanen.Size = new Size(150, 34);
             btnPanen.TabIndex = 10;
@@ -166,7 +155,7 @@
             btnDashboard.FlatAppearance.BorderSize = 0;
             btnDashboard.FlatStyle = FlatStyle.Flat;
             btnDashboard.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDashboard.Location = new Point(32, 118);
+            btnDashboard.Location = new Point(32, 112);
             btnDashboard.Name = "btnDashboard";
             btnDashboard.Size = new Size(137, 34);
             btnDashboard.TabIndex = 9;
@@ -185,34 +174,32 @@
             dgvTransaksi.TabIndex = 0;
             dgvTransaksi.CellContentClick += dgvTransaksi_CellContentClick;
             // 
-            // lblNamaUser
-            // 
-            lblNamaUser.AutoSize = true;
-            lblNamaUser.BackColor = Color.Transparent;
-            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNamaUser.Location = new Point(80, 47);
-            lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(33, 25);
-            lblNamaUser.TabIndex = 16;
-            lblNamaUser.Text = "---";
-            // 
             // Transaksi
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.transaksi_dis;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(lblNamaUser);
+            Controls.Add(btnKeluar);
+            Controls.Add(btnRiwayat);
+            Controls.Add(btnTransaksi);
+            Controls.Add(btnPenawaran);
+            Controls.Add(btnGrading);
+            Controls.Add(btnPanen);
+            Controls.Add(btnDashboard);
+            Controls.Add(btnKonfirmasi);
+            Controls.Add(dgvTransaksi);
             Name = "Transaksi";
             Size = new Size(908, 555);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button btnKonfirmasi;
-        private Panel panel1;
         private DataGridView dgvTransaksi;
         private Button btnRiwayat;
         private Button btnTransaksi;

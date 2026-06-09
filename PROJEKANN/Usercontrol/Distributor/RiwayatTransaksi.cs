@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-using PROJEKANN.controller; // 🚀 Hubungkan folder controller
-using PROJEKANN.model;      // 🚀 Hubungkan folder model
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -11,7 +11,6 @@ namespace PROJEKANN.Usercontrol.Distributor
         private Form1 mainForm;
         private string userLoginAktif;
 
-        // Inisialisasi object controller distributor
         private ControllerRiwayatDistributor _controller = new ControllerRiwayatDistributor();
 
         public RiwayatTransaksi(Form1 form1, string username)
@@ -27,16 +26,13 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void SegarkanDataTampilan()
         {
-            // 1. Ambil paket bundle data olahan dari controller
             ModelRiwayatDistributor data = _controller.AmbilSemuaDataRiwayat(this.userLoginAktif);
 
-            // 2. Tampilkan Nama User ke Komponen View
             if (lblNamaUser != null)
             {
                 lblNamaUser.Text = data.NamaUserReal;
             }
 
-            // 3. Tampilkan Data Statistik ke Komponen View
             if (lblSelesai != null)
             {
                 lblSelesai.Text = data.TotalSelesai;
@@ -46,7 +42,6 @@ namespace PROJEKANN.Usercontrol.Distributor
                 lblTotal.Text = "Rp " + data.TotalPembayaran.ToString("N0");
             }
 
-            // 4. Bind Data ke DataGridView dan Atur Format Penulisan Angka Desimal
             if (data.TabelRiwayat != null && dgvRiwayat != null)
             {
                 dgvRiwayat.DataSource = data.TabelRiwayat;
@@ -63,16 +58,13 @@ namespace PROJEKANN.Usercontrol.Distributor
             }
         }
 
-        // ========================================================
-        // 🗺️ SISTEM NAVIGASI FITUR MENU ASLI BAWAAN PROGRAM
-        // ========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;
 
-            panel1.Controls.Clear();
+            this.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
-            panel1.Controls.Add(ucBaru);
+            this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 

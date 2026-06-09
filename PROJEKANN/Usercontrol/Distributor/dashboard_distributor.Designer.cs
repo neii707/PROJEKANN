@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DashboardDistributor = new Panel();
             label1 = new Label();
             lblTotalTransaksi = new Label();
             lblDemand = new Label();
@@ -43,33 +42,8 @@
             btnGrading = new Button();
             btnPanen = new Button();
             btnDashboard = new Button();
-            DashboardDistributor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDashboard).BeginInit();
             SuspendLayout();
-            // 
-            // DashboardDistributor
-            // 
-            DashboardDistributor.BackgroundImage = Properties.Resources.WhatsApp_Image_2026_06_03_at_19_52_35;
-            DashboardDistributor.BackgroundImageLayout = ImageLayout.Stretch;
-            DashboardDistributor.Controls.Add(label1);
-            DashboardDistributor.Controls.Add(lblTotalTransaksi);
-            DashboardDistributor.Controls.Add(lblDemand);
-            DashboardDistributor.Controls.Add(lblNamaUser);
-            DashboardDistributor.Controls.Add(btnKeluar);
-            DashboardDistributor.Controls.Add(dgvDashboard);
-            DashboardDistributor.Controls.Add(label2);
-            DashboardDistributor.Controls.Add(lblJumlahPanen);
-            DashboardDistributor.Controls.Add(btnRiwayat);
-            DashboardDistributor.Controls.Add(btnTransaksi);
-            DashboardDistributor.Controls.Add(btnPenawaran);
-            DashboardDistributor.Controls.Add(btnGrading);
-            DashboardDistributor.Controls.Add(btnPanen);
-            DashboardDistributor.Controls.Add(btnDashboard);
-            DashboardDistributor.Location = new Point(0, 0);
-            DashboardDistributor.Name = "DashboardDistributor";
-            DashboardDistributor.Size = new Size(908, 555);
-            DashboardDistributor.TabIndex = 0;
-            DashboardDistributor.Paint += panel1_Paint;
             // 
             // label1
             // 
@@ -81,6 +55,7 @@
             label1.Size = new Size(240, 38);
             label1.TabIndex = 14;
             label1.Text = "Transaksi Terakhir";
+            label1.Click += label1_Click;
             // 
             // lblTotalTransaksi
             // 
@@ -124,9 +99,9 @@
             btnKeluar.FlatAppearance.BorderSize = 0;
             btnKeluar.FlatStyle = FlatStyle.Flat;
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(24, 515);
+            btnKeluar.Location = new Point(11, 515);
             btnKeluar.Name = "btnKeluar";
-            btnKeluar.Size = new Size(112, 34);
+            btnKeluar.Size = new Size(136, 34);
             btnKeluar.TabIndex = 10;
             btnKeluar.Text = "KELUAR";
             btnKeluar.UseVisualStyleBackColor = false;
@@ -253,19 +228,32 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(DashboardDistributor);
+            BackgroundImage = Properties.Resources.dasdboard_dis;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(label1);
+            Controls.Add(lblTotalTransaksi);
+            Controls.Add(lblDemand);
+            Controls.Add(lblNamaUser);
+            Controls.Add(btnKeluar);
+            Controls.Add(dgvDashboard);
+            Controls.Add(label2);
+            Controls.Add(lblJumlahPanen);
+            Controls.Add(btnRiwayat);
+            Controls.Add(btnTransaksi);
+            Controls.Add(btnPenawaran);
+            Controls.Add(btnGrading);
+            Controls.Add(btnPanen);
+            Controls.Add(btnDashboard);
+            DoubleBuffered = true;
             Name = "dashboard_distributor";
             Size = new Size(908, 555);
             Load += dashboard_distributor_Load;
-            DashboardDistributor.ResumeLayout(false);
-            DashboardDistributor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDashboard).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel DashboardDistributor;
         private Button btnDashboard;
         private Button btnPenawaran;
         private Button btnGrading;
