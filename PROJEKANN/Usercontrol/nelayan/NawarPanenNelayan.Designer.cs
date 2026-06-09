@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NawarPanenNelayan));
-            panel1 = new Panel();
             terima_tolak_tawaran = new Label();
             tolak_tawaran = new Button();
             terima_nawar = new Button();
@@ -50,30 +49,8 @@
             penawaranbutton_nawar = new Button();
             inputpanenbutton_nawar = new Button();
             dashboardbutton_nawar = new Button();
-            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvpenawaran).BeginInit();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(terima_tolak_tawaran);
-            panel1.Controls.Add(tolak_tawaran);
-            panel1.Controls.Add(terima_nawar);
-            panel1.Controls.Add(dgvpenawaran);
-            panel1.Controls.Add(labeldatanawar_nawar);
-            panel1.Controls.Add(lbnamauser_dashboard);
-            panel1.Controls.Add(keluarbutton_nawar);
-            panel1.Controls.Add(riwayatbutton_nawar);
-            panel1.Controls.Add(transaksibutton_nawar);
-            panel1.Controls.Add(penawaranbutton_nawar);
-            panel1.Controls.Add(inputpanenbutton_nawar);
-            panel1.Controls.Add(dashboardbutton_nawar);
-            panel1.Location = new Point(1, 1);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(908, 555);
-            panel1.TabIndex = 0;
             // 
             // terima_tolak_tawaran
             // 
@@ -304,18 +281,28 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.LOGIN__5_;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(terima_tolak_tawaran);
+            Controls.Add(tolak_tawaran);
+            Controls.Add(terima_nawar);
+            Controls.Add(labeldatanawar_nawar);
+            Controls.Add(lbnamauser_dashboard);
+            Controls.Add(dgvpenawaran);
+            Controls.Add(keluarbutton_nawar);
+            Controls.Add(riwayatbutton_nawar);
+            Controls.Add(transaksibutton_nawar);
+            Controls.Add(penawaranbutton_nawar);
+            Controls.Add(inputpanenbutton_nawar);
+            Controls.Add(dashboardbutton_nawar);
             Name = "NawarPanenNelayan";
             Size = new Size(908, 555);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvpenawaran).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel panel1;
         private Button dashboardbutton_nawar;
         private Button inputpanenbutton_nawar;
         private Button penawaranbutton_nawar;

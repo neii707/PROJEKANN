@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardNelayan));
-            panel2 = new Panel();
             lbnamauser_dashboard = new Label();
             keluarbutton_dashboard = new Button();
             panenlabel_dashboard = new Label();
@@ -48,31 +47,8 @@
             penawaranbutton_dashboard = new Button();
             inputpanenbutton_dashboard = new Button();
             dashboardbutton = new Button();
-            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDashboard).BeginInit();
             SuspendLayout();
-            // 
-            // panel2
-            // 
-            panel2.BackgroundImage = (Image)resources.GetObject("panel2.BackgroundImage");
-            panel2.BackgroundImageLayout = ImageLayout.Stretch;
-            panel2.Controls.Add(lbnamauser_dashboard);
-            panel2.Controls.Add(keluarbutton_dashboard);
-            panel2.Controls.Add(panenlabel_dashboard);
-            panel2.Controls.Add(dgvDashboard);
-            panel2.Controls.Add(penjualanlabel_dashboard);
-            panel2.Controls.Add(stoklabel_dashboard);
-            panel2.Controls.Add(penawaranlabel_dashboard);
-            panel2.Controls.Add(namauserlabel_dashboard);
-            panel2.Controls.Add(riwayatbutton_dashboard);
-            panel2.Controls.Add(transaksibutton_dashboard);
-            panel2.Controls.Add(penawaranbutton_dashboard);
-            panel2.Controls.Add(inputpanenbutton_dashboard);
-            panel2.Controls.Add(dashboardbutton);
-            panel2.Location = new Point(-1, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(908, 555);
-            panel2.TabIndex = 1;
             // 
             // lbnamauser_dashboard
             // 
@@ -95,7 +71,7 @@
             keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
             keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
             keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_dashboard.Location = new Point(-17, 487);
+            keluarbutton_dashboard.Location = new Point(-17, 486);
             keluarbutton_dashboard.Name = "keluarbutton_dashboard";
             keluarbutton_dashboard.Size = new Size(110, 69);
             keluarbutton_dashboard.TabIndex = 12;
@@ -294,18 +270,29 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel2);
+            BackgroundImage = Properties.Resources.LOGIN;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(lbnamauser_dashboard);
+            Controls.Add(dgvDashboard);
+            Controls.Add(keluarbutton_dashboard);
+            Controls.Add(panenlabel_dashboard);
+            Controls.Add(inputpanenbutton_dashboard);
+            Controls.Add(penawaranbutton_dashboard);
+            Controls.Add(transaksibutton_dashboard);
+            Controls.Add(dashboardbutton);
+            Controls.Add(riwayatbutton_dashboard);
+            Controls.Add(namauserlabel_dashboard);
+            Controls.Add(penawaranlabel_dashboard);
+            Controls.Add(stoklabel_dashboard);
+            Controls.Add(penjualanlabel_dashboard);
             Name = "DashboardNelayan";
             Size = new Size(908, 555);
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDashboard).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel panel2;
         private Button dashboardbutton;
         private Button inputpanenbutton_dashboard;
         private Button penawaranbutton_dashboard;

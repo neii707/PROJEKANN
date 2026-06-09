@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KelolaPanenNelayan));
-            kelolapanenpanel = new Panel();
             lbnamauser_kelola = new Label();
             dgvriwayatpanen = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
@@ -53,37 +52,9 @@
             inputpanenbutton_kelola = new Button();
             dashboardbutton_kelola = new Button();
             labelinput = new Label();
-            kelolapanenpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvriwayatpanen).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numBerat).BeginInit();
             SuspendLayout();
-            // 
-            // kelolapanenpanel
-            // 
-            kelolapanenpanel.BackgroundImage = (Image)resources.GetObject("kelolapanenpanel.BackgroundImage");
-            kelolapanenpanel.BackgroundImageLayout = ImageLayout.Stretch;
-            kelolapanenpanel.Controls.Add(lbnamauser_kelola);
-            kelolapanenpanel.Controls.Add(dgvriwayatpanen);
-            kelolapanenpanel.Controls.Add(labelriwayat_kelola);
-            kelolapanenpanel.Controls.Add(labelgrade_kelola);
-            kelolapanenpanel.Controls.Add(hapuspanen_kelola);
-            kelolapanenpanel.Controls.Add(simpanpanen_kelola);
-            kelolapanenpanel.Controls.Add(dtptanggalpanen);
-            kelolapanenpanel.Controls.Add(tanggalinput_kelola);
-            kelolapanenpanel.Controls.Add(inputpanen);
-            kelolapanenpanel.Controls.Add(numBerat);
-            kelolapanenpanel.Controls.Add(beratinput_kelola);
-            kelolapanenpanel.Controls.Add(keluarbutton_kelola);
-            kelolapanenpanel.Controls.Add(riwayatbutton_kelola);
-            kelolapanenpanel.Controls.Add(transaksibutton_kelola);
-            kelolapanenpanel.Controls.Add(penawaranbutton_kelola);
-            kelolapanenpanel.Controls.Add(inputpanenbutton_kelola);
-            kelolapanenpanel.Controls.Add(dashboardbutton_kelola);
-            kelolapanenpanel.Controls.Add(labelinput);
-            kelolapanenpanel.Location = new Point(0, 0);
-            kelolapanenpanel.Name = "kelolapanenpanel";
-            kelolapanenpanel.Size = new Size(908, 555);
-            kelolapanenpanel.TabIndex = 0;
             // 
             // lbnamauser_kelola
             // 
@@ -255,7 +226,7 @@
             keluarbutton_kelola.FlatAppearance.BorderSize = 0;
             keluarbutton_kelola.FlatStyle = FlatStyle.Flat;
             keluarbutton_kelola.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_kelola.Location = new Point(-16, 486);
+            keluarbutton_kelola.Location = new Point(-23, 486);
             keluarbutton_kelola.Name = "keluarbutton_kelola";
             keluarbutton_kelola.Size = new Size(110, 69);
             keluarbutton_kelola.TabIndex = 13;
@@ -350,19 +321,35 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(kelolapanenpanel);
+            BackgroundImage = Properties.Resources.LOGIN__4_;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(dgvriwayatpanen);
+            Controls.Add(lbnamauser_kelola);
+            Controls.Add(labelriwayat_kelola);
+            Controls.Add(labelgrade_kelola);
+            Controls.Add(simpanpanen_kelola);
+            Controls.Add(hapuspanen_kelola);
+            Controls.Add(dtptanggalpanen);
+            Controls.Add(tanggalinput_kelola);
+            Controls.Add(inputpanen);
+            Controls.Add(numBerat);
+            Controls.Add(beratinput_kelola);
+            Controls.Add(keluarbutton_kelola);
+            Controls.Add(transaksibutton_kelola);
+            Controls.Add(riwayatbutton_kelola);
+            Controls.Add(penawaranbutton_kelola);
+            Controls.Add(inputpanenbutton_kelola);
+            Controls.Add(dashboardbutton_kelola);
+            Controls.Add(labelinput);
             Name = "KelolaPanenNelayan";
             Size = new Size(908, 555);
-            kelolapanenpanel.ResumeLayout(false);
-            kelolapanenpanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvriwayatpanen).EndInit();
             ((System.ComponentModel.ISupportInitialize)numBerat).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel kelolapanenpanel;
         private Button dashboardbutton_kelola;
         private Button inputpanenbutton_kelola;
         private Button penawaranbutton_kelola;

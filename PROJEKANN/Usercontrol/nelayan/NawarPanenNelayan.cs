@@ -1,7 +1,8 @@
-﻿using Npgsql;
-using System;
+﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using PROJEKANN.controller;
+using PROJEKANN.model;
 
 namespace PROJEKANN.Usercontrol.nelayan
 {
@@ -9,98 +10,43 @@ namespace PROJEKANN.Usercontrol.nelayan
     {
         private Form1 mainForm;
         private string userLoginAktif;
-        private string namaAsliUser = ""; 
+        private string namaAsliUser = "";
+
+        private ControllerNawarPanen _controller = new ControllerNawarPanen();
 
         public NawarPanenNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
             this.mainForm = form1;
-
             this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
 
-            AmbilDanTampilkanNamaAsli();
-            MuatTabelPenawaran();
+            SegarkanTampilanPenawaran();
         }
 
-        private void AmbilDanTampilkanNamaAsli()
+        private void SegarkanTampilanPenawaran()
         {
-            try
-            {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
-                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+            ModelNawarPanen data = _controller.AmbilDataNawarPanen(this.userLoginAktif);
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        object result = cmd.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            this.namaAsliUser = result.ToString();
-                        }
-                        else
-                        {
-                            this.namaAsliUser = userLoginAktif;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                this.namaAsliUser = userLoginAktif;
-            }
-
+            this.namaAsliUser = data.NamaAsliUser;
             if (lbnamauser_dashboard != null)
             {
                 lbnamauser_dashboard.Text = this.namaAsliUser;
             }
-        }
 
-        private void MuatTabelPenawaran()
-        {
-            if (string.IsNullOrEmpty(namaAsliUser)) return;
-
-            try
+            if (data.TabelPenawaran != null)
             {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
+                dgvpenawaran.AutoGenerateColumns = false;
 
-                    string query = @"SELECT id, distributor, berat, grade, harga, estimasi, tanggal, status 
-                                     FROM view_penawaran_panen_nelayan 
-                                     WHERE nama_nelayan = @nama 
-                                     ORDER BY id DESC";
+                colID.DataPropertyName = "id";
+                colDistributor.DataPropertyName = "distributor";
+                colBerat.DataPropertyName = "berat";
+                colGrade.DataPropertyName = "grade";
+                colHarga.DataPropertyName = "harga";
+                colEstimasi.DataPropertyName = "estimasi";
+                colTanggal.DataPropertyName = "tanggal";
+                colStatus.DataPropertyName = "status";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@nama", namaAsliUser);
-
-                        using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            adapter.Fill(dt);
-
-                            dgvpenawaran.AutoGenerateColumns = false;
-
-                            colID.DataPropertyName = "id";
-                            colDistributor.DataPropertyName = "distributor";
-                            colBerat.DataPropertyName = "berat";
-                            colGrade.DataPropertyName = "grade";
-                            colHarga.DataPropertyName = "harga";
-                            colEstimasi.DataPropertyName = "estimasi";
-                            colTanggal.DataPropertyName = "tanggal";
-                            colStatus.DataPropertyName = "status";
-
-                            dgvpenawaran.DataSource = dt;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memuat data penawaran: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgvpenawaran.DataSource = data.TabelPenawaran;
             }
         }
 
@@ -154,8 +100,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void penawaranbutton_nawar_Click(object sender, EventArgs e)
         {
-            AmbilDanTampilkanNamaAsli();
-            MuatTabelPenawaran();
+            SegarkanTampilanPenawaran();
         }
 
         private void transaksibutton_nawar_Click(object sender, EventArgs e)

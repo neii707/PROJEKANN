@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RiwayatNelayan));
-            riwayatpanel = new Panel();
             dgvTransaksi = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
             colDistributor = new DataGridViewTextBoxColumn();
@@ -48,27 +47,8 @@
             inputpanenbutton_riwayat = new Button();
             dashboardbutton_riwayat = new Button();
             lbnamauser_riwayat = new Label();
-            riwayatpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
             SuspendLayout();
-            // 
-            // riwayatpanel
-            // 
-            riwayatpanel.BackgroundImage = (Image)resources.GetObject("riwayatpanel.BackgroundImage");
-            riwayatpanel.BackgroundImageLayout = ImageLayout.Stretch;
-            riwayatpanel.Controls.Add(dgvTransaksi);
-            riwayatpanel.Controls.Add(totallabel_riwayat);
-            riwayatpanel.Controls.Add(keluarbutton_riwayat);
-            riwayatpanel.Controls.Add(riwayatbutton_riwayat);
-            riwayatpanel.Controls.Add(transaksibutton_riwayat);
-            riwayatpanel.Controls.Add(penawaranbutton_riwayat);
-            riwayatpanel.Controls.Add(inputpanenbutton_riwayat);
-            riwayatpanel.Controls.Add(dashboardbutton_riwayat);
-            riwayatpanel.Controls.Add(lbnamauser_riwayat);
-            riwayatpanel.Location = new Point(0, 0);
-            riwayatpanel.Name = "riwayatpanel";
-            riwayatpanel.Size = new Size(908, 555);
-            riwayatpanel.TabIndex = 0;
             // 
             // dgvTransaksi
             // 
@@ -170,7 +150,7 @@
             keluarbutton_riwayat.FlatAppearance.BorderSize = 0;
             keluarbutton_riwayat.FlatStyle = FlatStyle.Flat;
             keluarbutton_riwayat.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_riwayat.Location = new Point(-17, 486);
+            keluarbutton_riwayat.Location = new Point(-15, 486);
             keluarbutton_riwayat.Name = "keluarbutton_riwayat";
             keluarbutton_riwayat.Size = new Size(110, 69);
             keluarbutton_riwayat.TabIndex = 33;
@@ -267,18 +247,25 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(riwayatpanel);
+            BackgroundImage = Properties.Resources.LOGIN__7_;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(dgvTransaksi);
+            Controls.Add(totallabel_riwayat);
+            Controls.Add(keluarbutton_riwayat);
+            Controls.Add(riwayatbutton_riwayat);
+            Controls.Add(transaksibutton_riwayat);
+            Controls.Add(penawaranbutton_riwayat);
+            Controls.Add(inputpanenbutton_riwayat);
+            Controls.Add(dashboardbutton_riwayat);
+            Controls.Add(lbnamauser_riwayat);
             Name = "RiwayatNelayan";
             Size = new Size(908, 555);
-            riwayatpanel.ResumeLayout(false);
-            riwayatpanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel riwayatpanel;
         private Label lbnamauser_riwayat;
         private Button dashboardbutton_riwayat;
         private Button inputpanenbutton_riwayat;

@@ -1,9 +1,9 @@
-﻿using Npgsql;
-using System;
+﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using PROJEKANN.controller;
+using PROJEKANN.model;
 
-// Disamakan ke subfolder nelayan agar satu ekosistem tanpa error namespace
 namespace PROJEKANN.Usercontrol.nelayan
 {
     public partial class TransaksiNelayan : UserControl
@@ -12,90 +12,39 @@ namespace PROJEKANN.Usercontrol.nelayan
         private string userLoginAktif;
         private string namaAsliUser = "";
 
+        private ControllerTransaksi _controller = new ControllerTransaksi();
+
         public TransaksiNelayan(Form1 form1, string usernameLogin)
         {
             InitializeComponent();
             this.mainForm = form1;
-
             this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
 
-            AmbilDanTampilkanNamaAsli();
-
-            MuatTabelTransaksiAktif();
+            SegarkanTampilanTransaksi();
         }
 
-        private void AmbilDanTampilkanNamaAsli()
+        private void SegarkanTampilanTransaksi()
         {
-            try
-            {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
-                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+            ModelTransaksi data = _controller.AmbilDataTransaksiAktif(this.userLoginAktif);
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        object result = cmd.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            this.namaAsliUser = result.ToString();
-                        }
-                        else
-                        {
-                            this.namaAsliUser = userLoginAktif;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                this.namaAsliUser = userLoginAktif;
-            }
-
+            this.namaAsliUser = data.NamaAsliUser;
             if (lbnamauser_transaksi != null)
             {
                 lbnamauser_transaksi.Text = this.namaAsliUser;
             }
-        }
 
-        private void MuatTabelTransaksiAktif()
-        {
-            try
+            if (data.TabelTransaksiAktif != null)
             {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
-                    string query = "SELECT id, distributor, berat, total, tanggal, status " +
-                                   "FROM view_transaksi_aktif_nelayan WHERE nelayan = @username";
+                dgvtransaksi.AutoGenerateColumns = false;
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
+                colID.DataPropertyName = "id";
+                colDistributor.DataPropertyName = "distributor";
+                colBerat.DataPropertyName = "berat";
+                colTotal.DataPropertyName = "total";
+                colTanggal.DataPropertyName = "tanggal";
+                colStatus.DataPropertyName = "status";
 
-                        using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            adapter.Fill(dt);
-
-                            dgvtransaksi.AutoGenerateColumns = false;
-
-                            colID.DataPropertyName = "id";
-                            colDistributor.DataPropertyName = "distributor";
-                            colBerat.DataPropertyName = "berat";
-                            colTotal.DataPropertyName = "total";
-                            colTanggal.DataPropertyName = "tanggal";
-                            colStatus.DataPropertyName = "status";
-
-                            dgvtransaksi.DataSource = dt;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memuat transaksi aktif: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgvtransaksi.DataSource = data.TabelTransaksiAktif;
             }
         }
 
@@ -114,64 +63,23 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             if (dr == DialogResult.Yes)
             {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
+                bool sukses = _controller.KonfirmasiTransaksiSelesai(idTransaksiSelected);
+
+                if (sukses)
                 {
-                    kon.Open();
+                    MessageBox.Show($"Transaksi #{idTransaksiSelected} sukses ditutup dan dipindahkan ke riwayat archive.", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    using (NpgsqlTransaction sqlTrans = kon.BeginTransaction())
-                    {
-                        try
-                        {
-                            string queryUpdateStatus = @"
-                                UPDATE transaksi 
-                                SET status_transaksi = 'selesai' 
-                                WHERE id_transaksi = @id_transaksi";
-
-                            using (NpgsqlCommand cmd = new NpgsqlCommand(queryUpdateStatus, kon, sqlTrans))
-                            {
-                                cmd.Parameters.AddWithValue("@id_transaksi", idTransaksiSelected);
-                                cmd.ExecuteNonQuery();
-                            }
-
-                            sqlTrans.Commit();
-                            MessageBox.Show($"Transaksi #{idTransaksiSelected} sukses ditutup dan dipindahkan ke riwayat archive.", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                            MuatTabelTransaksiAktif();
-                        }
-                        catch (Exception ex)
-                        {
-                            sqlTrans.Rollback();
-                            MessageBox.Show("Gagal mengonfirmasi transaksi. Perubahan database dibatalkan: " + ex.Message, "Transaction Rollback", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
+                    SegarkanTampilanTransaksi();
                 }
             }
         }
 
         private void GantiHalaman(UserControl ucBaru)
         {
-            if (ucBaru == null) return;
-
-            try
-            {
-                Panel panelInduk = this.Parent as Panel;
-
-                if (panelInduk != null)
-                {
-                    panelInduk.Controls.Clear();
-                    ucBaru.Dock = DockStyle.Fill;
-                    panelInduk.Controls.Add(ucBaru);
-                    ucBaru.BringToFront();
-                }
-                else
-                {
-                    mainForm.TampilkanHalaman(ucBaru);
-                }
-            }
-            catch
-            {
-                mainForm.TampilkanHalaman(ucBaru);
-            }
+            this.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            this.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
         }
 
         private void dashboardbutton_transaksi_Click(object sender, EventArgs e)
@@ -191,8 +99,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void transaksibutton_transaksi_Click(object sender, EventArgs e)
         {
-            AmbilDanTampilkanNamaAsli();
-            MuatTabelTransaksiAktif();
+            SegarkanTampilanTransaksi();
         }
 
         private void riwayatbutton_transaksi_Click(object sender, EventArgs e)
