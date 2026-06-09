@@ -1,15 +1,7 @@
-﻿using Npgsql;
-using PROJEKANN.database;
-using PROJEKANN.Usercontrol.Distributor;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
-using static System.Windows.Forms.DataFormats;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using PROJEKANN.controller; // 🚀 Akses ke folder controller
+using PROJEKANN.model;      // 🚀 Akses ke folder model
 
 namespace PROJEKANN.Usercontrol
 {
@@ -17,6 +9,10 @@ namespace PROJEKANN.Usercontrol
     {
         private Form1 mainForm;
         private string userLoginAktif;
+
+        // Daftarkan controller dashboard distributor
+        private ControllerDashboardDistributor _controller = new ControllerDashboardDistributor();
+
         public dashboard_distributor(Form1 form1, string username)
         {
             InitializeComponent();
@@ -24,175 +20,41 @@ namespace PROJEKANN.Usercontrol
             this.userLoginAktif = username;
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void dashboard_distributor_Load(object sender, EventArgs e)
         {
-           
-            MuatTransaksiPalingAkhir();
-            MuatJumlahPanen();
-            MuatDemand();
-            MuatJumlahTransaksiSelesai();
-            TampilkanNamaUser();
+            SegarkanDataTampilan();
         }
 
-        private void TampilkanNamaUser()
+        private void SegarkanDataTampilan()
         {
-            try
+            // 1. Minta data rangkuman ke controller
+            ModelDashboardDistributor data = _controller.AmbilDataDashboard(this.userLoginAktif);
+
+            // 2. Distribusikan data ke masing-masing komponen UI
+            lblNamaUser.Text = data.NamaUserReal;
+            lblJumlahPanen.Text = data.TeksJumlahPanen;
+            lblDemand.Text = data.TeksDemand;
+            lblTotalTransaksi.Text = data.TeksTotalTransaksi;
+
+            // 3. Ikat data ke DataGridView jika datanya tersedia
+            if (data.TabelTransaksiAkhir != null)
             {
-                using (NpgsqlConnection kon = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    kon.Open();
-
-                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
-                    {
-                        cmd.Parameters.AddWithValue("@username", userLoginAktif);
-                        object result = cmd.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            lblNamaUser.Text = result.ToString();
-                        }
-                        else
-                        {
-                            lblNamaUser.Text = userLoginAktif;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                lblNamaUser.Text = userLoginAktif;
+                dgvDashboard.DataSource = data.TabelTransaksiAkhir;
+                dgvDashboard.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
-
-        private void MuatTransaksiPalingAkhir()
-        {
-            try
-            {
-                using (NpgsqlConnection conn = DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = "SELECT * FROM view_transaksi_paling_akhir;";
-
-                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
-                    {
-                        DataTable dt = new DataTable();
-
-                        da.Fill(dt);
-
-                        dgvDashboard.DataSource = dt;
-
-                        dgvDashboard.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memuat transaksi: " + ex.Message);
-            }
-        }
-
-        private void MuatJumlahPanen()
-        {
-            try
-            {
-                using (NpgsqlConnection conn = DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = "SELECT total_panen FROM view_jumlah_panen";
-
-                    NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-
-                    lblJumlahPanen.Text = cmd.ExecuteScalar().ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void MuatDemand()
-        {
-            try
-            {
-                using (NpgsqlConnection conn =
-                    DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = "SELECT total_demand FROM view_demand_aktif";
-
-                    NpgsqlCommand cmd =
-                        new NpgsqlCommand(query, conn);
-
-                    decimal totalDemand = Convert.ToDecimal(cmd.ExecuteScalar());
-
-                    if (totalDemand >= 1000)
-                    {
-                        lblDemand.Text =
-                            (totalDemand / 1000).ToString("N1") + " Ton";
-                    }
-                    else if (totalDemand >= 100)
-                    {
-                        lblDemand.Text =
-                            (totalDemand / 100).ToString("N1") + " Kwintal";
-                    }
-                    else
-                    {
-                        lblDemand.Text =
-                            totalDemand.ToString("N0") + " Kg";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memuat demand: " + ex.Message);
-            }
-        }
-
-        private void MuatJumlahTransaksiSelesai()
-        {
-            try
-            {
-                using (NpgsqlConnection conn = DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = "SELECT total_transaksi FROM view_total_transaksi";
-
-                    NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-
-                    lblTotalTransaksi.Text = cmd.ExecuteScalar().ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-
 
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             DashboardDistributor.Controls.Clear();
-
             ucBaru.Dock = DockStyle.Fill;
-
             DashboardDistributor.Controls.Add(ucBaru);
-
             ucBaru.BringToFront();
         }
 
+        // ========================================================
+        // 🗺️ TOMBOL NAVIGASI MENU DISTRIBUTOR
+        // ========================================================
         private void btnDashboard_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor(this.mainForm, this.userLoginAktif));
@@ -223,32 +85,12 @@ namespace PROJEKANN.Usercontrol
             GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi(this.mainForm, this.userLoginAktif));
         }
 
-        private void lblJumlahPanen_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblDemand_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblTotalTransaksi_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
-        private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-
-        private void lblNamaUser_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        // Event kosong dibiarkan agar tidak merusak pointer designer .picker
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
+        private void lblJumlahPanen_Click(object sender, EventArgs e) { }
+        private void lblDemand_Click(object sender, EventArgs e) { }
+        private void lblTotalTransaksi_Click(object sender, EventArgs e) { }
+        private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void lblNamaUser_Click(object sender, EventArgs e) { }
     }
 }

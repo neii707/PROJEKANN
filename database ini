@@ -16,6 +16,7 @@ CREATE TABLE usser (
 id_user SERIAL PRIMARY KEY,
 nama VARCHAR(100) NOT NULL,
 no_hp VARCHAR(20) NOT NULL,
+alamat VARCHAR(100) NOT NULL,
 username VARCHAR(50) UNIQUE NOT NULL,
 passwd VARCHAR(50) NOT NULL,
 status_konfir_akun VARCHAR(20) NOT NULL,
@@ -255,7 +256,9 @@ ORDER BY t.tanggal DESC;
 --cek view
 SELECT * FROM view_dashboard_distributor;
 
--- admin view
+-- =========================================
+-- VIEW PUNYAK ADMIN
+-- =========================================
 CREATE OR REPLACE VIEW v_aktivitas_terkini AS
 SELECT 
     'NEL0' || p.id_panen AS id, 
@@ -273,3 +276,69 @@ SELECT
 FROM demand d
 JOIN usser u ON d.id_user = u.id_user;
 
+CREATE OR REPLACE VIEW public.v_demand
+ AS
+ SELECT 'DEM0'::text || id_demand AS id,
+    target_kg,
+    deadline AS tanggal
+   FROM demand d;
+
+CREATE OR REPLACE VIEW public.v_grafik_line_stok
+ AS
+ SELECT to_char(t.tanggal::timestamp with time zone, 'Month'::text) AS bulan,
+    EXTRACT(month FROM t.tanggal) AS urutan_bulan,
+    g.kategori AS grade,
+    sum(p.berat_per_kg) AS stok
+   FROM transaksi t
+     JOIN grade g ON t.id_grade = g.id_grade
+     JOIN panen p ON p.id_panen = g.id_panen
+  WHERE t.status_transaksi::text = 'Selesai'::text
+  GROUP BY (to_char(t.tanggal::timestamp with time zone, 'Month'::text)), (EXTRACT(month FROM t.tanggal)), g.kategori
+  ORDER BY (EXTRACT(month FROM t.tanggal)), g.kategori;
+
+CREATE OR REPLACE VIEW public.v_grafik_line_transaksi
+ AS
+ SELECT to_char(t.tanggal::timestamp with time zone, 'Month'::text) AS bulan,
+    EXTRACT(month FROM t.tanggal) AS urutan_bulan,
+    g.kategori AS grade,
+    count(t.id_transaksi) AS total_transaksi
+   FROM transaksi t
+     JOIN grade g ON t.id_grade = g.id_grade
+  WHERE t.status_transaksi::text = 'Selesai'::text
+  GROUP BY (to_char(t.tanggal::timestamp with time zone, 'Month'::text)), (EXTRACT(month FROM t.tanggal)), g.kategori
+  ORDER BY (EXTRACT(month FROM t.tanggal)), g.kategori;
+
+CREATE OR REPLACE VIEW public.v_konfir_akun2
+ AS
+ SELECT 'ACC0'::text || id_user AS id,
+    nama,
+    username,
+    passwd AS password,
+    status_konfir_akun AS status
+   FROM usser u
+  ORDER BY (
+        CASE
+            WHEN status_konfir_akun::text = 'Menunggu'::text THEN 1
+            WHEN status_konfir_akun::text = 'Konfirmasi'::text THEN 2
+            ELSE 3
+        END);
+
+CREATE OR REPLACE VIEW public.v_labelakun
+ AS
+ SELECT count(id_user) AS total_akun_dikonfirmasi
+   FROM usser u
+  WHERE status_konfir_akun::text = 'Konfirmasi'::text;
+
+CREATE OR REPLACE VIEW public.v_labelstok
+ AS
+ SELECT sum(p.berat_per_kg) AS stok
+   FROM transaksi t
+     JOIN grade g ON t.id_grade = g.id_grade
+     JOIN panen p ON p.id_panen = g.id_panen
+  WHERE t.status_transaksi::text = 'Selesai'::text;
+
+CREATE OR REPLACE VIEW public.v_labeltransaksi
+ AS
+ SELECT count(id_transaksi) AS total_transaksi_selesai
+   FROM transaksi t
+  WHERE status_transaksi::text = 'Selesai'::text;

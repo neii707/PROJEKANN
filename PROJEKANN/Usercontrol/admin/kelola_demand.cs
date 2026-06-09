@@ -1,11 +1,7 @@
-﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.admin
 {
@@ -13,10 +9,25 @@ namespace PROJEKANN.Usercontrol.admin
     {
         private Form1 mainForm;
         private string userLoginAktif;
-        public kelola_demand()
+        private ControllerKelolaDemand _controller = new ControllerKelolaDemand();
+        public kelola_demand(Form1 form1, string username)
         {
             InitializeComponent();
-            tampil_demand();
+            this.mainForm = form1;
+            this.userLoginAktif = username;
+
+            SegarkanDataTampilan();
+        }
+
+        private void SegarkanDataTampilan()
+        {
+            ModelKelolaDemand data = _controller.AmbilHalamanDemand(this.userLoginAktif);
+            label5.Text = data.NamaUserReal;
+            if (data.TabelDemand != null)
+            {
+                dataGridView1.DataSource = data.TabelDemand;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
         }
 
         private void GantiHalamanFitur(UserControl ucBaru)
@@ -27,111 +38,54 @@ namespace PROJEKANN.Usercontrol.admin
             ucBaru.BringToFront();
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            Form1 formUtama = this.FindForm() as Form1;
-
-            if (formUtama != null)
-            {
-                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin(formUtama, this.userLoginAktif));
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun());
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_demand());
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_stok());
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi());
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            string targetkg = textBox1.Text.Trim();
+            string targetRaw = textBox1.Text.Trim();
             DateTime tanggal = dateTimePicker1.Value.Date;
 
-            if (string.IsNullOrEmpty(targetkg))
+            if (string.IsNullOrEmpty(targetRaw))
             {
                 MessageBox.Show("Data tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            try
+
+            if (!int.TryParse(targetRaw, out int targetKg))
             {
-                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = @"
-                INSERT INTO demand (target_kg, deadline, id_user) 
-                VALUES (@target, @tanggal, '1')";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@target", Convert.ToInt32(targetkg));
-                        cmd.Parameters.AddWithValue("@tanggal", tanggal);
-
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    MessageBox.Show("Data demand baru berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    tampil_demand();
-                }
-
+                MessageBox.Show("Target KG harus berupa angka yang valid!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            catch (Exception ex)
+
+            if (_controller.TambahDemand(targetKg, tanggal, this.userLoginAktif))
             {
-                MessageBox.Show("Gagal menyimpan data: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Data demand baru berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                textBox1.Clear(); 
+                SegarkanDataTampilan();
             }
         }
 
-        private void tampil_demand()
+        private void button6_Click(object sender, EventArgs e)
         {
-            try
-            {
-                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = "SELECT * FROM v_demand";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                    {
-                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
-
-                            dataGridView1.DataSource = dt;
-                            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memuat aktivitas lewat View: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin(this.mainForm, this.userLoginAktif));
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun(this.mainForm, this.userLoginAktif));
+        }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_demand(this.mainForm, this.userLoginAktif));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_stok(this.mainForm, this.userLoginAktif));
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi(this.mainForm, this.userLoginAktif));
         }
 
         private void keluarbutton_dashboard_Click(object sender, EventArgs e)
@@ -148,5 +102,9 @@ namespace PROJEKANN.Usercontrol.admin
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e) { }
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e) { }
+        private void label5_Click(object sender, EventArgs e) { }
     }
 }

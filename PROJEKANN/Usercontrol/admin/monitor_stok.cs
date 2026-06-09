@@ -1,14 +1,9 @@
-﻿using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.WinForms;
-using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.admin
 {
@@ -16,10 +11,59 @@ namespace PROJEKANN.Usercontrol.admin
     {
         private Form1 mainForm;
         private string userLoginAktif;
-        public monitor_stok()
+        private ControllerMonitorStok _controller = new ControllerMonitorStok();
+
+        public monitor_stok(Form1 form1, string username)
         {
             InitializeComponent();
-            tampilkanchart();
+            this.mainForm = form1;
+            this.userLoginAktif = username;
+
+            SegarkanDataTampilan();
+        }
+
+        private void SegarkanDataTampilan()
+        {
+            ModelMonitorStok data = _controller.AmbilDataMonitorStok(this.userLoginAktif);
+            label5.Text = data.NamaUserReal;
+            cartesianChart1.Series = new ISeries[]
+            {
+                new LineSeries<int>
+                {
+                    Name = "Grade A",
+                    Values = data.DataGradeA,
+                    GeometrySize = 10
+                },
+                new LineSeries<int>
+                {
+                    Name = "Grade B",
+                    Values = data.DataGradeB,
+                    GeometrySize = 10
+                },
+                new LineSeries<int>
+                {
+                    Name = "Grade C",
+                    Values = data.DataGradeC,
+                    GeometrySize = 10
+                }
+            };
+
+            cartesianChart1.XAxes = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Bulan",
+                    Labels = data.LabelBulan.ToArray()
+                }
+            };
+
+            cartesianChart1.YAxes = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Jumlah Stok"
+                }
+            };
         }
 
         private void GantiHalamanFitur(UserControl ucBaru)
@@ -30,134 +74,29 @@ namespace PROJEKANN.Usercontrol.admin
             ucBaru.BringToFront();
         }
 
-        private void tampilkanchart()
+        private void button7_Click(object sender, EventArgs e)
         {
-            List<int> dataGradeA = new List<int>();
-            List<int> dataGradeB = new List<int>();
-            List<int> dataGradeC = new List<int>();
-            List<string> labelBulan = new List<string>();
-
-            try
-            {
-                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    conn.Open();
-                    string query = "SELECT * FROM v_grafik_line_stok";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                    {
-                        using (NpgsqlDataReader dr = cmd.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                string bulan = dr["bulan"].ToString().Trim();
-                                string grade = dr["grade"].ToString().Trim().ToUpper();
-                                int total = Convert.ToInt32(dr["stok"]);
-
-                                if (!labelBulan.Contains(bulan))
-                                {
-                                    labelBulan.Add(bulan);
-                                }
-
-                                if (grade == "A")
-                                {
-                                    dataGradeA.Add(total);
-                                }
-                                else if (grade == "B")
-                                {
-                                    dataGradeB.Add(total);
-                                }
-                                else if (grade == "C")
-                                {
-                                    dataGradeC.Add(total);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                cartesianChart1.Series = new ISeries[]
-                {
-                    new LineSeries<int>
-                    {
-                        Name = "Grade A",
-                        Values = dataGradeA,
-                        GeometrySize = 10
-                    },
-                    new LineSeries<int>
-                    {
-                        Name = "Grade B",
-                        Values = dataGradeB,
-                        GeometrySize = 10
-                    },
-                    new LineSeries<int>
-                    {
-                        Name = "Grade C",
-                        Values = dataGradeC,
-                        GeometrySize = 10
-                    }
-                };
-
-                cartesianChart1.XAxes = new Axis[]
-                {
-                    new Axis
-                    {
-                        Name = "Bulan",
-                        Labels = labelBulan.ToArray()
-                    }
-                };
-
-                cartesianChart1.YAxes = new Axis[]
-                {
-                    new Axis
-                    {
-                        Name = "Jumlah Stok"
-                    }
-                };
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memuat multi-line chart: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void button5_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi());
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_stok());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin(this.mainForm, this.userLoginAktif));
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun());
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            Form1 formUtama = this.FindForm() as Form1;
-
-            if (formUtama != null)
-            {
-                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin(formUtama, this.userLoginAktif));
-            }
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun(this.mainForm, this.userLoginAktif));
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_demand());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_demand(this.mainForm, this.userLoginAktif));
         }
 
-        private void cartesianChart1_Load(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_stok(this.mainForm, this.userLoginAktif));
+        }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi(this.mainForm, this.userLoginAktif));
         }
 
         private void keluarbutton_dashboard_Click(object sender, EventArgs e)
@@ -174,5 +113,9 @@ namespace PROJEKANN.Usercontrol.admin
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
+        private void cartesianChart1_Load(object sender, EventArgs e) { }
+        private void label5_Click(object sender, EventArgs e) { }
     }
 }

@@ -1,13 +1,7 @@
-﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
-using static System.Windows.Forms.DataFormats;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.admin
 {
@@ -15,10 +9,25 @@ namespace PROJEKANN.Usercontrol.admin
     {
         private Form1 mainForm;
         private string userLoginAktif;
-        public kelola_akun()
+        private ControllerKelolaAkun _controller = new ControllerKelolaAkun();
+        public kelola_akun(Form1 form1, string username)
         {
             InitializeComponent();
-            tampil_akun();
+            this.mainForm = form1;
+            this.userLoginAktif = username;
+
+            SegarkanDataTampilan();
+        }
+
+        private void SegarkanDataTampilan()
+        {
+            ModelKelolaAkun data = _controller.AmbilHalamanKelolaAkun(this.userLoginAktif);
+            label5.Text = data.NamaUserReal;
+            if (data.TabelAkun != null)
+            {
+                dataGridView1.DataSource = data.TabelAkun;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
         }
 
         private void GantiHalamanFitur(UserControl ucBaru)
@@ -38,102 +47,16 @@ namespace PROJEKANN.Usercontrol.admin
             }
 
             string usernameTerpilih = dataGridView1.SelectedRows[0].Cells["username"].Value.ToString();
-
             DialogResult dialogResult = MessageBox.Show($"Apakah Anda yakin ingin mengonfirmasi akun dengan username '{usernameTerpilih}'?", "Konfirmasi Akun", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dialogResult == DialogResult.Yes)
             {
-                try
+                if (_controller.UpdateStatusAkun(usernameTerpilih, "Konfirmasi"))
                 {
-                    using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
-                    {
-                        conn.Open();
-
-                        string queryUpdate = @"
-                    UPDATE usser 
-                    SET status_konfir_akun = 'Konfirmasi' 
-                    WHERE username = @username";
-
-                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryUpdate, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@username", usernameTerpilih);
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        MessageBox.Show($"Akun '{usernameTerpilih}' berhasil dikonfirmasi dan sekarang sudah aktif!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        tampil_akun();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Gagal mengonfirmasi akun: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Akun '{usernameTerpilih}' berhasil dikonfirmasi dan sekarang sudah aktif!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SegarkanDataTampilan(); 
                 }
             }
-        }
-
-        private void tampil_akun()
-        {
-            try
-            {
-                using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = "SELECT * FROM v_konfir_akun2";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                    {
-                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
-
-                            dataGridView1.DataSource = dt;
-                            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal memuat aktivitas lewat View: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            Form1 formUtama = this.FindForm() as Form1;
-
-            if (formUtama != null)
-            {
-                formUtama.TampilkanHalaman(new PROJEKANN.Usercontrol.dashboard_admin(formUtama, this.userLoginAktif));
-            }
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun());
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_demand());
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_stok());
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi());
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -145,38 +68,41 @@ namespace PROJEKANN.Usercontrol.admin
             }
 
             string usernameTerpilih = dataGridView1.SelectedRows[0].Cells["username"].Value.ToString();
-
             DialogResult dialogResult = MessageBox.Show($"Apakah Anda yakin ingin memblokir akun dengan username '{usernameTerpilih}'?", "Konfirmasi Akun", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dialogResult == DialogResult.Yes)
             {
-                try
+                if (_controller.UpdateStatusAkun(usernameTerpilih, "Blokir"))
                 {
-                    using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
-                    {
-                        conn.Open();
-
-                        string queryUpdate = @"
-                    UPDATE usser 
-                    SET status_konfir_akun = 'Blokir' 
-                    WHERE username = @username";
-
-                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryUpdate, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@username", usernameTerpilih);
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        MessageBox.Show($"Akun '{usernameTerpilih}' berhasil diblokir !", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        tampil_akun();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Gagal memblokir akun: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Akun '{usernameTerpilih}' berhasil diblokir !", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SegarkanDataTampilan();
                 }
             }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_admin(this.mainForm, this.userLoginAktif));
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_akun(this.mainForm, this.userLoginAktif));
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.kelola_demand(this.mainForm, this.userLoginAktif));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_stok(this.mainForm, this.userLoginAktif));
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.admin.monitor_transaksi(this.mainForm, this.userLoginAktif));
         }
 
         private void keluarbutton_dashboard_Click(object sender, EventArgs e)
@@ -193,5 +119,8 @@ namespace PROJEKANN.Usercontrol.admin
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void label5_Click(object sender, EventArgs e) { }
     }
 }
