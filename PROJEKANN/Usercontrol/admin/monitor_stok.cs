@@ -68,9 +68,9 @@ namespace PROJEKANN.Usercontrol.admin
 
         private void GantiHalamanFitur(UserControl ucBaru)
         {
-            panel1.Controls.Clear();
+            this.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
-            panel1.Controls.Add(ucBaru);
+            this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 
