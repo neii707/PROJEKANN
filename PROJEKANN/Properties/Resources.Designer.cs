@@ -63,9 +63,49 @@ namespace PROJEKANN.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _5 {
+            get {
+                object obj = ResourceManager.GetObject("5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _6 {
+            get {
+                object obj = ResourceManager.GetObject("6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _7 {
+            get {
+                object obj = ResourceManager.GetObject("7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _8 {
             get {
                 object obj = ResourceManager.GetObject("8", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _81 {
+            get {
+                object obj = ResourceManager.GetObject("81", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +143,9 @@ namespace PROJEKANN.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DASHBOARD {
+        internal static System.Drawing.Bitmap Dashboard {
             get {
-                object obj = ResourceManager.GetObject("DASHBOARD", resourceCulture);
+                object obj = ResourceManager.GetObject("Dashboard", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -116,6 +156,46 @@ namespace PROJEKANN.Properties {
         internal static System.Drawing.Bitmap dashboard_admin {
             get {
                 object obj = ResourceManager.GetObject("dashboard admin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Dashboard1 {
+            get {
+                object obj = ResourceManager.GetObject("Dashboard1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Dashboard2 {
+            get {
+                object obj = ResourceManager.GetObject("Dashboard2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Dashboard3 {
+            get {
+                object obj = ResourceManager.GetObject("Dashboard3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DASHBOARD4 {
+            get {
+                object obj = ResourceManager.GetObject("DASHBOARD4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,15 +223,9 @@ namespace PROJEKANN.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-<<<<<<< HEAD
         internal static System.Drawing.Bitmap grading_dis {
             get {
                 object obj = ResourceManager.GetObject("grading dis", resourceCulture);
-=======
-        internal static System.Drawing.Bitmap LOGIN {
-            get {
-                object obj = ResourceManager.GetObject("LOGIN", resourceCulture);
->>>>>>> c1143036e8fa9352025b5b2a09623e3bf4b95ffd
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -159,11 +233,26 @@ namespace PROJEKANN.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-<<<<<<< HEAD
         internal static System.Drawing.Bitmap lihat_paneh_dis {
             get {
                 object obj = ResourceManager.GetObject("lihat paneh dis", resourceCulture);
-=======
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LOGIN {
+            get {
+                object obj = ResourceManager.GetObject("LOGIN", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LOGIN__1_ {
             get {
                 object obj = ResourceManager.GetObject("LOGIN (1)", resourceCulture);
@@ -237,7 +326,6 @@ namespace PROJEKANN.Properties {
         internal static System.Drawing.Bitmap LOGIN__7_1 {
             get {
                 object obj = ResourceManager.GetObject("LOGIN (7)1", resourceCulture);
->>>>>>> c1143036e8fa9352025b5b2a09623e3bf4b95ffd
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

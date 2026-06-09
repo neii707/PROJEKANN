@@ -23,9 +23,9 @@ namespace PROJEKANN.Usercontrol
 
         private void GantiHalaman(UserControl ucBaru)
         {
-            panel1.Controls.Clear();
+            this.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
-            panel1.Controls.Add(ucBaru);
+            this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 
@@ -108,7 +108,7 @@ namespace PROJEKANN.Usercontrol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            mainForm.TampilkanHalaman(new PROJEKANN.Usercontrol.register(mainForm));
+            GantiHalaman(new PROJEKANN.Usercontrol.register(mainForm));
         }
     }
 }
