@@ -607,3 +607,37 @@ ON p.id_user = n.id_user
 WHERE t.status_transaksi = 'Selesai'
 
 ORDER BY t.id_transaksi DESC;
+
+CREATE OR REPLACE VIEW public.view_transaksi_aktif_nelayan
+ AS
+ SELECT t.id_transaksi AS id,
+    ud.username AS distributor,
+    un.username AS nelayan,
+    p.berat_per_kg AS berat,
+    t.total_pembayaran AS total,
+    p.tanggal,
+    t.status_transaksi AS status
+   FROM transaksi t
+     JOIN grade g ON t.id_grade = g.id_grade
+     JOIN panen p ON g.id_panen = p.id_panen
+     JOIN usser un ON p.id_user = un.id_user
+     JOIN usser ud ON g.id_distributor = ud.id_user
+  WHERE lower(t.status_transaksi::text) <> 'selesai'::text;
+
+ALTER TABLE public.view_transaksi_aktif_nelayan
+    OWNER TO postgres;
+
+-- View: public.view_stok_nelayan
+
+-- DROP VIEW public.view_stok_nelayan;
+
+CREATE OR REPLACE VIEW public.view_stok_nelayan
+ AS
+ SELECT u.username,
+    COALESCE(sum(p.berat_per_kg), 0::numeric) AS total_stok
+   FROM usser u
+     LEFT JOIN panen p ON u.id_user = p.id_user
+  GROUP BY u.username;
+
+ALTER TABLE public.view_stok_nelayan
+    OWNER TO postgres;
