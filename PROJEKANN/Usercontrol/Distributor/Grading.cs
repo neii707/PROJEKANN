@@ -29,6 +29,10 @@ namespace PROJEKANN.Usercontrol.Distributor
             cbGrade.Items.Add("A");
             cbGrade.Items.Add("B");
             cbGrade.Items.Add("C");
+
+            dgvGrading.SelectionMode =
+            DataGridViewSelectionMode.FullRowSelect;
+            dgvGrading.MultiSelect = false;
         }
 
         private void SegarkanTampilanGrading()
@@ -77,17 +81,6 @@ namespace PROJEKANN.Usercontrol.Distributor
                 txtKeterangan.Clear();
 
                 SegarkanTampilanGrading();
-            }
-        }
-
-        private void dgvGrading_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                if (dgvGrading.Rows[e.RowIndex].Cells["id_panen"].Value != null)
-                {
-                    idPanenTerpilih = Convert.ToInt32(dgvGrading.Rows[e.RowIndex].Cells["id_panen"].Value);
-                }
             }
         }
 
@@ -172,5 +165,19 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void cbGrade_SelectedIndexChanged(object sender, EventArgs e) { }
         private void panel1_Paint(object sender, PaintEventArgs e) { }
+
+        private void dgvGrading_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                idPanenTerpilih =
+                    Convert.ToInt32(
+                    dgvGrading.Rows[e.RowIndex]
+                    .Cells["id_panen"].Value
+                );
+
+                dgvGrading.Rows[e.RowIndex].Selected = true;
+            }
+        }
     }
 }

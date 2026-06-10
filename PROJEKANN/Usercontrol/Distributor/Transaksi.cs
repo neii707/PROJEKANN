@@ -41,14 +41,8 @@ namespace PROJEKANN.Usercontrol.Distributor
             {
                 dgvTransaksi.DataSource = data.TabelTransaksi;
                 dgvTransaksi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            }
-        }
-
-        private void dgvTransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                idTransaksiTerpilih = Convert.ToInt32(dgvTransaksi.Rows[e.RowIndex].Cells["id_transaksi"].Value);
+                dgvTransaksi.MultiSelect = false;
+                dgvTransaksi.ReadOnly = true;
             }
         }
 
@@ -127,6 +121,18 @@ namespace PROJEKANN.Usercontrol.Distributor
             if (konfirmasi == DialogResult.Yes)
             {
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
+            }
+        }
+
+        private void dgvTransaksi_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                idTransaksiTerpilih =
+                    Convert.ToInt32(
+                        dgvTransaksi.Rows[e.RowIndex]
+                        .Cells["id_transaksi"].Value
+                    );
             }
         }
     }

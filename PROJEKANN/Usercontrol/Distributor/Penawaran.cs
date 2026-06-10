@@ -40,16 +40,15 @@ namespace PROJEKANN.Usercontrol.Distributor
             {
                 dgvPenawaran.DataSource = data.TabelPenawaran;
                 dgvPenawaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                dgvPenawaran.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+                dgvPenawaran.MultiSelect = false;
+
+                dgvPenawaran.ReadOnly = true;
             }
         }
 
-        private void dgvPenawaran_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                idGradeTerpilih = Convert.ToInt32(dgvPenawaran.Rows[e.RowIndex].Cells["id_grade"].Value);
-            }
-        }
 
         private void btnKirim_Click(object sender, EventArgs e)
         {
@@ -149,6 +148,17 @@ namespace PROJEKANN.Usercontrol.Distributor
             if (konfirmasi == DialogResult.Yes)
             {
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
+            }
+        }
+
+        private void dgvPenawaran_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                idGradeTerpilih = Convert.ToInt32(
+                    dgvPenawaran.Rows[e.RowIndex]
+                    .Cells["id_grade"].Value
+                );
             }
         }
     }

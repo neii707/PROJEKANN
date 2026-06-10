@@ -52,7 +52,7 @@
             dgvGrading.RowHeadersWidth = 62;
             dgvGrading.Size = new Size(618, 296);
             dgvGrading.TabIndex = 0;
-            dgvGrading.CellContentClick += dgvGrading_CellContentClick;
+            dgvGrading.CellClick += dgvGrading_CellClick;
             // 
             // lblNamaUser
             // 

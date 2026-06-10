@@ -51,7 +51,7 @@
             dgvPenawaran.RowHeadersWidth = 62;
             dgvPenawaran.Size = new Size(621, 331);
             dgvPenawaran.TabIndex = 0;
-            dgvPenawaran.CellContentClick += dgvPenawaran_CellContentClick;
+            dgvPenawaran.CellClick += dgvPenawaran_CellClick;
             // 
             // lblNamaUser
             // 
