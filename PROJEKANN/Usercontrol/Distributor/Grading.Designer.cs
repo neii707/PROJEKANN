@@ -73,9 +73,8 @@
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnKeluar.Location = new Point(6, 515);
             btnKeluar.Name = "btnKeluar";
-            btnKeluar.Size = new Size(146, 34);
+            btnKeluar.Size = new Size(48, 34);
             btnKeluar.TabIndex = 11;
-            btnKeluar.Text = "KELUAR";
             btnKeluar.UseVisualStyleBackColor = false;
             btnKeluar.Click += btnKeluar_Click;
             // 
