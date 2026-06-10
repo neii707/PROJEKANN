@@ -400,6 +400,7 @@ SELECT
     p.tanggal AS tanggal,
     t.status_transaksi AS status, 
     u_nel.username AS username_nelayan,
+    u_nel.nama AS nama_nelayan,
     t.id_transaksi AS id_transaksi
 FROM panen p
 JOIN usser u_nel ON p.id_user = u_nel.id_user
