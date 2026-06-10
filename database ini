@@ -119,17 +119,17 @@ ON DELETE CASCADE
 -- =========================================
 
 INSERT INTO usser
-(nama,no_hp,username,passwd,status_konfir_akun,role_pilihan)
+(nama,no_hp,username,passwd,status_konfir_akun,role_pilihan,alamat)
 VALUES
-('Martin','22222222','Martin_Edward','syatminn','Konfirmasi','ADMIN'),
+('Martin','22222222','Martin_Edward','syatminn','Konfirmasi','ADMIN','jenggawah'),
 
-('PT. Keonho','55555555','Ahn_Keonho','konoepep','Konfirmasi','DISTRIBUTOR'),
+('PT. Keonho','55555555','Ahn_Keonho','konoepep','Konfirmasi','DISTRIBUTOR', 'jenggawah' ),
 
-('PT. Juhoon','33333333','Kim_Juhoon','jhgntnkk','Konfirmasi','DISTRIBUTOR'),
+('PT. Juhoon','33333333','Kim_Juhoon','jhgntnkk','Konfirmasi','DISTRIBUTOR', 'jenggawah'),
 
-('Seonghyeon','44444444','Eom_Seonghyeon','eomprooo','Konfirmasi','NELAYAN'),
+('Seonghyeon','44444444','Eom_Seonghyeon','eomprooo','Konfirmasi','NELAYAN', 'jenggawah'),
 
-('James','11111111','Zhao_yufan','jmsokyey','Konfirmasi','NELAYAN');
+('James','11111111','Zhao_yufan','jmsokyey','Konfirmasi','NELAYAN', 'jenggawah');
 
 -- =========================================
 -- DEMAND
@@ -451,13 +451,13 @@ SELECT COUNT(*) AS total_panen
 FROM panen;
 
 
-CREATE VIEW view_demand_aktif AS
+CREATE VIEW view_demand_distributor AS
 SELECT
     COALESCE(SUM(target_kg), 0) AS total_demand
 FROM demand;
 
 
-CREATE VIEW view_total_transaksi AS
+CREATE VIEW view_total_transaksi_distributor AS
 SELECT COUNT(*) AS total_transaksi
 FROM transaksi
 WHERE status_transaksi = 'Selesai';
