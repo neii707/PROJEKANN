@@ -445,3 +445,165 @@ INNER JOIN usser un ON p.id_user = un.id_user
 INNER JOIN usser ud ON g.id_distributor = ud.id_user  
 ORDER BY t.id_transaksi DESC;
 
+--VIEW DISTRIBUTOR SEMUA FITUR
+CREATE OR REPLACE VIEW view_jumlah_panen AS
+SELECT COUNT(*) AS total_panen
+FROM panen;
+
+
+CREATE VIEW view_demand_aktif AS
+SELECT
+    COALESCE(SUM(target_kg), 0) AS total_demand
+FROM demand;
+
+
+CREATE VIEW view_total_transaksi AS
+SELECT COUNT(*) AS total_transaksi
+FROM transaksi
+WHERE status_transaksi = 'Selesai';
+
+
+CREATE VIEW view_transaksi_paling_akhir AS
+SELECT
+    t.id_transaksi,
+    t.tanggal,
+    u.nama AS nelayan,
+    CONCAT(
+        'Grade ', g.kategori,
+        ' | ', p.berat_per_kg, ' Kg',
+        ' | ', t.total_pembayaran
+    ) AS detail_transaksi,
+    t.status_transaksi
+FROM transaksi t
+JOIN grade g
+    ON t.id_grade = g.id_grade
+JOIN panen p
+    ON g.id_panen = p.id_panen
+JOIN usser u
+    ON p.id_user = u.id_user
+WHERE t.status_transaksi = 'Selesai'
+ORDER BY t.id_transaksi DESC;
+
+
+CREATE OR REPLACE VIEW view_lihat_panen AS
+SELECT
+    p.id_panen,
+    u.nama AS nama_nelayan,
+    p.berat_per_kg,
+    p.tanggal
+FROM panen p
+JOIN usser u
+    ON p.id_user = u.id_user
+ORDER BY p.id_panen DESC;
+
+
+CREATE OR REPLACE VIEW view_grading_panen AS
+SELECT
+    p.id_panen,
+    u.nama AS nelayan,
+    p.berat_per_kg,
+    p.tanggal
+FROM panen p
+JOIN usser u
+    ON p.id_user = u.id_user
+ORDER BY p.id_panen DESC;
+
+
+CREATE OR REPLACE VIEW view_penawaran AS
+SELECT
+    g.id_grade,
+    p.id_panen,
+    u.nama AS nelayan,
+    g.kategori,
+    g.harga_per_kg,
+    g.keterangan
+FROM grade g
+JOIN panen p
+    ON g.id_panen = p.id_panen
+JOIN usser u
+    ON p.id_user = u.id_user
+LEFT JOIN transaksi t
+    ON g.id_grade = t.id_grade
+WHERE t.id_transaksi IS NULL
+ORDER BY g.id_grade DESC;
+
+
+CREATE OR REPLACE PROCEDURE tambah_penawaran(
+    p_harga NUMERIC,
+    p_id_grade INT
+)
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+
+    INSERT INTO transaksi
+    (
+        tanggal,
+        harga_tawar,
+        status_transaksi,
+        konfir_penawaran,
+        konfir_pembelian,
+        id_grade
+    )
+    VALUES
+    (
+        CURRENT_DATE,
+        p_harga,
+        'Menunggu',
+        'Menunggu',
+        'Menunggu',
+        p_id_grade
+    );
+
+END;
+$$;
+
+
+CREATE OR REPLACE VIEW view_transaksi_distributor AS
+SELECT
+    t.id_transaksi,
+    n.nama AS nelayan,
+    g.kategori,
+    p.berat_per_kg,
+    t.harga_tawar,
+    t.total_pembayaran,
+    t.status_transaksi
+FROM transaksi t
+
+JOIN grade g
+ON t.id_grade = g.id_grade
+
+JOIN panen p
+ON g.id_panen = p.id_panen
+
+JOIN usser n
+ON p.id_user = n.id_user
+
+WHERE t.konfir_penawaran = 'Diterima'
+AND t.status_transaksi = 'Menunggu';
+
+
+CREATE OR REPLACE VIEW view_riwayat_transaksi AS
+SELECT
+    t.id_transaksi,
+    n.nama AS nelayan,
+    g.kategori,
+    p.berat_per_kg,
+    t.harga_tawar,
+    t.total_pembayaran,
+    t.tanggal
+FROM transaksi t
+
+JOIN grade g
+ON t.id_grade = g.id_grade
+
+JOIN panen p
+ON g.id_panen = p.id_panen
+
+JOIN usser n
+ON p.id_user = n.id_user
+
+WHERE t.status_transaksi = 'Selesai'
+
+ORDER BY t.id_transaksi DESC;
