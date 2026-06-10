@@ -49,7 +49,7 @@ namespace PROJEKANN.Usercontrol
                 using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT role_pilihan FROM usser WHERE username = @username AND passwd = @password";
+                    string query = "SELECT role_pilihan FROM usser WHERE username = @username AND passwd = @password AND status_konfir_akun = 'Konfirmasi'";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
