@@ -642,3 +642,17 @@ CREATE OR REPLACE VIEW public.view_stok_nelayan
 
 ALTER TABLE public.view_stok_nelayan
     OWNER TO postgres;
+
+CREATE OR REPLACE VIEW public.view_total_penjualan_nelayan
+ AS
+ SELECT u.username,
+    COALESCE(sum(t.total_pembayaran), 0::numeric) AS total_penjualan
+   FROM usser u
+     LEFT JOIN panen p ON u.id_user = p.id_user
+     LEFT JOIN grade g ON p.id_panen = g.id_panen
+     LEFT JOIN transaksi t ON g.id_grade = t.id_grade AND t.status_transaksi::text = 'Selesai'::text
+  GROUP BY u.username;
+
+ALTER TABLE public.view_total_penjualan_nelayan
+    OWNER TO postgres;
+
