@@ -58,5 +58,36 @@ namespace PROJEKANN.controller
 
             return model;
         }
+
+        public bool UpdateStatusPenawaran(string idTransaksi, string statusBaru)
+        {
+            bool isSuccess = false;
+            string query = "UPDATE transaksi SET status_transaksi = @status WHERE id_transaksi = @id";
+
+            try
+            {
+                using (NpgsqlConnection kon = DBConnection.GetConnection())
+                {
+                    kon.Open();
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
+                    {
+                        cmd.Parameters.AddWithValue("@status", statusBaru);
+                        cmd.Parameters.AddWithValue("@id", Convert.ToInt32(idTransaksi));
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            isSuccess = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Gagal merubah status: " + ex.Message, "Error Database", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
+
+            return isSuccess;
+        }
     }
 }
