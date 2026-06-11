@@ -150,34 +150,17 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        private void GantiHalamanMenu(UserControl ucBaru)
+        private void GantiHalamanFitur(UserControl ucBaru)
         {
-            if (ucBaru == null) return;
-
-            try
-            {
-                Panel indukPanel = this.Parent as Panel;
-                if (indukPanel != null)
-                {
-                    indukPanel.Controls.Clear();
-                    ucBaru.Dock = DockStyle.Fill;
-                    indukPanel.Controls.Add(ucBaru);
-                    ucBaru.BringToFront();
-                }
-                else
-                {
-                    mainForm.TampilkanHalaman(ucBaru);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal berpindah menu: " + ex.Message, "Sistem Navigasi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            this.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            this.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
         }
 
         private void dashboardbutton_kelola_Click(object sender, EventArgs e)
         {
-            GantiHalamanMenu(new DashboardNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.DashboardNelayan(this.mainForm, this.userLoginAktif));
         }
 
         private void inputpanenbutton_kelola_Click(object sender, EventArgs e)
@@ -187,25 +170,31 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void penawaranbutton_kelola_Click(object sender, EventArgs e)
         {
-            GantiHalamanMenu(new NawarPanenNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.NawarPanenNelayan(this.mainForm, this.userLoginAktif));
         }
 
         private void transaksibutton_kelola_Click(object sender, EventArgs e)
         {
-            GantiHalamanMenu(new TransaksiNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.TransaksiNelayan(this.mainForm, this.userLoginAktif));
         }
 
         private void riwayatbutton_kelola_Click(object sender, EventArgs e)
         {
-            GantiHalamanMenu(new RiwayatNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.RiwayatNelayan(this.mainForm, this.userLoginAktif));
         }
 
         private void keluarbutton_kelola_Click(object sender, EventArgs e)
         {
-            DialogResult konfirmasi = MessageBox.Show("Apakah Anda yakin ingin keluar dari aplikasi?", "Logout Sistem", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult konfirmasi = MessageBox.Show(
+                "Apakah Anda yakin ingin keluar dari program?",
+                "Konfirmasi Keluar",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
             if (konfirmasi == DialogResult.Yes)
             {
-                GantiHalamanMenu(new PROJEKANN.Usercontrol.login(mainForm));
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
         }
 

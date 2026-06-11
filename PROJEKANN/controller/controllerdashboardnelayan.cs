@@ -19,6 +19,7 @@ namespace PROJEKANN.controller
                 {
                     kon.Open();
 
+
                     // 1. Ambil data Tabel via VIEW vw_dashboard_nelayan
                     string sqlTabel = @"SELECT * FROM vw_dashboard_nelayan 
                                         WHERE username = @username

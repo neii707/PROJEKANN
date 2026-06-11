@@ -12,7 +12,7 @@ namespace PROJEKANN.controller
         public ModelTransaksi AmbilDataTransaksiAktif(string username)
         {
             ModelTransaksi model = new ModelTransaksi();
-            model.NamaAsliUser = username; 
+            model.NamaAsliUser = username;
 
             try
             {
@@ -55,35 +55,30 @@ namespace PROJEKANN.controller
 
         public bool KonfirmasiTransaksiSelesai(int idTransaksi)
         {
-            using (NpgsqlConnection kon = DBConnection.GetConnection())
+            try
             {
-                kon.Open();
-
-                using (NpgsqlTransaction sqlTrans = kon.BeginTransaction())
+                using (NpgsqlConnection kon = DBConnection.GetConnection())
                 {
-                    try
-                    {
-                        string queryUpdateStatus = @"
-                            UPDATE transaksi 
-                            SET status_transaksi = 'selesai' 
-                            WHERE id_transaksi = @id_transaksi";
+                    kon.Open();
 
-                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryUpdateStatus, kon, sqlTrans))
-                        {
-                            cmd.Parameters.AddWithValue("@id_transaksi", idTransaksi);
-                            cmd.ExecuteNonQuery();
-                        }
+                    // Kolom diubah ke 'Selesai' agar hilang dari vw_konfirmasi_transaksi dan masuk ke vw_riwayat_transaksi
+                    string query = @"UPDATE transaksi 
+                             SET konfir_pembelian = 'Selesai' 
+                             WHERE id_transaksi = @id";
 
-                        sqlTrans.Commit();
-                        return true;
-                    }
-                    catch (Exception ex)
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
                     {
-                        sqlTrans.Rollback();
-                        MessageBox.Show("Gagal mengonfirmasi transaksi. Perubahan database dibatalkan: " + ex.Message, "Transaction Rollback", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
+                        cmd.Parameters.AddWithValue("@id", idTransaksi);
+                        int barisTerganti = cmd.ExecuteNonQuery();
+
+                        return barisTerganti > 0;
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Database: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
     }

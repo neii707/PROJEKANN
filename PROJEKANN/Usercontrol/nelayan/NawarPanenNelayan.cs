@@ -126,12 +126,56 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void terima_nawar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Penawaran Berhasil Diterima!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (dgvpenawaran.CurrentRow == null)
+            {
+                MessageBox.Show("Pilih baris penawaran pada tabel terlebih dahulu sebelum menekan tombol terima!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Mengambil nilai ID Transaksi dari kolom pertama (indeks 0 atau colID) pada baris yang dipilih
+            string idTransaksiSelected = dgvpenawaran.CurrentRow.Cells[0].Value.ToString();
+
+            DialogResult dr = MessageBox.Show($"Apakah Anda yakin ingin MENERIMA penawaran dengan ID Transaksi {idTransaksiSelected}?",
+                "Konfirmasi Terima", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dr == DialogResult.Yes)
+            {
+                // Memanggil method controller dengan status "diterima"
+                bool sukses = _controller.UpdateStatusPenawaran(idTransaksiSelected, "diterima");
+
+                if (sukses)
+                {
+                    MessageBox.Show("Penawaran Berhasil Diterima! Data telah dipindahkan ke menu transaksi.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SegarkanTampilanPenawaran();
+                }
+            }
         }
 
         private void tolak_tawaran_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Penawaran Berhasil Ditolak!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (dgvpenawaran.CurrentRow == null)
+            {
+                MessageBox.Show("Pilih baris penawaran pada tabel terlebih dahulu sebelum menekan tombol tolak!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Mengambil nilai ID Transaksi dari kolom pertama (indeks 0 atau colID) pada baris yang dipilih
+            string idTransaksiSelected = dgvpenawaran.CurrentRow.Cells[0].Value.ToString();
+
+            DialogResult dr = MessageBox.Show($"Apakah Anda yakin ingin MENOLAK penawaran dengan ID Transaksi {idTransaksiSelected}?",
+                "Konfirmasi Tolak", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dr == DialogResult.Yes)
+            {
+                // Memanggil method controller dengan status "ditolak"
+                bool sukses = _controller.UpdateStatusPenawaran(idTransaksiSelected, "ditolak");
+
+                if (sukses)
+                {
+                    MessageBox.Show("Penawaran Berhasil Ditolak! Status dikembalikan ke sistem menunggu penawaran baru.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    SegarkanTampilanPenawaran();
+                }
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }

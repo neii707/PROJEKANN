@@ -31,7 +31,7 @@ namespace PROJEKANN.Usercontrol.nelayan
         // ── Load pertama kali ─────────────────────────────────────────
         private void DashboardNelayan_Load(object sender, EventArgs e)
         {
-            lbnamauser_dashboard.Text = username;
+            //lbnamauser_dashboard.Text = username;
             MuatData();
         }
 
@@ -42,6 +42,7 @@ namespace PROJEKANN.Usercontrol.nelayan
         {
             // 1. Minta data ke controller
             ModelDashboardNelayan data = _controller.AmbilDataDashboard(username);
+            lbnamauser_dashboard.Text = !string.IsNullOrEmpty(data.nama) ? data.nama : username;
 
             // 2. Tampilkan data Ringkasan ke Label UI
             stoklabel_dashboard.Text = data.StokPanen;
@@ -70,7 +71,7 @@ namespace PROJEKANN.Usercontrol.nelayan
         // =============================================================
         private void dashboardbutton_Click(object sender, EventArgs e)
         {
-            MuatData();
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.DashboardNelayan(this.mainForm, this.userLoginAktif));
         }
 
         private void inputpanenbutton_dashboard_Click(object sender, EventArgs e)

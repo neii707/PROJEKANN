@@ -31,12 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TransaksiNelayan));
             konfirmasi_transaksi = new Button();
             dgvtransaksi = new DataGridView();
-            colID = new DataGridViewTextBoxColumn();
-            colDistributor = new DataGridViewTextBoxColumn();
-            colBerat = new DataGridViewTextBoxColumn();
-            colTotal = new DataGridViewTextBoxColumn();
-            colTanggal = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
             keluarbutton_transaksi = new Button();
             riwayatbutton_transaksi = new Button();
             transaksibutton_transaksi = new Button();
@@ -44,6 +38,11 @@
             inputpanenbutton_transaksi = new Button();
             dashboardbutton_transaksi = new Button();
             lbnamauser_transaksi = new Label();
+            colID = new DataGridViewTextBoxColumn();
+            colDistributor = new DataGridViewTextBoxColumn();
+            colBerat = new DataGridViewTextBoxColumn();
+            colTotal = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvtransaksi).BeginInit();
             SuspendLayout();
             // 
@@ -68,7 +67,7 @@
             dgvtransaksi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvtransaksi.BackgroundColor = Color.MediumAquamarine;
             dgvtransaksi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvtransaksi.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colBerat, colTotal, colTanggal, colStatus });
+            dgvtransaksi.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colBerat, colTotal, colStatus });
             dgvtransaksi.Location = new Point(262, 146);
             dgvtransaksi.Name = "dgvtransaksi";
             dgvtransaksi.ReadOnly = true;
@@ -77,48 +76,6 @@
             dgvtransaksi.Size = new Size(626, 275);
             dgvtransaksi.TabIndex = 34;
             dgvtransaksi.CellContentClick += dgvtransaksi_CellContentClick;
-            // 
-            // colID
-            // 
-            colID.HeaderText = "ID";
-            colID.MinimumWidth = 8;
-            colID.Name = "colID";
-            colID.ReadOnly = true;
-            // 
-            // colDistributor
-            // 
-            colDistributor.HeaderText = "Distributor";
-            colDistributor.MinimumWidth = 8;
-            colDistributor.Name = "colDistributor";
-            colDistributor.ReadOnly = true;
-            // 
-            // colBerat
-            // 
-            colBerat.HeaderText = "Berat (kg)";
-            colBerat.MinimumWidth = 8;
-            colBerat.Name = "colBerat";
-            colBerat.ReadOnly = true;
-            // 
-            // colTotal
-            // 
-            colTotal.HeaderText = "Total";
-            colTotal.MinimumWidth = 8;
-            colTotal.Name = "colTotal";
-            colTotal.ReadOnly = true;
-            // 
-            // colTanggal
-            // 
-            colTanggal.HeaderText = "Tanggal";
-            colTanggal.MinimumWidth = 8;
-            colTanggal.Name = "colTanggal";
-            colTanggal.ReadOnly = true;
-            // 
-            // colStatus
-            // 
-            colStatus.HeaderText = "Status";
-            colStatus.MinimumWidth = 8;
-            colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true;
             // 
             // keluarbutton_transaksi
             // 
@@ -222,6 +179,41 @@
             lbnamauser_transaksi.TabIndex = 27;
             lbnamauser_transaksi.Text = "Natachai";
             // 
+            // colID
+            // 
+            colID.HeaderText = "ID";
+            colID.MinimumWidth = 8;
+            colID.Name = "colID";
+            colID.ReadOnly = true;
+            // 
+            // colDistributor
+            // 
+            colDistributor.HeaderText = "Distributor";
+            colDistributor.MinimumWidth = 8;
+            colDistributor.Name = "colDistributor";
+            colDistributor.ReadOnly = true;
+            // 
+            // colBerat
+            // 
+            colBerat.HeaderText = "Berat (kg)";
+            colBerat.MinimumWidth = 8;
+            colBerat.Name = "colBerat";
+            colBerat.ReadOnly = true;
+            // 
+            // colTotal
+            // 
+            colTotal.HeaderText = "Total";
+            colTotal.MinimumWidth = 8;
+            colTotal.Name = "colTotal";
+            colTotal.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            colStatus.HeaderText = "Status";
+            colStatus.MinimumWidth = 8;
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            // 
             // TransaksiNelayan
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -253,12 +245,11 @@
         private Button riwayatbutton_transaksi;
         private Button keluarbutton_transaksi;
         private DataGridView dgvtransaksi;
+        private Button konfirmasi_transaksi;
         private DataGridViewTextBoxColumn colID;
         private DataGridViewTextBoxColumn colDistributor;
         private DataGridViewTextBoxColumn colBerat;
         private DataGridViewTextBoxColumn colTotal;
-        private DataGridViewTextBoxColumn colTanggal;
         private DataGridViewTextBoxColumn colStatus;
-        private Button konfirmasi_transaksi;
     }
 }

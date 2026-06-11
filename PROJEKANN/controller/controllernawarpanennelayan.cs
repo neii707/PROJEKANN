@@ -11,7 +11,7 @@ namespace PROJEKANN.controller
         public ModelNawarPanen AmbilDataNawarPanen(string username)
         {
             ModelNawarPanen model = new ModelNawarPanen();
-            model.NamaAsliUser = username; 
+            model.NamaAsliUser = username;
 
             try
             {
@@ -30,13 +30,19 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    if (!string.IsNullOrEmpty(model.NamaAsliUser))
+                    if (!string.IsNullOrEmpty(username))
                     {
-                        string queryTabel = @"SELECT * FROM vw_konfirmasi_penawaran";
+                        string queryTabel = @"SELECT vp.* FROM vw_konfirmasi_penawaran vp
+                                              JOIN transaksi t ON vp.id_transaksi = t.id_transaksi
+                                              JOIN grade g ON t.id_grade = g.id_grade
+                                              JOIN panen p ON g.id_panen = p.id_panen
+                                              JOIN usser u ON p.id_user = u.id_user
+                                              WHERE u.username = @username 
+                                              AND LOWER(t.konfir_penawaran) = 'menunggu'";
 
                         using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                         {
-                            cmd.Parameters.AddWithValue("@nama", model.NamaAsliUser);
+                            cmd.Parameters.AddWithValue("@username", username);
 
                             using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
                             {
@@ -59,7 +65,23 @@ namespace PROJEKANN.controller
         public bool UpdateStatusPenawaran(string idTransaksi, string statusBaru)
         {
             bool isSuccess = false;
-            string query = "UPDATE transaksi SET status_transaksi = @status WHERE id_transaksi = @id";
+            string query = "";
+
+            if (statusBaru.ToLower() == "diterima")
+            {
+                query = @"UPDATE transaksi 
+                          SET konfir_penawaran = 'Diterima', 
+                              konfir_pembelian = 'Menunggu' 
+                          WHERE id_transaksi = @id";
+            }
+
+            else if (statusBaru.ToLower() == "ditolak")
+            {
+                query = @"UPDATE transaksi 
+                          SET konfir_penawaran = 'Ditolak', 
+                              status_transaksi = 'Ditolak' 
+                          WHERE id_transaksi = @id";
+            }
 
             try
             {
@@ -68,7 +90,6 @@ namespace PROJEKANN.controller
                     kon.Open();
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
                     {
-                        cmd.Parameters.AddWithValue("@status", statusBaru);
                         cmd.Parameters.AddWithValue("@id", Convert.ToInt32(idTransaksi));
 
                         int rowsAffected = cmd.ExecuteNonQuery();
@@ -81,7 +102,7 @@ namespace PROJEKANN.controller
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Gagal merubah status: " + ex.Message, "Error Database", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show("Gagal merubah status penawaran: " + ex.Message, "Error Database", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
 
             return isSuccess;

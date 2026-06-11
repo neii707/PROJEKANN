@@ -33,11 +33,12 @@ namespace PROJEKANN.controller
 
                     string queryStatistik = @"
                         SELECT 
-                            COUNT(id) as total_transaksi,
-                            COUNT(CASE WHEN LOWER(status) = 'selesai' THEN 1 END) as total_selesai,
-                            COALESCE(SUM(CASE WHEN LOWER(status) = 'selesai' THEN total ELSE 0 END), 0) as total_nilai
-                        FROM vw_riwayat_transaksi
-                        WHERE nelayan = @username";
+                            COUNT(vt.id_panen) as total_transaksi,
+                            COUNT(CASE WHEN LOWER(vt.status) = 'selesai' THEN 1 END) as total_selesai,
+                            COALESCE(SUM(CASE WHEN LOWER(vt.status) = 'selesai' THEN vt.total ELSE 0 END), 0) as total_nilai
+                        FROM public.vw_riwayat_transaksi vt
+                        JOIN public.panen p ON vt.id_panen = p.id_panen
+                        JOIN public.usser u ON p.id_user = u.id_user";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStatistik, kon))
                     {
