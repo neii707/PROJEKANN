@@ -17,6 +17,7 @@ namespace PROJEKANN.Usercontrol
             InitializeComponent();
             mainform = form1;
             pilihan_role();
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
         }
 
         private void pilihan_role()
@@ -36,6 +37,14 @@ namespace PROJEKANN.Usercontrol
             ucBaru.Dock = DockStyle.Fill;
             this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // blokir / abaikan inputan huruf
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
