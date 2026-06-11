@@ -10,5 +10,7 @@ namespace PROJEKANN.model
         public List<int> DataGradeB { get; set; } = new List<int>();
         public List<int> DataGradeC { get; set; } = new List<int>();
         public List<string> LabelBulan { get; set; } = new List<string>();
+        public List<int> DataTotalBerat { get; set; } = new List<int>();
+        public List<int> DataTotalTransaksi { get; set; } = new List<int>();
     }
 }

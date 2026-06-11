@@ -27,7 +27,7 @@ namespace PROJEKANN.controller
                         if (res != null && res != DBNull.Value) model.NamaUserReal = res.ToString();
                     }
 
-                    string queryTabel = "SELECT * FROM v_demand";
+                    string queryTabel = "SELECT * FROM v_demand ORDER BY id DESC";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
                         using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
