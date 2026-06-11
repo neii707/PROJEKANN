@@ -1,8 +1,9 @@
-﻿using System;
+﻿using PROJEKANN.controller;
+using PROJEKANN.model;
+using System;
 using System.Data;
 using System.Windows.Forms;
-using PROJEKANN.controller;
-using PROJEKANN.model;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PROJEKANN.Usercontrol.nelayan
 {
@@ -42,14 +43,14 @@ namespace PROJEKANN.Usercontrol.nelayan
             {
                 dgvTransaksi.AutoGenerateColumns = false;
 
-                colID.DataPropertyName = "id";
-                colDistributor.DataPropertyName = "distributor";
-                colNelayan.DataPropertyName = "nelayan";
-                colBerat.DataPropertyName = "berat";
+                colID.DataPropertyName = "id_panen";
+                colDistributor.DataPropertyName = "nama_distributor";
+                // colNelayan.DataPropertyName = ""; // Komentari/hapus jika di view tidak ada data nama nelayan
+                colBerat.DataPropertyName = "berat_kg";
                 colGrade.DataPropertyName = "grade";
                 colHarga.DataPropertyName = "harga_per_kg";
                 colTotal.DataPropertyName = "total";
-                colTanggal.DataPropertyName = "tanggal";
+                colTanggal.DataPropertyName = "tanggal_konfirmasi";
                 colStatus.DataPropertyName = "status";
 
                 dgvTransaksi.DataSource = data.TabelRiwayatTransaksi;

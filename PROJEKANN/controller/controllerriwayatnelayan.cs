@@ -36,7 +36,7 @@ namespace PROJEKANN.controller
                             COUNT(id) as total_transaksi,
                             COUNT(CASE WHEN LOWER(status) = 'selesai' THEN 1 END) as total_selesai,
                             COALESCE(SUM(CASE WHEN LOWER(status) = 'selesai' THEN total ELSE 0 END), 0) as total_nilai
-                        FROM view_riwayat_transaksi_nelayan 
+                        FROM vw_riwayat_transaksi
                         WHERE nelayan = @username";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStatistik, kon))
@@ -55,8 +55,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryTabel = "SELECT id, distributor, nelayan, berat, grade, harga_per_kg, total, tanggal, status " +
-                                       "FROM view_riwayat_transaksi_nelayan WHERE nelayan = @username";
+                    string queryTabel = "SELECT * FROM vw_riwayat_transaksi";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {

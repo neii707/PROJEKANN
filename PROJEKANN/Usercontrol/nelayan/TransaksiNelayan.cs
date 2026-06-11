@@ -1,8 +1,9 @@
-﻿using System;
+﻿using PROJEKANN.controller;
+using PROJEKANN.model;
+using System;
 using System.Data;
 using System.Windows.Forms;
-using PROJEKANN.controller;
-using PROJEKANN.model;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PROJEKANN.Usercontrol.nelayan
 {
@@ -37,11 +38,10 @@ namespace PROJEKANN.Usercontrol.nelayan
             {
                 dgvtransaksi.AutoGenerateColumns = false;
 
-                colID.DataPropertyName = "id";
-                colDistributor.DataPropertyName = "distributor";
-                colBerat.DataPropertyName = "berat";
-                colTotal.DataPropertyName = "total";
-                colTanggal.DataPropertyName = "tanggal";
+                colID.DataPropertyName = "id_transaksi";
+                colDistributor.DataPropertyName = "nama_distributor";
+                colBerat.DataPropertyName = "berat_kg";
+                colTotal.DataPropertyName = "total_pembayaran";
                 colStatus.DataPropertyName = "status";
 
                 dgvtransaksi.DataSource = data.TabelTransaksiAktif;
@@ -117,5 +117,10 @@ namespace PROJEKANN.Usercontrol.nelayan
         }
 
         private void paneltransaksi_Paint(object sender, PaintEventArgs e) { }
+
+        private void dgvtransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

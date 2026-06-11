@@ -23,7 +23,7 @@ namespace PROJEKANN.Usercontrol
         private void MuatSeluruhDashboard()
         {
             DashboardAdminModel data = _controller.AmbilSemuaDataDashboard(this.userLoginAktif);
-            label5.Text = data.NamaUser;
+            label5.Text = data.username;
             label2.Text = data.LabelAkun;
             label3.Text = data.LabelStok;
             label4.Text = data.LabelTransaksi;
