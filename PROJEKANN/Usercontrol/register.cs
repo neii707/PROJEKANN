@@ -30,6 +30,14 @@ namespace PROJEKANN.Usercontrol
 
         }
 
+        private void GantiHalaman(UserControl ucBaru)
+        {
+            this.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            this.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             string nama = textBox3.Text.Trim();
@@ -99,7 +107,7 @@ namespace PROJEKANN.Usercontrol
                         MessageBox.Show("Akun Nelayan baru berhasil diaktifkan! Silakan login.", "Sukses Registrasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    mainform.TampilkanHalaman(new PROJEKANN.Usercontrol.login(mainform));
+                    GantiHalaman(new PROJEKANN.Usercontrol.login(mainform));
                 }
             }
 

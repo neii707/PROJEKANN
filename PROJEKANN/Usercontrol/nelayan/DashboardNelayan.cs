@@ -1,127 +1,113 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
-using PROJEKANN.controller;
-using PROJEKANN.model; 
+using PROJEKANN.controller; // Panggil folder controller
+using PROJEKANN.model;      // Panggil folder model
 
 namespace PROJEKANN.Usercontrol.nelayan
 {
     public partial class DashboardNelayan : UserControl
     {
-        private Form1 mainForm;
-        private string userLoginAktif;
+        // ── Session (diisi dari Form utama saat LoadUC) ───────────────
+        public static int IdUser { get; set; }
+        public static string NamaUser { get; set; } = "";
 
-        private ControllerDashboardNelayan _controller = new ControllerDashboardNelayan();
+        // Instansiasi Controller pendukung
+        private ControllerDashboardNelayan _controller;
 
-        public DashboardNelayan(Form1 form1, string usernameLogin)
+        public DashboardNelayan()
         {
             InitializeComponent();
-            mainForm = form1;
-
-            userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "Zhao_yufan" : usernameLogin.Trim();
-
-            SegarkanTampilanDashboard();
+            _controller = new ControllerDashboardNelayan();
         }
 
-        private void SegarkanTampilanDashboard()
+        // ── Load pertama kali ─────────────────────────────────────────
+        private void DashboardNelayan_Load(object sender, EventArgs e)
         {
-            ModelDashboardNelayan data = _controller.AmbilDataDashboard(this.userLoginAktif);
-
-            lbnamauser_dashboard.Text = data.NamaUserReal;
-            stoklabel_dashboard.Text = data.TeksStok;
-            penawaranlabel_dashboard.Text = data.TeksPenawaran;
-            penjualanlabel_dashboard.Text = data.TeksPenjualan;
-
-            if (data.TabelAktivitasBersih != null)
-            {
-                dgvDashboard.AutoGenerateColumns = false;
-                dgvDashboard.Columns[0].DataPropertyName = "ID";
-                dgvDashboard.Columns[1].DataPropertyName = "Grade";
-                dgvDashboard.Columns[2].DataPropertyName = "Berat";
-                dgvDashboard.Columns[3].DataPropertyName = "Tanggal";
-                dgvDashboard.Columns[4].DataPropertyName = "Status";
-
-                dgvDashboard.DataSource = data.TabelAktivitasBersih;
-            }
+            lbnamauser_dashboard.Text = NamaUser;
+            MuatData();
         }
 
-        private void GantiHalamanFitur(UserControl ucBaru)
+        // =============================================================
+        // MUAT DATA UTAMA (Menerapkan Pola MVC)
+        // =============================================================
+        private void MuatData()
         {
-            if (ucBaru == null) return;
+            // 1. Minta data ke controller
+            ModelDashboardNelayan data = _controller.AmbilDataDashboard(IdUser);
 
-            try
-            {
-                Panel panelInduk = this.Parent as Panel;
+            // 2. Tampilkan data Ringkasan ke Label UI
+            stoklabel_dashboard.Text = data.StokPanen;
+            penawaranlabel_dashboard.Text = data.TotalPenjualan;
+            penjualanlabel_dashboard.Text = "Rp " + data.TotalPendapatan.ToString("N0");
 
-                if (panelInduk != null)
-                {
-                    panelInduk.Controls.Clear();
-                    ucBaru.Dock = DockStyle.Fill;
-                    panelInduk.Controls.Add(ucBaru);
-                    ucBaru.BringToFront();
-                }
-                else if (this.Parent != null)
-                {
-                    Control indukUtama = this.Parent;
-                    indukUtama.Controls.Remove(this);
-                    ucBaru.Dock = DockStyle.Fill;
-                    indukUtama.Controls.Add(ucBaru);
-                    ucBaru.BringToFront();
-                }
-                else
-                {
-                    Form1 formAktif = Application.OpenForms["Form1"] as Form1;
-                    if (formAktif != null)
-                    {
-                        formAktif.TampilkanHalaman(ucBaru);
-                    }
-                }
-            }
-            catch (Exception ex)
+            // 3. Masukkan data ke DataGridView
+            dgvDashboard.Rows.Clear();
+            if (data.TabelDashboard != null)
             {
-                MessageBox.Show("Gagal berpindah halaman: " + ex.Message, "Sistem Navigasi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                foreach (DataRow row in data.TabelDashboard.Rows)
+                {
+                    dgvDashboard.Rows.Add(
+                        row["id_panen"],
+                        row["grade"],
+                        row["berat_kg"],
+                        Convert.ToDateTime(row["tangal"]).ToString("dd/MM/yyyy"), // Typo di database asal ("tangal" atau "tanggal" disesuaikan)
+                        row["status"]
+                    );
+                }
             }
         }
 
+        // =============================================================
+        // NAVIGASI SIDEBAR
+        // =============================================================
         private void dashboardbutton_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new DashboardNelayan(mainForm, userLoginAktif));
+            MuatData();
         }
 
         private void inputpanenbutton_dashboard_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new KelolaPanenNelayan(mainForm, userLoginAktif));
+            GantiHalamanFitur(new KelolaPanenNelayan());
         }
 
         private void penawaranbutton_dashboard_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new NawarPanenNelayan(mainForm, userLoginAktif));
+            NavigasiKe(new NawarPanenNelayan());
         }
 
         private void transaksibutton_dashboard_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new TransaksiNelayan(mainForm, userLoginAktif));
+            NavigasiKe(new TransaksiNelayan());
         }
 
         private void riwayatbutton_dashboard_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new RiwayatNelayan(mainForm, userLoginAktif));
+            NavigasiKe(new RiwayatNelayan());
         }
 
         private void keluarbutton_dashboard_Click(object sender, EventArgs e)
         {
-            DialogResult konfirmasi = MessageBox.Show(
-                "Apakah Anda yakin ingin keluar dari program?",
-                "Konfirmasi Keluar",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
-
-            if (konfirmasi == DialogResult.Yes)
+            var konfirm = MessageBox.Show("Yakin ingin keluar?", "Logout",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (konfirm == DialogResult.Yes)
             {
-                GantiHalamanFitur(new PROJEKANN.Usercontrol.login(mainForm));
+                Application.Restart();
             }
         }
 
+        // =============================================================
+        // HELPER NAVIGASI — ganti UserControl di Panel induk
+        // =============================================================
+        private void GantiHalamanFitur(UserControl ucBaru)
+        {
+            this.Controls.Clear();
+            ucBaru.Dock = DockStyle.Fill;
+            this.Controls.Add(ucBaru);
+            ucBaru.BringToFront();
+        }
+
+        // Event Stub dari Designer
         private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void stoklabel_dashboard_Click(object sender, EventArgs e) { }
         private void penawaranlabel_dashboard_Click(object sender, EventArgs e) { }

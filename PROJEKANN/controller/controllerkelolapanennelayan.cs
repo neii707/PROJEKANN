@@ -27,21 +27,7 @@ namespace PROJEKANN.controller
                         if (result != null && result != DBNull.Value) model.NamaAsliUser = result.ToString();
                     }
 
-                    string queryTabel = @"SELECT 
-                                            p.id_panen AS id, 
-                                            p.berat_per_kg AS berat, 
-                                            COALESCE(g.kategori, '-') AS grade, 
-                                            COALESCE(g.harga_per_kg, 0) AS harga_per_kg,
-                                            CASE 
-                                                WHEN g.id_grade IS NULL THEN 'menunggu grading' 
-                                                ELSE 'sudah digrading'
-                                            END AS status
-                                         FROM panen p
-                                         INNER JOIN usser u ON p.id_user = u.id_user
-                                         LEFT JOIN grade g ON p.id_panen = g.id_panen
-                                         WHERE u.username = @username 
-                                         ORDER BY p.id_panen DESC";
-
+                    string queryTabel = "SELECT * FROM v_kelola_panen WHERE username = @username ORDER BY id DESC";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
@@ -98,6 +84,18 @@ namespace PROJEKANN.controller
                     }
                     else
                     {
+                        string queryCekGrade = "SELECT COUNT(*) FROM grade WHERE id_panen = @id";
+                        using (NpgsqlCommand cmdCek = new NpgsqlCommand(queryCekGrade, kon))
+                        {
+                            cmdCek.Parameters.AddWithValue("@id", idPanenTerpilih);
+                            int sudahGraded = Convert.ToInt32(cmdCek.ExecuteScalar() ?? 0);
+                            if (sudahGraded > 0)
+                            {
+                                System.Windows.Forms.MessageBox.Show("Gagal: Data panen sudah dinilai/di-grade oleh distributor dan tidak bisa diubah!", "Akses Ditolak");
+                                return false;
+                            }
+                        }
+
                         string queryUpdate = "UPDATE panen SET berat_per_kg = @berat, tanggal = @tanggal WHERE id_panen = @id";
                         using (NpgsqlCommand cmdUpdate = new NpgsqlCommand(queryUpdate, kon))
                         {
@@ -125,14 +123,18 @@ namespace PROJEKANN.controller
                 using (NpgsqlConnection kon = DBConnection.GetConnection())
                 {
                     kon.Open();
-                    string queryHapus = "DELETE FROM panen WHERE id_panen = @id AND id_panen NOT IN (SELECT id_panen FROM grade)";
+
+                    string queryHapus = "SELECT hapus_panen_aman(@id)";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryHapus, kon))
                     {
                         cmd.Parameters.AddWithValue("@id", idPanen);
-                        cmd.ExecuteNonQuery();
+                        object result = cmd.ExecuteScalar();
+                        string pesanDariDB = result?.ToString() ?? "Gagal memproses permintaan.";
+
+                        System.Windows.Forms.MessageBox.Show(pesanDariDB, "Informasi Sistem");
+                        return pesanDariDB.StartsWith("Sukses");
                     }
                 }
-                return true;
             }
             catch (Exception ex)
             {

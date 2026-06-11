@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Data;
+using System.Globalization;
 using System.Windows.Forms;
+using Npgsql;
 using PROJEKANN.controller;
+using PROJEKANN.database;
 using PROJEKANN.model;
 
 namespace PROJEKANN.Usercontrol.nelayan
@@ -21,6 +24,9 @@ namespace PROJEKANN.Usercontrol.nelayan
             this.mainForm = form1;
             this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
 
+            numBerat.DecimalPlaces = 2;
+            numBerat.Increment = 0.5M;
+
             MuatUlangSeluruhTampilan();
         }
 
@@ -33,12 +39,21 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             if (data.TabelPanenSaya != null)
             {
+                dgvriwayatpanen.DataSource = null;
                 dgvriwayatpanen.AutoGenerateColumns = false;
+
                 colID.DataPropertyName = "id";
                 colBerat.DataPropertyName = "berat";
                 colGrade.DataPropertyName = "grade";
                 colHarga.DataPropertyName = "harga_per_kg";
                 colStatus.DataPropertyName = "status";
+
+                CultureInfo kulturIndo = new CultureInfo("id-ID");
+                colBerat.DefaultCellStyle.FormatProvider = kulturIndo;
+                colBerat.DefaultCellStyle.Format = "N2";
+
+                colHarga.DefaultCellStyle.FormatProvider = kulturIndo;
+                colHarga.DefaultCellStyle.Format = "C2";
 
                 dgvriwayatpanen.DataSource = data.TabelPanenSaya;
             }
@@ -71,9 +86,9 @@ namespace PROJEKANN.Usercontrol.nelayan
         {
             if (dgvriwayatpanen.CurrentRow == null) return;
 
-            string statusPanen = dgvriwayatpanen.CurrentRow.Cells["colStatus"].Value.ToString().ToLower();
+            string statusPanen = dgvriwayatpanen.CurrentRow.Cells["colStatus"].Value?.ToString().ToLower() ?? "";
 
-            if (statusPanen == "menunggu grading")
+            if (statusPanen.Contains("belum") || statusPanen.Contains("menunggu"))
             {
                 string idPanenTerpilihText = dgvriwayatpanen.CurrentRow.Cells["colID"].Value.ToString();
                 DialogResult konfirmasi = MessageBox.Show($"Apakah Anda yakin ingin menghapus data panen dengan ID {idPanenTerpilihText}?", "Konfirmasi Hapus", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
@@ -109,6 +124,21 @@ namespace PROJEKANN.Usercontrol.nelayan
                             numBerat.Value = berat;
                         }
 
+                        using (NpgsqlConnection kon = DBConnection.GetConnection())
+                        {
+                            kon.Open();
+                            string queryCekTanggal = "SELECT tanggal FROM panen WHERE id_panen = @id LIMIT 1";
+                            using (NpgsqlCommand cmd = new NpgsqlCommand(queryCekTanggal, kon))
+                            {
+                                cmd.Parameters.AddWithValue("@id", idPanenTerpilih);
+                                object resTgl = cmd.ExecuteScalar();
+                                if (resTgl != null && resTgl != DBNull.Value)
+                                {
+                                    dtptanggalpanen.Value = Convert.ToDateTime(resTgl);
+                                }
+                            }
+                        }
+
                         simpanpanen_kelola.Text = "Ubah Data";
                     }
                 }
@@ -119,7 +149,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        private void Ganti(UserControl ucBaru)
+        private void GantiHalamanMenu(UserControl ucBaru)
         {
             if (ucBaru == null) return;
 
@@ -135,28 +165,18 @@ namespace PROJEKANN.Usercontrol.nelayan
                 }
                 else
                 {
-                    if (this != null)
-                    {
-                        this.Controls.Clear();
-                        ucBaru.Dock = DockStyle.Fill;
-                        this.Controls.Add(ucBaru);
-                        ucBaru.BringToFront();
-                    }
-                    else
-                    {
-                        mainForm.TampilkanHalaman(ucBaru);
-                    }
+                    mainForm.TampilkanHalaman(ucBaru);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal berpindah halaman: " + ex.Message, "Sistem Navigasi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Gagal berpindah menu: " + ex.Message, "Sistem Navigasi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void dashboardbutton_kelola_Click(object sender, EventArgs e)
         {
-            Ganti(new DashboardNelayan(mainForm, userLoginAktif));
+            GantiHalamanMenu(new DashboardNelayan(mainForm, userLoginAktif));
         }
 
         private void inputpanenbutton_kelola_Click(object sender, EventArgs e)
@@ -166,17 +186,17 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void penawaranbutton_kelola_Click(object sender, EventArgs e)
         {
-            Ganti(new NawarPanenNelayan(mainForm, userLoginAktif));
+            GantiHalamanMenu(new NawarPanenNelayan(mainForm, userLoginAktif));
         }
 
         private void transaksibutton_kelola_Click(object sender, EventArgs e)
         {
-            Ganti(new TransaksiNelayan(mainForm, userLoginAktif));
+            GantiHalamanMenu(new TransaksiNelayan(mainForm, userLoginAktif));
         }
 
         private void riwayatbutton_kelola_Click(object sender, EventArgs e)
         {
-            Ganti(new RiwayatNelayan(mainForm, userLoginAktif));
+            GantiHalamanMenu(new RiwayatNelayan(mainForm, userLoginAktif));
         }
 
         private void keluarbutton_kelola_Click(object sender, EventArgs e)
@@ -184,7 +204,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             DialogResult konfirmasi = MessageBox.Show("Apakah Anda yakin ingin keluar dari aplikasi?", "Logout Sistem", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (konfirmasi == DialogResult.Yes)
             {
-                Ganti(new PROJEKANN.Usercontrol.login(mainForm));
+                GantiHalamanMenu(new PROJEKANN.Usercontrol.login(mainForm));
             }
         }
 
