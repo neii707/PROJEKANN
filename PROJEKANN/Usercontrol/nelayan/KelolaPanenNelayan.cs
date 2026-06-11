@@ -1,11 +1,12 @@
-﻿using System;
-using System.Data;
-using System.Globalization;
-using System.Windows.Forms;
-using Npgsql;
+﻿using Npgsql;
 using PROJEKANN.controller;
 using PROJEKANN.database;
 using PROJEKANN.model;
+using System;
+using System.Data;
+using System.Globalization;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PROJEKANN.Usercontrol.nelayan
 {

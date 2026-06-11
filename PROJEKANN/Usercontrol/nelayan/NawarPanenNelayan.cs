@@ -1,8 +1,10 @@
-﻿using System;
+﻿using PROJEKANN.controller;
+using PROJEKANN.model;
+using PROJEKANN.Usercontrol.Distributor;
+using System;
 using System.Data;
 using System.Windows.Forms;
-using PROJEKANN.controller;
-using PROJEKANN.model;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PROJEKANN.Usercontrol.nelayan
 {
@@ -36,15 +38,15 @@ namespace PROJEKANN.Usercontrol.nelayan
             if (data.TabelPenawaran != null)
             {
                 dgvpenawaran.AutoGenerateColumns = false;
+                dgvpenawaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                colID.DataPropertyName = "id";
-                colDistributor.DataPropertyName = "distributor";
-                colBerat.DataPropertyName = "berat";
-                colGrade.DataPropertyName = "grade";
-                colHarga.DataPropertyName = "harga";
-                colEstimasi.DataPropertyName = "estimasi";
-                colTanggal.DataPropertyName = "tanggal";
-                colStatus.DataPropertyName = "status";
+                if (data.TabelPenawaran != null && data.TabelPenawaran.Columns.Count > 0)
+                {
+                    for (int i = 0; i < dgvpenawaran.Columns.Count && i < data.TabelPenawaran.Columns.Count; i++)
+                    {
+                        dgvpenawaran.Columns[i].DataPropertyName = data.TabelPenawaran.Columns[i].ColumnName;
+                    }
+                }
 
                 dgvpenawaran.DataSource = data.TabelPenawaran;
             }

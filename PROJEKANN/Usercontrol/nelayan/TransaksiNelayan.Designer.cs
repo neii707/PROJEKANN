@@ -76,6 +76,7 @@
             dgvtransaksi.RowHeadersWidth = 62;
             dgvtransaksi.Size = new Size(626, 275);
             dgvtransaksi.TabIndex = 34;
+            dgvtransaksi.CellContentClick += dgvtransaksi_CellContentClick;
             // 
             // colID
             // 

@@ -31,8 +31,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryTabel = "SELECT id, distributor, berat, total, tanggal, status " +
-                                       "FROM view_transaksi_aktif_nelayan WHERE nelayan = @username";
+                    string queryTabel = "SELECT *  FROM vw_konfirmasi_transaksi";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {

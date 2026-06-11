@@ -11,7 +11,7 @@ namespace PROJEKANN.controller
         public DashboardAdminModel AmbilSemuaDataDashboard(string username)
         {
             DashboardAdminModel model = new DashboardAdminModel();
-            model.NamaUser = username;
+            model.username = username;
 
             try
             {
@@ -24,7 +24,7 @@ namespace PROJEKANN.controller
                     {
                         cmd.Parameters.AddWithValue("@username", username);
                         object res = cmd.ExecuteScalar();
-                        if (res != null && res != DBNull.Value) model.NamaUser = res.ToString();
+                        if (res != null && res != DBNull.Value) model.username = res.ToString();
                     }
 
 

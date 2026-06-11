@@ -32,10 +32,7 @@ namespace PROJEKANN.controller
 
                     if (!string.IsNullOrEmpty(model.NamaAsliUser))
                     {
-                        string queryTabel = @"SELECT id, distributor, berat, grade, harga, estimasi, tanggal, status 
-                                             FROM view_penawaran_panen_nelayan 
-                                             WHERE nama_nelayan = @nama 
-                                             ORDER BY id DESC";
+                        string queryTabel = @"SELECT * FROM vw_konfirmasi_penawaran";
 
                         using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                         {

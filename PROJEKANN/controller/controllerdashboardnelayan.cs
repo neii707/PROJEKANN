@@ -1,5 +1,5 @@
 ﻿using Npgsql;
-using PROJEKANN.database; // Sesuaikan dengan namespace DBConnection milikmu
+using PROJEKANN.database; 
 using PROJEKANN.model;
 using System;
 using System.Data;
@@ -8,7 +8,7 @@ namespace PROJEKANN.controller
 {
     public class ControllerDashboardNelayan
     {
-        public ModelDashboardNelayan AmbilDataDashboard(int idUser)
+        public ModelDashboardNelayan AmbilDataDashboard(string username)
         {
             ModelDashboardNelayan model = new ModelDashboardNelayan();
 
@@ -20,14 +20,13 @@ namespace PROJEKANN.controller
                     kon.Open();
 
                     // 1. Ambil data Tabel via VIEW vw_dashboard_nelayan
-                    string sqlTabel = @"SELECT id_panen, grade, berat_kg, tanggal, status 
-                                        FROM vw_dashboard_nelayan 
-                                        WHERE id_user = @idUser 
+                    string sqlTabel = @"SELECT * FROM vw_dashboard_nelayan 
+                                        WHERE username = @username
                                         ORDER BY tanggal DESC";
 
                     using (NpgsqlCommand cmdTabel = new NpgsqlCommand(sqlTabel, kon))
                     {
-                        cmdTabel.Parameters.AddWithValue("@idUser", idUser);
+                        cmdTabel.Parameters.AddWithValue("@username", username);
                         using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmdTabel))
                         {
                             DataTable dt = new DataTable();
@@ -43,7 +42,7 @@ namespace PROJEKANN.controller
 
                     using (NpgsqlCommand cmdSum = new NpgsqlCommand(sqlSummary, kon))
                     {
-                        cmdSum.Parameters.AddWithValue("@id", idUser);
+                        cmdSum.Parameters.AddWithValue("@id", username);
                         using (NpgsqlDataReader dr = cmdSum.ExecuteReader())
                         {
                             if (dr.Read())

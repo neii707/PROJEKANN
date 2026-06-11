@@ -10,21 +10,28 @@ namespace PROJEKANN.Usercontrol.nelayan
     {
         // ── Session (diisi dari Form utama saat LoadUC) ───────────────
         public static int IdUser { get; set; }
-        public static string NamaUser { get; set; } = "";
+
+        public static string username { get; set; } = "";
+        private Form1 mainForm;
+        private string userLoginAktif;
 
         // Instansiasi Controller pendukung
         private ControllerDashboardNelayan _controller;
 
-        public DashboardNelayan()
+        public DashboardNelayan(Form1 formUtama, string userLogin)
         {
             InitializeComponent();
+            this.mainForm = formUtama;
+            this.userLoginAktif = userLogin;
+            username = userLogin; // Mengisi static property username
             _controller = new ControllerDashboardNelayan();
+            MuatData();
         }
 
         // ── Load pertama kali ─────────────────────────────────────────
         private void DashboardNelayan_Load(object sender, EventArgs e)
         {
-            lbnamauser_dashboard.Text = NamaUser;
+            lbnamauser_dashboard.Text = username;
             MuatData();
         }
 
@@ -34,25 +41,25 @@ namespace PROJEKANN.Usercontrol.nelayan
         private void MuatData()
         {
             // 1. Minta data ke controller
-            ModelDashboardNelayan data = _controller.AmbilDataDashboard(IdUser);
+            ModelDashboardNelayan data = _controller.AmbilDataDashboard(username);
 
             // 2. Tampilkan data Ringkasan ke Label UI
             stoklabel_dashboard.Text = data.StokPanen;
             penawaranlabel_dashboard.Text = data.TotalPenjualan;
             penjualanlabel_dashboard.Text = "Rp " + data.TotalPendapatan.ToString("N0");
 
-            // 3. Masukkan data ke DataGridView
+            // 3. Masukkan data ke DataGridView (Sudah dibuka comment-nya)
             dgvDashboard.Rows.Clear();
             if (data.TabelDashboard != null)
             {
                 foreach (DataRow row in data.TabelDashboard.Rows)
                 {
                     dgvDashboard.Rows.Add(
-                        row["id_panen"],
-                        row["grade"],
-                        row["berat_kg"],
-                        Convert.ToDateTime(row["tangal"]).ToString("dd/MM/yyyy"), // Typo di database asal ("tangal" atau "tanggal" disesuaikan)
-                        row["status"]
+                        row["id_panen"] != DBNull.Value ? row["id_panen"] : "",
+                        row["grade"] != DBNull.Value ? row["grade"] : "-",
+                        row["berat_kg"] != DBNull.Value ? row["berat_kg"] : 0,
+                        row["tanggal"] != DBNull.Value ? Convert.ToDateTime(row["tanggal"].ToString()).ToString("dd/MM/yyyy") : "-",
+                        row["status"] != DBNull.Value ? row["status"] : "-"
                     );
                 }
             }
@@ -68,22 +75,22 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void inputpanenbutton_dashboard_Click(object sender, EventArgs e)
         {
-            GantiHalamanFitur(new KelolaPanenNelayan());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.KelolaPanenNelayan(this.mainForm, this.userLoginAktif));
         }
 
         private void penawaranbutton_dashboard_Click(object sender, EventArgs e)
         {
-            NavigasiKe(new NawarPanenNelayan());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.NawarPanenNelayan(this.mainForm, this.userLoginAktif));
         }
 
         private void transaksibutton_dashboard_Click(object sender, EventArgs e)
         {
-            NavigasiKe(new TransaksiNelayan());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.TransaksiNelayan(this.mainForm, this.userLoginAktif));
         }
 
         private void riwayatbutton_dashboard_Click(object sender, EventArgs e)
         {
-            NavigasiKe(new RiwayatNelayan());
+            GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.RiwayatNelayan(this.mainForm, this.userLoginAktif));
         }
 
         private void keluarbutton_dashboard_Click(object sender, EventArgs e)
