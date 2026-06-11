@@ -207,57 +207,9 @@ VALUES
 2
 );
 
---view jumlah panen di dashboard distributor
-CREATE OR REPLACE VIEW view_jumlah_panen AS
-SELECT COUNT(*) AS total_panen
-FROM panen;
-
---view demand aktif di dashboard distributor
-CREATE OR REPLACE VIEW view_demand_aktif AS
-SELECT COUNT(*) AS total_demand
-FROM demand
-WHERE deadline >= CURRENT_DATE;
-
---view total transaksi di dashboard distributor
-CREATE OR REPLACE VIEW view_total_transaksi AS
-SELECT
-COALESCE(SUM(total_pembayaran),0) AS total_transaksi
-FROM transaksi
-WHERE status_transaksi='Selesai';
-
---view db distri menampilkan dgv bbrp transaksi paling akhir
-CREATE OR REPLACE VIEW view_dashboard_distributor AS
-SELECT
-    n.nama AS nelayan,
-
-    p.berat_per_kg ||
-    ' Kg - Grade ' ||
-    g.kategori ||
-    ' - Rp ' ||
-    TO_CHAR(t.total_pembayaran, 'FM999G999G999')
-
-    AS aktivitas,
-
-    t.tanggal
-
-FROM transaksi t
-
-JOIN grade g
-ON t.id_grade = g.id_grade
-
-JOIN panen p
-ON g.id_panen = p.id_panen
-
-JOIN usser n
-ON p.id_user = n.id_user
-
-ORDER BY t.tanggal DESC;
-
---cek view
-SELECT * FROM view_dashboard_distributor;
 
 -- =========================================
--- VIEW PUNYAK ADMIN
+-- PUNYAK ADMIN
 -- =========================================
 CREATE OR REPLACE VIEW v_aktivitas_terkini AS
 SELECT 
@@ -343,7 +295,9 @@ CREATE OR REPLACE VIEW public.v_labeltransaksi
    FROM transaksi t
   WHERE status_transaksi::text = 'Selesai'::text;
 
--- VIEW NELAYAN
+-- =========================================
+-- PUNYAK NELAYAN
+-- =========================================
 CREATE VIEW view_dashboard_nelayan AS
 SELECT
     t.id_transaksi AS id_asli,
@@ -446,7 +400,59 @@ INNER JOIN usser un ON p.id_user = un.id_user
 INNER JOIN usser ud ON g.id_distributor = ud.id_user  
 ORDER BY t.id_transaksi DESC;
 
---VIEW DISTRIBUTOR SEMUA FITUR
+-- =========================================
+-- PUNYAK DISTRIBUTOR
+-- =========================================
+
+--view jumlah panen di dashboard distributor
+CREATE OR REPLACE VIEW view_jumlah_panen AS
+SELECT COUNT(*) AS total_panen
+FROM panen;
+
+--view demand aktif di dashboard distributor
+CREATE OR REPLACE VIEW view_demand_aktif AS
+SELECT COUNT(*) AS total_demand
+FROM demand
+WHERE deadline >= CURRENT_DATE;
+
+--view total transaksi di dashboard distributor
+CREATE OR REPLACE VIEW view_total_transaksi AS
+SELECT
+COALESCE(SUM(total_pembayaran),0) AS total_transaksi
+FROM transaksi
+WHERE status_transaksi='Selesai';
+
+--view db distri menampilkan dgv bbrp transaksi paling akhir
+CREATE OR REPLACE VIEW view_dashboard_distributor AS
+SELECT
+    n.nama AS nelayan,
+
+    p.berat_per_kg ||
+    ' Kg - Grade ' ||
+    g.kategori ||
+    ' - Rp ' ||
+    TO_CHAR(t.total_pembayaran, 'FM999G999G999')
+
+    AS aktivitas,
+
+    t.tanggal
+
+FROM transaksi t
+
+JOIN grade g
+ON t.id_grade = g.id_grade
+
+JOIN panen p
+ON g.id_panen = p.id_panen
+
+JOIN usser n
+ON p.id_user = n.id_user
+
+ORDER BY t.tanggal DESC;
+
+--cek view
+SELECT * FROM view_dashboard_distributor;
+
 CREATE OR REPLACE VIEW view_jumlah_panen AS
 SELECT COUNT(*) AS total_panen
 FROM panen;
