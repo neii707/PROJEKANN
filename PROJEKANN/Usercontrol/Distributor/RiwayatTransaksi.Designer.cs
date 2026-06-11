@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             dgvRiwayat = new DataGridView();
-            panel1 = new Panel();
+            lblNamaUser = new Label();
             btnKeluar = new Button();
             lblTotal = new Label();
             lblSelesai = new Label();
@@ -39,9 +39,7 @@
             btnGrading = new Button();
             btnPanen = new Button();
             btnDashboard = new Button();
-            lblNamaUser = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvRiwayat).BeginInit();
-            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // dgvRiwayat
@@ -55,25 +53,16 @@
             dgvRiwayat.TabIndex = 3;
             dgvRiwayat.CellContentClick += dataGridView1_CellContentClick;
             // 
-            // panel1
+            // lblNamaUser
             // 
-            panel1.BackgroundImage = Properties.Resources.riwayat_transaksi;
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(lblNamaUser);
-            panel1.Controls.Add(btnKeluar);
-            panel1.Controls.Add(lblTotal);
-            panel1.Controls.Add(lblSelesai);
-            panel1.Controls.Add(btnRiwayat);
-            panel1.Controls.Add(btnTransaksi);
-            panel1.Controls.Add(btnPenawaran);
-            panel1.Controls.Add(btnGrading);
-            panel1.Controls.Add(btnPanen);
-            panel1.Controls.Add(btnDashboard);
-            panel1.Controls.Add(dgvRiwayat);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(908, 555);
-            panel1.TabIndex = 1;
+            lblNamaUser.AutoSize = true;
+            lblNamaUser.BackColor = Color.Transparent;
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNamaUser.Location = new Point(80, 47);
+            lblNamaUser.Name = "lblNamaUser";
+            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.TabIndex = 17;
+            lblNamaUser.Text = "---";
             // 
             // btnKeluar
             // 
@@ -81,11 +70,10 @@
             btnKeluar.FlatAppearance.BorderSize = 0;
             btnKeluar.FlatStyle = FlatStyle.Flat;
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(7, 513);
+            btnKeluar.Location = new Point(4, 514);
             btnKeluar.Name = "btnKeluar";
-            btnKeluar.Size = new Size(116, 34);
+            btnKeluar.Size = new Size(64, 34);
             btnKeluar.TabIndex = 14;
-            btnKeluar.Text = "KELUAR";
             btnKeluar.TextAlign = ContentAlignment.MiddleRight;
             btnKeluar.UseVisualStyleBackColor = false;
             btnKeluar.Click += btnKeluar_Click;
@@ -197,34 +185,33 @@
             btnDashboard.UseVisualStyleBackColor = false;
             btnDashboard.Click += btnDashboard_Click;
             // 
-            // lblNamaUser
-            // 
-            lblNamaUser.AutoSize = true;
-            lblNamaUser.BackColor = Color.Transparent;
-            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNamaUser.Location = new Point(80, 47);
-            lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(33, 25);
-            lblNamaUser.TabIndex = 17;
-            lblNamaUser.Text = "---";
-            // 
             // RiwayatTransaksi
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.riwayat_dis;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(lblNamaUser);
+            Controls.Add(btnKeluar);
+            Controls.Add(lblTotal);
+            Controls.Add(lblSelesai);
+            Controls.Add(btnRiwayat);
+            Controls.Add(btnTransaksi);
+            Controls.Add(btnPenawaran);
+            Controls.Add(btnGrading);
+            Controls.Add(btnPanen);
+            Controls.Add(btnDashboard);
+            Controls.Add(dgvRiwayat);
             Name = "RiwayatTransaksi";
             Size = new Size(908, 555);
             ((System.ComponentModel.ISupportInitialize)dgvRiwayat).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private DataGridView dgvRiwayat;
-        private Panel panel1;
         private Button btnRiwayat;
         private Button btnTransaksi;
         private Button btnPenawaran;

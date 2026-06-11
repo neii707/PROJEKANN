@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-using PROJEKANN.controller; // 🚀 Hubungkan folder controller
-using PROJEKANN.model;      // 🚀 Hubungkan folder model
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -12,7 +12,6 @@ namespace PROJEKANN.Usercontrol.Distributor
         private string userLoginAktif;
         private int idPanenTerpilih = 0;
 
-        // Inisialisasi jembatan controller
         private ControllerGrading _controller = new ControllerGrading();
 
         public Grading(Form1 form1, string username)
@@ -26,22 +25,22 @@ namespace PROJEKANN.Usercontrol.Distributor
         {
             SegarkanTampilanGrading();
 
-            // Setup pilihan combobox item bawaan
             cbGrade.Items.Clear();
             cbGrade.Items.Add("A");
             cbGrade.Items.Add("B");
             cbGrade.Items.Add("C");
+
+            dgvGrading.SelectionMode =
+            DataGridViewSelectionMode.FullRowSelect;
+            dgvGrading.MultiSelect = false;
         }
 
         private void SegarkanTampilanGrading()
         {
-            // 1. Minta kiriman data terpusat ke controller
             ModelGrading data = _controller.AmbilDataGrading(this.userLoginAktif);
 
-            // 2. Tampilkan nama user
             lblNamaUser.Text = data.NamaUserReal;
 
-            // 3. Masukkan data ke DataGridView desainer
             if (data.TabelGradingPanen != null)
             {
                 dgvGrading.DataSource = data.TabelGradingPanen;
@@ -67,48 +66,30 @@ namespace PROJEKANN.Usercontrol.Distributor
             string keterangan = txtKeterangan.Text;
             decimal harga = 0;
 
-            // Logika penentuan tarif harga asli bawaan program kamu
             if (gradeDipilih == "A") harga = 18000;
             else if (gradeDipilih == "B") harga = 13000;
             else harga = 5000;
 
-            // Kirim data ke controller untuk disimpan
             bool berhasil = _controller.TetapkanGradePanen(idPanenTerpilih, gradeDipilih, keterangan, harga);
 
             if (berhasil)
             {
                 MessageBox.Show("Grade berhasil ditetapkan!", "Sukses");
 
-                // Reset form input
                 idPanenTerpilih = 0;
                 cbGrade.SelectedIndex = -1;
                 txtKeterangan.Clear();
 
-                // Refresh isi tabel
                 SegarkanTampilanGrading();
             }
         }
 
-        private void dgvGrading_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                if (dgvGrading.Rows[e.RowIndex].Cells["id_panen"].Value != null)
-                {
-                    idPanenTerpilih = Convert.ToInt32(dgvGrading.Rows[e.RowIndex].Cells["id_panen"].Value);
-                }
-            }
-        }
-
-        // ========================================================
-        // 🗺️ SISTEM NAVIGASI INTERFACES MENU DISTRIBUTOR
-        // ========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;
-            panel1.Controls.Clear();
+            this.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
-            panel1.Controls.Add(ucBaru);
+            this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 
@@ -182,8 +163,21 @@ namespace PROJEKANN.Usercontrol.Distributor
             }
         }
 
-        // Kosongan Event Handlers bawaan desainer agar tidak corrupt
         private void cbGrade_SelectedIndexChanged(object sender, EventArgs e) { }
         private void panel1_Paint(object sender, PaintEventArgs e) { }
+
+        private void dgvGrading_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                idPanenTerpilih =
+                    Convert.ToInt32(
+                    dgvGrading.Rows[e.RowIndex]
+                    .Cells["id_panen"].Value
+                );
+
+                dgvGrading.Rows[e.RowIndex].Selected = true;
+            }
+        }
     }
 }

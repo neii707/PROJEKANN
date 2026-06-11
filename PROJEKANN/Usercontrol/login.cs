@@ -23,9 +23,9 @@ namespace PROJEKANN.Usercontrol
 
         private void GantiHalaman(UserControl ucBaru)
         {
-            panel1.Controls.Clear();
+            this.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
-            panel1.Controls.Add(ucBaru);
+            this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 
@@ -49,7 +49,7 @@ namespace PROJEKANN.Usercontrol
                 using (NpgsqlConnection conn = PROJEKANN.database.DBConnection.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT role_pilihan FROM usser WHERE username = @username AND passwd = @password";
+                    string query = "SELECT role_pilihan FROM usser WHERE username = @username AND passwd = @password AND status_konfir_akun = 'Konfirmasi'";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
@@ -108,7 +108,7 @@ namespace PROJEKANN.Usercontrol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            mainForm.TampilkanHalaman(new PROJEKANN.Usercontrol.register(mainForm));
+            GantiHalaman(new PROJEKANN.Usercontrol.register(mainForm));
         }
     }
 }

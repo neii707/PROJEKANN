@@ -38,7 +38,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(886, 499);
             panel1.TabIndex = 0;
-            //panel1.Paint += panel1_Paint;
             // 
             // Form1
             // 
@@ -47,6 +46,7 @@
             ClientSize = new Size(886, 499);
             Controls.Add(panel1);
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             Load += Form1_Load;
             ResumeLayout(false);

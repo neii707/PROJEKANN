@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-using PROJEKANN.controller; // 🚀 Hubungkan folder controller
-using PROJEKANN.model;      // 🚀 Hubungkan folder model
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -12,7 +12,6 @@ namespace PROJEKANN.Usercontrol.Distributor
         private string userLoginAktif;
         private int idTransaksiTerpilih = 0;
 
-        // Instansiasi objek controller transaksi distributor
         private ControllerDistributorTransaksi _controller = new ControllerDistributorTransaksi();
 
         public Transaksi(Form1 form1, string username)
@@ -31,29 +30,19 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void SegarkanDataTransaksi()
         {
-            // 1. Tarik bungkusan data dari controller
             ModelDistributorTransaksi data = _controller.AmbilDataAwal(this.userLoginAktif);
 
-            // 2. Tempel nama asli ke label UI desainer
             if (lblNamaUser != null)
             {
                 lblNamaUser.Text = data.NamaAsliUser;
             }
 
-            // 3. Ikat data ke DataGridView
             if (data.TabelTransaksi != null)
             {
                 dgvTransaksi.DataSource = data.TabelTransaksi;
                 dgvTransaksi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            }
-        }
-
-        private void dgvTransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                // Mengambil nilai ID transaksi dari baris grid yang diklik
-                idTransaksiTerpilih = Convert.ToInt32(dgvTransaksi.Rows[e.RowIndex].Cells["id_transaksi"].Value);
+                dgvTransaksi.MultiSelect = false;
+                dgvTransaksi.ReadOnly = true;
             }
         }
 
@@ -69,29 +58,24 @@ namespace PROJEKANN.Usercontrol.Distributor
 
             if (hasil == DialogResult.Yes)
             {
-                // Kirim perintah update ke controller
                 bool sukses = _controller.KonfirmasiPembayaranCash(idTransaksiTerpilih);
 
                 if (sukses)
                 {
                     MessageBox.Show("Pembayaran berhasil dikonfirmasi!");
 
-                    // Reset selection ID dan segarkan tabel kembali
                     idTransaksiTerpilih = 0;
                     SegarkanDataTransaksi();
                 }
             }
         }
 
-        // ========================================================
-        // 🗺️ SISTEM NAVIGASI DISTRIBUTOR (TETAP DI VIEW UTAMA)
-        // ========================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;
-            panel1.Controls.Clear();
+            this.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
-            panel1.Controls.Add(ucBaru);
+            this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 
@@ -137,6 +121,18 @@ namespace PROJEKANN.Usercontrol.Distributor
             if (konfirmasi == DialogResult.Yes)
             {
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
+            }
+        }
+
+        private void dgvTransaksi_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                idTransaksiTerpilih =
+                    Convert.ToInt32(
+                        dgvTransaksi.Rows[e.RowIndex]
+                        .Cells["id_transaksi"].Value
+                    );
             }
         }
     }

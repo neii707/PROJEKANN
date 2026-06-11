@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using PROJEKANN.controller; // 🚀 Akses ke folder controller
-using PROJEKANN.model;      // 🚀 Akses ke folder model
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol
 {
@@ -10,7 +10,6 @@ namespace PROJEKANN.Usercontrol
         private Form1 mainForm;
         private string userLoginAktif;
 
-        // Daftarkan controller dashboard distributor
         private ControllerDashboardDistributor _controller = new ControllerDashboardDistributor();
 
         public dashboard_distributor(Form1 form1, string username)
@@ -27,16 +26,13 @@ namespace PROJEKANN.Usercontrol
 
         private void SegarkanDataTampilan()
         {
-            // 1. Minta data rangkuman ke controller
             ModelDashboardDistributor data = _controller.AmbilDataDashboard(this.userLoginAktif);
 
-            // 2. Distribusikan data ke masing-masing komponen UI
             lblNamaUser.Text = data.NamaUserReal;
             lblJumlahPanen.Text = data.TeksJumlahPanen;
             lblDemand.Text = data.TeksDemand;
             lblTotalTransaksi.Text = data.TeksTotalTransaksi;
 
-            // 3. Ikat data ke DataGridView jika datanya tersedia
             if (data.TabelTransaksiAkhir != null)
             {
                 dgvDashboard.DataSource = data.TabelTransaksiAkhir;
@@ -46,15 +42,12 @@ namespace PROJEKANN.Usercontrol
 
         private void GantiHalamanFitur(UserControl ucBaru)
         {
-            DashboardDistributor.Controls.Clear();
+            this.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
-            DashboardDistributor.Controls.Add(ucBaru);
+            this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 
-        // ========================================================
-        // 🗺️ TOMBOL NAVIGASI MENU DISTRIBUTOR
-        // ========================================================
         private void btnDashboard_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor(this.mainForm, this.userLoginAktif));
@@ -85,7 +78,6 @@ namespace PROJEKANN.Usercontrol
             GantiHalamanFitur(new PROJEKANN.Usercontrol.Distributor.RiwayatTransaksi(this.mainForm, this.userLoginAktif));
         }
 
-        // Event kosong dibiarkan agar tidak merusak pointer designer .picker
         private void panel1_Paint(object sender, PaintEventArgs e) { }
         private void lblJumlahPanen_Click(object sender, EventArgs e) { }
         private void lblDemand_Click(object sender, EventArgs e) { }
@@ -106,6 +98,11 @@ namespace PROJEKANN.Usercontrol
             {
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

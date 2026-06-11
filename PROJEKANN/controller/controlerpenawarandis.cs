@@ -33,7 +33,7 @@ namespace PROJEKANN.controller
                     }
 
                     // Ambil seluruh data dari view_penawaran
-                    string queryTabel = "SELECT * FROM view_penawaran";
+                    string queryTabel = "SELECT * FROM view_penawaran_panen";
                     using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, conn))
                     {
                         DataTable dt = new DataTable();

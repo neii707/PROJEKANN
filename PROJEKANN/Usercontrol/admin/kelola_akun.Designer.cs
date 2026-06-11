@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(kelola_akun));
-            panel1 = new Panel();
             label5 = new Label();
             keluarbutton_dashboard = new Button();
             button5 = new Button();
@@ -40,28 +39,8 @@
             button2 = new Button();
             button1 = new Button();
             dataGridView1 = new DataGridView();
-            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.BackgroundImage = Properties.Resources.akun;
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(label5);
-            panel1.Controls.Add(keluarbutton_dashboard);
-            panel1.Controls.Add(button5);
-            panel1.Controls.Add(button4);
-            panel1.Controls.Add(button3);
-            panel1.Controls.Add(button6);
-            panel1.Controls.Add(button7);
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(dataGridView1);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(905, 552);
-            panel1.TabIndex = 0;
             // 
             // label5
             // 
@@ -84,7 +63,7 @@
             keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
             keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
             keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_dashboard.Location = new Point(-21, 509);
+            keluarbutton_dashboard.Location = new Point(-20, 509);
             keluarbutton_dashboard.Name = "keluarbutton_dashboard";
             keluarbutton_dashboard.Size = new Size(85, 46);
             keluarbutton_dashboard.TabIndex = 14;
@@ -205,18 +184,26 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.akun;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(button5);
+            Controls.Add(keluarbutton_dashboard);
+            Controls.Add(button6);
+            Controls.Add(button7);
+            Controls.Add(button1);
+            Controls.Add(dataGridView1);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(button4);
+            Controls.Add(label5);
             Name = "kelola_akun";
             Size = new Size(908, 555);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel panel1;
         private Button button2;
         private Button button1;
         private DataGridView dataGridView1;

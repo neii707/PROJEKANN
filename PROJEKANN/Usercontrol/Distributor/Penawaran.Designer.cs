@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             dgvPenawaran = new DataGridView();
-            panel1 = new Panel();
+            lblNamaUser = new Label();
             btnKeluar = new Button();
             btnRiwayat = new Button();
             btnTransaksi = new Button();
@@ -39,9 +39,7 @@
             button2 = new Button();
             btnKirim = new Button();
             txtHargaTawar = new TextBox();
-            lblNamaUser = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvPenawaran).BeginInit();
-            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // dgvPenawaran
@@ -53,27 +51,18 @@
             dgvPenawaran.RowHeadersWidth = 62;
             dgvPenawaran.Size = new Size(621, 331);
             dgvPenawaran.TabIndex = 0;
-            dgvPenawaran.CellContentClick += dgvPenawaran_CellContentClick;
+            dgvPenawaran.CellClick += dgvPenawaran_CellClick;
             // 
-            // panel1
+            // lblNamaUser
             // 
-            panel1.BackgroundImage = Properties.Resources.Penawaran;
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(lblNamaUser);
-            panel1.Controls.Add(btnKeluar);
-            panel1.Controls.Add(btnRiwayat);
-            panel1.Controls.Add(btnTransaksi);
-            panel1.Controls.Add(btnPenawaran);
-            panel1.Controls.Add(btnGrading);
-            panel1.Controls.Add(button3);
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(btnKirim);
-            panel1.Controls.Add(txtHargaTawar);
-            panel1.Controls.Add(dgvPenawaran);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(908, 555);
-            panel1.TabIndex = 1;
+            lblNamaUser.AutoSize = true;
+            lblNamaUser.BackColor = Color.Transparent;
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNamaUser.Location = new Point(82, 51);
+            lblNamaUser.Name = "lblNamaUser";
+            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.TabIndex = 14;
+            lblNamaUser.Text = "---";
             // 
             // btnKeluar
             // 
@@ -81,11 +70,10 @@
             btnKeluar.FlatAppearance.BorderSize = 0;
             btnKeluar.FlatStyle = FlatStyle.Flat;
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(9, 514);
+            btnKeluar.Location = new Point(7, 514);
             btnKeluar.Name = "btnKeluar";
-            btnKeluar.Size = new Size(116, 34);
+            btnKeluar.Size = new Size(59, 34);
             btnKeluar.TabIndex = 13;
-            btnKeluar.Text = "KELUAR";
             btnKeluar.TextAlign = ContentAlignment.MiddleRight;
             btnKeluar.UseVisualStyleBackColor = false;
             btnKeluar.Click += btnKeluar_Click;
@@ -96,7 +84,7 @@
             btnRiwayat.FlatAppearance.BorderSize = 0;
             btnRiwayat.FlatStyle = FlatStyle.Flat;
             btnRiwayat.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRiwayat.Location = new Point(37, 293);
+            btnRiwayat.Location = new Point(37, 296);
             btnRiwayat.Name = "btnRiwayat";
             btnRiwayat.Size = new Size(194, 34);
             btnRiwayat.TabIndex = 13;
@@ -110,7 +98,7 @@
             btnTransaksi.FlatAppearance.BorderSize = 0;
             btnTransaksi.FlatStyle = FlatStyle.Flat;
             btnTransaksi.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnTransaksi.Location = new Point(31, 254);
+            btnTransaksi.Location = new Point(31, 259);
             btnTransaksi.Name = "btnTransaksi";
             btnTransaksi.Size = new Size(129, 34);
             btnTransaksi.TabIndex = 12;
@@ -124,7 +112,7 @@
             btnPenawaran.FlatAppearance.BorderSize = 0;
             btnPenawaran.FlatStyle = FlatStyle.Flat;
             btnPenawaran.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPenawaran.Location = new Point(29, 218);
+            btnPenawaran.Location = new Point(29, 223);
             btnPenawaran.Name = "btnPenawaran";
             btnPenawaran.Size = new Size(147, 34);
             btnPenawaran.TabIndex = 11;
@@ -138,7 +126,7 @@
             btnGrading.FlatAppearance.BorderSize = 0;
             btnGrading.FlatStyle = FlatStyle.Flat;
             btnGrading.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGrading.Location = new Point(32, 179);
+            btnGrading.Location = new Point(32, 183);
             btnGrading.Name = "btnGrading";
             btnGrading.Size = new Size(112, 34);
             btnGrading.TabIndex = 10;
@@ -152,7 +140,7 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(27, 141);
+            button3.Location = new Point(27, 146);
             button3.Name = "button3";
             button3.Size = new Size(150, 34);
             button3.TabIndex = 9;
@@ -166,7 +154,7 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(27, 113);
+            button2.Location = new Point(32, 113);
             button2.Name = "button2";
             button2.Size = new Size(137, 34);
             button2.TabIndex = 4;
@@ -193,35 +181,34 @@
             txtHargaTawar.Size = new Size(150, 31);
             txtHargaTawar.TabIndex = 1;
             // 
-            // lblNamaUser
-            // 
-            lblNamaUser.AutoSize = true;
-            lblNamaUser.BackColor = Color.Transparent;
-            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNamaUser.Location = new Point(82, 51);
-            lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(33, 25);
-            lblNamaUser.TabIndex = 14;
-            lblNamaUser.Text = "---";
-            // 
             // Penawaran
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.penawaran_dis;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(lblNamaUser);
+            Controls.Add(btnKeluar);
+            Controls.Add(btnRiwayat);
+            Controls.Add(btnTransaksi);
+            Controls.Add(btnPenawaran);
+            Controls.Add(btnGrading);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(btnKirim);
+            Controls.Add(txtHargaTawar);
+            Controls.Add(dgvPenawaran);
             Name = "Penawaran";
             Size = new Size(908, 555);
             Load += Penawaran_Load;
             ((System.ComponentModel.ISupportInitialize)dgvPenawaran).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private DataGridView dgvPenawaran;
-        private Panel panel1;
         private Button btnKirim;
         private TextBox txtHargaTawar;
         private Button button2;
