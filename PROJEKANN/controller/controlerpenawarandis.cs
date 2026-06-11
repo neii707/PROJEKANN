@@ -8,11 +8,10 @@ namespace PROJEKANN.controller
 {
     public class ControllerDistributorPenawaran
     {
-        // 1. Fungsi mengambil data inisialisasi awal (Nama & Tabel View)
         public ModelDistributorPenawaran AmbilDataAwal(string username)
         {
             ModelDistributorPenawaran model = new ModelDistributorPenawaran();
-            model.NamaAsliUser = username; // Fallback jika kosong
+            model.NamaAsliUser = username; 
 
             try
             {
@@ -20,7 +19,6 @@ namespace PROJEKANN.controller
                 {
                     conn.Open();
 
-                    // Ambil nama asli dari user
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, conn))
                     {
@@ -32,8 +30,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    // Ambil seluruh data dari view_penawaran
-                    string queryTabel = "SELECT * FROM view_penawaran_panen";
+                    string queryTabel = "SELECT * FROM view_penawaran";
                     using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, conn))
                     {
                         DataTable dt = new DataTable();
@@ -50,7 +47,6 @@ namespace PROJEKANN.controller
             return model;
         }
 
-        // 2. Fungsi eksekusi Stored Procedure PostgreSQL
         public bool KirimHargaPenawaran(decimal hargaTawar, int idGrade)
         {
             try
