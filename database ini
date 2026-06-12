@@ -315,6 +315,54 @@ JOIN usser d ON g.id_distributor = d.id_user
 WHERE t.status_transaksi <> 'Selesai'
 ORDER BY t.tanggal DESC;
 
+CREATE OR REPLACE VIEW public.v_kelola_panen
+AS
+SELECT p.id_panen AS id,
+    u.username,
+    p.berat_per_kg AS berat,
+    COALESCE(g.kategori, '-'::character varying) AS grade,
+    COALESCE(g.harga_per_kg, 0::numeric) AS harga_per_kg,
+    CASE
+        WHEN (EXISTS ( SELECT 1
+           FROM transaksi t
+          WHERE t.id_grade = g.id_grade)) THEN ( SELECT t.status_transaksi
+           FROM transaksi t
+          WHERE t.id_grade = g.id_grade
+         LIMIT 1)
+        WHEN g.id_grade IS NOT NULL THEN 'Sudah Di-grade'::character varying
+        ELSE 'Belum Di-grade'::character varying
+    END AS status
+FROM panen p
+JOIN usser u ON p.id_user = u.id_user
+LEFT JOIN grade g ON p.id_panen = g.id_panen
+ORDER BY (
+    CASE
+        WHEN CASE
+                WHEN (EXISTS ( SELECT 1 FROM transaksi t WHERE t.id_grade = g.id_grade)) 
+                THEN ( SELECT t.status_transaksi FROM transaksi t WHERE t.id_grade = g.id_grade LIMIT 1)
+                WHEN g.id_grade IS NOT NULL THEN 'Sudah Di-grade'::character varying
+                ELSE 'Belum Di-grade'::character varying
+             END = 'Belum Di-grade' THEN 1
+             
+        WHEN CASE
+                WHEN (EXISTS ( SELECT 1 FROM transaksi t WHERE t.id_grade = g.id_grade)) 
+                THEN ( SELECT t.status_transaksi FROM transaksi t WHERE t.id_grade = g.id_grade LIMIT 1)
+                WHEN g.id_grade IS NOT NULL THEN 'Sudah Di-grade'::character varying
+                ELSE 'Belum Di-grade'::character varying
+             END = 'Menunggu' THEN 2
+             
+        WHEN CASE
+                WHEN (EXISTS ( SELECT 1 FROM transaksi t WHERE t.id_grade = g.id_grade)) 
+                THEN ( SELECT t.status_transaksi FROM transaksi t WHERE t.id_grade = g.id_grade LIMIT 1)
+                WHEN g.id_grade IS NOT NULL THEN 'Sudah Di-grade'::character varying
+                ELSE 'Belum Di-grade'::character varying
+             END = 'Sudah Di-grade' THEN 3
+             
+        ELSE 4
+    END
+);
+
+
 CREATE OR REPLACE VIEW view_riwayat_panen_nelayan AS
 SELECT 
     p.id_panen AS id,
