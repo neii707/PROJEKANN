@@ -111,7 +111,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             if (statusPanen.Contains("belum") || statusPanen.Contains("menunggu"))
             {
-                string idPanenTerpilihText = dgvriwayatpanen.CurrentRow.Cells["id_panen"].Value.ToString();
+                string idPanenTerpilihText = dgvriwayatpanen.CurrentRow.Cells["id"].Value.ToString();
                 DialogResult konfirmasi = MessageBox.Show($"Apakah Anda yakin ingin menghapus data panen dengan ID {idPanenTerpilihText}?", "Konfirmasi Hapus", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
                 if (konfirmasi == DialogResult.OK || konfirmasi == DialogResult.Yes)
