@@ -355,24 +355,6 @@ CREATE OR REPLACE VIEW public.vw_riwayat_transaksi
      JOIN usser u ON u.id_user = g.id_distributor
   WHERE t.status_transaksi::text = 'Selesai'::text;
 
-
-CREATE VIEW view_dashboard_nelayan AS
-SELECT
-    t.id_transaksi AS id_asli,
-    d.nama AS distributor,
-    p.berat_per_kg || ' Kg - Grade ' || g.kategori || ' - Rp ' || TO_CHAR(COALESCE(t.total_pembayaran, 0), 'FM999G999G999') AS aktivitas,
-    t.tanggal,
-    t.status_transaksi AS status_asli,
-    u.username AS username_nelayan, 
-    u.nama AS nama_lengkap 
-FROM transaksi t
-JOIN grade g ON t.id_grade = g.id_grade
-JOIN panen p ON g.id_panen = p.id_panen
-JOIN usser u ON p.id_user = u.id_user
-JOIN usser d ON g.id_distributor = d.id_user
-WHERE t.status_transaksi <> 'Selesai'
-ORDER BY t.tanggal DESC;
-
 CREATE OR REPLACE VIEW public.v_kelola_panen
 AS
 SELECT p.id_panen AS id,
@@ -420,56 +402,6 @@ ORDER BY (
     END
 );
 
-
-CREATE OR REPLACE VIEW view_riwayat_panen_nelayan AS
-SELECT 
-    p.id_panen AS id,
-    p.berat_per_kg AS berat,
-    COALESCE(g.kategori, '-') AS grade, 
-    COALESCE(g.harga_per_kg, 0) AS harga_per_kg, 
-    COALESCE(t.status_transaksi, 'Menunggu Grading') AS status,
-    u.username AS username_nelayan
-FROM panen p
-JOIN usser u ON p.id_user = u.id_user
-LEFT JOIN grade g ON p.id_panen = g.id_panen
-LEFT JOIN transaksi t ON g.id_grade = t.id_grade
-ORDER BY p.id_panen DESC;
-
-CREATE OR REPLACE VIEW view_riwayat_panen_nelayan AS
-SELECT 
-    p.id_panen AS id,
-    p.berat_per_kg AS berat,
-    COALESCE(g.kategori, '-') AS grade, 
-    COALESCE(g.harga_per_kg, 0) AS harga_per_kg, 
-    COALESCE(t.status_transaksi, 'Menunggu Grading') AS status,
-    u.username AS username_nelayan
-FROM panen p
-JOIN usser u ON p.id_user = u.id_user
-LEFT JOIN grade g ON p.id_panen = g.id_panen
-LEFT JOIN transaksi t ON g.id_grade = t.id_grade
-ORDER BY p.id_panen DESC;
-
-CREATE OR REPLACE VIEW view_penawaran_panen_nelayan AS
-SELECT 
-    p.id_panen AS id,
-    u_dist.nama AS distributor, 
-    p.berat_per_kg AS berat,
-    g.kategori AS grade,
-    g.harga_per_kg AS harga,
-    (p.berat_per_kg * g.harga_per_kg) AS estimasi,
-    p.tanggal AS tanggal,
-    t.status_transaksi AS status, 
-    u_nel.username AS username_nelayan,
-    u_nel.nama AS nama_nelayan,
-    t.id_transaksi AS id_transaksi
-FROM panen p
-JOIN usser u_nel ON p.id_user = u_nel.id_user
-JOIN grade g ON p.id_panen = g.id_panen
-JOIN usser u_dist ON g.id_distributor = u_dist.id_user
-JOIN transaksi t ON g.id_grade = t.id_grade
-WHERE t.status_transaksi = 'Menunggu Konfirmasi' OR t.status_transaksi = 'Ditolak Nelayan'
-ORDER BY t.id_transaksi DESC;
-
 CREATE OR REPLACE FUNCTION log_perubahan_transaksi()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -484,27 +416,6 @@ CREATE TRIGGER trg_log_status_transaksi
 BEFORE UPDATE ON transaksi
 FOR EACH ROW
 EXECUTE FUNCTION log_perubahan_transaksi();
-
-CREATE VIEW view_riwayat_transaksi_nelayan AS
-SELECT 
-    t.id_transaksi AS id,
-    ud.username AS distributor,
-    un.username AS nelayan,
-    p.berat_per_kg AS berat,
-    g.kategori AS grade,
-    CASE 
-        WHEN p.berat_per_kg > 0 THEN ROUND(t.total_pembayaran / p.berat_per_kg, 2)
-        ELSE 0 
-    END AS harga_per_kg,
-    t.total_pembayaran AS total,
-    p.tanggal AS tanggal,
-    t.status_transaksi AS status
-FROM transaksi t
-INNER JOIN grade g ON t.id_grade = g.id_grade
-INNER JOIN panen p ON g.id_panen = p.id_panen
-INNER JOIN usser un ON p.id_user = un.id_user  
-INNER JOIN usser ud ON g.id_distributor = ud.id_user  
-ORDER BY t.id_transaksi DESC;
 
 -- FUNCTION: public.fn_pendapatan_bulan_ini(integer)
 CREATE OR REPLACE FUNCTION public.fn_pendapatan_bulan_ini(p_username varchar) 
