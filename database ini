@@ -298,6 +298,64 @@ CREATE OR REPLACE VIEW public.v_labeltransaksi
 -- =========================================
 -- PUNYAK NELAYAN
 -- =========================================
+
+CREATE OR REPLACE VIEW public.vw_dashboard_nelayan
+ AS
+ SELECT p.id_panen,
+    COALESCE(g.kategori, '-'::character varying) AS grade,
+    p.berat_per_kg AS berat_kg,
+    p.tanggal,
+        CASE
+            WHEN g.id_grade IS NULL THEN 'Belum Digrading'::text
+            WHEN t.id_transaksi IS NULL THEN 'Sudah Digrading'::text
+            WHEN t.konfir_penawaran::text = 'Menunggu'::text THEN 'Sedang Ditawar'::text
+            WHEN t.konfir_penawaran::text = 'Diterima'::text AND COALESCE(t.konfir_pembelian, ''::character varying)::text <> 'Selesai'::text THEN 'Menunggu Konfirmasi Pembayaran'::text
+            ELSE 'Proses'::text
+        END AS status,
+    u.username
+   FROM panen p
+     LEFT JOIN grade g ON g.id_panen = p.id_panen
+     LEFT JOIN transaksi t ON t.id_grade = g.id_grade AND t.status_transaksi::text <> 'Selesai'::text
+     LEFT JOIN usser u ON p.id_user = u.id_user
+  WHERE NOT (EXISTS ( SELECT 1
+           FROM grade g2
+             JOIN transaksi t2 ON t2.id_grade = g2.id_grade
+          WHERE g2.id_panen = p.id_panen AND t2.status_transaksi::text = 'Selesai'::text));
+
+CREATE OR REPLACE VIEW public.vw_konfirmasi_penawaran
+ AS
+ SELECT t.id_transaksi,
+    p.id_panen,
+    u.nama AS nama_distributor,
+    p.berat_per_kg AS berat_kg,
+    g.kategori AS grade,
+    t.harga_tawar,
+    p.berat_per_kg * t.harga_tawar AS estimasi_total,
+    t.konfir_penawaran AS status
+   FROM transaksi t
+     JOIN grade g ON g.id_grade = t.id_grade
+     JOIN panen p ON p.id_panen = g.id_panen
+     JOIN usser u ON u.id_user = g.id_distributor
+  WHERE t.konfir_penawaran::text = 'Menunggu'::text;
+
+CREATE OR REPLACE VIEW public.vw_riwayat_transaksi
+ AS
+ SELECT p.id_panen,
+    u.nama AS nama_distributor,
+    p.berat_per_kg AS berat_kg,
+    g.kategori AS grade,
+    g.harga_per_kg,
+    t.total_pembayaran AS total,
+    t.tanggal AS tanggal_konfirmasi,
+    t.status_transaksi AS status,
+    p.id_user AS id_nelayan
+   FROM transaksi t
+     JOIN grade g ON g.id_grade = t.id_grade
+     JOIN panen p ON p.id_panen = g.id_panen
+     JOIN usser u ON u.id_user = g.id_distributor
+  WHERE t.status_transaksi::text = 'Selesai'::text;
+
+
 CREATE VIEW view_dashboard_nelayan AS
 SELECT
     t.id_transaksi AS id_asli,
