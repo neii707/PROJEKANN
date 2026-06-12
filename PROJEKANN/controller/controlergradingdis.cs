@@ -8,7 +8,6 @@ namespace PROJEKANN.controller
 {
     public class ControllerGrading
     {
-        // 1. Mengambil data nama user dan isi tabel panen yang siap di-grade
         public ModelGrading AmbilDataGrading(string username)
         {
             ModelGrading model = new ModelGrading();
@@ -20,7 +19,6 @@ namespace PROJEKANN.controller
                 {
                     kon.Open();
 
-                    // Query Nama Real User
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
                     {
@@ -29,7 +27,6 @@ namespace PROJEKANN.controller
                         if (result != null && result != DBNull.Value) model.NamaUserReal = result.ToString();
                     }
 
-                    // Query Mengambil View Grading Panen
                     string queryTabel = "SELECT * FROM view_grading_panen;";
                     using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, kon))
                     {
@@ -47,7 +44,6 @@ namespace PROJEKANN.controller
             return model;
         }
 
-        // 2. Mengeksekusi penentuan grade ke database
         public bool TetapkanGradePanen(int idPanen, string gradeDipilih, string keterangan, decimal harga)
         {
             try

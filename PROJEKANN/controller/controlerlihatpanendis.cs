@@ -19,7 +19,6 @@ namespace PROJEKANN.controller
                 {
                     conn.Open();
 
-                    // 1. Ambil Nama Asli User sesuai Akun Login
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, conn))
                     {
@@ -28,7 +27,6 @@ namespace PROJEKANN.controller
                         if (res != null && res != DBNull.Value) model.NamaUserReal = res.ToString();
                     }
 
-                    // 2. Ambil Semua Data dari View Panen
                     string queryTabel = "SELECT * FROM view_lihat_panen";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {

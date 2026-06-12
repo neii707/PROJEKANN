@@ -8,7 +8,6 @@ namespace PROJEKANN.controller
 {
     public class ControllerDistributorTransaksi
     {
-        // 1. Mengambil data awal untuk Grid dan Label Nama
         public ModelDistributorTransaksi AmbilDataAwal(string username)
         {
             ModelDistributorTransaksi model = new ModelDistributorTransaksi();
@@ -20,7 +19,6 @@ namespace PROJEKANN.controller
                 {
                     conn.Open();
 
-                    // Ambil nama asli user
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, conn))
                     {
@@ -32,7 +30,6 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    // Ambil data transaksi aktif distributor
                     string queryTabel = "SELECT * FROM view_transaksi_distributor";
                     using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, conn))
                     {
@@ -50,7 +47,6 @@ namespace PROJEKANN.controller
             return model;
         }
 
-        // 2. Mengubah status transaksi menjadi Selesai (Update)
         public bool KonfirmasiPembayaranCash(int idTransaksi)
         {
             try

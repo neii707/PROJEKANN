@@ -11,7 +11,7 @@ namespace PROJEKANN.controller
         public ModelRiwayatDistributor AmbilSemuaDataRiwayat(string username)
         {
             ModelRiwayatDistributor model = new ModelRiwayatDistributor();
-            model.NamaUserReal = username; // Default fallback
+            model.NamaUserReal = username; 
             model.TotalSelesai = "0";
             model.TotalPembayaran = 0;
 
@@ -21,7 +21,6 @@ namespace PROJEKANN.controller
                 {
                     conn.Open();
 
-                    // 1. Tampilkan Nama User Real
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, conn))
                     {
@@ -33,7 +32,6 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    // 2. Hitung Statistik - Jumlah Transaksi Selesai
                     string queryJumlah = @"
                         SELECT COUNT(*)
                         FROM transaksi
@@ -44,7 +42,6 @@ namespace PROJEKANN.controller
                         model.TotalSelesai = jml != null ? jml.ToString() : "0";
                     }
 
-                    // 3. Hitung Statistik - Total Nilai Pembayaran Selesai
                     string queryTotal = @"
                         SELECT COALESCE(SUM(total_pembayaran), 0)
                         FROM transaksi
@@ -54,7 +51,6 @@ namespace PROJEKANN.controller
                         model.TotalPembayaran = Convert.ToDecimal(cmdTotal.ExecuteScalar());
                     }
 
-                    // 4. Muat Data Tabel Riwayat
                     string queryTabel = "SELECT * FROM view_riwayat_transaksi;";
                     using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, conn))
                     {
