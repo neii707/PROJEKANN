@@ -24,7 +24,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             InitializeComponent();
             this.mainForm = form1;
             this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
-
+            numBerat.Maximum = 999999;
             numBerat.DecimalPlaces = 2;
             numBerat.Increment = 0.5M;
 
