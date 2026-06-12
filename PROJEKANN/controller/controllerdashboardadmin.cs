@@ -51,7 +51,6 @@ namespace PROJEKANN.controller
                         model.LabelTransaksi = res != null ? res.ToString() : "0";
                     }
 
-
                     string queryTabel = @"
                         SELECT 
                             id AS ""ID"", 

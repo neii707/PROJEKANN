@@ -33,12 +33,10 @@ namespace PROJEKANN.controller
 
                     string queryStatistik = @"
                         SELECT 
-                            COUNT(vt.id_panen) as total_transaksi,
-                            COALESCE(SUM(CASE WHEN LOWER(vt.status) = 'selesai' THEN vt.total ELSE 0 END), 0) as total_nilai
-                        FROM public.vw_riwayat_transaksi vt
-                        JOIN public.panen p ON vt.id_panen = p.id_panen
-                        JOIN public.usser u ON p.id_user = u.id_user
-                        WHERE u.username = @username";
+                            COUNT(id_panen) as total_transaksi,
+                            COALESCE(SUM(total), 0) as total_nilai
+                        FROM public.vw_riwayat_transaksi
+                        WHERE username_nelayan = @username";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStatistik, kon))
                     {
@@ -56,10 +54,8 @@ namespace PROJEKANN.controller
                     }
 
                     string queryTabel = @"
-                        SELECT vt.* FROM vw_riwayat_transaksi vt
-                        JOIN panen p ON vt.id_panen = p.id_panen
-                        JOIN usser u ON p.id_user = u.id_user
-                        WHERE u.username = @username";
+                        SELECT * FROM public.vw_riwayat_transaksi
+                        WHERE username_nelayan = @username";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {

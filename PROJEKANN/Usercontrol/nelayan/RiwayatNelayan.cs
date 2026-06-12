@@ -42,6 +42,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             if (data.TabelRiwayatTransaksi != null)
             {
                 dgvTransaksi.AutoGenerateColumns = false;
+                dgvTransaksi.DataSource = data.TabelRiwayatTransaksi;
 
                 colID.DataPropertyName = "id_panen";
                 colDistributor.DataPropertyName = "nama_distributor";

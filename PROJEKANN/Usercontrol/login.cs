@@ -80,7 +80,7 @@ namespace PROJEKANN.Usercontrol
                                     break;
 
                                 case "nelayan":
-                                    // Menggunakan sub-namespace .nelayan yang baru agar tidak memicu compile error
+             
                                     PROJEKANN.Usercontrol.nelayan.DashboardNelayan nelayanDashboard = new PROJEKANN.Usercontrol.nelayan.DashboardNelayan(mainForm, username);
                                     nelayanDashboard.Dock = DockStyle.Fill;
 
