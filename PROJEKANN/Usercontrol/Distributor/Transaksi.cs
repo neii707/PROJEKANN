@@ -43,6 +43,16 @@ namespace PROJEKANN.Usercontrol.Distributor
                 dgvTransaksi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgvTransaksi.MultiSelect = false;
                 dgvTransaksi.ReadOnly = true;
+
+                if (dgvTransaksi.Columns.Contains("harga_tawar"))
+                {
+                    dgvTransaksi.Columns["harga_tawar"].DefaultCellStyle.Format = "N0";
+                }
+
+                if (dgvTransaksi.Columns.Contains("total_pembayaran"))
+                {
+                    dgvTransaksi.Columns["total_pembayaran"].DefaultCellStyle.Format = "N0";
+                }
             }
         }
 

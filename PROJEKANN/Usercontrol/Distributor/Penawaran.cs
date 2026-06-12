@@ -46,6 +46,11 @@ namespace PROJEKANN.Usercontrol.Distributor
                 dgvPenawaran.MultiSelect = false;
 
                 dgvPenawaran.ReadOnly = true;
+
+                if (dgvPenawaran.Columns.Contains("harga_per_kg"))
+                {
+                    dgvPenawaran.Columns["harga_per_kg"].DefaultCellStyle.Format = "N0";
+                }
             }
         }
 

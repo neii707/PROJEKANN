@@ -50,7 +50,7 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryTotalTrx = "SELECT total_transaksi FROM view_total_transaksi";
+                    string queryTotalTrx = "SELECT total_transaksi FROM view_total_transaksi_distributor";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTotalTrx, conn))
                     {
                         object resTrx = cmd.ExecuteScalar();
@@ -58,7 +58,7 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryDemand = "SELECT total_demand FROM view_demand_aktif";
+                    string queryDemand = "SELECT total_demand FROM view_demand_distributor";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryDemand, conn))
                     {
                         object resDemand = cmd.ExecuteScalar();
