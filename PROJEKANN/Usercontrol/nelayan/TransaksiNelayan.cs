@@ -40,12 +40,15 @@ namespace PROJEKANN.Usercontrol.nelayan
                 colID.DataPropertyName = "id_panen";
                 colDistributor.DataPropertyName = "nama_distributor";
                 colBerat.DataPropertyName = "berat_kg";
-                colTotal.DataPropertyName = "total_pembayaran";
+                total_pembayaran.DataPropertyName = "total_pembayaran";
                 colStatus.DataPropertyName = "status";
 
                 dgvtransaksi.DataSource = data.TabelTransaksiAktif;
+        
+
             }
         }
+
 
         private void konfirmasi_transaksi_Click(object sender, EventArgs e)
         {

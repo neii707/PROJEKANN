@@ -41,7 +41,7 @@
             colID = new DataGridViewTextBoxColumn();
             colDistributor = new DataGridViewTextBoxColumn();
             colBerat = new DataGridViewTextBoxColumn();
-            colTotal = new DataGridViewTextBoxColumn();
+            total_pembayaran = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvtransaksi).BeginInit();
             SuspendLayout();
@@ -67,7 +67,7 @@
             dgvtransaksi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvtransaksi.BackgroundColor = Color.MediumAquamarine;
             dgvtransaksi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvtransaksi.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colBerat, colTotal, colStatus });
+            dgvtransaksi.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colBerat, total_pembayaran, colStatus });
             dgvtransaksi.Location = new Point(262, 146);
             dgvtransaksi.Name = "dgvtransaksi";
             dgvtransaksi.ReadOnly = true;
@@ -200,12 +200,13 @@
             colBerat.Name = "colBerat";
             colBerat.ReadOnly = true;
             // 
-            // colTotal
+            // total_pembayaran
             // 
-            colTotal.HeaderText = "Total";
-            colTotal.MinimumWidth = 8;
-            colTotal.Name = "colTotal";
-            colTotal.ReadOnly = true;
+            total_pembayaran.DataPropertyName = "total_pembayaran";
+            total_pembayaran.HeaderText = "total_pembayaran";
+            total_pembayaran.MinimumWidth = 8;
+            total_pembayaran.Name = "total_pembayaran";
+            total_pembayaran.ReadOnly = true;
             // 
             // colStatus
             // 
@@ -249,7 +250,7 @@
         private DataGridViewTextBoxColumn colID;
         private DataGridViewTextBoxColumn colDistributor;
         private DataGridViewTextBoxColumn colBerat;
-        private DataGridViewTextBoxColumn colTotal;
+        private DataGridViewTextBoxColumn total_pembayaran;
         private DataGridViewTextBoxColumn colStatus;
     }
 }

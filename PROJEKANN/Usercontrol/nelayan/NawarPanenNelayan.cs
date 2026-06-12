@@ -42,7 +42,7 @@ namespace PROJEKANN.Usercontrol.nelayan
                     dgvpenawaran.Columns[2].DataPropertyName = "berat_kg";
                     dgvpenawaran.Columns[3].DataPropertyName = "grade";
                     dgvpenawaran.Columns[4].DataPropertyName = "harga_tawar";
-                    dgvpenawaran.Columns[5].DataPropertyName = "estimasi_total";
+                    dgvpenawaran.Columns[5].DataPropertyName = "total_pembayaran";
                     dgvpenawaran.Columns[6].DataPropertyName = "status";
                 }
 
