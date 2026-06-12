@@ -107,11 +107,11 @@ namespace PROJEKANN.Usercontrol.nelayan
         {
             if (dgvriwayatpanen.CurrentRow == null) return;
 
-            string statusPanen = dgvriwayatpanen.CurrentRow.Cells["colStatus"].Value?.ToString().ToLower() ?? "";
+            string statusPanen = dgvriwayatpanen.CurrentRow.Cells["status"].Value?.ToString().ToLower() ?? "";
 
             if (statusPanen.Contains("belum") || statusPanen.Contains("menunggu"))
             {
-                string idPanenTerpilihText = dgvriwayatpanen.CurrentRow.Cells["colID"].Value.ToString();
+                string idPanenTerpilihText = dgvriwayatpanen.CurrentRow.Cells["id_panen"].Value.ToString();
                 DialogResult konfirmasi = MessageBox.Show($"Apakah Anda yakin ingin menghapus data panen dengan ID {idPanenTerpilihText}?", "Konfirmasi Hapus", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
                 if (konfirmasi == DialogResult.OK || konfirmasi == DialogResult.Yes)
@@ -136,11 +136,12 @@ namespace PROJEKANN.Usercontrol.nelayan
                 try
                 {
                     DataGridViewRow row = dgvriwayatpanen.Rows[e.RowIndex];
-                    if (row.Cells["colID"].Value != null && row.Cells["colID"].Value != DBNull.Value)
-                    {
-                        idPanenTerpilih = Convert.ToInt32(row.Cells["colID"].Value);
 
-                        if (decimal.TryParse(row.Cells["colBerat"].Value.ToString(), out decimal berat))
+                    if (row.Cells["id_panen"].Value != null && row.Cells["id_panen"].Value != DBNull.Value)
+                    {
+                        idPanenTerpilih = Convert.ToInt32(row.Cells["id_panen"].Value);
+
+                        if (decimal.TryParse(row.Cells["berat_kg"].Value.ToString(), out decimal berat))
                         {
                             numBerat.Value = berat;
                         }
