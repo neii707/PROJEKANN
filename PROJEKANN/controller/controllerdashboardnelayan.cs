@@ -1,5 +1,5 @@
 ﻿using Npgsql;
-using PROJEKANN.database; 
+using PROJEKANN.database;
 using PROJEKANN.model;
 using System;
 using System.Data;
@@ -11,16 +11,29 @@ namespace PROJEKANN.controller
         public ModelDashboardNelayan AmbilDataDashboard(string username)
         {
             ModelDashboardNelayan model = new ModelDashboardNelayan();
+            model.username = username;
 
             try
             {
-                // Gunakan class koneksi database utama yang biasa kamu pakai (misal: DBConnection)
                 using (NpgsqlConnection kon = DBConnection.GetConnection())
                 {
                     kon.Open();
 
+                    string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
+                    using (NpgsqlCommand cmdNama = new NpgsqlCommand(queryNama, kon))
+                    {
+                        cmdNama.Parameters.AddWithValue("@username", username);
+                        object result = cmdNama.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            model.nama = result.ToString();
+                        }
+                        else
+                        {
+                            model.nama = username;
+                        }
+                    }
 
-                    // 1. Ambil data Tabel via VIEW vw_dashboard_nelayan
                     string sqlTabel = @"SELECT * FROM vw_dashboard_nelayan 
                                         WHERE username = @username
                                         ORDER BY tanggal DESC";
@@ -36,14 +49,21 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    // 2. Ambil data Ringkasan via FUNCTION Database
-                    string sqlSummary = @"SELECT fn_stok_panen(@id)           AS stok,
-                                                 fn_penjualan(@id)            AS jual,
-                                                 fn_pendapatan_bulan_ini(@id) AS pendapatan";
+                    string sqlSummary = @"
+                        SELECT 
+                            fn_stok_panen(@username) AS stok,
+                            fn_penjualan(@username) AS jual,
+                            COALESCE(
+                                (SELECT SUM(CASE WHEN LOWER(vt.status) = 'selesai' THEN vt.total ELSE 0 END)
+                                 FROM public.vw_riwayat_transaksi vt
+                                 JOIN public.panen p ON vt.id_panen = p.id_panen
+                                 JOIN public.usser u ON p.id_user = u.id_user
+                                 WHERE u.username = @username), 0
+                            ) AS pendapatan";
 
                     using (NpgsqlCommand cmdSum = new NpgsqlCommand(sqlSummary, kon))
                     {
-                        cmdSum.Parameters.AddWithValue("@id", username);
+                        cmdSum.Parameters.AddWithValue("@username", username);
                         using (NpgsqlDataReader dr = cmdSum.ExecuteReader())
                         {
                             if (dr.Read())

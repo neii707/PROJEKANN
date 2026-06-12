@@ -27,7 +27,7 @@ namespace PROJEKANN.controller
                         if (result != null && result != DBNull.Value) model.NamaAsliUser = result.ToString();
                     }
 
-                    string queryTabel = "SELECT * FROM v_kelola_panen WHERE username = @username ORDER BY id DESC";
+                    string queryTabel = "SELECT * FROM v_kelola_panen WHERE username = @username AND LOWER(status) != 'selesai' ORDER BY id DESC";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", username);

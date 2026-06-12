@@ -152,7 +152,7 @@
             penjualanlabel_dashboard.AutoSize = true;
             penjualanlabel_dashboard.BackColor = Color.Transparent;
             penjualanlabel_dashboard.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            penjualanlabel_dashboard.Location = new Point(757, 115);
+            penjualanlabel_dashboard.Location = new Point(754, 119);
             penjualanlabel_dashboard.Name = "penjualanlabel_dashboard";
             penjualanlabel_dashboard.Size = new Size(24, 28);
             penjualanlabel_dashboard.TabIndex = 8;
