@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using PROJEKANN.controller; // 🚀 Akses ke folder controller
-using PROJEKANN.model;      // 🚀 Akses ke folder model
+using PROJEKANN.controller; 
+using PROJEKANN.model;      
 
 namespace PROJEKANN.Usercontrol.Distributor
 {
@@ -10,7 +10,6 @@ namespace PROJEKANN.Usercontrol.Distributor
         private Form1 mainForm;
         private string userLoginAktif;
 
-        // Deklarasi controller lihat panen
         private ControllerLihatPanen _controller = new ControllerLihatPanen();
 
         public lihat_panen(Form1 form1, string username)
@@ -24,18 +23,15 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void lihat_panen_Load(object sender, EventArgs e)
         {
-            // Pemicu dibiarkan kosong agar tidak merusak pointer designer (.picker)
+
         }
 
         private void SegarkanDataTampilan()
         {
-            // 1. Ambil olahan data dari Controller
             ModelLihatPanen data = _controller.AmbilDataLihatPanen(this.userLoginAktif);
 
-            // 2. Tampilkan Nama User Real ke UI
             lblNamaUser.Text = data.NamaUserReal;
 
-            // 3. Ikat data tabel panen ke komponen DataGridView
             if (data.TabelPanen != null)
             {
                 dataGridView1.DataSource = data.TabelPanen;
@@ -45,16 +41,12 @@ namespace PROJEKANN.Usercontrol.Distributor
 
         private void GantiHalamanFitur(UserControl ucBaru)
         {
-            // Menggunakan objek 'this' agar aman jika panel raksasa di desainer sudah dibersihkan
             this.Controls.Clear();
             ucBaru.Dock = DockStyle.Fill;
             this.Controls.Add(ucBaru);
             ucBaru.BringToFront();
         }
 
-        // ========================================================
-        // 🗺️ TOMBOL NAVIGASI MENU (TETAP DI VIEW)
-        // ========================================================
         private void btnPanen_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.dashboard_distributor(this.mainForm, this.userLoginAktif));
