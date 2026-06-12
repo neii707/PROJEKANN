@@ -44,7 +44,7 @@ namespace PROJEKANN.controller
             return model;
         }
 
-        public bool TetapkanGradePanen(int idPanen, string gradeDipilih, string keterangan, decimal harga)
+        public bool TetapkanGradePanen(int idPanen, string gradeDipilih, string keterangan, decimal harga, string username)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace PROJEKANN.controller
 
                     string queryInsert = @"
                         INSERT INTO grade (kategori, keterangan, harga_per_kg, id_panen, id_demand, id_distributor)
-                        VALUES (@kategori, @keterangan, @harga, @idPanen, 1, 2);";
+                        VALUES (@kategori, @keterangan, @harga, @idPanen, 1, @idDistributor);";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryInsert, conn))
                     {
@@ -62,6 +62,7 @@ namespace PROJEKANN.controller
                         cmd.Parameters.AddWithValue("@keterangan", keterangan);
                         cmd.Parameters.AddWithValue("@harga", harga);
                         cmd.Parameters.AddWithValue("@idPanen", idPanen);
+                        cmd.Parameters.AddWithValue("@idDistributor", AmbilIdDistributor(username));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -73,6 +74,39 @@ namespace PROJEKANN.controller
                 System.Windows.Forms.MessageBox.Show("Gagal grading : " + ex.Message, "Error Database");
                 return false;
             }
+        }
+
+        private int AmbilIdDistributor(string username)
+        {
+            int idDistributor = 0;
+
+            using (NpgsqlConnection conn =
+                DBConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT id_user,FROM usser,WHERE username = @username";
+
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@username",
+                        username
+                    );
+
+                    object result =
+                        cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        idDistributor =
+                            Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return idDistributor;
         }
     }
 }

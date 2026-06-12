@@ -74,7 +74,7 @@
             lblDemand.AutoSize = true;
             lblDemand.BackColor = Color.Transparent;
             lblDemand.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
-            lblDemand.Location = new Point(539, 108);
+            lblDemand.Location = new Point(528, 108);
             lblDemand.Name = "lblDemand";
             lblDemand.Size = new Size(33, 38);
             lblDemand.TabIndex = 12;

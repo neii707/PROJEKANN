@@ -70,7 +70,7 @@ namespace PROJEKANN.Usercontrol.Distributor
             else if (gradeDipilih == "B") harga = 13000;
             else harga = 5000;
 
-            bool berhasil = _controller.TetapkanGradePanen(idPanenTerpilih, gradeDipilih, keterangan, harga);
+            bool berhasil = _controller.TetapkanGradePanen(idPanenTerpilih, gradeDipilih, keterangan, harga, userLoginAktif);
 
             if (berhasil)
             {

@@ -8,6 +8,40 @@ namespace PROJEKANN.controller
 {
     public class ControllerDashboardDistributor
     {
+        private int AmbilIdDistributor(string username)
+        {
+            int idDistributor = 0;
+
+            using (NpgsqlConnection conn =
+                DBConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT id_user FROM usser WHERE username = @username";
+
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@username",
+                        username
+                    );
+
+                    object result =
+                        cmd.ExecuteScalar();
+
+                    if (result != null &&
+                        result != DBNull.Value)
+                    {
+                        idDistributor =
+                            Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return idDistributor;
+        }
+
         public ModelDashboardDistributor AmbilDataDashboard(string username)
         {
             ModelDashboardDistributor model = new ModelDashboardDistributor();
@@ -31,10 +65,16 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryTabel = "SELECT * FROM view_transaksi_paling_akhir;";
+                    string queryTabel = "SELECT * FROM view_transaksi_paling_akhir WHERE id_distributor = @idDistributor;";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
-                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                        cmd.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
+
+                        using (NpgsqlDataAdapter da =
+                            new NpgsqlDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             da.Fill(dt);
@@ -50,11 +90,28 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryTotalTrx = "SELECT total_transaksi FROM view_total_transaksi_distributor";
+                    string queryTotalTrx = @"
+                    SELECT COUNT(*)
+                    FROM transaksi t
+                    JOIN grade g
+                    ON t.id_grade = g.id_grade
+                    WHERE g.id_distributor = @idDistributor
+                    ";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTotalTrx, conn))
                     {
+                        cmd.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
+
                         object resTrx = cmd.ExecuteScalar();
-                        if (resTrx != null && resTrx != DBNull.Value) model.TeksTotalTransaksi = resTrx.ToString();
+
+                        if (resTrx != null &&
+                            resTrx != DBNull.Value)
+                        {
+                            model.TeksTotalTransaksi =
+                                resTrx.ToString();
+                        }
                     }
 
 
