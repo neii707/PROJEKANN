@@ -4,7 +4,6 @@ namespace PROJEKANN.model
 {
     public class ModelDashboardNelayan
     {
-        // Properti Baru untuk Menampung Nama Lengkap / Nama Asli
         public string nama { get; set; } = "";
 
         public string StokPanen { get; set; } = "0";

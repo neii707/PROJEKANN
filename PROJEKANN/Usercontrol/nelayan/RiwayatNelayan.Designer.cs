@@ -30,15 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RiwayatNelayan));
             dgvTransaksi = new DataGridView();
-            colID = new DataGridViewTextBoxColumn();
-            colDistributor = new DataGridViewTextBoxColumn();
-            colNelayan = new DataGridViewTextBoxColumn();
-            colBerat = new DataGridViewTextBoxColumn();
-            colGrade = new DataGridViewTextBoxColumn();
-            colHarga = new DataGridViewTextBoxColumn();
-            colTotal = new DataGridViewTextBoxColumn();
-            colTanggal = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
             totallabel_riwayat = new Label();
             keluarbutton_riwayat = new Button();
             riwayatbutton_riwayat = new Button();
@@ -47,6 +38,14 @@
             inputpanenbutton_riwayat = new Button();
             dashboardbutton_riwayat = new Button();
             lbnamauser_riwayat = new Label();
+            colID = new DataGridViewTextBoxColumn();
+            colDistributor = new DataGridViewTextBoxColumn();
+            colBerat = new DataGridViewTextBoxColumn();
+            colGrade = new DataGridViewTextBoxColumn();
+            colHarga = new DataGridViewTextBoxColumn();
+            colTotal = new DataGridViewTextBoxColumn();
+            colTanggal = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
             SuspendLayout();
             // 
@@ -57,7 +56,7 @@
             dgvTransaksi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvTransaksi.BackgroundColor = Color.MediumAquamarine;
             dgvTransaksi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colNelayan, colBerat, colGrade, colHarga, colTotal, colTanggal, colStatus });
+            dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colBerat, colGrade, colHarga, colTotal, colTanggal, colStatus });
             dgvTransaksi.Location = new Point(268, 199);
             dgvTransaksi.Name = "dgvTransaksi";
             dgvTransaksi.ReadOnly = true;
@@ -66,69 +65,6 @@
             dgvTransaksi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvTransaksi.Size = new Size(619, 332);
             dgvTransaksi.TabIndex = 35;
-            // 
-            // colID
-            // 
-            colID.HeaderText = "ID";
-            colID.MinimumWidth = 8;
-            colID.Name = "colID";
-            colID.ReadOnly = true;
-            // 
-            // colDistributor
-            // 
-            colDistributor.HeaderText = "Distributor";
-            colDistributor.MinimumWidth = 8;
-            colDistributor.Name = "colDistributor";
-            colDistributor.ReadOnly = true;
-            // 
-            // colNelayan
-            // 
-            colNelayan.HeaderText = "Nelayan";
-            colNelayan.MinimumWidth = 8;
-            colNelayan.Name = "colNelayan";
-            colNelayan.ReadOnly = true;
-            // 
-            // colBerat
-            // 
-            colBerat.HeaderText = "Berat";
-            colBerat.MinimumWidth = 8;
-            colBerat.Name = "colBerat";
-            colBerat.ReadOnly = true;
-            // 
-            // colGrade
-            // 
-            colGrade.HeaderText = "Grade";
-            colGrade.MinimumWidth = 8;
-            colGrade.Name = "colGrade";
-            colGrade.ReadOnly = true;
-            // 
-            // colHarga
-            // 
-            colHarga.HeaderText = "Harga (kg)";
-            colHarga.MinimumWidth = 8;
-            colHarga.Name = "colHarga";
-            colHarga.ReadOnly = true;
-            // 
-            // colTotal
-            // 
-            colTotal.HeaderText = "Total";
-            colTotal.MinimumWidth = 8;
-            colTotal.Name = "colTotal";
-            colTotal.ReadOnly = true;
-            // 
-            // colTanggal
-            // 
-            colTanggal.HeaderText = "Tanggal";
-            colTanggal.MinimumWidth = 8;
-            colTanggal.Name = "colTanggal";
-            colTanggal.ReadOnly = true;
-            // 
-            // colStatus
-            // 
-            colStatus.HeaderText = "Status";
-            colStatus.MinimumWidth = 8;
-            colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true;
             // 
             // totallabel_riwayat
             // 
@@ -243,6 +179,62 @@
             lbnamauser_riwayat.TabIndex = 27;
             lbnamauser_riwayat.Text = "Natachai";
             // 
+            // colID
+            // 
+            colID.HeaderText = "ID";
+            colID.MinimumWidth = 8;
+            colID.Name = "colID";
+            colID.ReadOnly = true;
+            // 
+            // colDistributor
+            // 
+            colDistributor.HeaderText = "Distributor";
+            colDistributor.MinimumWidth = 8;
+            colDistributor.Name = "colDistributor";
+            colDistributor.ReadOnly = true;
+            // 
+            // colBerat
+            // 
+            colBerat.HeaderText = "Berat";
+            colBerat.MinimumWidth = 8;
+            colBerat.Name = "colBerat";
+            colBerat.ReadOnly = true;
+            // 
+            // colGrade
+            // 
+            colGrade.HeaderText = "Grade";
+            colGrade.MinimumWidth = 8;
+            colGrade.Name = "colGrade";
+            colGrade.ReadOnly = true;
+            // 
+            // colHarga
+            // 
+            colHarga.HeaderText = "Harga (kg)";
+            colHarga.MinimumWidth = 8;
+            colHarga.Name = "colHarga";
+            colHarga.ReadOnly = true;
+            // 
+            // colTotal
+            // 
+            colTotal.HeaderText = "Total";
+            colTotal.MinimumWidth = 8;
+            colTotal.Name = "colTotal";
+            colTotal.ReadOnly = true;
+            // 
+            // colTanggal
+            // 
+            colTanggal.HeaderText = "Tanggal";
+            colTanggal.MinimumWidth = 8;
+            colTanggal.Name = "colTanggal";
+            colTanggal.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            colStatus.HeaderText = "Status";
+            colStatus.MinimumWidth = 8;
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            // 
             // RiwayatNelayan
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -277,7 +269,6 @@
         private DataGridView dgvTransaksi;
         private DataGridViewTextBoxColumn colID;
         private DataGridViewTextBoxColumn colDistributor;
-        private DataGridViewTextBoxColumn colNelayan;
         private DataGridViewTextBoxColumn colBerat;
         private DataGridViewTextBoxColumn colGrade;
         private DataGridViewTextBoxColumn colHarga;

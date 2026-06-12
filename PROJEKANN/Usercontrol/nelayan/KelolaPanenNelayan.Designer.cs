@@ -31,11 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KelolaPanenNelayan));
             lbnamauser_kelola = new Label();
             dgvriwayatpanen = new DataGridView();
-            colID = new DataGridViewTextBoxColumn();
-            colBerat = new DataGridViewTextBoxColumn();
-            colGrade = new DataGridViewTextBoxColumn();
-            colHarga = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
             labelriwayat_kelola = new Label();
             labelgrade_kelola = new Label();
             hapuspanen_kelola = new Button();
@@ -52,6 +47,12 @@
             inputpanenbutton_kelola = new Button();
             dashboardbutton_kelola = new Button();
             labelinput = new Label();
+            colID = new DataGridViewTextBoxColumn();
+            colBerat = new DataGridViewTextBoxColumn();
+            colGrade = new DataGridViewTextBoxColumn();
+            colHarga = new DataGridViewTextBoxColumn();
+            colTanggal = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvriwayatpanen).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numBerat).BeginInit();
             SuspendLayout();
@@ -74,7 +75,7 @@
             dgvriwayatpanen.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvriwayatpanen.BackgroundColor = Color.MediumAquamarine;
             dgvriwayatpanen.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvriwayatpanen.Columns.AddRange(new DataGridViewColumn[] { colID, colBerat, colGrade, colHarga, colStatus });
+            dgvriwayatpanen.Columns.AddRange(new DataGridViewColumn[] { colID, colBerat, colGrade, colHarga, colTanggal, colStatus });
             dgvriwayatpanen.Location = new Point(256, 306);
             dgvriwayatpanen.Name = "dgvriwayatpanen";
             dgvriwayatpanen.ReadOnly = true;
@@ -84,41 +85,6 @@
             dgvriwayatpanen.TabIndex = 24;
             dgvriwayatpanen.CellClick += dgvriwayatpanen_CellClick;
             dgvriwayatpanen.CellContentClick += dgvriwayatpanen_CellContentClick;
-            // 
-            // colID
-            // 
-            colID.HeaderText = "ID";
-            colID.MinimumWidth = 8;
-            colID.Name = "colID";
-            colID.ReadOnly = true;
-            // 
-            // colBerat
-            // 
-            colBerat.HeaderText = "Berat (kg)";
-            colBerat.MinimumWidth = 8;
-            colBerat.Name = "colBerat";
-            colBerat.ReadOnly = true;
-            // 
-            // colGrade
-            // 
-            colGrade.HeaderText = "Grade";
-            colGrade.MinimumWidth = 8;
-            colGrade.Name = "colGrade";
-            colGrade.ReadOnly = true;
-            // 
-            // colHarga
-            // 
-            colHarga.HeaderText = "Harga/kg";
-            colHarga.MinimumWidth = 8;
-            colHarga.Name = "colHarga";
-            colHarga.ReadOnly = true;
-            // 
-            // colStatus
-            // 
-            colStatus.HeaderText = "Status";
-            colStatus.MinimumWidth = 8;
-            colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true;
             // 
             // labelriwayat_kelola
             // 
@@ -317,6 +283,48 @@
             labelinput.TabIndex = 17;
             labelinput.TextAlign = ContentAlignment.BottomCenter;
             // 
+            // colID
+            // 
+            colID.HeaderText = "ID";
+            colID.MinimumWidth = 8;
+            colID.Name = "colID";
+            colID.ReadOnly = true;
+            // 
+            // colBerat
+            // 
+            colBerat.HeaderText = "Berat (kg)";
+            colBerat.MinimumWidth = 8;
+            colBerat.Name = "colBerat";
+            colBerat.ReadOnly = true;
+            // 
+            // colGrade
+            // 
+            colGrade.HeaderText = "Grade";
+            colGrade.MinimumWidth = 8;
+            colGrade.Name = "colGrade";
+            colGrade.ReadOnly = true;
+            // 
+            // colHarga
+            // 
+            colHarga.HeaderText = "Harga/kg";
+            colHarga.MinimumWidth = 8;
+            colHarga.Name = "colHarga";
+            colHarga.ReadOnly = true;
+            // 
+            // colTanggal
+            // 
+            colTanggal.HeaderText = "Tanggal";
+            colTanggal.MinimumWidth = 8;
+            colTanggal.Name = "colTanggal";
+            colTanggal.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            colStatus.HeaderText = "Status";
+            colStatus.MinimumWidth = 8;
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            // 
             // KelolaPanenNelayan
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -367,11 +375,12 @@
         private Label labelgrade_kelola;
         private Label labelriwayat_kelola;
         private DataGridView dgvriwayatpanen;
+        private Label lbnamauser_kelola;
         private DataGridViewTextBoxColumn colID;
         private DataGridViewTextBoxColumn colBerat;
         private DataGridViewTextBoxColumn colGrade;
         private DataGridViewTextBoxColumn colHarga;
+        private DataGridViewTextBoxColumn colTanggal;
         private DataGridViewTextBoxColumn colStatus;
-        private Label lbnamauser_kelola;
     }
 }

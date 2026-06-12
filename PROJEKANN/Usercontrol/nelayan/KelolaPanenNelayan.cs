@@ -41,22 +41,42 @@ namespace PROJEKANN.Usercontrol.nelayan
             if (data.TabelPanenSaya != null)
             {
                 dgvriwayatpanen.DataSource = null;
-                dgvriwayatpanen.AutoGenerateColumns = false;
+                dgvriwayatpanen.Columns.Clear();
+                dgvriwayatpanen.AutoGenerateColumns = true;
+                dgvriwayatpanen.DataSource = data.TabelPanenSaya;
 
-                colID.DataPropertyName = "id";
-                colBerat.DataPropertyName = "berat";
-                colGrade.DataPropertyName = "grade";
-                colHarga.DataPropertyName = "harga_per_kg";
-                colStatus.DataPropertyName = "status";
+                if (dgvriwayatpanen.Columns.Contains("id_panen")) dgvriwayatpanen.Columns["id_panen"].HeaderText = "ID";
+                if (dgvriwayatpanen.Columns.Contains("berat_kg")) dgvriwayatpanen.Columns["berat_kg"].HeaderText = "Berat (kg)";
+                if (dgvriwayatpanen.Columns.Contains("grade")) dgvriwayatpanen.Columns["grade"].HeaderText = "Grade";
+                if (dgvriwayatpanen.Columns.Contains("harga_per_kg")) dgvriwayatpanen.Columns["harga_per_kg"].HeaderText = "Harga/kg";
+                if (dgvriwayatpanen.Columns.Contains("tanggal")) dgvriwayatpanen.Columns["tanggal"].HeaderText = "Tanggal";
+                if (dgvriwayatpanen.Columns.Contains("status")) dgvriwayatpanen.Columns["status"].HeaderText = "Status";
+
+                if (dgvriwayatpanen.Columns.Contains("id_user")) dgvriwayatpanen.Columns["id_user"].Visible = false;
+                if (dgvriwayatpanen.Columns.Contains("username")) dgvriwayatpanen.Columns["username"].Visible = false;
+                if (dgvriwayatpanen.Columns.Contains("bisa_hapus")) dgvriwayatpanen.Columns["bisa_hapus"].Visible = false;
 
                 CultureInfo kulturIndo = new CultureInfo("id-ID");
-                colBerat.DefaultCellStyle.FormatProvider = kulturIndo;
-                colBerat.DefaultCellStyle.Format = "N2";
 
-                colHarga.DefaultCellStyle.FormatProvider = kulturIndo;
-                colHarga.DefaultCellStyle.Format = "C2";
+                if (dgvriwayatpanen.Columns.Contains("berat_kg"))
+                {
+                    dgvriwayatpanen.Columns["berat_kg"].DefaultCellStyle.FormatProvider = kulturIndo;
+                    dgvriwayatpanen.Columns["berat_kg"].DefaultCellStyle.Format = "N2";
+                }
 
-                dgvriwayatpanen.DataSource = data.TabelPanenSaya;
+                if (dgvriwayatpanen.Columns.Contains("harga_per_kg"))
+                {
+                    dgvriwayatpanen.Columns["harga_per_kg"].DefaultCellStyle.FormatProvider = kulturIndo;
+                    dgvriwayatpanen.Columns["harga_per_kg"].DefaultCellStyle.Format = "C0";
+                }
+
+                if (dgvriwayatpanen.Columns.Contains("tanggal"))
+                {
+                    dgvriwayatpanen.Columns["tanggal"].DefaultCellStyle.FormatProvider = kulturIndo;
+                    dgvriwayatpanen.Columns["tanggal"].DefaultCellStyle.Format = "dd MMMM yyyy";
+                }
+
+                dgvriwayatpanen.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
