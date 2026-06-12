@@ -31,7 +31,11 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryTabel = "SELECT *  FROM vw_konfirmasi_transaksi";
+                    // PERBAIKAN QUERY: Pakai JOIN agar terfilter berdasarkan username nelayan yang aktif
+                    string queryTabel = @"SELECT vt.* FROM vw_konfirmasi_transaksi vt 
+                                          JOIN panen p ON vt.id_panen = p.id_panen 
+                                          JOIN usser u ON p.id_user = u.id_user 
+                                          WHERE u.username = @username";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
@@ -40,7 +44,7 @@ namespace PROJEKANN.controller
                         {
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
-                            model.TabelTransaksiAktif = dt;
+                            model.TabelTransaksiAktif = dt; // Di sini dt menyimpan struktur view kamu (id_transaksi ada di memory paling akhir)
                         }
                     }
                 }
@@ -61,10 +65,9 @@ namespace PROJEKANN.controller
                 {
                     kon.Open();
 
-                    // Kolom diubah ke 'Selesai' agar hilang dari vw_konfirmasi_transaksi dan masuk ke vw_riwayat_transaksi
                     string query = @"UPDATE transaksi 
-                             SET konfir_pembelian = 'Selesai' 
-                             WHERE id_transaksi = @id";
+                                     SET konfir_pembelian = 'Selesai' 
+                                     WHERE id_transaksi = @id";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
                     {

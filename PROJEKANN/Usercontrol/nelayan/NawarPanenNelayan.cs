@@ -4,7 +4,6 @@ using PROJEKANN.Usercontrol.Distributor;
 using System;
 using System.Data;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PROJEKANN.Usercontrol.nelayan
 {
@@ -13,7 +12,6 @@ namespace PROJEKANN.Usercontrol.nelayan
         private Form1 mainForm;
         private string userLoginAktif;
         private string namaAsliUser = "";
-
         private ControllerNawarPanen _controller = new ControllerNawarPanen();
 
         public NawarPanenNelayan(Form1 form1, string usernameLogin)
@@ -21,31 +19,31 @@ namespace PROJEKANN.Usercontrol.nelayan
             InitializeComponent();
             this.mainForm = form1;
             this.userLoginAktif = string.IsNullOrEmpty(usernameLogin) ? "" : usernameLogin.Trim();
-
             SegarkanTampilanPenawaran();
         }
 
         private void SegarkanTampilanPenawaran()
         {
             ModelNawarPanen data = _controller.AmbilDataNawarPanen(this.userLoginAktif);
-
             this.namaAsliUser = data.NamaAsliUser;
-            if (lbnamauser_dashboard != null)
-            {
-                lbnamauser_dashboard.Text = this.namaAsliUser;
-            }
+            if (lbnamauser_dashboard != null) lbnamauser_dashboard.Text = this.namaAsliUser;
 
             if (data.TabelPenawaran != null)
             {
                 dgvpenawaran.AutoGenerateColumns = false;
                 dgvpenawaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                if (data.TabelPenawaran != null && data.TabelPenawaran.Columns.Count > 0)
+                // Petakan kolom DGV kamu secara manual berdasarkan nama properti di database view
+                // Ganti indeks [0], [1], dst sesuai urutan kolom asli yang kamu buat di designer DGV kamu!
+                if (dgvpenawaran.Columns.Count >= 7)
                 {
-                    for (int i = 0; i < dgvpenawaran.Columns.Count && i < data.TabelPenawaran.Columns.Count; i++)
-                    {
-                        dgvpenawaran.Columns[i].DataPropertyName = data.TabelPenawaran.Columns[i].ColumnName;
-                    }
+                    dgvpenawaran.Columns[0].DataPropertyName = "id_panen";
+                    dgvpenawaran.Columns[1].DataPropertyName = "nama_distributor";
+                    dgvpenawaran.Columns[2].DataPropertyName = "berat_kg";
+                    dgvpenawaran.Columns[3].DataPropertyName = "grade";
+                    dgvpenawaran.Columns[4].DataPropertyName = "harga_tawar";
+                    dgvpenawaran.Columns[5].DataPropertyName = "estimasi_total";
+                    dgvpenawaran.Columns[6].DataPropertyName = "status";
                 }
 
                 dgvpenawaran.DataSource = data.TabelPenawaran;
@@ -55,11 +53,9 @@ namespace PROJEKANN.Usercontrol.nelayan
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             if (ucBaru == null) return;
-
             try
             {
                 Panel panelInduk = this.Parent as Panel;
-
                 if (panelInduk != null)
                 {
                     panelInduk.Controls.Clear();
@@ -78,10 +74,7 @@ namespace PROJEKANN.Usercontrol.nelayan
                 else
                 {
                     Form1 formAktif = Application.OpenForms["Form1"] as Form1;
-                    if (formAktif != null)
-                    {
-                        formAktif.TampilkanHalaman(ucBaru);
-                    }
+                    if (formAktif != null) formAktif.TampilkanHalaman(ucBaru);
                 }
             }
             catch (Exception ex)
@@ -90,35 +83,15 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        private void dashboardbutton_nawar_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new DashboardNelayan(mainForm, userLoginAktif));
-        }
-
-        private void inputpanenbutton_nawar_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new KelolaPanenNelayan(mainForm, userLoginAktif));
-        }
-
-        private void penawaranbutton_nawar_Click(object sender, EventArgs e)
-        {
-            SegarkanTampilanPenawaran();
-        }
-
-        private void transaksibutton_nawar_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new TransaksiNelayan(mainForm, userLoginAktif));
-        }
-
-        private void riwayatbutton_nawar_Click(object sender, EventArgs e)
-        {
-            GantiHalamanFitur(new RiwayatNelayan(mainForm, userLoginAktif));
-        }
+        private void dashboardbutton_nawar_Click(object sender, EventArgs e) => GantiHalamanFitur(new DashboardNelayan(mainForm, userLoginAktif));
+        private void inputpanenbutton_nawar_Click(object sender, EventArgs e) => GantiHalamanFitur(new KelolaPanenNelayan(mainForm, userLoginAktif));
+        private void penawaranbutton_nawar_Click(object sender, EventArgs e) => SegarkanTampilanPenawaran();
+        private void transaksibutton_nawar_Click(object sender, EventArgs e) => GantiHalamanFitur(new TransaksiNelayan(mainForm, userLoginAktif));
+        private void riwayatbutton_nawar_Click(object sender, EventArgs e) => GantiHalamanFitur(new RiwayatNelayan(mainForm, userLoginAktif));
 
         private void keluarbutton_nawar_Click(object sender, EventArgs e)
         {
-            DialogResult konfirmasi = MessageBox.Show("Apakah Anda yakin ingin keluar dari aplikasi?", "Logout Sistem", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (konfirmasi == DialogResult.Yes)
+            if (MessageBox.Show("Apakah Anda yakin ingin keluar?", "Logout Sistem", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 GantiHalamanFitur(new PROJEKANN.Usercontrol.login(mainForm));
             }
@@ -128,24 +101,19 @@ namespace PROJEKANN.Usercontrol.nelayan
         {
             if (dgvpenawaran.CurrentRow == null)
             {
-                MessageBox.Show("Pilih baris penawaran pada tabel terlebih dahulu sebelum menekan tombol terima!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Pilih baris penawaran terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Mengambil nilai ID Transaksi dari kolom pertama (indeks 0 atau colID) pada baris yang dipilih
-            string idTransaksiSelected = dgvpenawaran.CurrentRow.Cells[0].Value.ToString();
+            // AMBIL ID TRANSAKSI DARI MEMORY DATA SOURCE (Meskipun kolomnya tidak ada di DGV)
+            DataRowView row = (DataRowView)dgvpenawaran.CurrentRow.DataBoundItem;
+            string idTransaksiSelected = row["id_transaksi"].ToString();
 
-            DialogResult dr = MessageBox.Show($"Apakah Anda yakin ingin MENERIMA penawaran dengan ID Transaksi {idTransaksiSelected}?",
-                "Konfirmasi Terima", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dr == DialogResult.Yes)
+            if (MessageBox.Show("Terima penawaran transaksi ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                // Memanggil method controller dengan status "diterima"
-                bool sukses = _controller.UpdateStatusPenawaran(idTransaksiSelected, "diterima");
-
-                if (sukses)
+                if (_controller.UpdateStatusPenawaran(idTransaksiSelected, "diterima"))
                 {
-                    MessageBox.Show("Penawaran Berhasil Diterima! Data telah dipindahkan ke menu transaksi.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Penawaran Berhasil Diterima!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     SegarkanTampilanPenawaran();
                 }
             }
@@ -155,24 +123,19 @@ namespace PROJEKANN.Usercontrol.nelayan
         {
             if (dgvpenawaran.CurrentRow == null)
             {
-                MessageBox.Show("Pilih baris penawaran pada tabel terlebih dahulu sebelum menekan tombol tolak!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Pilih baris penawaran terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Mengambil nilai ID Transaksi dari kolom pertama (indeks 0 atau colID) pada baris yang dipilih
-            string idTransaksiSelected = dgvpenawaran.CurrentRow.Cells[0].Value.ToString();
+            // AMBIL ID TRANSAKSI DARI MEMORY DATA SOURCE (Meskipun kolomnya tidak ada di DGV)
+            DataRowView row = (DataRowView)dgvpenawaran.CurrentRow.DataBoundItem;
+            string idTransaksiSelected = row["id_transaksi"].ToString();
 
-            DialogResult dr = MessageBox.Show($"Apakah Anda yakin ingin MENOLAK penawaran dengan ID Transaksi {idTransaksiSelected}?",
-                "Konfirmasi Tolak", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dr == DialogResult.Yes)
+            if (MessageBox.Show("Tolak penawaran transaksi ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                // Memanggil method controller dengan status "ditolak"
-                bool sukses = _controller.UpdateStatusPenawaran(idTransaksiSelected, "ditolak");
-
-                if (sukses)
+                if (_controller.UpdateStatusPenawaran(idTransaksiSelected, "ditolak"))
                 {
-                    MessageBox.Show("Penawaran Berhasil Ditolak! Status dikembalikan ke sistem menunggu penawaran baru.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Penawaran Berhasil Ditolak!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     SegarkanTampilanPenawaran();
                 }
             }

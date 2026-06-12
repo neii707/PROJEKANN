@@ -3,7 +3,6 @@ using PROJEKANN.model;
 using System;
 using System.Data;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace PROJEKANN.Usercontrol.nelayan
 {
@@ -38,7 +37,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             {
                 dgvtransaksi.AutoGenerateColumns = false;
 
-                colID.DataPropertyName = "id_transaksi";
+                colID.DataPropertyName = "id_panen";
                 colDistributor.DataPropertyName = "nama_distributor";
                 colBerat.DataPropertyName = "berat_kg";
                 colTotal.DataPropertyName = "total_pembayaran";
@@ -56,9 +55,10 @@ namespace PROJEKANN.Usercontrol.nelayan
                 return;
             }
 
-            int idTransaksiSelected = Convert.ToInt32(dgvtransaksi.CurrentRow.Cells["colID"].Value);
+            DataRowView row = (DataRowView)dgvtransaksi.CurrentRow.DataBoundItem;
+            int idTransaksiSelected = Convert.ToInt32(row["id_transaksi"]);
 
-            DialogResult dr = MessageBox.Show($"Apakah Anda yakin ingin memberikan konfirmasi selesai pada transaksi ID {idTransaksiSelected}?",
+            DialogResult dr = MessageBox.Show("Apakah Anda yakin ingin memberikan konfirmasi selesai pada transaksi ini?",
                 "Konfirmasi Penyelesaian", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dr == DialogResult.Yes)
@@ -67,7 +67,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
                 if (sukses)
                 {
-                    MessageBox.Show($"Transaksi #{idTransaksiSelected} sukses ditutup dan dipindahkan ke riwayat archive.", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Transaksi sukses ditutup dan dipindahkan ke riwayat archive.", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     SegarkanTampilanTransaksi();
                 }
@@ -118,9 +118,6 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void paneltransaksi_Paint(object sender, PaintEventArgs e) { }
 
-        private void dgvtransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        private void dgvtransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }
 }

@@ -33,14 +33,6 @@
             tolak_tawaran = new Button();
             terima_nawar = new Button();
             dgvpenawaran = new DataGridView();
-            colID = new DataGridViewTextBoxColumn();
-            colDistributor = new DataGridViewTextBoxColumn();
-            colBerat = new DataGridViewTextBoxColumn();
-            colGrade = new DataGridViewTextBoxColumn();
-            colHarga = new DataGridViewTextBoxColumn();
-            colEstimasi = new DataGridViewTextBoxColumn();
-            colTanggal = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
             labeldatanawar_nawar = new Label();
             lbnamauser_dashboard = new Label();
             keluarbutton_nawar = new Button();
@@ -49,6 +41,13 @@
             penawaranbutton_nawar = new Button();
             inputpanenbutton_nawar = new Button();
             dashboardbutton_nawar = new Button();
+            colID = new DataGridViewTextBoxColumn();
+            colDistributor = new DataGridViewTextBoxColumn();
+            colBerat = new DataGridViewTextBoxColumn();
+            colGrade = new DataGridViewTextBoxColumn();
+            colHarga = new DataGridViewTextBoxColumn();
+            colEstimasi = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvpenawaran).BeginInit();
             SuspendLayout();
             // 
@@ -98,7 +97,7 @@
             dgvpenawaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvpenawaran.BackgroundColor = Color.MediumAquamarine;
             dgvpenawaran.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvpenawaran.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colBerat, colGrade, colHarga, colEstimasi, colTanggal, colStatus });
+            dgvpenawaran.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colBerat, colGrade, colHarga, colEstimasi, colStatus });
             dgvpenawaran.Location = new Point(258, 114);
             dgvpenawaran.Name = "dgvpenawaran";
             dgvpenawaran.ReadOnly = true;
@@ -107,62 +106,6 @@
             dgvpenawaran.Size = new Size(635, 345);
             dgvpenawaran.TabIndex = 29;
             dgvpenawaran.CellContentClick += dataGridView1_CellContentClick;
-            // 
-            // colID
-            // 
-            colID.HeaderText = "ID";
-            colID.MinimumWidth = 8;
-            colID.Name = "colID";
-            colID.ReadOnly = true;
-            // 
-            // colDistributor
-            // 
-            colDistributor.HeaderText = "Distributor";
-            colDistributor.MinimumWidth = 8;
-            colDistributor.Name = "colDistributor";
-            colDistributor.ReadOnly = true;
-            // 
-            // colBerat
-            // 
-            colBerat.HeaderText = "Berat (kg)";
-            colBerat.MinimumWidth = 8;
-            colBerat.Name = "colBerat";
-            colBerat.ReadOnly = true;
-            // 
-            // colGrade
-            // 
-            colGrade.HeaderText = "Grade";
-            colGrade.MinimumWidth = 8;
-            colGrade.Name = "colGrade";
-            colGrade.ReadOnly = true;
-            // 
-            // colHarga
-            // 
-            colHarga.HeaderText = "Harga";
-            colHarga.MinimumWidth = 8;
-            colHarga.Name = "colHarga";
-            colHarga.ReadOnly = true;
-            // 
-            // colEstimasi
-            // 
-            colEstimasi.HeaderText = "Estimasi";
-            colEstimasi.MinimumWidth = 8;
-            colEstimasi.Name = "colEstimasi";
-            colEstimasi.ReadOnly = true;
-            // 
-            // colTanggal
-            // 
-            colTanggal.HeaderText = "Tanggal";
-            colTanggal.MinimumWidth = 8;
-            colTanggal.Name = "colTanggal";
-            colTanggal.ReadOnly = true;
-            // 
-            // colStatus
-            // 
-            colStatus.HeaderText = "Status";
-            colStatus.MinimumWidth = 8;
-            colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true;
             // 
             // labeldatanawar_nawar
             // 
@@ -277,6 +220,55 @@
             dashboardbutton_nawar.UseVisualStyleBackColor = false;
             dashboardbutton_nawar.Click += dashboardbutton_nawar_Click;
             // 
+            // colID
+            // 
+            colID.HeaderText = "ID Panen";
+            colID.MinimumWidth = 8;
+            colID.Name = "colID";
+            colID.ReadOnly = true;
+            // 
+            // colDistributor
+            // 
+            colDistributor.HeaderText = "Distributor";
+            colDistributor.MinimumWidth = 8;
+            colDistributor.Name = "colDistributor";
+            colDistributor.ReadOnly = true;
+            // 
+            // colBerat
+            // 
+            colBerat.HeaderText = "Berat (kg)";
+            colBerat.MinimumWidth = 8;
+            colBerat.Name = "colBerat";
+            colBerat.ReadOnly = true;
+            // 
+            // colGrade
+            // 
+            colGrade.HeaderText = "Grade";
+            colGrade.MinimumWidth = 8;
+            colGrade.Name = "colGrade";
+            colGrade.ReadOnly = true;
+            // 
+            // colHarga
+            // 
+            colHarga.HeaderText = "Harga";
+            colHarga.MinimumWidth = 8;
+            colHarga.Name = "colHarga";
+            colHarga.ReadOnly = true;
+            // 
+            // colEstimasi
+            // 
+            colEstimasi.HeaderText = "Total";
+            colEstimasi.MinimumWidth = 8;
+            colEstimasi.Name = "colEstimasi";
+            colEstimasi.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            colStatus.HeaderText = "Status";
+            colStatus.MinimumWidth = 8;
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            // 
             // NawarPanenNelayan
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -312,16 +304,15 @@
         private Label lbnamauser_dashboard;
         private Label labeldatanawar_nawar;
         private DataGridView dgvpenawaran;
+        private Button terima_nawar;
+        private Button tolak_tawaran;
+        private Label terima_tolak_tawaran;
         private DataGridViewTextBoxColumn colID;
         private DataGridViewTextBoxColumn colDistributor;
         private DataGridViewTextBoxColumn colBerat;
         private DataGridViewTextBoxColumn colGrade;
         private DataGridViewTextBoxColumn colHarga;
         private DataGridViewTextBoxColumn colEstimasi;
-        private DataGridViewTextBoxColumn colTanggal;
         private DataGridViewTextBoxColumn colStatus;
-        private Button terima_nawar;
-        private Button tolak_tawaran;
-        private Label terima_tolak_tawaran;
     }
 }
