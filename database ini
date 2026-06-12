@@ -506,7 +506,7 @@ INNER JOIN usser un ON p.id_user = un.id_user
 INNER JOIN usser ud ON g.id_distributor = ud.id_user  
 ORDER BY t.id_transaksi DESC;
 
-- FUNCTION: public.fn_pendapatan_bulan_ini(integer)
+-- FUNCTION: public.fn_pendapatan_bulan_ini(integer)
 CREATE OR REPLACE FUNCTION public.fn_pendapatan_bulan_ini(p_username varchar) 
 RETURNS numeric
 LANGUAGE 'sql'
