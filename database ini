@@ -356,19 +356,22 @@ CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi
 CREATE OR REPLACE VIEW public.vw_riwayat_transaksi
  AS
  SELECT p.id_panen,
-    u.nama AS nama_distributor,
+    u_dist.nama AS nama_distributor,
     p.berat_per_kg AS berat_kg,
     g.kategori AS grade,
     g.harga_per_kg,
     t.total_pembayaran AS total,
     t.tanggal AS tanggal_konfirmasi,
     t.status_transaksi AS status,
-    p.id_user AS id_nelayan
+    p.id_user AS id_nelayan,
+    u_nel.username AS username_nelayan
    FROM transaksi t
      JOIN grade g ON g.id_grade = t.id_grade
      JOIN panen p ON p.id_panen = g.id_panen
-     JOIN usser u ON u.id_user = g.id_distributor
+     JOIN usser u_dist ON u_dist.id_user = g.id_distributor
+     JOIN usser u_nel ON u_nel.id_user = p.id_user
   WHERE t.status_transaksi::text = 'Selesai'::text;
+
 
 CREATE OR REPLACE VIEW public.v_kelola_panen
 AS
