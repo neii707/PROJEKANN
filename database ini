@@ -338,6 +338,21 @@ CREATE OR REPLACE VIEW public.vw_konfirmasi_penawaran
      JOIN usser u ON u.id_user = g.id_distributor
   WHERE t.konfir_penawaran::text = 'Menunggu'::text;
 
+CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi
+ AS
+ SELECT t.id_transaksi,
+    p.id_panen,
+    u.nama AS nama_distributor,
+    p.berat_per_kg AS berat_kg,
+    p.berat_per_kg * t.harga_tawar AS total_pembayaran,
+    t.konfir_pembelian AS status
+   FROM transaksi t
+     JOIN grade g ON g.id_grade = t.id_grade
+     JOIN panen p ON p.id_panen = g.id_panen
+     JOIN usser u ON u.id_user = g.id_distributor
+  WHERE t.konfir_penawaran::text = 'Diterima'::text AND t.konfir_pembelian::text <> 'Selesai'::text;
+
+
 CREATE OR REPLACE VIEW public.vw_riwayat_transaksi
  AS
  SELECT p.id_panen,
