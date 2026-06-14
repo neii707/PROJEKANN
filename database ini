@@ -311,6 +311,70 @@ CREATE OR REPLACE VIEW public.v_labeltransaksi
 -- PUNYAK NELAYAN
 -- =========================================
 
+CREATE OR REPLACE FUNCTION log_perubahan_transaksi()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.status_transaksi IN ('Selesai', 'Ditolak Nelayan') THEN
+        RAISE EXCEPTION 'Transaksi dengan ID % sudah berstatus permanen dan tidak dapat diubah kembali!', OLD.id_transaksi;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_log_status_transaksi
+BEFORE UPDATE ON transaksi
+FOR EACH ROW
+EXECUTE FUNCTION log_perubahan_transaksi();
+
+-- FUNCTION: public.fn_penjualan(integer)
+CREATE OR REPLACE FUNCTION public.fn_penjualan(p_username varchar) 
+RETURNS integer
+LANGUAGE 'sql'
+AS $$
+    SELECT COUNT(*)::INT
+    FROM panen p
+    JOIN grade      g ON g.id_panen = p.id_panen
+    JOIN transaksi t ON t.id_grade = g.id_grade
+    JOIN usser     u ON p.id_user = u.id_user                     
+    WHERE u.username       = p_username                           
+      AND t.status_transaksi = 'Selesai';
+$$;
+
+ALTER FUNCTION public.fn_penjualan(varchar)
+    OWNER TO postgres;
+
+-- FUNCTION: public.fn_stok_panen(integer)
+CREATE OR REPLACE FUNCTION public.fn_stok_panen(p_username varchar) 
+RETURNS integer
+LANGUAGE 'sql'
+STABLE
+AS $$
+    SELECT COUNT(*)::INT
+    FROM vw_dashboard_nelayan
+    WHERE username = p_username; 
+$$;
+
+ALTER FUNCTION public.fn_stok_panen(varchar)
+    OWNER TO postgres;
+
+-- FUNCTION: public.hapus_panen_aman(integer)
+CREATE OR REPLACE FUNCTION public.hapus_panen_aman(p_id_panen integer)
+RETURNS text
+LANGUAGE 'plpgsql'
+AS $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM grade WHERE id_panen = p_id_panen) THEN
+        RETURN 'Gagal: Data panen sudah dinilai/di-grade oleh distributor!';
+    ELSE
+        DELETE FROM panen WHERE id_panen = p_id_panen;
+        RETURN 'Sukses: Data panen berhasil dihapus.';
+    END IF;
+END;
+$$;
+
+ALTER FUNCTION public.hapus_panen_aman(integer)
+    OWNER TO postgres;
+
 CREATE OR REPLACE VIEW public.vw_dashboard_nelayan
  AS
  SELECT p.id_panen,
@@ -447,69 +511,6 @@ CREATE OR REPLACE VIEW public.vw_label_dashboard_nelayan
      LEFT JOIN vw_riwayat_transaksi vt ON p.id_panen = vt.id_panen
   GROUP BY u.username;
 
-CREATE OR REPLACE FUNCTION log_perubahan_transaksi()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF OLD.status_transaksi IN ('Selesai', 'Ditolak Nelayan') THEN
-        RAISE EXCEPTION 'Transaksi dengan ID % sudah berstatus permanen dan tidak dapat diubah kembali!', OLD.id_transaksi;
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trg_log_status_transaksi
-BEFORE UPDATE ON transaksi
-FOR EACH ROW
-EXECUTE FUNCTION log_perubahan_transaksi();
-
--- FUNCTION: public.fn_penjualan(integer)
-CREATE OR REPLACE FUNCTION public.fn_penjualan(p_username varchar) 
-RETURNS integer
-LANGUAGE 'sql'
-AS $$
-    SELECT COUNT(*)::INT
-    FROM panen p
-    JOIN grade      g ON g.id_panen = p.id_panen
-    JOIN transaksi t ON t.id_grade = g.id_grade
-    JOIN usser     u ON p.id_user = u.id_user                     
-    WHERE u.username       = p_username                           
-      AND t.status_transaksi = 'Selesai';
-$$;
-
-ALTER FUNCTION public.fn_penjualan(varchar)
-    OWNER TO postgres;
-
--- FUNCTION: public.fn_stok_panen(integer)
-CREATE OR REPLACE FUNCTION public.fn_stok_panen(p_username varchar) 
-RETURNS integer
-LANGUAGE 'sql'
-STABLE
-AS $$
-    SELECT COUNT(*)::INT
-    FROM vw_dashboard_nelayan
-    WHERE username = p_username; 
-$$;
-
-ALTER FUNCTION public.fn_stok_panen(varchar)
-    OWNER TO postgres;
-
--- FUNCTION: public.hapus_panen_aman(integer)
-CREATE OR REPLACE FUNCTION public.hapus_panen_aman(p_id_panen integer)
-RETURNS text
-LANGUAGE 'plpgsql'
-AS $$
-BEGIN
-    IF EXISTS (SELECT 1 FROM grade WHERE id_panen = p_id_panen) THEN
-        RETURN 'Gagal: Data panen sudah dinilai/di-grade oleh distributor!';
-    ELSE
-        DELETE FROM panen WHERE id_panen = p_id_panen;
-        RETURN 'Sukses: Data panen berhasil dihapus.';
-    END IF;
-END;
-$$;
-
-ALTER FUNCTION public.hapus_panen_aman(integer)
-    OWNER TO postgres;
 
 -- PROCEDURE: public.proses_penawaran(integer, character varying)
 CREATE OR REPLACE PROCEDURE public.proses_penawaran(
