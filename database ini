@@ -424,6 +424,29 @@ ORDER BY
         ELSE 4
     END;
 
+CREATE OR REPLACE VIEW public.vw_label_riwayat_nelayan AS
+SELECT 
+    username_nelayan,
+    COUNT(id_panen) AS total_transaksi,
+    COALESCE(SUM(total), 0) AS total_nilai
+FROM public.vw_riwayat_transaksi
+GROUP BY username_nelayan;
+
+CREATE OR REPLACE VIEW public.vw_label_dashboard_nelayan
+ AS
+ SELECT u.username,
+    fn_stok_panen(u.username) AS stok,
+    fn_penjualan(u.username) AS jual,
+    COALESCE(sum(
+        CASE
+            WHEN lower(vt.status::text) = 'selesai'::text THEN vt.total
+            ELSE 0::numeric
+        END), 0::numeric) AS pendapatan
+   FROM usser u
+     LEFT JOIN panen p ON u.id_user = p.id_user
+     LEFT JOIN vw_riwayat_transaksi vt ON p.id_panen = vt.id_panen
+  GROUP BY u.username;
+
 CREATE OR REPLACE FUNCTION log_perubahan_transaksi()
 RETURNS TRIGGER AS $$
 BEGIN
