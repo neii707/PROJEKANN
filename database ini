@@ -123,9 +123,9 @@ INSERT INTO usser
 VALUES
 ('Martin','22222222','Martin_Edward','syatminn','Konfirmasi','ADMIN','jenggawah'),
 
-('PT. Keonho','55555555','Ahn_Keonho','konoepep','Konfirmasi','DISTRIBUTOR', 'jenggawah' ),
+('PT. Khazanah','55555555','Ahn_Keonho','konoepep','Konfirmasi','DISTRIBUTOR', 'jenggawah' ),
 
-('PT. Juhoon','33333333','Kim_Juhoon','jhgntnkk','Konfirmasi','DISTRIBUTOR', 'jenggawah'),
+('PT. OcenaChain','33333333','Kim_Juhoon','jhgntnkk','Konfirmasi','DISTRIBUTOR', 'jenggawah'),
 
 ('Seonghyeon','44444444','Eom_Seonghyeon','eomprooo','Konfirmasi','NELAYAN', 'jenggawah'),
 
