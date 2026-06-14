@@ -807,7 +807,8 @@ SELECT
     u.nama AS nelayan,
     g.kategori,
     g.harga_per_kg,
-    g.keterangan
+    g.keterangan,
+	g.id_distributor
 FROM grade g
 JOIN panen p ON g.id_panen = p.id_panen
 JOIN usser u ON p.id_user = u.id_user
