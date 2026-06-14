@@ -44,34 +44,70 @@ namespace PROJEKANN.controller
             return model;
         }
 
-        public bool TetapkanGradePanen(int idPanen, string gradeDipilih, string keterangan, decimal harga, string username)
+        public bool TetapkanGradePanen(
+    int idPanen,
+    string gradeDipilih,
+    string keterangan,
+    decimal harga,
+    string username
+)
         {
             try
             {
-                using (NpgsqlConnection conn = DBConnection.GetConnection())
+                using (NpgsqlConnection conn =
+                    DBConnection.GetConnection())
                 {
                     conn.Open();
 
-                    string queryInsert = @"
-                        INSERT INTO grade (kategori, keterangan, harga_per_kg, id_panen, id_demand, id_distributor)
-                        VALUES (@kategori, @keterangan, @harga, @idPanen, 1, @idDistributor);";
+                    string query =
+                        "CALL tambah_grading(@kategori, @keterangan, @harga, @idPanen, @idDemand, @idDistributor)";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryInsert, conn))
+                    using (NpgsqlCommand cmd =
+                        new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@kategori", gradeDipilih);
-                        cmd.Parameters.AddWithValue("@keterangan", keterangan);
-                        cmd.Parameters.AddWithValue("@harga", harga);
-                        cmd.Parameters.AddWithValue("@idPanen", idPanen);
-                        cmd.Parameters.AddWithValue("@idDistributor", AmbilIdDistributor(username));
+                        cmd.Parameters.AddWithValue(
+                            "@kategori",
+                            gradeDipilih
+                        );
+
+                        cmd.Parameters.AddWithValue(
+                            "@keterangan",
+                            keterangan
+                        );
+
+                        cmd.Parameters.AddWithValue(
+                            "@harga",
+                            harga
+                        );
+
+                        cmd.Parameters.AddWithValue(
+                            "@idPanen",
+                            idPanen
+                        );
+
+                        cmd.Parameters.AddWithValue(
+                            "@idDemand",
+                            1
+                        );
+
+                        cmd.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
 
                         cmd.ExecuteNonQuery();
                     }
                 }
+
                 return true;
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Gagal grading : " + ex.Message, "Error Database");
+                System.Windows.Forms.MessageBox.Show(
+                    "Gagal grading : " + ex.Message,
+                    "Error Database"
+                );
+
                 return false;
             }
         }
@@ -85,7 +121,7 @@ namespace PROJEKANN.controller
             {
                 conn.Open();
 
-                string query = "SELECT id_user,FROM usser,WHERE username = @username";
+                string query = "SELECT id_user FROM usser WHERE username = @username";
 
                 using (NpgsqlCommand cmd =
                     new NpgsqlCommand(query, conn))

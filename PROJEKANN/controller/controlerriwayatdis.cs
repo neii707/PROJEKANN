@@ -67,11 +67,10 @@ namespace PROJEKANN.controller
                     }
 
                     string queryJumlah = @"
-                    SELECT COUNT(*)
-                    FROM transaksi t
-                    JOIN grade g ON t.id_grade = g.id_grade
-                    WHERE t.status_transaksi = 'Selesai'
-                    AND g.id_distributor = @idDistributor;";
+                    SELECT total_selesai
+                    FROM view_total_selesai_distributor
+                    WHERE id_distributor = @idDistributor;
+                    ";
 
                     using (NpgsqlCommand cmdJumlah =
                         new NpgsqlCommand(queryJumlah, conn))
@@ -81,10 +80,13 @@ namespace PROJEKANN.controller
                             AmbilIdDistributor(username)
                         );
 
-                        object jml = cmdJumlah.ExecuteScalar();
+                        object jml =
+                            cmdJumlah.ExecuteScalar();
 
                         model.TotalSelesai =
-                            jml != null ? jml.ToString() : "0";
+                            jml != null
+                            ? jml.ToString()
+                            : "0";
                     }
 
                     string queryTotal = @"

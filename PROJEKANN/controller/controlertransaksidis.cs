@@ -99,27 +99,35 @@ namespace PROJEKANN.controller
         {
             try
             {
-                using (NpgsqlConnection conn = DBConnection.GetConnection())
+                using (NpgsqlConnection conn =
+                    DBConnection.GetConnection())
                 {
                     conn.Open();
-                    string query = @"
-                        UPDATE transaksi 
-                        SET 
-                            status_transaksi = 'Selesai', 
-                            konfir_pembelian = 'Selesai' 
-                        WHERE id_transaksi = @id;";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    string query =
+                        "CALL konfirmasi_pembayaran(@id)";
+
+                    using (NpgsqlCommand cmd =
+                        new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@id", idTransaksi);
+                        cmd.Parameters.AddWithValue(
+                            "@id",
+                            idTransaksi
+                        );
+
                         cmd.ExecuteNonQuery();
                     }
                 }
+
                 return true;
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message, "Error Update Transaksi");
+                System.Windows.Forms.MessageBox.Show(
+                    ex.Message,
+                    "Error Update Transaksi"
+                );
+
                 return false;
             }
         }

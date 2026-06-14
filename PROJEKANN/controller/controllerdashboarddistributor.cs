@@ -91,12 +91,9 @@ namespace PROJEKANN.controller
 
 
                     string queryTotalTrx = @"
-                    SELECT COUNT(*)
-                    FROM transaksi t
-                    JOIN grade g
-                    ON t.id_grade = g.id_grade
-                    WHERE g.id_distributor = @idDistributor
-                    AND t.status_transaksi = 'Selesai'
+                    SELECT total_transaksi
+                    FROM view_total_transaksi_distributor
+                    WHERE id_distributor = @idDistributor
                     ";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTotalTrx, conn))
                     {
