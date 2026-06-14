@@ -342,7 +342,7 @@ CREATE OR REPLACE VIEW public.vw_konfirmasi_penawaran
     p.berat_per_kg AS berat_kg,
     g.kategori AS grade,
     t.harga_tawar,
-    p.berat_per_kg * t.harga_tawar AS total_pembayaran,
+    p.berat_per_kg * t.harga_tawar AS total,
     t.konfir_penawaran AS status
    FROM transaksi t
      JOIN grade g ON g.id_grade = t.id_grade
