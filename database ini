@@ -779,8 +779,7 @@ SELECT
     p.berat_per_kg,
     p.tanggal
 FROM panen p
-JOIN usser u
-    ON p.id_user = u.id_user
+JOIN usser u ON p.id_user = u.id_user
 ORDER BY p.id_panen DESC;
 
 
@@ -791,8 +790,7 @@ SELECT
     p.berat_per_kg,
     p.tanggal
 FROM panen p
-JOIN usser u
-    ON p.id_user = u.id_user
+JOIN usser u ON p.id_user = u.id_user
 WHERE NOT EXISTS
 (
     SELECT 1
@@ -801,7 +799,6 @@ WHERE NOT EXISTS
 )
 ORDER BY p.id_panen DESC;
 
-SELECT * FROM grade;
 
 CREATE OR REPLACE VIEW view_penawaran AS
 SELECT
@@ -812,12 +809,9 @@ SELECT
     g.harga_per_kg,
     g.keterangan
 FROM grade g
-JOIN panen p
-    ON g.id_panen = p.id_panen
-JOIN usser u
-    ON p.id_user = u.id_user
-LEFT JOIN transaksi t
-    ON g.id_grade = t.id_grade
+JOIN panen p ON g.id_panen = p.id_panen
+JOIN usser u ON p.id_user = u.id_user
+LEFT JOIN transaksi t ON g.id_grade = t.id_grade
 WHERE t.id_transaksi IS NULL
 ORDER BY g.id_grade DESC;
 
@@ -879,19 +873,12 @@ SELECT
     t.total_pembayaran,
     t.tanggal
 FROM transaksi t
-
-JOIN grade g
-ON t.id_grade = g.id_grade
-
-JOIN panen p
-ON g.id_panen = p.id_panen
-
-JOIN usser n
-ON p.id_user = n.id_user
-
+JOIN grade g ON t.id_grade = g.id_grade
+JOIN panen p ON g.id_panen = p.id_panen
+JOIN usser n ON p.id_user = n.id_user
 WHERE t.status_transaksi = 'Selesai'
-
 ORDER BY t.id_transaksi DESC;
+
 
 CREATE OR REPLACE VIEW public.view_transaksi_aktif_nelayan
  AS
