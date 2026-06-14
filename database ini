@@ -342,13 +342,14 @@ CREATE OR REPLACE VIEW public.vw_konfirmasi_penawaran
     p.berat_per_kg AS berat_kg,
     g.kategori AS grade,
     t.harga_tawar,
-    p.berat_per_kg * t.harga_tawar AS estimasi_total,
+    p.berat_per_kg * t.harga_tawar AS total_pembayaran,
     t.konfir_penawaran AS status
    FROM transaksi t
      JOIN grade g ON g.id_grade = t.id_grade
      JOIN panen p ON p.id_panen = g.id_panen
      JOIN usser u ON u.id_user = g.id_distributor
   WHERE t.konfir_penawaran::text = 'Menunggu'::text;
+
 
 CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi
  AS
