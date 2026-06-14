@@ -864,21 +864,22 @@ WHERE t.konfir_penawaran = 'Diterima'
 AND t.status_transaksi = 'Menunggu';
 
 
-CREATE OR REPLACE VIEW view_riwayat_transaksi AS
-SELECT
-    t.id_transaksi,
+CREATE OR REPLACE VIEW public.view_riwayat_transaksi
+ AS
+ SELECT t.id_transaksi,
     n.nama AS nelayan,
     g.kategori,
     p.berat_per_kg,
     t.harga_tawar,
     t.total_pembayaran,
-    t.tanggal
-FROM transaksi t
-JOIN grade g ON t.id_grade = g.id_grade
-JOIN panen p ON g.id_panen = p.id_panen
-JOIN usser n ON p.id_user = n.id_user
-WHERE t.status_transaksi = 'Selesai'
-ORDER BY t.id_transaksi DESC;
+    t.status_transaksi,
+    t.tanggal,
+    g.id_distributor
+   FROM transaksi t
+     JOIN grade g ON t.id_grade = g.id_grade
+     JOIN panen p ON g.id_panen = p.id_panen
+     JOIN usser n ON p.id_user = n.id_user
+  WHERE t.status_transaksi::text = 'Selesai'::text;
 
 
 CREATE OR REPLACE VIEW public.view_transaksi_aktif_nelayan
