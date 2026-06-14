@@ -604,38 +604,43 @@ $$;
 ALTER PROCEDURE public.sp_hapus_panen(integer, integer)
     OWNER TO postgres;
 
--- PROCEDURE: public.sp_konfirmasi_transaksi(integer, date)
-CREATE OR REPLACE PROCEDURE public.sp_konfirmasi_transaksi(
-    IN p_id_transaksi integer,
-    IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
-LANGUAGE 'plpgsql'
-AS $$
-BEGIN
-    -- Memulai Statement Transaksi Aman
-    BEGIN
-        UPDATE transaksi
-        SET konfir_pembelian  = 'Selesai',
-            status_transaksi  = 'Selesai',
-            tanggal           = p_tanggal_konfir
-        WHERE id_transaksi = p_id_transaksi
-          AND konfir_penawaran = 'Diterima'
-          AND konfir_pembelian <> 'Selesai';
+-- PROCEDURE: public.sp_konfirmasi_transaksi_by_panen(integer, date)
 
-        IF NOT FOUND THEN
-            RAISE EXCEPTION 'Transaksi tidak ditemukan atau sudah selesai.';
+-- DROP PROCEDURE IF EXISTS public.sp_konfirmasi_transaksi_by_panen(integer, date);
+
+CREATE OR REPLACE PROCEDURE public.sp_konfirmasi_transaksi_by_panen(
+	IN p_id_panen integer,
+	IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
+LANGUAGE 'plpgsql'
+AS $BODY$
+DECLARE
+    v_id_transaksi integer;
+    v_status_pembelian character varying(50);
+BEGIN
+    -- Ambil ID transaksi dan status pembelian berdasarkan ID panen
+    SELECT t.id_transaksi, t.konfir_pembelian 
+    INTO v_id_transaksi, v_status_pembelian
+    FROM public.transaksi t
+    JOIN public.grade g ON t.id_grade = g.id_grade
+    WHERE g.id_panen = p_id_panen
+    LIMIT 1;
+
+    -- 1. Validasi jika data tidak ditemukan
+    IF v_id_transaksi IS NOT NULL THEN
+        -- 2. VALIDASI STATUS: Jika belum dibayar, blokir dan lempar pesan error
+        IF v_status_pembelian IS NULL OR LOWER(v_status_pembelian) = 'belum dibayar' THEN
+            RAISE EXCEPTION 'Transaksi tidak bisa dikonfirmasi! Tunggu distributor melakukan pembayaran terlebih dahulu.';
         END IF;
 
-        RAISE NOTICE 'Transaksi ID % telah dikonfirmasi selesai.', p_id_transaksi;
-        
-        -- Commit data ke storage fisik
-        COMMIT;
-    EXCEPTION WHEN OTHERS THEN
-        -- Batalkan transaksi jika error terjadi
-        ROLLBACK;
-        RAISE EXCEPTION 'Gagal konfirmasi transaksi: %', SQLERRM;
-    END;
+        -- 3. Jika status sudah 'Sudah Dibayar', panggil SP bawaanmu yang asli
+        CALL public.sp_konfirmasi_transaksi(v_id_transaksi, p_tanggal_konfir);
+    ELSE
+        RAISE EXCEPTION 'Transaksi untuk ID Panen % tidak ditemukan.', p_id_panen;
+    END IF;
 END;
-$$;
+$BODY$;
+ALTER PROCEDURE public.sp_konfirmasi_transaksi_by_panen(integer, date)
+    OWNER TO postgres;
 
 -- PROCEDURE: public.sp_respon_penawaran(integer, character varying) ono trigger e
 CREATE OR REPLACE PROCEDURE public.sp_respon_penawaran(
