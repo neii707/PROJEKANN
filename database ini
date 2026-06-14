@@ -235,18 +235,30 @@ CREATE OR REPLACE VIEW public.v_demand
     deadline AS tanggal
    FROM demand d;
 
-CREATE OR REPLACE VIEW public.v_grafik_line_stok
- AS
- SELECT to_char(t.tanggal::timestamp with time zone, 'Month'::text) AS bulan,
-    EXTRACT(month FROM t.tanggal) AS urutan_bulan,
-    g.kategori AS grade,
-    sum(p.berat_per_kg) AS stok
-   FROM transaksi t
-     JOIN grade g ON t.id_grade = g.id_grade
-     JOIN panen p ON p.id_panen = g.id_panen
-  WHERE t.status_transaksi::text = 'Selesai'::text
-  GROUP BY (to_char(t.tanggal::timestamp with time zone, 'Month'::text)), (EXTRACT(month FROM t.tanggal)), g.kategori
-  ORDER BY (EXTRACT(month FROM t.tanggal)), g.kategori;
+CREATE OR REPLACE VIEW v_grafik_line_stok AS
+SELECT 
+    sub.bulan,
+    sub.urutan_bulan,
+    sub.grade,
+    sub.stok
+FROM (
+    SELECT 
+        to_char(t.tanggal::timestamp with time zone, 'Month'::text) AS bulan,
+        EXTRACT(month FROM t.tanggal) AS urutan_bulan,
+        COALESCE(g.kategori, 'Total') AS grade,
+        SUM(p.berat_per_kg) AS stok,
+        GROUPING(to_char(t.tanggal::timestamp with time zone, 'Month'::text)) + GROUPING(g.kategori) AS is_total
+    FROM transaksi t
+    JOIN grade g ON t.id_grade = g.id_grade
+    JOIN panen p ON p.id_panen = g.id_panen
+    WHERE t.status_transaksi::text = 'Selesai'::text
+    GROUP BY ROLLUP(
+        (to_char(t.tanggal::timestamp with time zone, 'Month'::text), EXTRACT(month FROM t.tanggal)), 
+        g.kategori
+    )
+) sub
+WHERE sub.is_total = 0
+ORDER BY sub.urutan_bulan, sub.grade;
 
 CREATE OR REPLACE VIEW public.v_grafik_line_transaksi
  AS
