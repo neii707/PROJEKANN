@@ -462,25 +462,6 @@ BEFORE UPDATE ON transaksi
 FOR EACH ROW
 EXECUTE FUNCTION log_perubahan_transaksi();
 
--- FUNCTION: public.fn_pendapatan_bulan_ini(integer)
-CREATE OR REPLACE FUNCTION public.fn_pendapatan_bulan_ini(p_username varchar) 
-RETURNS numeric
-LANGUAGE 'sql'
-AS $$
-    SELECT COALESCE(SUM(t.total_pembayaran), 0)
-    FROM panen p
-    JOIN grade      g ON g.id_panen = p.id_panen
-    JOIN transaksi t ON t.id_grade = g.id_grade
-    JOIN usser     u ON p.id_user = u.id_user                     
-    WHERE u.username         = p_username                         
-      AND t.status_transaksi   = 'Selesai'
-      AND DATE_TRUNC('month', t.tanggal) = DATE_TRUNC('month', CURRENT_DATE);
-$$;
-
-ALTER FUNCTION public.fn_pendapatan_bulan_ini(varchar)
-    OWNER TO postgres;
-
-
 -- FUNCTION: public.fn_penjualan(integer)
 CREATE OR REPLACE FUNCTION public.fn_penjualan(p_username varchar) 
 RETURNS integer
@@ -496,22 +477,6 @@ AS $$
 $$;
 
 ALTER FUNCTION public.fn_penjualan(varchar)
-    OWNER TO postgres;
-
--- FUNCTION: public.fn_ringkasan_riwayat(integer)
-CREATE OR REPLACE FUNCTION public.fn_ringkasan_riwayat(p_id_user integer)
-RETURNS TABLE(jumlah_transaksi bigint, total_pendapatan numeric) 
-LANGUAGE 'sql'
-AS $$
-    SELECT
-        COUNT(*) AS jumlah_transaksi,
-        COALESCE(SUM(total), 0)::NUMERIC(14,2) AS total_pendapatan
-    FROM vw_riwayat_transaksi
-    WHERE id_nelayan = p_id_user
-      AND DATE_TRUNC('month', tanggal_konfirmasi) = DATE_TRUNC('month', CURRENT_DATE);
-$$;
-
-ALTER FUNCTION public.fn_ringkasan_riwayat(integer)
     OWNER TO postgres;
 
 -- FUNCTION: public.fn_stok_panen(integer)
@@ -611,7 +576,6 @@ CREATE OR REPLACE PROCEDURE public.sp_konfirmasi_transaksi(
 LANGUAGE 'plpgsql'
 AS $$
 BEGIN
-    -- Memulai Statement Transaksi Aman
     BEGIN
         UPDATE transaksi
         SET konfir_pembelian  = 'Selesai',
@@ -626,12 +590,7 @@ BEGIN
         END IF;
 
         RAISE NOTICE 'Transaksi ID % telah dikonfirmasi selesai.', p_id_transaksi;
-        
-        -- Commit data ke storage fisik
-        COMMIT;
     EXCEPTION WHEN OTHERS THEN
-        -- Batalkan transaksi jika error terjadi
-        ROLLBACK;
         RAISE EXCEPTION 'Gagal konfirmasi transaksi: %', SQLERRM;
     END;
 END;
