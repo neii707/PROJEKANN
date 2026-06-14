@@ -311,6 +311,7 @@ CREATE OR REPLACE VIEW public.v_labeltransaksi
 -- PUNYAK NELAYAN
 -- =========================================
 
+-- vw_dashboard_nelayan 
 CREATE OR REPLACE VIEW public.vw_dashboard_nelayan
  AS
  SELECT p.id_panen,
@@ -320,7 +321,7 @@ CREATE OR REPLACE VIEW public.vw_dashboard_nelayan
         CASE
             WHEN g.id_grade IS NULL THEN 'Belum Digrading'::text
             WHEN t.id_transaksi IS NULL THEN 'Sudah Digrading'::text
-            WHEN t.konfir_penawaran::text = 'Menunggu'::text THEN 'Sedang Ditawar'::text
+            WHEN t.konfir_penawaran::text = 'Menunggu Ditawar'::text THEN 'Sedang Ditawar'::text
             WHEN t.konfir_penawaran::text = 'Diterima'::text AND COALESCE(t.konfir_pembelian, ''::character varying)::text <> 'Selesai'::text THEN 'Menunggu Konfirmasi Pembayaran'::text
             ELSE 'Proses'::text
         END AS status,
@@ -334,6 +335,80 @@ CREATE OR REPLACE VIEW public.vw_dashboard_nelayan
              JOIN transaksi t2 ON t2.id_grade = g2.id_grade
           WHERE g2.id_panen = p.id_panen AND t2.status_transaksi::text = 'Selesai'::text));
 
+-- vw_label_dashboard_nelayan
+CREATE OR REPLACE VIEW public.vw_label_dashboard_nelayan
+ AS
+ SELECT u.username,
+    fn_stok_panen(u.username) AS stok,
+    fn_penjualan(u.username) AS jual,
+    COALESCE(sum(
+        CASE
+            WHEN lower(vt.status::text) = 'selesai'::text THEN vt.total
+            ELSE 0::numeric
+        END), 0::numeric) AS pendapatan
+   FROM usser u
+     LEFT JOIN panen p ON u.id_user = p.id_user
+     LEFT JOIN vw_riwayat_transaksi vt ON p.id_panen = vt.id_panen
+  GROUP BY u.username;
+
+--v_kelola_panen 
+CREATE OR REPLACE VIEW public.v_kelola_panen
+ AS
+ SELECT id,
+    username,
+    berat,
+    grade,
+    harga_per_kg,
+    status,
+        CASE
+            WHEN status::text = 'Belum Di-grade'::text THEN true
+            ELSE false
+        END AS bisa_hapus,
+    id_user
+   FROM ( SELECT p.id_panen AS id,
+            u.username,
+            p.id_user,
+            p.berat_per_kg AS berat,
+            COALESCE(g.kategori, '-'::character varying) AS grade,
+            COALESCE(g.harga_per_kg, 0::numeric) AS harga_per_kg,
+                CASE
+                    WHEN (EXISTS ( SELECT 1
+                       FROM transaksi t
+                      WHERE t.id_grade = g.id_grade)) THEN ( SELECT t.status_transaksi
+                       FROM transaksi t
+                      WHERE t.id_grade = g.id_grade
+                     LIMIT 1)
+                    WHEN g.id_grade IS NOT NULL THEN 'Sudah Di-grade'::character varying
+                    ELSE 'Belum Di-grade'::character varying
+                END AS status
+           FROM panen p
+             JOIN usser u ON p.id_user = u.id_user
+             LEFT JOIN grade g ON p.id_panen = g.id_panen) subquery_panen
+  ORDER BY (
+        CASE status
+            WHEN 'Belum Di-grade'::text THEN 1
+            WHEN 'Menunggu Ditawar'::text THEN 2
+            WHEN 'Sudah Di-grade'::text THEN 3
+            ELSE 4
+        END);
+
+--hapus_panen_aman (fn)
+CREATE OR REPLACE FUNCTION public.hapus_panen_aman(
+	p_id_panen integer)
+    RETURNS text
+    LANGUAGE 'plpgsql'
+AS $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM grade WHERE id_panen = p_id_panen) THEN
+        RETURN 'Gagal: Data panen sudah dinilai/di-grade oleh distributor!';
+    ELSE
+        DELETE FROM panen WHERE id_panen = p_id_panen;
+        RETURN 'Sukses: Data panen berhasil dihapus.';
+    END IF;
+END;
+$$;
+
+--vw_konfirmasi_penawaran
 CREATE OR REPLACE VIEW public.vw_konfirmasi_penawaran
  AS
  SELECT t.id_transaksi,
@@ -350,14 +425,14 @@ CREATE OR REPLACE VIEW public.vw_konfirmasi_penawaran
      JOIN usser u ON u.id_user = g.id_distributor
   WHERE t.konfir_penawaran::text = 'Menunggu'::text;
 
-
+--vw_konfirmasi_transaksi 
 CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi
  AS
  SELECT t.id_transaksi,
     p.id_panen,
     u.nama AS nama_distributor,
     p.berat_per_kg AS berat_kg,
-    p.berat_per_kg * t.harga_tawar AS total,
+    p.berat_per_kg * t.harga_tawar AS total_pembayaran,
     t.konfir_pembelian AS status
    FROM transaksi t
      JOIN grade g ON g.id_grade = t.id_grade
@@ -365,7 +440,45 @@ CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi
      JOIN usser u ON u.id_user = g.id_distributor
   WHERE t.konfir_penawaran::text = 'Diterima'::text AND t.konfir_pembelian::text <> 'Selesai'::text;
 
+--sp_konfirmasi_transaksi_by_panen (procedure)
+CREATE OR REPLACE PROCEDURE public.sp_konfirmasi_transaksi_by_panen(
+	IN p_id_panen integer,
+	IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
+LANGUAGE 'plpgsql'
+AS $BODY$
+DECLARE
+    v_id_transaksi integer;
+    v_status_pembelian character varying(50);
+BEGIN
+    SELECT t.id_transaksi, t.konfir_pembelian 
+    INTO v_id_transaksi, v_status_pembelian
+    FROM public.transaksi t
+    JOIN public.grade g ON t.id_grade = g.id_grade
+    WHERE g.id_panen = p_id_panen
+    LIMIT 1;
 
+    IF v_id_transaksi IS NOT NULL THEN
+        IF v_status_pembelian IS NULL OR LOWER(v_status_pembelian) = 'belum dibayar' THEN
+            RAISE EXCEPTION 'Transaksi tidak bisa dikonfirmasi! Tunggu distributor melakukan pembayaran terlebih dahulu.';
+        END IF;
+
+        CALL public.sp_konfirmasi_transaksi(v_id_transaksi, p_tanggal_konfir);
+    ELSE
+        RAISE EXCEPTION 'Transaksi untuk ID Panen % tidak ditemukan.', p_id_panen;
+    END IF;
+END;
+$BODY$;
+
+--vw_label_riwayat_nelayan
+CREATE OR REPLACE VIEW public.vw_label_riwayat_nelayan
+ AS
+ SELECT username_nelayan,
+    count(id_panen) AS total_transaksi,
+    COALESCE(sum(total), 0::numeric) AS total_nilai
+   FROM vw_riwayat_transaksi
+  GROUP BY username_nelayan;
+
+--vw_riwayat_transaksi
 CREATE OR REPLACE VIEW public.vw_riwayat_transaksi
  AS
  SELECT p.id_panen,
@@ -385,377 +498,25 @@ CREATE OR REPLACE VIEW public.vw_riwayat_transaksi
      JOIN usser u_nel ON u_nel.id_user = p.id_user
   WHERE t.status_transaksi::text = 'Selesai'::text;
 
-
-CREATE OR REPLACE VIEW public.v_kelola_panen AS
-SELECT 
-    id,
-    username,
-    berat,
-    grade,
-    harga_per_kg,
-    status,
-    CASE 
-        WHEN status = 'Belum Di-grade' THEN TRUE 
-        ELSE FALSE 
-    END AS bisa_hapus,
-    id_user
-FROM (
-    SELECT p.id_panen AS id,
-        u.username,
-        p.id_user,
-        p.berat_per_kg AS berat,
-        COALESCE(g.kategori, '-'::character varying) AS grade,
-        COALESCE(g.harga_per_kg, 0::numeric) AS harga_per_kg,
-        CASE
-            WHEN (EXISTS (SELECT 1 FROM transaksi t WHERE t.id_grade = g.id_grade)) THEN 
-                (SELECT t.status_transaksi FROM transaksi t WHERE t.id_grade = g.id_grade LIMIT 1)
-            WHEN g.id_grade IS NOT NULL THEN 'Sudah Di-grade'::character varying
-            ELSE 'Belum Di-grade'::character varying
-        END AS status
-    FROM panen p
-    JOIN usser u ON p.id_user = u.id_user
-    LEFT JOIN grade g ON p.id_panen = g.id_panen
-) subquery_panen
-ORDER BY 
-    CASE status
-        WHEN 'Belum Di-grade' THEN 1
-        WHEN 'Menunggu' THEN 2
-        WHEN 'Sudah Di-grade' THEN 3
-        ELSE 4
-    END;
-
-CREATE OR REPLACE VIEW public.vw_label_riwayat_nelayan AS
-SELECT 
-    username_nelayan,
-    COUNT(id_panen) AS total_transaksi,
-    COALESCE(SUM(total), 0) AS total_nilai
-FROM public.vw_riwayat_transaksi
-GROUP BY username_nelayan;
-
-CREATE OR REPLACE VIEW public.vw_label_dashboard_nelayan
- AS
- SELECT u.username,
-    fn_stok_panen(u.username) AS stok,
-    fn_penjualan(u.username) AS jual,
-    COALESCE(sum(
-        CASE
-            WHEN lower(vt.status::text) = 'selesai'::text THEN vt.total
-            ELSE 0::numeric
-        END), 0::numeric) AS pendapatan
-   FROM usser u
-     LEFT JOIN panen p ON u.id_user = p.id_user
-     LEFT JOIN vw_riwayat_transaksi vt ON p.id_panen = vt.id_panen
-  GROUP BY u.username;
-
-CREATE OR REPLACE FUNCTION log_perubahan_transaksi()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF OLD.status_transaksi IN ('Selesai', 'Ditolak Nelayan') THEN
-        RAISE EXCEPTION 'Transaksi dengan ID % sudah berstatus permanen dan tidak dapat diubah kembali!', OLD.id_transaksi;
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trg_log_status_transaksi
-BEFORE UPDATE ON transaksi
-FOR EACH ROW
-EXECUTE FUNCTION log_perubahan_transaksi();
-
--- FUNCTION: public.fn_pendapatan_bulan_ini(integer)
-CREATE OR REPLACE FUNCTION public.fn_pendapatan_bulan_ini(p_username varchar) 
-RETURNS numeric
-LANGUAGE 'sql'
-AS $$
-    SELECT COALESCE(SUM(t.total_pembayaran), 0)
-    FROM panen p
-    JOIN grade      g ON g.id_panen = p.id_panen
-    JOIN transaksi t ON t.id_grade = g.id_grade
-    JOIN usser     u ON p.id_user = u.id_user                     
-    WHERE u.username         = p_username                         
-      AND t.status_transaksi   = 'Selesai'
-      AND DATE_TRUNC('month', t.tanggal) = DATE_TRUNC('month', CURRENT_DATE);
-$$;
-
-ALTER FUNCTION public.fn_pendapatan_bulan_ini(varchar)
-    OWNER TO postgres;
-
-
--- FUNCTION: public.fn_penjualan(integer)
-CREATE OR REPLACE FUNCTION public.fn_penjualan(p_username varchar) 
-RETURNS integer
-LANGUAGE 'sql'
-AS $$
-    SELECT COUNT(*)::INT
-    FROM panen p
-    JOIN grade      g ON g.id_panen = p.id_panen
-    JOIN transaksi t ON t.id_grade = g.id_grade
-    JOIN usser     u ON p.id_user = u.id_user                     
-    WHERE u.username       = p_username                           
-      AND t.status_transaksi = 'Selesai';
-$$;
-
-ALTER FUNCTION public.fn_penjualan(varchar)
-    OWNER TO postgres;
-
--- FUNCTION: public.fn_ringkasan_riwayat(integer)
-CREATE OR REPLACE FUNCTION public.fn_ringkasan_riwayat(p_id_user integer)
-RETURNS TABLE(jumlah_transaksi bigint, total_pendapatan numeric) 
-LANGUAGE 'sql'
-AS $$
-    SELECT
-        COUNT(*) AS jumlah_transaksi,
-        COALESCE(SUM(total), 0)::NUMERIC(14,2) AS total_pendapatan
-    FROM vw_riwayat_transaksi
-    WHERE id_nelayan = p_id_user
-      AND DATE_TRUNC('month', tanggal_konfirmasi) = DATE_TRUNC('month', CURRENT_DATE);
-$$;
-
-ALTER FUNCTION public.fn_ringkasan_riwayat(integer)
-    OWNER TO postgres;
-
--- FUNCTION: public.fn_stok_panen(integer)
-CREATE OR REPLACE FUNCTION public.fn_stok_panen(p_username varchar) 
-RETURNS integer
-LANGUAGE 'sql'
-STABLE
-AS $$
-    SELECT COUNT(*)::INT
-    FROM vw_dashboard_nelayan
-    WHERE username = p_username; 
-$$;
-
-ALTER FUNCTION public.fn_stok_panen(varchar)
-    OWNER TO postgres;
-
--- FUNCTION: public.hapus_panen_aman(integer)
-CREATE OR REPLACE FUNCTION public.hapus_panen_aman(p_id_panen integer)
-RETURNS text
-LANGUAGE 'plpgsql'
-AS $$
-BEGIN
-    IF EXISTS (SELECT 1 FROM grade WHERE id_panen = p_id_panen) THEN
-        RETURN 'Gagal: Data panen sudah dinilai/di-grade oleh distributor!';
-    ELSE
-        DELETE FROM panen WHERE id_panen = p_id_panen;
-        RETURN 'Sukses: Data panen berhasil dihapus.';
-    END IF;
-END;
-$$;
-
-ALTER FUNCTION public.hapus_panen_aman(integer)
-    OWNER TO postgres;
-
--- PROCEDURE: public.proses_penawaran(integer, character varying)
-CREATE OR REPLACE PROCEDURE public.proses_penawaran(
-	IN p_id_transaksi integer,
-	IN p_keputusan character varying)
-LANGUAGE 'plpgsql'
-AS $$
-BEGIN
-    IF p_keputusan = 'TERIMA' THEN
-        UPDATE transaksi
-        SET 
-            konfir_penawaran = 'Diterima',
-            status_transaksi = 'Proses Konfirmasi Pembayaran'
-        WHERE id_transaksi = p_id_transaksi;
-        
-    ELSIF p_keputusan = 'TOLAK' THEN
-        UPDATE transaksi
-        SET 
-            konfir_penawaran = 'Penawaran Ditolak',
-            status_transaksi = 'Batal'
-        WHERE id_transaksi = p_id_transaksi;
-    ELSE
-        RAISE EXCEPTION 'Keputusan tidak valid! Gunakan TERIMA atau TOLAK.';
-    END IF;
-END;
-$$;
-ALTER PROCEDURE public.proses_penawaran(integer, character varying)
-    OWNER TO postgres;
-
--- PROCEDURE: public.sp_hapus_panen(integer, integer)
-CREATE OR REPLACE PROCEDURE public.sp_hapus_panen(
-	IN p_id_panen integer,
-	IN p_id_user integer)
-LANGUAGE 'plpgsql'
-AS $$
-DECLARE
-    v_boleh BOOLEAN;
-BEGIN
-    SELECT bisa_hapus INTO v_boleh
-    FROM vw_kelola_panen
-    WHERE id_panen = p_id_panen AND id_user = p_id_user;
-
-    IF v_boleh IS NULL THEN
-        RAISE EXCEPTION 'Panen tidak ditemukan atau bukan milik Anda.';
-    ELSIF v_boleh = FALSE THEN
-        RAISE EXCEPTION 'Panen sudah digrading atau dalam proses transaksi. Tidak dapat dihapus.';
-    END IF;
-
-    BEGIN
-        DELETE FROM panen WHERE id_panen = p_id_panen;
-        RAISE NOTICE 'Panen ID % berhasil dihapus.', p_id_panen;
-    EXCEPTION WHEN OTHERS THEN
-        RAISE EXCEPTION 'Gagal menghapus panen: %', SQLERRM;
-    END;
-END;
-$$;
-ALTER PROCEDURE public.sp_hapus_panen(integer, integer)
-    OWNER TO postgres;
-
--- PROCEDURE: public.sp_konfirmasi_transaksi_by_panen(integer, date)
-
--- DROP PROCEDURE IF EXISTS public.sp_konfirmasi_transaksi_by_panen(integer, date);
-
-CREATE OR REPLACE PROCEDURE public.sp_konfirmasi_transaksi_by_panen(
-	IN p_id_panen integer,
-	IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
-LANGUAGE 'plpgsql'
+--trigger transaksi selesai
+CREATE OR REPLACE FUNCTION public.log_perubahan_transaksi()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
 AS $BODY$
-DECLARE
-    v_id_transaksi integer;
-    v_status_pembelian character varying(50);
 BEGIN
-    -- Ambil ID transaksi dan status pembelian berdasarkan ID panen
-    SELECT t.id_transaksi, t.konfir_pembelian 
-    INTO v_id_transaksi, v_status_pembelian
-    FROM public.transaksi t
-    JOIN public.grade g ON t.id_grade = g.id_grade
-    WHERE g.id_panen = p_id_panen
-    LIMIT 1;
-
-    -- 1. Validasi jika data tidak ditemukan
-    IF v_id_transaksi IS NOT NULL THEN
-        -- 2. VALIDASI STATUS: Jika belum dibayar, blokir dan lempar pesan error
-        IF v_status_pembelian IS NULL OR LOWER(v_status_pembelian) = 'belum dibayar' THEN
-            RAISE EXCEPTION 'Transaksi tidak bisa dikonfirmasi! Tunggu distributor melakukan pembayaran terlebih dahulu.';
-        END IF;
-
-        -- 3. Jika status sudah 'Sudah Dibayar', panggil SP bawaanmu yang asli
-        CALL public.sp_konfirmasi_transaksi(v_id_transaksi, p_tanggal_konfir);
-    ELSE
-        RAISE EXCEPTION 'Transaksi untuk ID Panen % tidak ditemukan.', p_id_panen;
+    IF OLD.status_transaksi = 'Selesai' THEN
+        RAISE EXCEPTION 'Transaksi dengan ID % sudah berstatus Selesai dan tidak dapat diubah kembali!', OLD.id_transaksi;
     END IF;
+    
+    RETURN NEW;
 END;
 $BODY$;
-ALTER PROCEDURE public.sp_konfirmasi_transaksi_by_panen(integer, date)
-    OWNER TO postgres;
 
--- PROCEDURE: public.sp_respon_penawaran(integer, character varying) ono trigger e
-CREATE OR REPLACE PROCEDURE public.sp_respon_penawaran(
-	IN p_id_transaksi integer,
-	IN p_aksi character varying)
-LANGUAGE 'plpgsql'
-AS $$
-BEGIN
-    IF p_aksi = 'TERIMA' THEN
-        BEGIN
-            UPDATE transaksi
-            SET konfir_penawaran  = 'Diterima',
-                status_transaksi  = 'Menunggu Pembayaran'
-            WHERE id_transaksi = p_id_transaksi;
-            RAISE NOTICE 'Penawaran diterima. Transaksi menunggu pembayaran.';
-        EXCEPTION WHEN OTHERS THEN
-            RAISE EXCEPTION 'Gagal menerima penawaran: %', SQLERRM;
-        END;
-
-    ELSIF p_aksi = 'TOLAK' THEN
-        BEGIN
-            UPDATE transaksi
-            SET konfir_penawaran  = 'Ditolak',
-                status_transaksi  = 'Ditolak'
-            WHERE id_transaksi = p_id_transaksi;
-            RAISE NOTICE 'Penawaran ditolak.';
-        EXCEPTION WHEN OTHERS THEN
-            RAISE EXCEPTION 'Gagal menolak penawaran: %', SQLERRM;
-        END;
-
-    ELSE
-        RAISE EXCEPTION 'Aksi tidak valid. Gunakan TERIMA atau TOLAK.';
-    END IF;
-END;
-$$;
-ALTER PROCEDURE public.sp_respon_penawaran(integer, character varying)
-    OWNER TO postgres;
-
--- PROCEDURE: public.sp_tambah_panen(numeric, date, integer)
-CREATE OR REPLACE PROCEDURE public.sp_tambah_panen(
-	IN p_berat numeric,
-	IN p_tanggal date,
-	IN p_id_user integer)
-LANGUAGE 'plpgsql'
-AS $$
-BEGIN
-    BEGIN
-        INSERT INTO panen (berat_per_kg, tanggal, id_user)
-        VALUES (p_berat, p_tanggal, p_id_user);
-        RAISE NOTICE 'Panen berhasil ditambahkan.';
-    EXCEPTION WHEN OTHERS THEN
-        RAISE EXCEPTION 'Gagal menambah panen: %', SQLERRM;
-    END;
-END;
-$$;
-ALTER PROCEDURE public.sp_tambah_panen(numeric, date, integer)
-    OWNER TO postgres;
-
-CREATE OR REPLACE PROCEDURE sp_respon_penawaran(
-    p_id_transaksi INT,
-    p_aksi         VARCHAR(10)   -- 'TERIMA' atau 'TOLAK'
-)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    IF p_aksi = 'TERIMA' THEN
-        BEGIN
-            UPDATE transaksi
-            SET konfir_penawaran  = 'Diterima',
-                status_transaksi  = 'Menunggu Pembayaran'
-            WHERE id_transaksi = p_id_transaksi;
-            RAISE NOTICE 'Penawaran diterima. Transaksi menunggu pembayaran.';
-        EXCEPTION WHEN OTHERS THEN
-            RAISE EXCEPTION 'Gagal menerima penawaran: %', SQLERRM;
-        END;
-
-    ELSIF p_aksi = 'TOLAK' THEN
-        BEGIN
-            UPDATE transaksi
-            SET konfir_penawaran  = 'Ditolak',
-                status_transaksi  = 'Ditolak'
-            WHERE id_transaksi = p_id_transaksi;
-            RAISE NOTICE 'Penawaran ditolak.';
-        EXCEPTION WHEN OTHERS THEN
-            RAISE EXCEPTION 'Gagal menolak penawaran: %', SQLERRM;
-        END;
-
-    ELSE
-        RAISE EXCEPTION 'Aksi tidak valid. Gunakan TERIMA atau TOLAK.';
-    END IF;
-END;
-$$;
-
--- Cara pakai:
--- CALL sp_respon_penawaran(1, 'TERIMA');
--- CALL sp_respon_penawaran(2, 'TOLAK');
-
--- TRIGGER: Setelah penawaran ditolak, reset status transaksi 
-CREATE OR REPLACE FUNCTION trg_fn_setelah_tolak_penawaran()
-RETURNS TRIGGER
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    IF NEW.konfir_penawaran = 'Ditolak' THEN
-        RAISE NOTICE 'Penawaran ID % ditolak. Panen kembali tampil di dashboard nelayan.', NEW.id_transaksi;
-    END IF;
-    RETURN NEW;
-END;
-$$;
-
-CREATE OR REPLACE TRIGGER trg_setelah_tolak_penawaran
-AFTER UPDATE ON transaksi
-FOR EACH ROW
-WHEN (NEW.konfir_penawaran = 'Ditolak' AND OLD.konfir_penawaran = 'Menunggu')
-EXECUTE FUNCTION trg_fn_setelah_tolak_penawaran();
+CREATE TRIGGER trg_cek_perubahan_transaksi
+    BEFORE UPDATE
+    ON public.transaksi
+    FOR EACH ROW
+    EXECUTE FUNCTION public.log_perubahan_transaksi();
 
 -- =========================================
 -- PUNYAK DISTRIBUTOR
