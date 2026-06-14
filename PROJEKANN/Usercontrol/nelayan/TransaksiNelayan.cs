@@ -37,7 +37,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             {
                 dgvtransaksi.AutoGenerateColumns = false;
 
-                colID.DataPropertyName = "ID Panen";
+                colID.DataPropertyName = "id_panen";
                 colDistributor.DataPropertyName = "Distributor";
                 colBerat.DataPropertyName = "Berat (kg)";
                 total_pembayaran.DataPropertyName = "total_pembayaran";

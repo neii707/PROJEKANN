@@ -32,7 +32,7 @@ namespace PROJEKANN.controller
                     }
 
                     string queryTabel = @"SELECT * FROM vw_konfirmasi_transaksi 
-                                          WHERE ""ID Panen"" IN (
+                                          WHERE ""id_panen"" IN (
                                           SELECT p.id_panen FROM panen p 
                                           JOIN usser u ON p.id_user = u.id_user 
                                           WHERE u.username = @username)";
