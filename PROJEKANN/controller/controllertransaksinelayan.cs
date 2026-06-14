@@ -68,8 +68,13 @@ namespace PROJEKANN.controller
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        cmd.Parameters.AddWithValue("p_id_panen", idPanen);
-                        cmd.Parameters.AddWithValue("p_tanggal_konfir", DateTime.Today);
+                        cmd.Parameters.AddWithValue("p_id_panen", NpgsqlTypes.NpgsqlDbType.Integer, idPanen);
+
+                        cmd.Parameters.AddWithValue(
+                            "p_tanggal_konfir",
+                            NpgsqlTypes.NpgsqlDbType.Date,
+                            DateTime.Today
+                        );
 
                         cmd.ExecuteNonQuery();
                         return true;
