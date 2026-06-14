@@ -65,7 +65,7 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryTabel = "SELECT * FROM view_transaksi_paling_akhir WHERE id_distributor = @idDistributor;";
+                    string queryTabel = "SELECT * FROM view_transaksi_paling_akhir WHERE id_distributor = @idDistributor LIMIT 5;";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
                         cmd.Parameters.AddWithValue(
@@ -96,6 +96,7 @@ namespace PROJEKANN.controller
                     JOIN grade g
                     ON t.id_grade = g.id_grade
                     WHERE g.id_distributor = @idDistributor
+                    AND t.status_transaksi = 'Selesai'
                     ";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTotalTrx, conn))
                     {
@@ -118,21 +119,32 @@ namespace PROJEKANN.controller
                     string queryDemand = "SELECT total_demand FROM view_demand_distributor";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryDemand, conn))
                     {
-                        object resDemand = cmd.ExecuteScalar();
-                        if (resDemand != null && resDemand != DBNull.Value)
+                        object resDemand =
+                            cmd.ExecuteScalar();
+
+                        if (resDemand != null &&
+                            resDemand != DBNull.Value)
                         {
-                            decimal totalDemand = Convert.ToDecimal(resDemand);
+                            decimal totalDemand =
+                                Convert.ToDecimal(resDemand);
+
                             if (totalDemand >= 1000)
                             {
-                                model.TeksDemand = (totalDemand / 1000).ToString("N1") + " Ton";
+                                model.TeksDemand =
+                                    (totalDemand / 1000)
+                                    .ToString("N1") + " Ton";
                             }
                             else if (totalDemand >= 100)
                             {
-                                model.TeksDemand = (totalDemand / 100).ToString("N1") + " Kwintal";
+                                model.TeksDemand =
+                                    (totalDemand / 100)
+                                    .ToString("N0") + " Kwintal";
                             }
                             else
                             {
-                                model.TeksDemand = totalDemand.ToString("N0") + " Kg";
+                                model.TeksDemand =
+                                    totalDemand
+                                    .ToString("N0") + " Kg";
                             }
                         }
                     }
