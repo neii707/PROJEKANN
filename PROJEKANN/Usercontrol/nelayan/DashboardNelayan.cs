@@ -66,9 +66,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // =============================================================
-        // NAVIGASI SIDEBAR
-        // =============================================================
+
         private void dashboardbutton_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.DashboardNelayan(this.mainForm, this.userLoginAktif));
@@ -100,13 +98,10 @@ namespace PROJEKANN.Usercontrol.nelayan
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (konfirm == DialogResult.Yes)
             {
-                Application.Restart();
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
         }
 
-        // =============================================================
-        // HELPER NAVIGASI — ganti UserControl di Panel induk
-        // =============================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             this.Controls.Clear();
@@ -115,7 +110,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             ucBaru.BringToFront();
         }
 
-        // Event Stub dari Designer
         private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void stoklabel_dashboard_Click(object sender, EventArgs e) { }
         private void penawaranlabel_dashboard_Click(object sender, EventArgs e) { }
