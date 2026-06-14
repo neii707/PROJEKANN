@@ -442,8 +442,8 @@ CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi
 
 --sp_konfirmasi_transaksi_by_panen (procedure)
 CREATE OR REPLACE PROCEDURE public.sp_konfirmasi_transaksi_by_panen(
-	IN p_id_panen integer,
-	IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
+    IN p_id_panen integer,
+    IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
 LANGUAGE 'plpgsql'
 AS $BODY$
 DECLARE
@@ -453,19 +453,24 @@ BEGIN
     SELECT t.id_transaksi, t.konfir_pembelian 
     INTO v_id_transaksi, v_status_pembelian
     FROM public.transaksi t
-    JOIN public.grade g ON t.id_grade = g.id_grade
+    JOIN public.grade g ON g.id_grade = t.id_grade
     WHERE g.id_panen = p_id_panen
     LIMIT 1;
 
-    IF v_id_transaksi IS NOT NULL THEN
-        IF v_status_pembelian IS NULL OR LOWER(v_status_pembelian) = 'belum dibayar' THEN
-            RAISE EXCEPTION 'Transaksi tidak bisa dikonfirmasi! Tunggu distributor melakukan pembayaran terlebih dahulu.';
-        END IF;
-
-        CALL public.sp_konfirmasi_transaksi(v_id_transaksi, p_tanggal_konfir);
-    ELSE
+    IF v_id_transaksi IS NULL THEN
         RAISE EXCEPTION 'Transaksi untuk ID Panen % tidak ditemukan.', p_id_panen;
     END IF;
+
+    IF v_status_pembelian IS NULL OR LOWER(v_status_pembelian) = 'belum dibayar' THEN
+        RAISE EXCEPTION 'Transaksi tidak bisa dikonfirmasi! Tunggu distributor melakukan pembayaran terlebih dahulu.';
+    END IF;
+
+    UPDATE public.transaksi 
+    SET status_transaksi = 'Selesai', 
+        konfir_pembelian = 'Selesai', 
+        tanggal = p_tanggal_konfir     
+    WHERE id_transaksi = v_id_transaksi;
+
 END;
 $BODY$;
 
