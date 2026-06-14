@@ -9,7 +9,7 @@ namespace PROJEKANN.database
     {
         private static readonly string connectionString =
 
-            "Host=localhost;Port=5432;Database=bismillah;Username=postgres;Password=191206;";
+            "Host=localhost;Port=5432;Database=akuu;Username=postgres;Password=191206;";
 
 
 
