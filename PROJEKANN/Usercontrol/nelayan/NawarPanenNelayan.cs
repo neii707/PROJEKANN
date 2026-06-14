@@ -31,10 +31,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             if (data.TabelPenawaran != null)
             {
                 dgvpenawaran.AutoGenerateColumns = false;
-                dgvpenawaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                // Petakan kolom DGV kamu secara manual berdasarkan nama properti di database view
-                // Ganti indeks [0], [1], dst sesuai urutan kolom asli yang kamu buat di designer DGV kamu!
+                dgvpenawaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;    
                 if (dgvpenawaran.Columns.Count >= 7)
                 {
                     dgvpenawaran.Columns[0].DataPropertyName = "id_panen";
@@ -42,7 +39,7 @@ namespace PROJEKANN.Usercontrol.nelayan
                     dgvpenawaran.Columns[2].DataPropertyName = "berat_kg";
                     dgvpenawaran.Columns[3].DataPropertyName = "grade";
                     dgvpenawaran.Columns[4].DataPropertyName = "harga_tawar";
-                    dgvpenawaran.Columns[5].DataPropertyName = "total_pembayaran";
+                    dgvpenawaran.Columns[5].DataPropertyName = "total";
                     dgvpenawaran.Columns[6].DataPropertyName = "status";
                 }
 

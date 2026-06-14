@@ -8,6 +8,45 @@ namespace PROJEKANN.controller
 {
     public class ControllerDistributorTransaksi
     {
+
+        private int AmbilIdDistributor(string username)
+        {
+            int idDistributor = 0;
+
+            using (NpgsqlConnection conn =
+                DBConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = @"
+            SELECT id_user
+            FROM usser
+            WHERE username = @username
+        ";
+
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@username",
+                        username
+                    );
+
+                    object result =
+                        cmd.ExecuteScalar();
+
+                    if (result != null &&
+                        result != DBNull.Value)
+                    {
+                        idDistributor =
+                            Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return idDistributor;
+        }
+
         public ModelDistributorTransaksi AmbilDataAwal(string username)
         {
             ModelDistributorTransaksi model = new ModelDistributorTransaksi();
@@ -30,12 +69,21 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryTabel = "SELECT * FROM view_transaksi_distributor";
-                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, conn))
+                    string queryTabel = "SELECT * FROM view_transaksi_distributor WHERE id_distributor = @idDistributor";
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        model.TabelTransaksi = dt;
+                        cmd.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
+
+                        using (NpgsqlDataAdapter da =
+                            new NpgsqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                            model.TabelTransaksi = dt;
+                        }
                     }
                 }
             }
@@ -75,5 +123,6 @@ namespace PROJEKANN.controller
                 return false;
             }
         }
+
     }
 }

@@ -8,6 +8,40 @@ namespace PROJEKANN.controller
 {
     public class ControllerDashboardDistributor
     {
+        private int AmbilIdDistributor(string username)
+        {
+            int idDistributor = 0;
+
+            using (NpgsqlConnection conn =
+                DBConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT id_user FROM usser WHERE username = @username";
+
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@username",
+                        username
+                    );
+
+                    object result =
+                        cmd.ExecuteScalar();
+
+                    if (result != null &&
+                        result != DBNull.Value)
+                    {
+                        idDistributor =
+                            Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return idDistributor;
+        }
+
         public ModelDashboardDistributor AmbilDataDashboard(string username)
         {
             ModelDashboardDistributor model = new ModelDashboardDistributor();
@@ -31,10 +65,16 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryTabel = "SELECT * FROM view_transaksi_paling_akhir;";
+                    string queryTabel = "SELECT * FROM view_transaksi_paling_akhir WHERE id_distributor = @idDistributor LIMIT 5;";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
-                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                        cmd.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
+
+                        using (NpgsqlDataAdapter da =
+                            new NpgsqlDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             da.Fill(dt);
@@ -50,32 +90,61 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryTotalTrx = "SELECT total_transaksi FROM view_total_transaksi_distributor";
+                    string queryTotalTrx = @"
+                    SELECT COUNT(*)
+                    FROM transaksi t
+                    JOIN grade g
+                    ON t.id_grade = g.id_grade
+                    WHERE g.id_distributor = @idDistributor
+                    AND t.status_transaksi = 'Selesai'
+                    ";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTotalTrx, conn))
                     {
+                        cmd.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
+
                         object resTrx = cmd.ExecuteScalar();
-                        if (resTrx != null && resTrx != DBNull.Value) model.TeksTotalTransaksi = resTrx.ToString();
+
+                        if (resTrx != null &&
+                            resTrx != DBNull.Value)
+                        {
+                            model.TeksTotalTransaksi =
+                                resTrx.ToString();
+                        }
                     }
 
 
                     string queryDemand = "SELECT total_demand FROM view_demand_distributor";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryDemand, conn))
                     {
-                        object resDemand = cmd.ExecuteScalar();
-                        if (resDemand != null && resDemand != DBNull.Value)
+                        object resDemand =
+                            cmd.ExecuteScalar();
+
+                        if (resDemand != null &&
+                            resDemand != DBNull.Value)
                         {
-                            decimal totalDemand = Convert.ToDecimal(resDemand);
+                            decimal totalDemand =
+                                Convert.ToDecimal(resDemand);
+
                             if (totalDemand >= 1000)
                             {
-                                model.TeksDemand = (totalDemand / 1000).ToString("N1") + " Ton";
+                                model.TeksDemand =
+                                    (totalDemand / 1000)
+                                    .ToString("N1") + " Ton";
                             }
                             else if (totalDemand >= 100)
                             {
-                                model.TeksDemand = (totalDemand / 100).ToString("N1") + " Kwintal";
+                                model.TeksDemand =
+                                    (totalDemand / 100)
+                                    .ToString("N0") + " Kwintal";
                             }
                             else
                             {
-                                model.TeksDemand = totalDemand.ToString("N0") + " Kg";
+                                model.TeksDemand =
+                                    totalDemand
+                                    .ToString("N0") + " Kg";
                             }
                         }
                     }

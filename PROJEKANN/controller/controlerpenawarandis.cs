@@ -8,6 +8,40 @@ namespace PROJEKANN.controller
 {
     public class ControllerDistributorPenawaran
     {
+        private int AmbilIdDistributor(string username)
+        {
+            int idDistributor = 0;
+
+            using (NpgsqlConnection conn =
+                DBConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query =
+                    "SELECT id_user FROM usser WHERE username = @username";
+
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@username",
+                        username
+                    );
+
+                    object result =
+                        cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        idDistributor =
+                            Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return idDistributor;
+        }
+
         public ModelDistributorPenawaran AmbilDataAwal(string username)
         {
             ModelDistributorPenawaran model = new ModelDistributorPenawaran();
@@ -30,12 +64,21 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryTabel = "SELECT * FROM view_penawaran";
-                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, conn))
+                    string queryTabel = "SELECT * FROM view_penawaran WHERE id_distributor = @idDistributor";
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        model.TabelPenawaran = dt;
+                        cmd.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
+
+                        using (NpgsqlDataAdapter da =
+                            new NpgsqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                            model.TabelPenawaran = dt;
+                        }
                     }
                 }
             }

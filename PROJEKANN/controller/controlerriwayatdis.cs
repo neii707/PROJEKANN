@@ -8,6 +8,40 @@ namespace PROJEKANN.controller
 {
     public class ControllerRiwayatDistributor
     {
+        private int AmbilIdDistributor(string username)
+        {
+            int idDistributor = 0;
+
+            using (NpgsqlConnection conn =
+                DBConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT id_user FROM usser WHERE username = @username";
+
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@username",
+                        username
+                    );
+
+                    object result =
+                        cmd.ExecuteScalar();
+
+                    if (result != null &&
+                        result != DBNull.Value)
+                    {
+                        idDistributor =
+                            Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return idDistributor;
+        }
+
         public ModelRiwayatDistributor AmbilSemuaDataRiwayat(string username)
         {
             ModelRiwayatDistributor model = new ModelRiwayatDistributor();
@@ -33,30 +67,63 @@ namespace PROJEKANN.controller
                     }
 
                     string queryJumlah = @"
-                        SELECT COUNT(*)
-                        FROM transaksi
-                        WHERE status_transaksi = 'Selesai';";
-                    using (NpgsqlCommand cmdJumlah = new NpgsqlCommand(queryJumlah, conn))
+                    SELECT COUNT(*)
+                    FROM transaksi t
+                    JOIN grade g ON t.id_grade = g.id_grade
+                    WHERE t.status_transaksi = 'Selesai'
+                    AND g.id_distributor = @idDistributor;";
+
+                    using (NpgsqlCommand cmdJumlah =
+                        new NpgsqlCommand(queryJumlah, conn))
                     {
+                        cmdJumlah.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
+
                         object jml = cmdJumlah.ExecuteScalar();
-                        model.TotalSelesai = jml != null ? jml.ToString() : "0";
+
+                        model.TotalSelesai =
+                            jml != null ? jml.ToString() : "0";
                     }
 
                     string queryTotal = @"
-                        SELECT COALESCE(SUM(total_pembayaran), 0)
-                        FROM transaksi
-                        WHERE status_transaksi = 'Selesai';";
+                    SELECT COALESCE(
+                    SUM(t.total_pembayaran), 0
+                    )
+                    FROM transaksi t
+                    JOIN grade g ON t.id_grade = g.id_grade
+                    WHERE t.status_transaksi = 'Selesai'
+                    AND g.id_distributor = @idDistributor
+                    ";
                     using (NpgsqlCommand cmdTotal = new NpgsqlCommand(queryTotal, conn))
                     {
-                        model.TotalPembayaran = Convert.ToDecimal(cmdTotal.ExecuteScalar());
+                        cmdTotal.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
+
+                        model.TotalPembayaran =
+                            Convert.ToDecimal(
+                                cmdTotal.ExecuteScalar()
+                            );
                     }
 
-                    string queryTabel = "SELECT * FROM view_riwayat_transaksi;";
-                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(queryTabel, conn))
+                    string queryTabel = "SELECT * FROM view_riwayat_transaksi WHERE id_distributor = @idDistributor;";
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, conn))
                     {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        model.TabelRiwayat = dt;
+                        cmd.Parameters.AddWithValue(
+                            "@idDistributor",
+                            AmbilIdDistributor(username)
+                        );
+
+                        using (NpgsqlDataAdapter da =
+                            new NpgsqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                            model.TabelRiwayat = dt;
+                        }
                     }
                 }
             }
