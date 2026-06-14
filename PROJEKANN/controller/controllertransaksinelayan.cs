@@ -66,23 +66,24 @@ namespace PROJEKANN.controller
                 {
                     kon.Open();
 
-                    string query = @"UPDATE transaksi 
-                                     SET konfir_pembelian = 'Selesai',
-                                         status_transaksi = 'Selesai' 
-                                     WHERE id_transaksi = @id";
+                    string query = "CALL public.sp_konfirmasi_transaksi(@id)";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
                     {
                         cmd.Parameters.AddWithValue("@id", idTransaksi);
-                        int barisTerganti = cmd.ExecuteNonQuery();
-
-                        return barisTerganti > 0;
+                        cmd.ExecuteNonQuery();
+                        return true;
                     }
                 }
             }
+            catch (PostgresException ex)
+            {
+                MessageBox.Show("Error Database: " + ex.MessageText, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Database: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error Aplikasi: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
