@@ -31,13 +31,11 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryTabel = @"
-    SELECT * FROM vw_konfirmasi_transaksi 
-    WHERE ""ID Panen"" IN (
-        SELECT p.id_panen FROM panen p 
-        JOIN usser u ON p.id_user = u.id_user 
-        WHERE u.username = @username
-    )";
+                    string queryTabel = @"SELECT * FROM vw_konfirmasi_transaksi 
+                                          WHERE ""ID Panen"" IN (
+                                          SELECT p.id_panen FROM panen p 
+                                          JOIN usser u ON p.id_user = u.id_user 
+                                          WHERE u.username = @username)";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
@@ -65,21 +63,24 @@ namespace PROJEKANN.controller
                 using (NpgsqlConnection kon = DBConnection.GetConnection())
                 {
                     kon.Open();
-                    string query = @"
-                UPDATE transaksi 
-                SET konfir_pembelian = 'Selesai', 
-                    status_transaksi = 'Selesai', 
-                    tanggal = CURRENT_DATE 
-                WHERE id_grade IN (SELECT id_grade FROM grade WHERE id_panen = @id_panen)
-                  AND konfir_pembelian = 'Sudah Dibayar'";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand("public.sp_konfirmasi_transaksi_by_panen", kon))
                     {
-                        cmd.Parameters.AddWithValue("@id_panen", idPanen);
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        return rowsAffected > 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("p_id_panen", idPanen);
+                        cmd.Parameters.AddWithValue("p_tanggal_konfir", DateTime.Today);
+
+                        cmd.ExecuteNonQuery();
+                        return true;
                     }
                 }
+            }
+            catch (PostgresException ex)
+            {
+                // Pesan error dari 'RAISE EXCEPTION' di pgAdmin otomatis tampil utuh di sini
+                System.Windows.Forms.MessageBox.Show(ex.MessageText, "Konfirmasi Ditolak", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Stop);
+                return false;
             }
             catch (Exception ex)
             {

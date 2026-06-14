@@ -83,7 +83,7 @@ namespace PROJEKANN.controller
                             cmdInsert.Parameters.AddWithValue("@tanggal", tanggal);
                             cmdInsert.ExecuteNonQuery();
                         }
-                        System.Windows.Forms.MessageBox.Show("Data panen berhasil ditambahkan!", "Sukses Menyimpan");
+                        //System.Windows.Forms.MessageBox.Show("Data panen berhasil ditambahkan!", "Sukses Menyimpan");
                     }
                     else
                     {

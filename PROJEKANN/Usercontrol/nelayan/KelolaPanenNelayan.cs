@@ -84,6 +84,7 @@ namespace PROJEKANN.Usercontrol.nelayan
         {
             double beratInput = Convert.ToDouble(numBerat.Value);
             DateTime tanggalInput = dtptanggalpanen.Value;
+            DateTime hariIni = DateTime.Today;
 
             if (beratInput <= 0)
             {
@@ -91,8 +92,23 @@ namespace PROJEKANN.Usercontrol.nelayan
                 return;
             }
 
-            bool sukses = _controller.SimpanAtauUbahPanen(userLoginAktif, idPanenTerpilih, beratInput, tanggalInput);
+            
 
+            if (tanggalInput < hariIni.AddDays(-3))
+            {
+                MessageBox.Show("Tanggal tidak boleh kurang dari hari ini!", "Input Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int selisihHari = (hariIni - tanggalInput).Days;
+
+            if (tanggalInput > hariIni.AddDays(3))
+            {
+                MessageBox.Show("Tanggal tidak boleh kurang dari H-3 dari hari ini!", "Input Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            bool sukses = _controller.SimpanAtauUbahPanen(userLoginAktif, idPanenTerpilih, beratInput, tanggalInput);
             if (sukses)
             {
                 numBerat.Value = 0;
@@ -102,6 +118,7 @@ namespace PROJEKANN.Usercontrol.nelayan
                 MuatUlangSeluruhTampilan();
             }
         }
+
 
         private void hapuspanen_kelola_Click(object sender, EventArgs e)
         {
@@ -220,5 +237,10 @@ namespace PROJEKANN.Usercontrol.nelayan
         }
 
         private void dgvriwayatpanen_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+
+        private void dtptanggalpanen_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

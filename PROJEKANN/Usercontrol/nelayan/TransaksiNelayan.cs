@@ -37,7 +37,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             {
                 dgvtransaksi.AutoGenerateColumns = false;
 
-                // MENYINKRONKAN DATA PROPERTY NAME DENGAN KOLOM VIEW DATABASE
                 colID.DataPropertyName = "ID Panen";
                 colDistributor.DataPropertyName = "Distributor";
                 colBerat.DataPropertyName = "Berat (kg)";
@@ -58,7 +57,6 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             DataRowView row = (DataRowView)dgvtransaksi.CurrentRow.DataBoundItem;
 
-            // VALIDASI STATUS: JIKA BELUM DIBAYAR, BLOKIR PROSESNYA
             string statusPembelian = row["Status"].ToString();
             if (statusPembelian.ToLower() == "belum dibayar")
             {

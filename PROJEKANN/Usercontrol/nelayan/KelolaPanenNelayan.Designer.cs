@@ -31,6 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KelolaPanenNelayan));
             lbnamauser_kelola = new Label();
             dgvriwayatpanen = new DataGridView();
+            colID = new DataGridViewTextBoxColumn();
+            colBerat = new DataGridViewTextBoxColumn();
+            colGrade = new DataGridViewTextBoxColumn();
+            colHarga = new DataGridViewTextBoxColumn();
+            colTanggal = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
             labelriwayat_kelola = new Label();
             labelgrade_kelola = new Label();
             hapuspanen_kelola = new Button();
@@ -47,12 +53,6 @@
             inputpanenbutton_kelola = new Button();
             dashboardbutton_kelola = new Button();
             labelinput = new Label();
-            colID = new DataGridViewTextBoxColumn();
-            colBerat = new DataGridViewTextBoxColumn();
-            colGrade = new DataGridViewTextBoxColumn();
-            colHarga = new DataGridViewTextBoxColumn();
-            colTanggal = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvriwayatpanen).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numBerat).BeginInit();
             SuspendLayout();
@@ -85,6 +85,48 @@
             dgvriwayatpanen.TabIndex = 24;
             dgvriwayatpanen.CellClick += dgvriwayatpanen_CellClick;
             dgvriwayatpanen.CellContentClick += dgvriwayatpanen_CellContentClick;
+            // 
+            // colID
+            // 
+            colID.HeaderText = "ID";
+            colID.MinimumWidth = 8;
+            colID.Name = "colID";
+            colID.ReadOnly = true;
+            // 
+            // colBerat
+            // 
+            colBerat.HeaderText = "Berat (kg)";
+            colBerat.MinimumWidth = 8;
+            colBerat.Name = "colBerat";
+            colBerat.ReadOnly = true;
+            // 
+            // colGrade
+            // 
+            colGrade.HeaderText = "Grade";
+            colGrade.MinimumWidth = 8;
+            colGrade.Name = "colGrade";
+            colGrade.ReadOnly = true;
+            // 
+            // colHarga
+            // 
+            colHarga.HeaderText = "Harga/kg";
+            colHarga.MinimumWidth = 8;
+            colHarga.Name = "colHarga";
+            colHarga.ReadOnly = true;
+            // 
+            // colTanggal
+            // 
+            colTanggal.HeaderText = "Tanggal";
+            colTanggal.MinimumWidth = 8;
+            colTanggal.Name = "colTanggal";
+            colTanggal.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            colStatus.HeaderText = "Status";
+            colStatus.MinimumWidth = 8;
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
             // 
             // labelriwayat_kelola
             // 
@@ -142,6 +184,7 @@
             dtptanggalpanen.Name = "dtptanggalpanen";
             dtptanggalpanen.Size = new Size(228, 31);
             dtptanggalpanen.TabIndex = 19;
+            dtptanggalpanen.ValueChanged += dtptanggalpanen_ValueChanged;
             // 
             // tanggalinput_kelola
             // 
@@ -282,48 +325,6 @@
             labelinput.Size = new Size(639, 151);
             labelinput.TabIndex = 17;
             labelinput.TextAlign = ContentAlignment.BottomCenter;
-            // 
-            // colID
-            // 
-            colID.HeaderText = "ID";
-            colID.MinimumWidth = 8;
-            colID.Name = "colID";
-            colID.ReadOnly = true;
-            // 
-            // colBerat
-            // 
-            colBerat.HeaderText = "Berat (kg)";
-            colBerat.MinimumWidth = 8;
-            colBerat.Name = "colBerat";
-            colBerat.ReadOnly = true;
-            // 
-            // colGrade
-            // 
-            colGrade.HeaderText = "Grade";
-            colGrade.MinimumWidth = 8;
-            colGrade.Name = "colGrade";
-            colGrade.ReadOnly = true;
-            // 
-            // colHarga
-            // 
-            colHarga.HeaderText = "Harga/kg";
-            colHarga.MinimumWidth = 8;
-            colHarga.Name = "colHarga";
-            colHarga.ReadOnly = true;
-            // 
-            // colTanggal
-            // 
-            colTanggal.HeaderText = "Tanggal";
-            colTanggal.MinimumWidth = 8;
-            colTanggal.Name = "colTanggal";
-            colTanggal.ReadOnly = true;
-            // 
-            // colStatus
-            // 
-            colStatus.HeaderText = "Status";
-            colStatus.MinimumWidth = 8;
-            colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true;
             // 
             // KelolaPanenNelayan
             // 
