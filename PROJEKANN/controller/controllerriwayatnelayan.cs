@@ -31,12 +31,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryStatistik = @"
-                        SELECT 
-                            COUNT(id_panen) as total_transaksi,
-                            COALESCE(SUM(total), 0) as total_nilai
-                        FROM public.vw_riwayat_transaksi
-                        WHERE username_nelayan = @username";
+                    string queryStatistik = "SELECT * FROM public.vw_label_riwayat_nelayan WHERE username_nelayan = @username";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStatistik, kon))
                     {

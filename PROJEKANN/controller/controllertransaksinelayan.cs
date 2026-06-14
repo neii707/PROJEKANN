@@ -20,7 +20,6 @@ namespace PROJEKANN.controller
                 {
                     kon.Open();
 
-                    // 1. Mengambil Nama Asli User untuk Dashboard
                     string queryNama = "SELECT nama FROM usser WHERE username = @username LIMIT 1";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryNama, kon))
                     {
@@ -32,9 +31,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    // 2. QUERY PENYEGAR TABEL: Mengambil data dari VIEW berdasarkan nelayan yang sedang login
-                    // Kita hubungkan data view transaksi (vt) ke tabel panen (p) lalu ke usser (u) milik nelayan
-                    string queryTabel = @"SELECT vt.* FROM vw_konfirmasi_transaksi vt
+                    string queryTabel = @"SELECT * FROM vw_konfirmasi_transaksi vt
                       JOIN transaksi t ON vt.id_transaksi = t.id_transaksi
                       JOIN grade g ON t.id_grade = g.id_grade
                       JOIN panen p ON g.id_panen = p.id_panen
@@ -69,8 +66,6 @@ namespace PROJEKANN.controller
                 {
                     kon.Open();
 
-                    // Mengubah status konfirmasi pembelian menjadi Selesai
-                    // Dan secara otomatis merubah status transaksi global menjadi Selesai
                     string query = @"UPDATE transaksi 
                                      SET konfir_pembelian = 'Selesai',
                                          status_transaksi = 'Selesai' 

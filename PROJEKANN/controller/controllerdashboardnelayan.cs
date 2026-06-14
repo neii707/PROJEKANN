@@ -49,17 +49,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string sqlSummary = @"
-                        SELECT 
-                            fn_stok_panen(@username) AS stok,
-                            fn_penjualan(@username) AS jual,
-                            COALESCE(
-                                (SELECT SUM(CASE WHEN LOWER(vt.status) = 'selesai' THEN vt.total ELSE 0 END)
-                                 FROM public.vw_riwayat_transaksi vt
-                                 JOIN public.panen p ON vt.id_panen = p.id_panen
-                                 JOIN public.usser u ON p.id_user = u.id_user
-                                 WHERE u.username = @username), 0
-                            ) AS pendapatan";
+                    string sqlSummary = "SELECT stok, jual, pendapatan FROM public.vw_label_dashboard_nelayan WHERE username = @username";
 
                     using (NpgsqlCommand cmdSum = new NpgsqlCommand(sqlSummary, kon))
                     {
@@ -76,6 +66,7 @@ namespace PROJEKANN.controller
                     }
                 }
             }
+
             catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show("Gagal memuat data dashboard: " + ex.Message,

@@ -27,7 +27,6 @@ namespace PROJEKANN.controller
                         if (result != null && result != DBNull.Value) model.NamaAsliUser = result.ToString();
                     }
 
-                    // PERBAIKAN: Nama view disesuaikan jadi v_kelola_panen & ORDER BY menggunakan 'id'
                     string queryTabel = @"SELECT * FROM public.v_kelola_panen 
                                           WHERE username = @username 
                                           ORDER BY id DESC";

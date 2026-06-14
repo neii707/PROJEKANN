@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-using PROJEKANN.controller; // Panggil folder controller
-using PROJEKANN.model;      // Panggil folder model
+using PROJEKANN.controller;
+using PROJEKANN.model;
 
 namespace PROJEKANN.Usercontrol.nelayan
 {
     public partial class DashboardNelayan : UserControl
     {
-        // ── Session (diisi dari Form utama saat LoadUC) ───────────────
         public static int IdUser { get; set; }
 
         public static string username { get; set; } = "";
         private Form1 mainForm;
         private string userLoginAktif;
 
-        // Instansiasi Controller pendukung
         private ControllerDashboardNelayan _controller;
 
         public DashboardNelayan(Form1 formUtama, string userLogin)
@@ -23,33 +21,25 @@ namespace PROJEKANN.Usercontrol.nelayan
             InitializeComponent();
             this.mainForm = formUtama;
             this.userLoginAktif = userLogin;
-            username = userLogin; // Mengisi static property username
+            username = userLogin; 
             _controller = new ControllerDashboardNelayan();
             MuatData();
         }
 
-        // ── Load pertama kali ─────────────────────────────────────────
         private void DashboardNelayan_Load(object sender, EventArgs e)
         {
-            //lbnamauser_dashboard.Text = username;
             MuatData();
         }
 
-        // =============================================================
-        // MUAT DATA UTAMA (Menerapkan Pola MVC)
-        // =============================================================
         private void MuatData()
         {
-            // 1. Minta data ke controller
             ModelDashboardNelayan data = _controller.AmbilDataDashboard(username);
             lbnamauser_dashboard.Text = !string.IsNullOrEmpty(data.nama) ? data.nama : username;
 
-            // 2. Tampilkan data Ringkasan ke Label UI
             stoklabel_dashboard.Text = data.StokPanen;
             penawaranlabel_dashboard.Text = data.TotalPenjualan;
             penjualanlabel_dashboard.Text = "Rp " + data.TotalPendapatan.ToString("N0");
 
-            // 3. Masukkan data ke DataGridView (Sudah dibuka comment-nya)
             dgvDashboard.Rows.Clear();
             if (data.TabelDashboard != null)
             {
@@ -66,9 +56,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
         }
 
-        // =============================================================
-        // NAVIGASI SIDEBAR
-        // =============================================================
         private void dashboardbutton_Click(object sender, EventArgs e)
         {
             GantiHalamanFitur(new PROJEKANN.Usercontrol.nelayan.DashboardNelayan(this.mainForm, this.userLoginAktif));
@@ -100,13 +87,10 @@ namespace PROJEKANN.Usercontrol.nelayan
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (konfirm == DialogResult.Yes)
             {
-                Application.Restart();
+                GantiHalamanFitur(new PROJEKANN.Usercontrol.login((Form1)this.FindForm()));
             }
         }
 
-        // =============================================================
-        // HELPER NAVIGASI — ganti UserControl di Panel induk
-        // =============================================================
         private void GantiHalamanFitur(UserControl ucBaru)
         {
             this.Controls.Clear();
@@ -115,7 +99,6 @@ namespace PROJEKANN.Usercontrol.nelayan
             ucBaru.BringToFront();
         }
 
-        // Event Stub dari Designer
         private void dgvDashboard_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void stoklabel_dashboard_Click(object sender, EventArgs e) { }
         private void penawaranlabel_dashboard_Click(object sender, EventArgs e) { }
