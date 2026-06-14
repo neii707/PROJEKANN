@@ -46,7 +46,6 @@ namespace PROJEKANN.Usercontrol.nelayan
 
                 colID.DataPropertyName = "id_panen";
                 colDistributor.DataPropertyName = "nama_distributor";
-                // colNelayan.DataPropertyName = ""; // Komentari/hapus jika di view tidak ada data nama nelayan
                 colBerat.DataPropertyName = "berat_kg";
                 colGrade.DataPropertyName = "grade";
                 colHarga.DataPropertyName = "harga_per_kg";

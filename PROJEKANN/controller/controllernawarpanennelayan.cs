@@ -47,12 +47,23 @@ namespace PROJEKANN.controller
             return model;
         }
 
-        public bool UpdateStatusPenawaran(string idTransaksi, string statusBaru)
+        public bool UpdateStatusPenawaran(string idPanen, string statusBaru)
         {
             bool isSuccess = false;
             string query = "";
-            if (statusBaru.ToLower() == "diterima") query = "UPDATE transaksi SET konfir_penawaran = 'Diterima', konfir_pembelian = 'Menunggu' WHERE id_transaksi = @id";
-            else if (statusBaru.ToLower() == "ditolak") query = "UPDATE transaksi SET konfir_penawaran = 'Ditolak', status_transaksi = 'Ditolak' WHERE id_transaksi = @id";
+
+            if (statusBaru.ToLower() == "diterima")
+            {
+                query = @"UPDATE transaksi 
+                          SET konfir_penawaran = 'Diterima', konfir_pembelian = 'Belum Dibayar' 
+                          WHERE id_grade IN (SELECT id_grade FROM grade WHERE id_panen = @id_panen)";
+            }
+            else if (statusBaru.ToLower() == "ditolak")
+            {
+                query = @"UPDATE transaksi 
+                          SET konfir_penawaran = 'Ditolak', status_transaksi = 'Ditolak' 
+                          WHERE id_grade IN (SELECT id_grade FROM grade WHERE id_panen = @id_panen)";
+            }
 
             try
             {
@@ -61,7 +72,7 @@ namespace PROJEKANN.controller
                     kon.Open();
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
                     {
-                        cmd.Parameters.AddWithValue("@id", Convert.ToInt32(idTransaksi));
+                        cmd.Parameters.AddWithValue("@id_panen", Convert.ToInt32(idPanen));
                         if (cmd.ExecuteNonQuery() > 0) isSuccess = true;
                     }
                 }

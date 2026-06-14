@@ -104,7 +104,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             // AMBIL ID TRANSAKSI DARI MEMORY DATA SOURCE (Meskipun kolomnya tidak ada di DGV)
             DataRowView row = (DataRowView)dgvpenawaran.CurrentRow.DataBoundItem;
-            string idTransaksiSelected = row["id_transaksi"].ToString();
+            string idTransaksiSelected = row["id_panen"].ToString();
 
             if (MessageBox.Show("Terima penawaran transaksi ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -126,7 +126,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             // AMBIL ID TRANSAKSI DARI MEMORY DATA SOURCE (Meskipun kolomnya tidak ada di DGV)
             DataRowView row = (DataRowView)dgvpenawaran.CurrentRow.DataBoundItem;
-            string idTransaksiSelected = row["id_transaksi"].ToString();
+            string idTransaksiSelected = row["id_panen"].ToString();
 
             if (MessageBox.Show("Tolak penawaran transaksi ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {

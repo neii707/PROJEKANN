@@ -31,13 +31,13 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryTabel = @"SELECT * FROM vw_konfirmasi_transaksi vt
-                      JOIN transaksi t ON vt.id_transaksi = t.id_transaksi
-                      JOIN grade g ON t.id_grade = g.id_grade
-                      JOIN panen p ON g.id_panen = p.id_panen
-                      JOIN usser u_nelayan ON p.id_user = u_nelayan.id_user
-                      WHERE u_nelayan.username = @username";
-
+                    string queryTabel = @"
+    SELECT * FROM vw_konfirmasi_transaksi 
+    WHERE ""ID Panen"" IN (
+        SELECT p.id_panen FROM panen p 
+        JOIN usser u ON p.id_user = u.id_user 
+        WHERE u.username = @username
+    )";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
@@ -58,32 +58,32 @@ namespace PROJEKANN.controller
             return model;
         }
 
-        public bool KonfirmasiTransaksiSelesai(int idTransaksi)
+        public bool KonfirmasiTransaksiSelesai(int idPanen)
         {
             try
             {
                 using (NpgsqlConnection kon = DBConnection.GetConnection())
                 {
                     kon.Open();
-
-                    string query = "CALL public.sp_konfirmasi_transaksi(@id)";
+                    string query = @"
+                UPDATE transaksi 
+                SET konfir_pembelian = 'Selesai', 
+                    status_transaksi = 'Selesai', 
+                    tanggal = CURRENT_DATE 
+                WHERE id_grade IN (SELECT id_grade FROM grade WHERE id_panen = @id_panen)
+                  AND konfir_pembelian = 'Sudah Dibayar'";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
                     {
-                        cmd.Parameters.AddWithValue("@id", idTransaksi);
-                        cmd.ExecuteNonQuery();
-                        return true;
+                        cmd.Parameters.AddWithValue("@id_panen", idPanen);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
                     }
                 }
             }
-            catch (PostgresException ex)
-            {
-                MessageBox.Show("Error Database: " + ex.MessageText, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Aplikasi: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show("Error Aplikasi: " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 return false;
             }
         }

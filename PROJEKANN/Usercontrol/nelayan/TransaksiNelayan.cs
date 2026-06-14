@@ -37,18 +37,16 @@ namespace PROJEKANN.Usercontrol.nelayan
             {
                 dgvtransaksi.AutoGenerateColumns = false;
 
-                colID.DataPropertyName = "id_panen";
-                colDistributor.DataPropertyName = "nama_distributor";
-                colBerat.DataPropertyName = "berat_kg";
+                // MENYINKRONKAN DATA PROPERTY NAME DENGAN KOLOM VIEW DATABASE
+                colID.DataPropertyName = "ID Panen";
+                colDistributor.DataPropertyName = "Distributor";
+                colBerat.DataPropertyName = "Berat (kg)";
                 total_pembayaran.DataPropertyName = "total_pembayaran";
-                colStatus.DataPropertyName = "status";
+                colStatus.DataPropertyName = "Status";
 
                 dgvtransaksi.DataSource = data.TabelTransaksiAktif;
-        
-
             }
         }
-
 
         private void konfirmasi_transaksi_Click(object sender, EventArgs e)
         {
@@ -59,6 +57,15 @@ namespace PROJEKANN.Usercontrol.nelayan
             }
 
             DataRowView row = (DataRowView)dgvtransaksi.CurrentRow.DataBoundItem;
+
+            // VALIDASI STATUS: JIKA BELUM DIBAYAR, BLOKIR PROSESNYA
+            string statusPembelian = row["Status"].ToString();
+            if (statusPembelian.ToLower() == "belum dibayar")
+            {
+                MessageBox.Show("Transaksi tidak bisa dikonfirmasi! Tunggu distributor melakukan pembayaran terlebih dahulu.", "Konfirmasi Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
             int idTransaksiSelected = Convert.ToInt32(row["id_transaksi"]);
 
             DialogResult dr = MessageBox.Show("Apakah Anda yakin ingin memberikan konfirmasi selesai pada transaksi ini?",
@@ -71,7 +78,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                 if (sukses)
                 {
                     MessageBox.Show("Transaksi sukses ditutup dan dipindahkan ke riwayat archive.", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                     SegarkanTampilanTransaksi();
                 }
             }
