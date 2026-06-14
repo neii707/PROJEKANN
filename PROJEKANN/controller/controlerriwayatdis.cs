@@ -90,25 +90,28 @@ namespace PROJEKANN.controller
                     }
 
                     string queryTotal = @"
-                    SELECT COALESCE(
-                    SUM(t.total_pembayaran), 0
-                    )
-                    FROM transaksi t
-                    JOIN grade g ON t.id_grade = g.id_grade
-                    WHERE t.status_transaksi = 'Selesai'
-                    AND g.id_distributor = @idDistributor
+                    SELECT total_pembayaran
+                    FROM view_total_pembayaran_distributor
+                    WHERE id_distributor = @idDistributor;
                     ";
-                    using (NpgsqlCommand cmdTotal = new NpgsqlCommand(queryTotal, conn))
+
+                    using (NpgsqlCommand cmdTotal =
+                        new NpgsqlCommand(queryTotal, conn))
                     {
                         cmdTotal.Parameters.AddWithValue(
                             "@idDistributor",
                             AmbilIdDistributor(username)
                         );
 
-                        model.TotalPembayaran =
-                            Convert.ToDecimal(
-                                cmdTotal.ExecuteScalar()
-                            );
+                        object result =
+                            cmdTotal.ExecuteScalar();
+
+                        if (result != null &&
+                            result != DBNull.Value)
+                        {
+                            model.TotalPembayaran =
+                                Convert.ToDecimal(result);
+                        }
                     }
 
                     string queryTabel = "SELECT * FROM view_riwayat_transaksi WHERE id_distributor = @idDistributor;";
