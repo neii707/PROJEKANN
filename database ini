@@ -582,16 +582,17 @@ ALTER PROCEDURE public.sp_hapus_panen(integer, integer)
 
 -- PROCEDURE: public.sp_konfirmasi_transaksi(integer, date)
 CREATE OR REPLACE PROCEDURE public.sp_konfirmasi_transaksi(
-	IN p_id_transaksi integer,
-	IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
+    IN p_id_transaksi integer,
+    IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
 LANGUAGE 'plpgsql'
 AS $$
 BEGIN
+    -- Memulai Statement Transaksi Aman
     BEGIN
         UPDATE transaksi
         SET konfir_pembelian  = 'Selesai',
             status_transaksi  = 'Selesai',
-            tanggal           = p_tanggal_konfir   -- catat tanggal konfirmasi nelayan
+            tanggal           = p_tanggal_konfir
         WHERE id_transaksi = p_id_transaksi
           AND konfir_penawaran = 'Diterima'
           AND konfir_pembelian <> 'Selesai';
@@ -601,13 +602,16 @@ BEGIN
         END IF;
 
         RAISE NOTICE 'Transaksi ID % telah dikonfirmasi selesai.', p_id_transaksi;
+        
+        -- Commit data ke storage fisik
+        COMMIT;
     EXCEPTION WHEN OTHERS THEN
+        -- Batalkan transaksi jika error terjadi
+        ROLLBACK;
         RAISE EXCEPTION 'Gagal konfirmasi transaksi: %', SQLERRM;
     END;
 END;
 $$;
-ALTER PROCEDURE public.sp_konfirmasi_transaksi(integer, date)
-    OWNER TO postgres;
 
 -- PROCEDURE: public.sp_respon_penawaran(integer, character varying) ono trigger e
 CREATE OR REPLACE PROCEDURE public.sp_respon_penawaran(
