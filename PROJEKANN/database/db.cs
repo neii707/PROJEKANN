@@ -12,7 +12,6 @@ namespace PROJEKANN.database
             "Host=localhost;Port=5432;Database=cweedDB;Username=postgres;Password=060930;";
 
 
-
         public static NpgsqlConnection GetConnection()
         {
             return new NpgsqlConnection(connectionString);

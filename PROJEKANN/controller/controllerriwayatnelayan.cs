@@ -3,6 +3,7 @@ using PROJEKANN.database;
 using PROJEKANN.model;
 using System;
 using System.Data;
+using System.Windows.Forms;
 
 namespace PROJEKANN.controller
 {
@@ -31,7 +32,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryStatistik = "SELECT * FROM public.vw_label_riwayat_nelayan WHERE username_nelayan = @username";
+                    string queryStatistik = "SELECT total_transaksi, total_nilai FROM public.fn_label_riwayat_nelayan(@username)";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStatistik, kon))
                     {
@@ -40,8 +41,8 @@ namespace PROJEKANN.controller
                         {
                             if (reader.Read())
                             {
-                                int totalTransaksi = Convert.ToInt32(reader["total_transaksi"]);
-                                decimal totalNilaiSelesai = Convert.ToDecimal(reader["total_nilai"]);
+                                int totalTransaksi = reader["total_transaksi"] != DBNull.Value ? Convert.ToInt32(reader["total_transaksi"]) : 0;
+                                decimal totalNilaiSelesai = reader["total_nilai"] != DBNull.Value ? Convert.ToDecimal(reader["total_nilai"]) : 0;
 
                                 model.TeksStatistik = $"Total Transaksi: {totalTransaksi} | Total Pendapatan: Rp. {totalNilaiSelesai:N0}";
                             }
@@ -66,7 +67,7 @@ namespace PROJEKANN.controller
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Gagal memproses database riwayat: " + ex.Message, "Error Database");
+                MessageBox.Show("Gagal memproses database riwayat: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return model;
