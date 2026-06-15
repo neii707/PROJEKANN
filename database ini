@@ -287,25 +287,54 @@ CREATE OR REPLACE VIEW public.v_konfir_akun2
             ELSE 3
         END);
 
-CREATE OR REPLACE VIEW public.v_labelakun
- AS
- SELECT count(id_user) AS total_akun_dikonfirmasi
-   FROM usser u
-  WHERE status_konfir_akun::text = 'Konfirmasi'::text;
+CREATE OR REPLACE FUNCTION public.fn_labelakun(
+	)
+    RETURNS integer
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+DECLARE
+    v_total_akun integer;
+BEGIN
+    SELECT count(id_user) INTO v_total_akun
+    FROM usser u
+    WHERE status_konfir_akun::text = 'Konfirmasi'::text;
+    RETURN COALESCE(v_total_akun, 0);
+END;
+$BODY$;
 
-CREATE OR REPLACE VIEW public.v_labelstok
- AS
- SELECT sum(p.berat_per_kg) AS stok
-   FROM transaksi t
-     JOIN grade g ON t.id_grade = g.id_grade
-     JOIN panen p ON p.id_panen = g.id_panen
-  WHERE t.status_transaksi::text = 'Selesai'::text;
+CREATE OR REPLACE FUNCTION public.fn_labelstok()
+    RETURNS integer
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+DECLARE
+    v_total_stok integer;
+BEGIN
+    SELECT sum(p.berat_per_kg) INTO v_total_stok
+    FROM transaksi t
+         JOIN grade g ON t.id_grade = g.id_grade
+         JOIN panen p ON p.id_panen = g.id_panen
+    WHERE t.status_transaksi::text = 'Selesai'::text;
 
-CREATE OR REPLACE VIEW public.v_labeltransaksi
- AS
- SELECT count(id_transaksi) AS total_transaksi_selesai
-   FROM transaksi t
-  WHERE status_transaksi::text = 'Selesai'::text;
+CREATE OR REPLACE FUNCTION public.fn_labeltransaksi(
+	)
+    RETURNS integer
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+DECLARE
+    v_total_transaksi integer;
+BEGIN
+    SELECT count(id_transaksi) INTO v_total_transaksi
+    FROM transaksi t
+    WHERE status_transaksi::text = 'Selesai'::text;
+    RETURN COALESCE(v_total_transaksi, 0);
+END;
+$BODY$;
 
 -- =========================================
 -- PUNYAK NELAYAN
