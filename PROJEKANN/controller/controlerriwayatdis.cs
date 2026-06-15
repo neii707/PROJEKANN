@@ -66,11 +66,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryJumlah = @"
-                    SELECT total_selesai
-                    FROM view_total_selesai_distributor
-                    WHERE id_distributor = @idDistributor;
-                    ";
+                    string queryJumlah = "SELECT total_selesai_distributor(@idDistributor)";
 
                     using (NpgsqlCommand cmdJumlah =
                         new NpgsqlCommand(queryJumlah, conn))
@@ -84,31 +80,28 @@ namespace PROJEKANN.controller
                             cmdJumlah.ExecuteScalar();
 
                         model.TotalSelesai =
-                            jml != null
+                            jml != null &&
+                            jml != DBNull.Value
                             ? jml.ToString()
                             : "0";
                     }
 
-                    string queryTotal = @"
-                    SELECT COALESCE(
-                    SUM(t.total_pembayaran), 0
-                    )
-                    FROM transaksi t
-                    JOIN grade g ON t.id_grade = g.id_grade
-                    WHERE t.status_transaksi = 'Selesai'
-                    AND g.id_distributor = @idDistributor
-                    ";
-                    using (NpgsqlCommand cmdTotal = new NpgsqlCommand(queryTotal, conn))
+                    string queryTotal = "SELECT total_pembayaran_distributor(@idDistributor)";
+                    using (NpgsqlCommand cmdTotal =
+                        new NpgsqlCommand(queryTotal, conn))
                     {
                         cmdTotal.Parameters.AddWithValue(
                             "@idDistributor",
                             AmbilIdDistributor(username)
                         );
 
+                        object total = cmdTotal.ExecuteScalar();
+
                         model.TotalPembayaran =
-                            Convert.ToDecimal(
-                                cmdTotal.ExecuteScalar()
-                            );
+                            total != null &&
+                            total != DBNull.Value
+                            ? Convert.ToDecimal(total)
+                            : 0;
                     }
 
                     string queryTabel = "SELECT * FROM view_riwayat_transaksi WHERE id_distributor = @idDistributor;";
@@ -119,8 +112,7 @@ namespace PROJEKANN.controller
                             AmbilIdDistributor(username)
                         );
 
-                        using (NpgsqlDataAdapter da =
-                            new NpgsqlDataAdapter(cmd))
+                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             da.Fill(dt);

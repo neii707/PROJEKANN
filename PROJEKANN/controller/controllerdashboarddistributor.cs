@@ -82,19 +82,20 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string queryPanen = "SELECT total_panen FROM view_jumlah_panen";
+                    string queryPanen = "SELECT jumlah_panen();";
+
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryPanen, conn))
                     {
                         object resPanen = cmd.ExecuteScalar();
-                        if (resPanen != null && resPanen != DBNull.Value) model.TeksJumlahPanen = resPanen.ToString();
+
+                        if (resPanen != null && resPanen != DBNull.Value)
+                        {
+                            model.TeksJumlahPanen = resPanen.ToString();
+                        }
                     }
 
 
-                    string queryTotalTrx = @"
-                    SELECT total_transaksi
-                    FROM view_total_transaksi_distributor
-                    WHERE id_distributor = @idDistributor
-                    ";
+                    string queryTotalTrx = "SELECT total_transaksi_distributor(@idDistributor)";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTotalTrx, conn))
                     {
                         cmd.Parameters.AddWithValue(
@@ -113,7 +114,7 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryDemand = "SELECT total_demand FROM view_demand_distributor";
+                    string queryDemand = "SELECT total_demand_distributor();";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryDemand, conn))
                     {
                         object resDemand =
