@@ -31,7 +31,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             if (data.TabelPenawaran != null)
             {
                 dgvpenawaran.AutoGenerateColumns = false;
-                dgvpenawaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;    
+                dgvpenawaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 if (dgvpenawaran.Columns.Count >= 7)
                 {
                     dgvpenawaran.Columns[0].DataPropertyName = "id_panen";
@@ -102,15 +102,14 @@ namespace PROJEKANN.Usercontrol.nelayan
                 return;
             }
 
-            // AMBIL ID TRANSAKSI DARI MEMORY DATA SOURCE (Meskipun kolomnya tidak ada di DGV)
             DataRowView row = (DataRowView)dgvpenawaran.CurrentRow.DataBoundItem;
-            string idTransaksiSelected = row["id_panen"].ToString();
+
+            int idPanenSelected = Convert.ToInt32(row["id_panen"]);
 
             if (MessageBox.Show("Terima penawaran transaksi ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (_controller.UpdateStatusPenawaran(idTransaksiSelected, "diterima"))
+                if (_controller.UpdateStatusPenawaran(idPanenSelected, "diterima"))
                 {
-                    MessageBox.Show("Penawaran Berhasil Diterima!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     SegarkanTampilanPenawaran();
                 }
             }
@@ -124,15 +123,14 @@ namespace PROJEKANN.Usercontrol.nelayan
                 return;
             }
 
-            // AMBIL ID TRANSAKSI DARI MEMORY DATA SOURCE (Meskipun kolomnya tidak ada di DGV)
             DataRowView row = (DataRowView)dgvpenawaran.CurrentRow.DataBoundItem;
-            string idTransaksiSelected = row["id_panen"].ToString();
+
+            int idPanenSelected = Convert.ToInt32(row["id_panen"]);
 
             if (MessageBox.Show("Tolak penawaran transaksi ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (_controller.UpdateStatusPenawaran(idTransaksiSelected, "ditolak"))
+                if (_controller.UpdateStatusPenawaran(idPanenSelected, "ditolak"))
                 {
-                    MessageBox.Show("Penawaran Berhasil Ditolak!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     SegarkanTampilanPenawaran();
                 }
             }
