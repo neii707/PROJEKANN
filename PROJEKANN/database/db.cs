@@ -13,6 +13,7 @@ namespace PROJEKANN.database
 
 
 
+
         public static NpgsqlConnection GetConnection()
         {
             return new NpgsqlConnection(connectionString);
