@@ -49,7 +49,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string sqlSummary = "SELECT stok, jual, pendapatan FROM public.fn_summary_dashboard_nelayan(@username)";
+                    string sqlSummary = "SELECT stok, jual, pendapatan FROM public.fn_label_dashboard_nelayan(@username)";
 
                     using (NpgsqlCommand cmdSum = new NpgsqlCommand(sqlSummary, kon))
                     {
