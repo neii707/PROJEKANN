@@ -351,6 +351,30 @@ CREATE OR REPLACE VIEW public.vw_label_dashboard_nelayan
      LEFT JOIN vw_riwayat_transaksi vt ON p.id_panen = vt.id_panen
   GROUP BY u.username;
 
+CREATE OR REPLACE FUNCTION public.fn_stok_panen(
+	p_username character varying)
+    RETURNS integer
+    LANGUAGE 'sql'
+AS $$
+    SELECT COUNT(*)::INT
+    FROM vw_dashboard_nelayan
+    WHERE username = p_username; 
+$$;
+
+CREATE OR REPLACE FUNCTION public.fn_penjualan(
+	p_username character varying)
+    RETURNS integer
+    LANGUAGE 'sql'
+AS $$
+    SELECT COUNT(*)::INT
+    FROM panen p
+    JOIN grade      g ON g.id_panen = p.id_panen
+    JOIN transaksi t ON t.id_grade = g.id_grade
+    JOIN usser     u ON p.id_user = u.id_user                     
+    WHERE u.username       = p_username                           
+      AND t.status_transaksi = 'Selesai';
+$$;
+
 --v_kelola_panen 
 CREATE OR REPLACE VIEW public.v_kelola_panen
  AS
