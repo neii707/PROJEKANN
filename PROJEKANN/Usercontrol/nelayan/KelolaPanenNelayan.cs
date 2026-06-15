@@ -96,7 +96,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             if (tanggalInput < hariIni.AddDays(-3))
             {
-                MessageBox.Show("Tanggal tidak boleh kurang dari hari ini!", "Input Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Tanggal tidak boleh kurang 3 hari dari hari ini!", "Input Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -104,7 +104,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             if (tanggalInput > hariIni.AddDays(3))
             {
-                MessageBox.Show("Tanggal tidak boleh kurang dari H-3 dari hari ini!", "Input Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Tanggal tidak boleh lebih 3 hari dari hari ini!", "Input Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
