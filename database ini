@@ -616,10 +616,18 @@ LANGUAGE plpgsql
 AS
 $$
 BEGIN
+
     RETURN (
         SELECT COUNT(*)
-        FROM panen
+        FROM panen p
+        WHERE NOT EXISTS
+        (
+            SELECT 1
+            FROM grade g
+            WHERE g.id_panen = p.id_panen
+        )
     );
+
 END;
 $$;
 
