@@ -3,9 +3,9 @@
 -- =========================================
 
 CREATE TYPE tipe_role AS ENUM (
-'ADMIN',
-'DISTRIBUTOR',
-'NELAYAN'
+    'ADMIN',
+    'DISTRIBUTOR',
+    'NELAYAN'
 );
 
 -- =========================================
@@ -13,14 +13,14 @@ CREATE TYPE tipe_role AS ENUM (
 -- =========================================
 
 CREATE TABLE usser (
-id_user SERIAL PRIMARY KEY,
-nama VARCHAR(100) NOT NULL,
-no_hp VARCHAR(20) NOT NULL,
-alamat VARCHAR(100) NOT NULL,
-username VARCHAR(50) UNIQUE NOT NULL,
-passwd VARCHAR(50) NOT NULL,
-status_konfir_akun VARCHAR(20) NOT NULL,
-role_pilihan tipe_role NOT NULL
+    id_user SERIAL PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    no_hp VARCHAR(20) NOT NULL,
+    alamat VARCHAR(100) NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    passwd VARCHAR(50) NOT NULL,
+    status_konfir_akun VARCHAR(20) NOT NULL,
+    role_pilihan tipe_role NOT NULL
 );
 
 -- =========================================
@@ -29,16 +29,14 @@ role_pilihan tipe_role NOT NULL
 -- =========================================
 
 CREATE TABLE demand (
-id_demand SERIAL PRIMARY KEY,
-target_kg NUMERIC(10,2) NOT NULL,
-deadline DATE NOT NULL,
-
-id_user INT NOT NULL,
-
-FOREIGN KEY (id_user)
-REFERENCES usser(id_user)
-ON UPDATE CASCADE
-ON DELETE RESTRICT
+    id_demand SERIAL PRIMARY KEY,
+    target_kg NUMERIC(10,2) NOT NULL,
+    deadline DATE NOT NULL,
+    id_user INT NOT NULL,
+    FOREIGN KEY (id_user)
+        REFERENCES usser(id_user)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
 );
 
 -- =========================================
@@ -47,15 +45,14 @@ ON DELETE RESTRICT
 -- =========================================
 
 CREATE TABLE panen (
-id_panen SERIAL PRIMARY KEY,
-berat_per_kg NUMERIC(10,2) NOT NULL,
-tanggal DATE NOT NULL,
-id_user INT NOT NULL,
-
-FOREIGN KEY (id_user)
-REFERENCES usser(id_user)
-ON UPDATE CASCADE
-ON DELETE RESTRICT
+    id_panen SERIAL PRIMARY KEY,
+    berat_per_kg NUMERIC(10,2) NOT NULL,
+    tanggal DATE NOT NULL,
+    id_user INT NOT NULL,
+    FOREIGN KEY (id_user)
+        REFERENCES usser(id_user)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
 );
 
 -- =========================================
@@ -65,30 +62,25 @@ ON DELETE RESTRICT
 -- =========================================
 
 CREATE TABLE grade (
-id_grade SERIAL PRIMARY KEY,
-kategori VARCHAR(10) NOT NULL,
-keterangan VARCHAR(100),
-
-harga_per_kg NUMERIC(10,2) NOT NULL,
-
-id_panen INT NOT NULL,
-id_demand INT NOT NULL,
-id_distributor INT NOT NULL,
-
-FOREIGN KEY (id_panen)
-REFERENCES panen(id_panen)
-ON UPDATE CASCADE
-ON DELETE CASCADE,
-
-FOREIGN KEY (id_demand)
-REFERENCES demand(id_demand)
-ON UPDATE CASCADE
-ON DELETE CASCADE,
-
-FOREIGN KEY (id_distributor)
-REFERENCES usser(id_user)
-ON UPDATE CASCADE
-ON DELETE RESTRICT
+    id_grade SERIAL PRIMARY KEY,
+    kategori VARCHAR(10) NOT NULL,
+    keterangan VARCHAR(100),
+    harga_per_kg NUMERIC(10,2) NOT NULL,
+    id_panen INT NOT NULL,
+    id_demand INT NOT NULL,
+    id_distributor INT NOT NULL,
+    FOREIGN KEY (id_panen)
+        REFERENCES panen(id_panen)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY (id_demand)
+        REFERENCES demand(id_demand)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY (id_distributor)
+        REFERENCES usser(id_user)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
 );
 
 -- =========================================
@@ -97,353 +89,382 @@ ON DELETE RESTRICT
 -- =========================================
 
 CREATE TABLE transaksi (
-id_transaksi SERIAL PRIMARY KEY,
-tanggal DATE NOT NULL,
-harga_tawar NUMERIC(10,2) NOT NULL,
-total_pembayaran NUMERIC(12,2),
-status_transaksi VARCHAR(50)
-DEFAULT 'Menunggu',
-konfir_penawaran VARCHAR(50)
-DEFAULT 'Menunggu',
-konfir_pembelian VARCHAR(50)
-DEFAULT 'Menunggu',
-id_grade INT NOT NULL,
-FOREIGN KEY (id_grade)
-REFERENCES grade(id_grade)
-ON UPDATE CASCADE
-ON DELETE CASCADE
+    id_transaksi SERIAL PRIMARY KEY,
+    tanggal DATE NOT NULL,
+    harga_tawar NUMERIC(10,2) NOT NULL,
+    total_pembayaran NUMERIC(12,2),
+    status_transaksi VARCHAR(50) DEFAULT 'Menunggu',
+    konfir_penawaran VARCHAR(50) DEFAULT 'Menunggu',
+    konfir_pembelian VARCHAR(50) DEFAULT 'Menunggu',
+    id_grade INT NOT NULL,
+    FOREIGN KEY (id_grade)
+        REFERENCES grade(id_grade)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 -- =========================================
 -- DATA USER
 -- =========================================
 
-INSERT INTO usser
-(nama,no_hp,username,passwd,status_konfir_akun,role_pilihan,alamat)
+INSERT INTO usser (nama, no_hp, username, passwd, status_konfir_akun, role_pilihan, alamat)
 VALUES
-('Martin','22222222','Martin_Edward','syatminn','Konfirmasi','ADMIN','jenggawah'),
-
-('PT. Khazanah','55555555','Ahn_Keonho','konoepep','Konfirmasi','DISTRIBUTOR', 'jenggawah' ),
-
-('PT. OcenaChain','33333333','Kim_Juhoon','jhgntnkk','Konfirmasi','DISTRIBUTOR', 'jenggawah'),
-
-('Seonghyeon','44444444','Eom_Seonghyeon','eomprooo','Konfirmasi','NELAYAN', 'jenggawah'),
-
-('James','11111111','Zhao_yufan','jmsokyey','Konfirmasi','NELAYAN', 'jenggawah');
+    ('Martin',       '22222222', 'Martin_Edward',  'syatminn', 'Konfirmasi', 'ADMIN',       'jenggawah'),
+    ('PT. Khazanah', '55555555', 'Ahn_Keonho',     'konoepep', 'Konfirmasi', 'DISTRIBUTOR', 'jenggawah'),
+    ('PT. OcenaChain','33333333','Kim_Juhoon',      'jhgntnkk', 'Konfirmasi', 'DISTRIBUTOR', 'jenggawah'),
+    ('Seonghyeon',   '44444444', 'Eom_Seonghyeon', 'eomprooo', 'Konfirmasi', 'NELAYAN',     'jenggawah'),
+    ('James',        '11111111', 'Zhao_yufan',      'jmsokyey', 'Konfirmasi', 'NELAYAN',     'jenggawah');
 
 -- =========================================
 -- DEMAND
--- ADMIN
 -- =========================================
 
-INSERT INTO demand
-(target_kg,deadline,id_user)
+INSERT INTO demand (target_kg, deadline, id_user)
 VALUES
-(500,'2026-06-30',1),
-(300,'2026-07-15',1),
-(450,'2026-07-20',1),
-(600,'2026-08-01',1),
-(350,'2026-08-10',1);
+    (500, '2026-06-30', 1),
+    (300, '2026-07-15', 1),
+    (450, '2026-07-20', 1),
+    (600, '2026-08-01', 1),
+    (350, '2026-08-10', 1);
 
 -- =========================================
 -- PANEN
--- NELAYAN
 -- =========================================
 
-INSERT INTO panen
-(berat_per_kg,tanggal,id_user)
+INSERT INTO panen (berat_per_kg, tanggal, id_user)
 VALUES
-(100.50,'2026-05-01',4),
-(75.25,'2026-05-02',5),
-(120.00,'2026-05-03',4),
-(95.75,'2026-05-04',5),
-(150.00,'2026-05-05',4);
+    (100.50, '2026-05-01', 4),
+    (75.25,  '2026-05-02', 5),
+    (120.00, '2026-05-03', 4),
+    (95.75,  '2026-05-04', 5),
+    (150.00, '2026-05-05', 4);
 
 -- =========================================
 -- GRADE
--- DISTRIBUTOR
 -- =========================================
 
-INSERT INTO grade
-(kategori,keterangan,harga_per_kg,id_panen,id_demand,id_distributor)
+INSERT INTO grade (kategori, keterangan, harga_per_kg, id_panen, id_demand, id_distributor)
 VALUES
-('A','Kualitas sangat baik',15000,1,1,2),
-('B','Kualitas baik',13000,2,2,2),
-('C','Kualitas cukup',11000,3,3,3),
-('A','Kualitas sangat baik',15000,4,4,2),
-('B','Kualitas baik',13000,5,5,3);
+    ('A', 'Kualitas sangat baik', 15000, 1, 1, 2),
+    ('B', 'Kualitas baik',        13000, 2, 2, 2),
+    ('C', 'Kualitas cukup',       11000, 3, 3, 3),
+    ('A', 'Kualitas sangat baik', 15000, 4, 4, 2),
+    ('B', 'Kualitas baik',        13000, 5, 5, 3);
+
+-- =========================================
+-- TRIGGER: HITUNG TOTAL PEMBAYARAN (harus sebelum INSERT transaksi)
+-- =========================================
+
+CREATE OR REPLACE FUNCTION hitung_total_pembayaran()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_berat NUMERIC;
+BEGIN
+    SELECT p.berat_per_kg
+    INTO v_berat
+    FROM grade g
+    JOIN panen p ON g.id_panen = p.id_panen
+    WHERE g.id_grade = NEW.id_grade;
+
+    NEW.total_pembayaran := v_berat * NEW.harga_tawar;
+    RETURN NEW;
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER trigger_total_pembayaran
+BEFORE INSERT ON transaksi
+FOR EACH ROW
+EXECUTE FUNCTION hitung_total_pembayaran();
 
 -- =========================================
 -- TRANSAKSI / PENAWARAN
 -- =========================================
 
-INSERT INTO transaksi
-(
-tanggal,
-harga_tawar,
-total_pembayaran,
-status_transaksi,
-konfir_penawaran,
-konfir_pembelian,
-id_grade
-)
+INSERT INTO transaksi (tanggal, harga_tawar, total_pembayaran, status_transaksi, konfir_penawaran, konfir_pembelian, id_grade)
 VALUES
-(
-'2026-06-01',
-14500,
-1450000,
-'Selesai',
-'Diterima',
-'Selesai',
-1
-),
-(
-'2026-06-02',
-12500,
-937500,
-'Selesai',
-'Diterima',
-'Selesai',
-2
-);
-
+    ('2026-06-01', 14500, 1450000, 'Selesai', 'Diterima', 'Selesai', 1),
+    ('2026-06-02', 12500, 937500,  'Selesai', 'Diterima', 'Selesai', 2);
 
 -- =========================================
--- PUNYAK ADMIN
+-- TRIGGER: CEK PERUBAHAN TRANSAKSI SELESAI
+-- (dibuat setelah INSERT data agar data seed tidak terblokir)
 -- =========================================
+
+CREATE OR REPLACE FUNCTION public.log_perubahan_transaksi()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF OLD.status_transaksi = 'Selesai' THEN
+        RAISE EXCEPTION 'Transaksi dengan ID % sudah berstatus Selesai dan tidak dapat diubah kembali!', OLD.id_transaksi;
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trg_cek_perubahan_transaksi
+BEFORE UPDATE ON public.transaksi
+FOR EACH ROW
+EXECUTE FUNCTION public.log_perubahan_transaksi();
+
+-- =========================================
+-- VIEW: RIWAYAT TRANSAKSI NELAYAN
+-- (dibuat lebih awal karena dipakai fn_label_dashboard_nelayan)
+-- =========================================
+
+CREATE OR REPLACE VIEW public.vw_riwayat_transaksi AS
+SELECT
+    p.id_panen,
+    u_dist.nama           AS nama_distributor,
+    p.berat_per_kg        AS berat_kg,
+    g.kategori            AS grade,
+    g.harga_per_kg,
+    t.total_pembayaran    AS total,
+    t.tanggal             AS tanggal_konfirmasi,
+    t.status_transaksi    AS status,
+    p.id_user             AS id_nelayan,
+    u_nel.username        AS username_nelayan
+FROM transaksi t
+JOIN grade g   ON g.id_grade   = t.id_grade
+JOIN panen p   ON p.id_panen   = g.id_panen
+JOIN usser u_dist ON u_dist.id_user = g.id_distributor
+JOIN usser u_nel  ON u_nel.id_user  = p.id_user
+WHERE t.status_transaksi = 'Selesai';
+
+-- =========================================
+-- FUNGSI & VIEW: ADMIN
+-- =========================================
+
 CREATE OR REPLACE VIEW v_aktivitas_terkini AS
-SELECT 
-    'NEL0' || p.id_panen AS id, 
-    u.nama AS pengguna, 
+SELECT
+    'NEL0' || p.id_panen  AS id,
+    u.nama                AS pengguna,
     'Input Panen (' || p.berat_per_kg || ' Kg)' AS aktivitas
 FROM panen p
 JOIN usser u ON p.id_user = u.id_user
 
 UNION ALL
 
-SELECT 
-    'DIS0' || d.id_demand AS id, 
-    u.nama AS pengguna, 
+SELECT
+    'DIS0' || d.id_demand AS id,
+    u.nama                AS pengguna,
     'Minta Demand (' || d.target_kg || ' Kg)' AS aktivitas
 FROM demand d
 JOIN usser u ON d.id_user = u.id_user;
 
-CREATE OR REPLACE VIEW public.v_demand
- AS
- SELECT 'DEM0'::text || id_demand AS id,
+CREATE OR REPLACE VIEW public.v_demand AS
+SELECT
+    'DEM0'::text || id_demand AS id,
     target_kg,
     deadline AS tanggal
-   FROM demand d;
+FROM demand d;
 
 CREATE OR REPLACE VIEW v_grafik_line_stok AS
-SELECT 
+SELECT
     sub.bulan,
     sub.urutan_bulan,
     sub.grade,
     sub.stok
 FROM (
-    SELECT 
-        to_char(t.tanggal::timestamp with time zone, 'Month'::text) AS bulan,
-        EXTRACT(month FROM t.tanggal) AS urutan_bulan,
-        COALESCE(g.kategori, 'Total') AS grade,
-        SUM(p.berat_per_kg) AS stok,
-        GROUPING(to_char(t.tanggal::timestamp with time zone, 'Month'::text)) + GROUPING(g.kategori) AS is_total
+    SELECT
+        to_char(t.tanggal::timestamp with time zone, 'Month') AS bulan,
+        EXTRACT(month FROM t.tanggal)                          AS urutan_bulan,
+        COALESCE(g.kategori, 'Total')                          AS grade,
+        SUM(p.berat_per_kg)                                    AS stok,
+        GROUPING(to_char(t.tanggal::timestamp with time zone, 'Month'))
+            + GROUPING(g.kategori)                             AS is_total
     FROM transaksi t
     JOIN grade g ON t.id_grade = g.id_grade
     JOIN panen p ON p.id_panen = g.id_panen
-    WHERE t.status_transaksi::text = 'Selesai'::text
+    WHERE t.status_transaksi = 'Selesai'
     GROUP BY ROLLUP(
-        (to_char(t.tanggal::timestamp with time zone, 'Month'::text), EXTRACT(month FROM t.tanggal)), 
+        (to_char(t.tanggal::timestamp with time zone, 'Month'), EXTRACT(month FROM t.tanggal)),
         g.kategori
     )
 ) sub
 WHERE sub.is_total = 0
 ORDER BY sub.urutan_bulan, sub.grade;
 
-CREATE OR REPLACE VIEW public.v_grafik_line_transaksi
- AS
- SELECT to_char(t.tanggal::timestamp with time zone, 'Month'::text) AS bulan,
-    EXTRACT(month FROM t.tanggal) AS urutan_bulan,
-    g.kategori AS grade,
-    count(t.id_transaksi) AS total_transaksi
-   FROM transaksi t
-     JOIN grade g ON t.id_grade = g.id_grade
-  WHERE t.status_transaksi::text = 'Selesai'::text
-  GROUP BY (to_char(t.tanggal::timestamp with time zone, 'Month'::text)), (EXTRACT(month FROM t.tanggal)), g.kategori
-  ORDER BY (EXTRACT(month FROM t.tanggal)), g.kategori;
+CREATE OR REPLACE VIEW public.v_grafik_line_transaksi AS
+SELECT
+    to_char(t.tanggal::timestamp with time zone, 'Month') AS bulan,
+    EXTRACT(month FROM t.tanggal)                          AS urutan_bulan,
+    g.kategori                                             AS grade,
+    COUNT(t.id_transaksi)                                  AS total_transaksi
+FROM transaksi t
+JOIN grade g ON t.id_grade = g.id_grade
+WHERE t.status_transaksi = 'Selesai'
+GROUP BY
+    to_char(t.tanggal::timestamp with time zone, 'Month'),
+    EXTRACT(month FROM t.tanggal),
+    g.kategori
+ORDER BY EXTRACT(month FROM t.tanggal), g.kategori;
 
-CREATE OR REPLACE VIEW public.v_konfir_akun2
- AS
- SELECT 'ACC0'::text || id_user AS id,
+CREATE OR REPLACE VIEW public.v_konfir_akun2 AS
+SELECT
+    'ACC0'::text || id_user AS id,
     nama,
     username,
-    passwd AS password,
+    passwd      AS password,
     status_konfir_akun AS status
-   FROM usser u
-  ORDER BY (
-        CASE
-            WHEN status_konfir_akun::text = 'Menunggu'::text THEN 1
-            WHEN status_konfir_akun::text = 'Konfirmasi'::text THEN 2
-            ELSE 3
-        END);
+FROM usser u
+ORDER BY
+    CASE
+        WHEN status_konfir_akun = 'Menunggu'    THEN 1
+        WHEN status_konfir_akun = 'Konfirmasi'  THEN 2
+        ELSE 3
+    END;
 
-CREATE OR REPLACE FUNCTION public.fn_labelakun(
-	)
-    RETURNS integer
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE PARALLEL UNSAFE
-AS $BODY$
+CREATE OR REPLACE FUNCTION public.fn_labelakun()
+RETURNS INTEGER
+LANGUAGE plpgsql
+AS $$
 DECLARE
-    v_total_akun integer;
+    v_total_akun INTEGER;
 BEGIN
-    SELECT count(id_user) INTO v_total_akun
+    SELECT COUNT(id_user) INTO v_total_akun
     FROM usser u
-    WHERE status_konfir_akun::text = 'Konfirmasi'::text;
+    WHERE status_konfir_akun = 'Konfirmasi';
     RETURN COALESCE(v_total_akun, 0);
 END;
-$BODY$;
+$$;
 
+-- FIX: fungsi ini sebelumnya terpotong, RETURN dan END ditambahkan
 CREATE OR REPLACE FUNCTION public.fn_labelstok()
-    RETURNS integer
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE PARALLEL UNSAFE
-AS $BODY$
+RETURNS INTEGER
+LANGUAGE plpgsql
+AS $$
 DECLARE
-    v_total_stok integer;
+    v_total_stok INTEGER;
 BEGIN
-    SELECT sum(p.berat_per_kg) INTO v_total_stok
+    SELECT SUM(p.berat_per_kg) INTO v_total_stok
     FROM transaksi t
-         JOIN grade g ON t.id_grade = g.id_grade
-         JOIN panen p ON p.id_panen = g.id_panen
-    WHERE t.status_transaksi::text = 'Selesai'::text;
+    JOIN grade g ON t.id_grade = g.id_grade
+    JOIN panen p ON p.id_panen = g.id_panen
+    WHERE t.status_transaksi = 'Selesai';
+    RETURN COALESCE(v_total_stok, 0);
+END;
+$$;
 
-CREATE OR REPLACE FUNCTION public.fn_labeltransaksi(
-	)
-    RETURNS integer
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE PARALLEL UNSAFE
-AS $BODY$
+CREATE OR REPLACE FUNCTION public.fn_labeltransaksi()
+RETURNS INTEGER
+LANGUAGE plpgsql
+AS $$
 DECLARE
-    v_total_transaksi integer;
+    v_total_transaksi INTEGER;
 BEGIN
-    SELECT count(id_transaksi) INTO v_total_transaksi
+    SELECT COUNT(id_transaksi) INTO v_total_transaksi
     FROM transaksi t
-    WHERE status_transaksi::text = 'Selesai'::text;
+    WHERE status_transaksi = 'Selesai';
     RETURN COALESCE(v_total_transaksi, 0);
 END;
-$BODY$;
+$$;
 
 -- =========================================
--- PUNYAK NELAYAN
+-- FUNGSI & VIEW: NELAYAN
 -- =========================================
 
--- vw_dashboard_nelayan 
-CREATE OR REPLACE VIEW public.vw_dashboard_nelayan
- AS
- SELECT p.id_panen,
-    COALESCE(g.kategori, '-'::character varying) AS grade,
-    p.berat_per_kg AS berat_kg,
+CREATE OR REPLACE VIEW public.vw_dashboard_nelayan AS
+SELECT
+    p.id_panen,
+    COALESCE(g.kategori, '-') AS grade,
+    p.berat_per_kg            AS berat_kg,
     p.tanggal,
-        CASE
-            WHEN g.id_grade IS NULL THEN 'Belum Digrading'::text
-            WHEN t.id_transaksi IS NULL THEN 'Sudah Digrading'::text
-            WHEN t.konfir_penawaran::text = 'Menunggu Ditawar'::text THEN 'Sedang Ditawar'::text
-            WHEN t.konfir_penawaran::text = 'Diterima'::text AND COALESCE(t.konfir_pembelian, ''::character varying)::text <> 'Selesai'::text THEN 'Menunggu Konfirmasi Pembayaran'::text
-            ELSE 'Proses'::text
-        END AS status,
+    CASE
+        WHEN g.id_grade IS NULL THEN 'Belum Digrading'
+        WHEN t.id_transaksi IS NULL THEN 'Sudah Digrading'
+        WHEN t.konfir_penawaran = 'Menunggu Ditawar' THEN 'Sedang Ditawar'
+        WHEN t.konfir_penawaran = 'Diterima'
+             AND COALESCE(t.konfir_pembelian, '') <> 'Selesai' THEN 'Menunggu Konfirmasi Pembayaran'
+        ELSE 'Proses'
+    END AS status,
     u.username
-   FROM panen p
-     LEFT JOIN grade g ON g.id_panen = p.id_panen
-     LEFT JOIN transaksi t ON t.id_grade = g.id_grade AND t.status_transaksi::text <> 'Selesai'::text
-     LEFT JOIN usser u ON p.id_user = u.id_user
-  WHERE NOT (EXISTS ( SELECT 1
-           FROM grade g2
-             JOIN transaksi t2 ON t2.id_grade = g2.id_grade
-          WHERE g2.id_panen = p.id_panen AND t2.status_transaksi::text = 'Selesai'::text));
+FROM panen p
+LEFT JOIN grade g     ON g.id_panen   = p.id_panen
+LEFT JOIN transaksi t ON t.id_grade   = g.id_grade AND t.status_transaksi <> 'Selesai'
+LEFT JOIN usser u     ON p.id_user    = u.id_user
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM grade g2
+    JOIN transaksi t2 ON t2.id_grade = g2.id_grade
+    WHERE g2.id_panen = p.id_panen AND t2.status_transaksi = 'Selesai'
+);
 
--- fn_label_dashboard_nelayan (function)
-CREATE OR REPLACE FUNCTION public.fn_label_dashboard_nelayan(p_username text)
-RETURNS TABLE(stok integer, jual integer, pendapatan numeric) 
-LANGUAGE 'plpgsql'
+CREATE OR REPLACE FUNCTION public.fn_label_dashboard_nelayan(p_username TEXT)
+RETURNS TABLE(stok INTEGER, jual INTEGER, pendapatan NUMERIC)
+LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY
     SELECT
-        (SELECT COUNT(*)::integer 
+        (SELECT COUNT(*)::INTEGER
          FROM public.panen p2
          JOIN public.usser u2 ON p2.id_user = u2.id_user
          WHERE u2.username = p_username) AS stok,
 
-        (SELECT COUNT(*)::integer 
+        (SELECT COUNT(*)::INTEGER
          FROM public.panen p3
-         JOIN public.grade g3 ON g3.id_panen = p3.id_panen
-         JOIN public.transaksi t3 ON t3.id_grade = g3.id_grade
-         JOIN public.usser u3 ON p3.id_user = u3.id_user
+         JOIN public.grade g3     ON g3.id_panen   = p3.id_panen
+         JOIN public.transaksi t3 ON t3.id_grade   = g3.id_grade
+         JOIN public.usser u3     ON p3.id_user    = u3.id_user
          WHERE u3.username = p_username AND t3.status_transaksi = 'Selesai') AS jual,
 
         COALESCE(SUM(
             CASE
-                WHEN LOWER(vt.status::text) = 'selesai'::text THEN vt.total
-                ELSE 0::numeric
-            END), 0::numeric) AS pendapatan
-            
+                WHEN LOWER(vt.status::TEXT) = 'selesai' THEN vt.total
+                ELSE 0::NUMERIC
+            END
+        ), 0::NUMERIC) AS pendapatan
+
     FROM public.usser u
-    LEFT JOIN public.panen p ON u.id_user = p.id_user
+    LEFT JOIN public.panen p            ON u.id_user   = p.id_user
     LEFT JOIN public.vw_riwayat_transaksi vt ON p.id_panen = vt.id_panen
     WHERE u.username = p_username
     GROUP BY u.username;
 END;
 $$;
 
---v_kelola_panen 
-CREATE OR REPLACE VIEW public.v_kelola_panen
- AS
- SELECT id,
+CREATE OR REPLACE VIEW public.v_kelola_panen AS
+SELECT
+    id,
     username,
     berat,
     grade,
     harga_per_kg,
     status,
-        CASE
-            WHEN status::text = 'Belum Di-grade'::text THEN true
-            ELSE false
-        END AS bisa_hapus,
+    CASE WHEN status = 'Belum Di-grade' THEN TRUE ELSE FALSE END AS bisa_hapus,
     id_user
-   FROM ( SELECT p.id_panen AS id,
-            u.username,
-            p.id_user,
-            p.berat_per_kg AS berat,
-            COALESCE(g.kategori, '-'::character varying) AS grade,
-            COALESCE(g.harga_per_kg, 0::numeric) AS harga_per_kg,
-                CASE
-                    WHEN (EXISTS ( SELECT 1
-                       FROM transaksi t
-                      WHERE t.id_grade = g.id_grade)) THEN ( SELECT t.status_transaksi
-                       FROM transaksi t
-                      WHERE t.id_grade = g.id_grade
-                     LIMIT 1)
-                    WHEN g.id_grade IS NOT NULL THEN 'Sudah Di-grade'::character varying
-                    ELSE 'Belum Di-grade'::character varying
-                END AS status
-           FROM panen p
-             JOIN usser u ON p.id_user = u.id_user
-             LEFT JOIN grade g ON p.id_panen = g.id_panen) subquery_panen
-  ORDER BY (
-        CASE status
-            WHEN 'Belum Di-grade'::text THEN 1
-            WHEN 'Menunggu Ditawar'::text THEN 2
-            WHEN 'Sudah Di-grade'::text THEN 3
-            ELSE 4
-        END);
+FROM (
+    SELECT
+        p.id_panen AS id,
+        u.username,
+        p.id_user,
+        p.berat_per_kg AS berat,
+        COALESCE(g.kategori, '-')   AS grade,
+        COALESCE(g.harga_per_kg, 0) AS harga_per_kg,
+        CASE
+            WHEN EXISTS (SELECT 1 FROM transaksi t WHERE t.id_grade = g.id_grade)
+                THEN (SELECT t.status_transaksi FROM transaksi t WHERE t.id_grade = g.id_grade LIMIT 1)
+            WHEN g.id_grade IS NOT NULL THEN 'Sudah Di-grade'
+            ELSE 'Belum Di-grade'
+        END AS status
+    FROM panen p
+    JOIN usser u ON p.id_user = u.id_user
+    LEFT JOIN grade g ON p.id_panen = g.id_panen
+) subquery_panen
+ORDER BY
+    CASE status
+        WHEN 'Belum Di-grade'    THEN 1
+        WHEN 'Menunggu Ditawar'  THEN 2
+        WHEN 'Sudah Di-grade'    THEN 3
+        ELSE 4
+    END;
 
---hapus_panen_aman (fn)
-CREATE OR REPLACE FUNCTION public.hapus_panen_aman(
-	p_id_panen integer)
-    RETURNS text
-    LANGUAGE 'plpgsql'
+CREATE OR REPLACE FUNCTION public.hapus_panen_aman(p_id_panen INTEGER)
+RETURNS TEXT
+LANGUAGE plpgsql
 AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM grade WHERE id_panen = p_id_panen) THEN
@@ -455,76 +476,76 @@ BEGIN
 END;
 $$;
 
---vw_konfirmasi_penawaran
-CREATE OR REPLACE VIEW public.vw_konfirmasi_penawaran
- AS
- SELECT t.id_transaksi,
+CREATE OR REPLACE VIEW public.vw_konfirmasi_penawaran AS
+SELECT
+    t.id_transaksi,
     p.id_panen,
-    u.nama AS nama_distributor,
-    p.berat_per_kg AS berat_kg,
-    g.kategori AS grade,
+    u.nama            AS nama_distributor,
+    p.berat_per_kg    AS berat_kg,
+    g.kategori        AS grade,
     t.harga_tawar,
     p.berat_per_kg * t.harga_tawar AS total,
     t.konfir_penawaran AS status
-   FROM transaksi t
-     JOIN grade g ON g.id_grade = t.id_grade
-     JOIN panen p ON p.id_panen = g.id_panen
-     JOIN usser u ON u.id_user = g.id_distributor
-  WHERE t.konfir_penawaran::text = 'Menunggu'::text;
+FROM transaksi t
+JOIN grade g ON g.id_grade    = t.id_grade
+JOIN panen p ON p.id_panen    = g.id_panen
+JOIN usser u ON u.id_user     = g.id_distributor
+WHERE t.konfir_penawaran = 'Menunggu';
 
---button terima/tolak tawaran
 CREATE OR REPLACE PROCEDURE public.proses_penawaran(
-	IN p_id_panen integer,
-	IN p_keputusan character varying)
-LANGUAGE 'plpgsql'
-AS $BODY$
+    IN p_id_panen   INTEGER,
+    IN p_keputusan  VARCHAR
+)
+LANGUAGE plpgsql
+AS $$
 BEGIN
     IF UPPER(p_keputusan) = 'TERIMA' THEN
         UPDATE public.transaksi
-        SET 
-            konfir_penawaran = 'Diterima', 
-            konfir_pembelian = 'Belum Dibayar', 
+        SET
+            konfir_penawaran = 'Diterima',
+            konfir_pembelian = 'Belum Dibayar',
             status_transaksi = 'Proses'
         WHERE id_grade IN (SELECT id_grade FROM public.grade WHERE id_panen = p_id_panen);
-        
+
     ELSIF UPPER(p_keputusan) = 'TOLAK' THEN
         UPDATE public.transaksi
-        SET 
-            konfir_penawaran = 'Ditolak', 
-            status_transaksi = 'Menunggu Ditawar' 
+        SET
+            konfir_penawaran = 'Ditolak',
+            status_transaksi = 'Menunggu Ditawar'
         WHERE id_grade IN (SELECT id_grade FROM public.grade WHERE id_panen = p_id_panen);
+
     ELSE
         RAISE EXCEPTION 'Keputusan tidak valid! Gunakan TERIMA atau TOLAK.';
     END IF;
 END;
-$BODY$;
+$$;
 
---vw_konfirmasi_transaksi 
-CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi
- AS
- SELECT t.id_transaksi,
+CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi AS
+SELECT
+    t.id_transaksi,
     p.id_panen,
-    u.nama AS nama_distributor,
-    p.berat_per_kg AS berat_kg,
+    u.nama                         AS nama_distributor,
+    p.berat_per_kg                 AS berat_kg,
     p.berat_per_kg * t.harga_tawar AS total_pembayaran,
-    t.konfir_pembelian AS status
-   FROM transaksi t
-     JOIN grade g ON g.id_grade = t.id_grade
-     JOIN panen p ON p.id_panen = g.id_panen
-     JOIN usser u ON u.id_user = g.id_distributor
-  WHERE t.konfir_penawaran::text = 'Diterima'::text AND t.konfir_pembelian::text <> 'Selesai'::text;
+    t.konfir_pembelian             AS status
+FROM transaksi t
+JOIN grade g ON g.id_grade  = t.id_grade
+JOIN panen p ON p.id_panen  = g.id_panen
+JOIN usser u ON u.id_user   = g.id_distributor
+WHERE t.konfir_penawaran = 'Diterima'
+  AND t.konfir_pembelian <> 'Selesai';
 
---sp_konfirmasi_transaksi_by_panen (procedure)
 CREATE OR REPLACE PROCEDURE public.sp_konfirmasi_transaksi_by_panen(
-    IN p_id_panen integer,
-    IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
-LANGUAGE 'plpgsql'
-AS $BODY$
+    IN p_id_panen      INTEGER,
+    IN p_tanggal_konfir DATE DEFAULT CURRENT_DATE
+)
+LANGUAGE plpgsql
+AS $$
 DECLARE
-    v_id_transaksi integer;
-    v_status_pembelian character varying(50);
+    v_id_transaksi    INTEGER;
+    v_status_pembelian VARCHAR(50);
 BEGIN
-    SELECT t.id_transaksi, t.konfir_pembelian 
+    SELECT t.id_transaksi, t.konfir_pembelian
     INTO v_id_transaksi, v_status_pembelian
     FROM public.transaksi t
     JOIN public.grade g ON g.id_grade = t.id_grade
@@ -539,221 +560,125 @@ BEGIN
         RAISE EXCEPTION 'Transaksi tidak bisa dikonfirmasi! Tunggu distributor melakukan pembayaran terlebih dahulu.';
     END IF;
 
-    UPDATE public.transaksi 
-    SET status_transaksi = 'Selesai', 
-        konfir_pembelian = 'Selesai', 
-        tanggal = p_tanggal_konfir     
+    UPDATE public.transaksi
+    SET
+        status_transaksi = 'Selesai',
+        konfir_pembelian = 'Selesai',
+        tanggal          = p_tanggal_konfir
     WHERE id_transaksi = v_id_transaksi;
-
 END;
-$BODY$;
+$$;
 
---fn_label_riwayat_nelayan
-CREATE OR REPLACE FUNCTION public.fn_label_riwayat_nelayan(p_username text)
-RETURNS TABLE(total_transaksi bigint, total_nilai numeric) 
-LANGUAGE 'plpgsql'
+CREATE OR REPLACE FUNCTION public.fn_label_riwayat_nelayan(p_username TEXT)
+RETURNS TABLE(total_transaksi BIGINT, total_nilai NUMERIC)
+LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT 
-        COUNT(t.id_transaksi)::bigint AS total_transaksi,
-        COALESCE(SUM(t.total_pembayaran), 0::numeric) AS total_nilai 
+    SELECT
+        COUNT(t.id_transaksi)::BIGINT     AS total_transaksi,
+        COALESCE(SUM(t.total_pembayaran), 0::NUMERIC) AS total_nilai
     FROM public.transaksi t
-    JOIN public.grade g ON t.id_grade = g.id_grade
-    JOIN public.panen p ON g.id_panen = p.id_panen
-    JOIN public.usser u ON p.id_user = u.id_user
-    WHERE u.username = p_username 
+    JOIN public.grade g ON t.id_grade  = g.id_grade
+    JOIN public.panen p ON g.id_panen  = p.id_panen
+    JOIN public.usser u ON p.id_user   = u.id_user
+    WHERE u.username = p_username
       AND LOWER(t.status_transaksi) = 'selesai';
 END;
 $$;
 
---vw_riwayat_transaksi
-CREATE OR REPLACE VIEW public.vw_riwayat_transaksi
- AS
- SELECT p.id_panen,
-    u_dist.nama AS nama_distributor,
-    p.berat_per_kg AS berat_kg,
-    g.kategori AS grade,
-    g.harga_per_kg,
-    t.total_pembayaran AS total,
-    t.tanggal AS tanggal_konfirmasi,
-    t.status_transaksi AS status,
-    p.id_user AS id_nelayan,
-    u_nel.username AS username_nelayan
-   FROM transaksi t
-     JOIN grade g ON g.id_grade = t.id_grade
-     JOIN panen p ON p.id_panen = g.id_panen
-     JOIN usser u_dist ON u_dist.id_user = g.id_distributor
-     JOIN usser u_nel ON u_nel.id_user = p.id_user
-  WHERE t.status_transaksi::text = 'Selesai'::text;
-
---trigger transaksi selesai
-CREATE OR REPLACE FUNCTION public.log_perubahan_transaksi()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-AS $BODY$
-BEGIN
-    IF OLD.status_transaksi = 'Selesai' THEN
-        RAISE EXCEPTION 'Transaksi dengan ID % sudah berstatus Selesai dan tidak dapat diubah kembali!', OLD.id_transaksi;
-    END IF;
-    
-    RETURN NEW;
-END;
-$BODY$;
-
-CREATE TRIGGER trg_cek_perubahan_transaksi
-    BEFORE UPDATE
-    ON public.transaksi
-    FOR EACH ROW
-    EXECUTE FUNCTION public.log_perubahan_transaksi();
-
 -- =========================================
--- PUNYAK DISTRIBUTOR
+-- FUNGSI & VIEW: DISTRIBUTOR
 -- =========================================
+
 CREATE OR REPLACE FUNCTION jumlah_panen()
 RETURNS INT
 LANGUAGE plpgsql
-AS
-$$
+AS $$
 BEGIN
-
     RETURN (
         SELECT COUNT(*)
         FROM panen p
-        WHERE NOT EXISTS
-        (
-            SELECT 1
-            FROM grade g
-            WHERE g.id_panen = p.id_panen
+        WHERE NOT EXISTS (
+            SELECT 1 FROM grade g WHERE g.id_panen = p.id_panen
         )
     );
-
 END;
 $$;
 
--- label demand disstributor
 CREATE OR REPLACE FUNCTION total_demand_distributor()
 RETURNS NUMERIC
 LANGUAGE plpgsql
-AS
-$$
+AS $$
 BEGIN
-
     RETURN (
         SELECT COALESCE(SUM(target_kg), 0)
         FROM demand
-        WHERE DATE_TRUNC('month', deadline)
-              = DATE_TRUNC('month', CURRENT_DATE)
+        WHERE DATE_TRUNC('month', deadline) = DATE_TRUNC('month', CURRENT_DATE)
     );
-
 END;
 $$;
 
 CREATE OR REPLACE FUNCTION kurangi_target_demand()
-
 RETURNS TRIGGER
-
 LANGUAGE plpgsql
-
-AS
-$$
+AS $$
 DECLARE
     beratPanen NUMERIC;
-
 BEGIN
-
     SELECT p.berat_per_kg
     INTO beratPanen
     FROM grade g
-    JOIN panen p
-    ON g.id_panen = p.id_panen
+    JOIN panen p ON g.id_panen = p.id_panen
     WHERE g.id_grade = NEW.id_grade;
 
     UPDATE demand
-
-    SET target_kg =
-    CASE
-        WHEN target_kg - beratPanen < 0
-        THEN 0
-        ELSE target_kg - beratPanen
-    END
-
-    WHERE DATE_TRUNC('month', deadline)
-          =
-          DATE_TRUNC('month', CURRENT_DATE);
+    SET target_kg = CASE
+                        WHEN target_kg - beratPanen < 0 THEN 0
+                        ELSE target_kg - beratPanen
+                    END
+    WHERE DATE_TRUNC('month', deadline) = DATE_TRUNC('month', CURRENT_DATE);
 
     RETURN NEW;
-
 END;
 $$;
 
+-- FIX: pakai CREATE OR REPLACE TRIGGER agar tidak error saat dijalankan ulang
 CREATE OR REPLACE TRIGGER trigger_kurangi_demand
-
-AFTER UPDATE
-ON transaksi
-
+AFTER UPDATE ON transaksi
 FOR EACH ROW
-
-WHEN
-(
-    NEW.status_transaksi = 'Selesai'
-    AND OLD.status_transaksi <> 'Selesai'
-)
-
+WHEN (NEW.status_transaksi = 'Selesai' AND OLD.status_transaksi <> 'Selesai')
 EXECUTE FUNCTION kurangi_target_demand();
 
-UPDATE demand
-SET target_kg = 0
-WHERE DATE_TRUNC('month', deadline)
-      =
-      DATE_TRUNC('month', CURRENT_DATE);
-
--- label total transaksi selesai distributor
-CREATE OR REPLACE FUNCTION total_transaksi_distributor(
-    p_id_distributor INT
-)
+CREATE OR REPLACE FUNCTION total_transaksi_distributor(p_id_distributor INT)
 RETURNS INT
 LANGUAGE plpgsql
-AS
-$$
+AS $$
 BEGIN
-
     RETURN (
         SELECT COUNT(*)
         FROM transaksi t
-        JOIN grade g
-        ON t.id_grade = g.id_grade
+        JOIN grade g ON t.id_grade = g.id_grade
         WHERE t.status_transaksi = 'Selesai'
-        AND g.id_distributor = p_id_distributor
+          AND g.id_distributor = p_id_distributor
     );
-
 END;
 $$;
 
-
--- dgv transaksi paling akhir di dashboard
 CREATE OR REPLACE VIEW view_transaksi_paling_akhir AS
 SELECT
     t.id_transaksi,
     t.tanggal,
     u.nama AS nelayan,
-
-    CONCAT(
-        'Grade ', g.kategori,
-        ' | ', p.berat_per_kg, ' Kg',
-        ' | ', t.total_pembayaran
-    ) AS detail_transaksi,
-
+    CONCAT('Grade ', g.kategori, ' | ', p.berat_per_kg, ' Kg', ' | ', t.total_pembayaran) AS detail_transaksi,
     t.status_transaksi,
     g.id_distributor
-
 FROM transaksi t
-JOIN grade g ON t.id_grade = g.id_grade
-JOIN panen p ON g.id_panen = p.id_panen
-JOIN usser u ON p.id_user = u.id_user
+JOIN grade g ON t.id_grade  = g.id_grade
+JOIN panen p ON g.id_panen  = p.id_panen
+JOIN usser u ON p.id_user   = u.id_user
 WHERE t.status_transaksi = 'Selesai'
 ORDER BY t.id_transaksi DESC;
-
 
 CREATE OR REPLACE VIEW view_lihat_panen AS
 SELECT
@@ -765,7 +690,6 @@ FROM panen p
 JOIN usser u ON p.id_user = u.id_user
 ORDER BY p.id_panen DESC;
 
-
 CREATE OR REPLACE VIEW view_grading_panen AS
 SELECT
     p.id_panen,
@@ -774,105 +698,67 @@ SELECT
     p.tanggal
 FROM panen p
 JOIN usser u ON p.id_user = u.id_user
-
-WHERE NOT EXISTS
-(
-    SELECT 1
-    FROM grade g
-    WHERE g.id_panen = p.id_panen
+WHERE NOT EXISTS (
+    SELECT 1 FROM grade g WHERE g.id_panen = p.id_panen
 )
-
 ORDER BY p.id_panen DESC;
 
 CREATE OR REPLACE PROCEDURE tambah_grading(
-    p_kategori VARCHAR,
-    p_keterangan TEXT,
-    p_harga NUMERIC,
-    p_id_panen INT,
-    p_id_demand INT,
+    p_kategori      VARCHAR,
+    p_keterangan    TEXT,
+    p_harga         NUMERIC,
+    p_id_panen      INT,
+    p_id_demand     INT,
     p_id_distributor INT
 )
 LANGUAGE plpgsql
-AS
-$$
+AS $$
 BEGIN
-
     IF (
-        SELECT p.berat_per_kg
-        FROM panen p
-        WHERE p.id_panen = p_id_panen
+        SELECT p.berat_per_kg FROM panen p WHERE p.id_panen = p_id_panen
     ) > (
-        SELECT SUM(d.target_kg)
-        FROM demand d
+        SELECT SUM(d.target_kg) FROM demand d
     ) THEN
-
         RAISE EXCEPTION 'Berat panen melebihi sisa demand';
-
     END IF;
 
-    INSERT INTO grade (kategori,keterangan,harga_per_kg,id_panen,id_demand,id_distributor)
-    VALUES (p_kategori,p_keterangan,p_harga,p_id_panen,p_id_demand,p_id_distributor);
-
+    INSERT INTO grade (kategori, keterangan, harga_per_kg, id_panen, id_demand, id_distributor)
+    VALUES (p_kategori, p_keterangan, p_harga, p_id_panen, p_id_demand, p_id_distributor);
 END;
 $$;
 
+CREATE OR REPLACE VIEW public.view_penawaran AS
 SELECT
+    g.id_grade,
     p.id_panen,
-    g.id_grade
-FROM panen p
-LEFT JOIN grade g
-ON p.id_panen = g.id_panen;
-
-CREATE OR REPLACE VIEW public.view_penawaran
- AS
- SELECT g.id_grade,
-    p.id_panen,
-    u.nama AS nelayan,
+    u.nama      AS nelayan,
     g.kategori,
     g.harga_per_kg,
     g.keterangan,
     g.id_distributor
-   FROM grade g
-     JOIN panen p ON g.id_panen = p.id_panen
-     JOIN usser u ON p.id_user = u.id_user
-     LEFT JOIN transaksi t ON g.id_grade = t.id_grade
-  WHERE t.id_transaksi IS NULL
-  ORDER BY g.id_grade DESC;
-
+FROM grade g
+JOIN panen p ON g.id_panen   = p.id_panen
+JOIN usser u ON p.id_user    = u.id_user
+LEFT JOIN transaksi t ON g.id_grade = t.id_grade
+WHERE t.id_transaksi IS NULL
+ORDER BY g.id_grade DESC;
 
 CREATE OR REPLACE PROCEDURE tambah_penawaran(
-    p_harga NUMERIC,
+    p_harga    NUMERIC,
     p_id_grade INT
 )
 LANGUAGE plpgsql
-AS
-$$
+AS $$
 BEGIN
-
-    INSERT INTO transaksi
-    (tanggal,harga_tawar,status_transaksi,
-     konfir_penawaran,
-        konfir_pembelian,
-        id_grade
-    )
-    VALUES
-    (
-        CURRENT_DATE,
-        p_harga,
-        'Menunggu',
-        'Menunggu',
-        'Menunggu',
-        p_id_grade
-    );
-
+    INSERT INTO transaksi (tanggal, harga_tawar, status_transaksi, konfir_penawaran, konfir_pembelian, id_grade)
+    VALUES (CURRENT_DATE, p_harga, 'Menunggu', 'Menunggu', 'Menunggu', p_id_grade);
 END;
 $$;
-
 
 CREATE OR REPLACE VIEW view_transaksi_distributor AS
 SELECT
     t.id_transaksi,
-    n.nama AS nelayan,
+    n.nama       AS nelayan,
     g.kategori,
     p.berat_per_kg,
     t.harga_tawar,
@@ -880,64 +766,29 @@ SELECT
     t.status_transaksi,
     g.id_distributor
 FROM transaksi t
-JOIN grade g ON t.id_grade = g.id_grade
-JOIN panen p ON g.id_panen = p.id_panen
-JOIN usser n ON p.id_user = n.id_user
+JOIN grade g ON t.id_grade  = g.id_grade
+JOIN panen p ON g.id_panen  = p.id_panen
+JOIN usser n ON p.id_user   = n.id_user
 WHERE t.konfir_penawaran = 'Diterima'
-AND t.status_transaksi <> 'Selesai';
+  AND t.status_transaksi <> 'Selesai';
 
-CREATE OR REPLACE PROCEDURE konfirmasi_pembayaran(
-    p_id_transaksi INT
-)
+CREATE OR REPLACE PROCEDURE konfirmasi_pembayaran(p_id_transaksi INT)
 LANGUAGE plpgsql
-AS
-$$
+AS $$
 BEGIN
-
     UPDATE transaksi
     SET
         status_transaksi = 'Sudah Dibayar',
         konfir_pembelian = 'Sudah Dibayar'
     WHERE id_transaksi = p_id_transaksi;
-
 END;
 $$;
 
-
-CREATE OR REPLACE FUNCTION hitung_total_pembayaran()
-RETURNS TRIGGER
-LANGUAGE plpgsql
-AS
-$$
-DECLARE
-    v_berat NUMERIC;
-BEGIN
-
-    SELECT p.berat_per_kg
-    INTO v_berat
-    FROM grade g
-    JOIN panen p
-    ON g.id_panen = p.id_panen
-    WHERE g.id_grade = NEW.id_grade;
-
-    NEW.total_pembayaran :=
-        v_berat * NEW.harga_tawar;
-
-    RETURN NEW;
-
-END;
-$$;
-
-CREATE OR REPLACE TRIGGER trigger_total_pembayaran
-BEFORE INSERT ON transaksi
-FOR EACH ROW
-EXECUTE FUNCTION hitung_total_pembayaran();
-
-
-CREATE OR REPLACE VIEW view_riwayat_transaksi
- AS
- SELECT t.id_transaksi,
-    n.nama AS nelayan,
+-- FIX: titik koma penutup yang hilang di view ini
+CREATE OR REPLACE VIEW view_riwayat_transaksi AS
+SELECT
+    t.id_transaksi,
+    n.nama         AS nelayan,
     g.kategori,
     p.berat_per_kg,
     t.harga_tawar,
@@ -945,55 +796,38 @@ CREATE OR REPLACE VIEW view_riwayat_transaksi
     t.status_transaksi,
     t.tanggal,
     g.id_distributor
-   FROM transaksi t
-     JOIN grade g ON t.id_grade = g.id_grade
-     JOIN panen p ON g.id_panen = p.id_panen
-     JOIN usser n ON p.id_user = n.id_user
-  WHERE t.status_transaksi = 'Selesai'
- 
--- label total di riwayat distributor
-CREATE OR REPLACE FUNCTION total_pembayaran_distributor(
-    p_id_distributor INT
-)
+FROM transaksi t
+JOIN grade g ON t.id_grade  = g.id_grade
+JOIN panen p ON g.id_panen  = p.id_panen
+JOIN usser n ON p.id_user   = n.id_user
+WHERE t.status_transaksi = 'Selesai';
+
+CREATE OR REPLACE FUNCTION total_pembayaran_distributor(p_id_distributor INT)
 RETURNS NUMERIC
 LANGUAGE plpgsql
-AS
-$$
+AS $$
 BEGIN
-
     RETURN (
-        SELECT COALESCE(
-            SUM(t.total_pembayaran),
-            0
-        )
+        SELECT COALESCE(SUM(t.total_pembayaran), 0)
         FROM transaksi t
-        JOIN grade g
-        ON t.id_grade = g.id_grade
+        JOIN grade g ON t.id_grade = g.id_grade
         WHERE t.status_transaksi = 'Selesai'
-        AND g.id_distributor = p_id_distributor
+          AND g.id_distributor = p_id_distributor
     );
-
 END;
 $$;
 
--- label total transaksi yang udah dilakukan dis di riwayat transaksi dis
-CREATE OR REPLACE FUNCTION total_selesai_distributor(
-    p_id_distributor INT
-)
+CREATE OR REPLACE FUNCTION total_selesai_distributor(p_id_distributor INT)
 RETURNS INT
 LANGUAGE plpgsql
-AS
-$$
+AS $$
 BEGIN
-
     RETURN (
         SELECT COUNT(*)
         FROM transaksi t
-        JOIN grade g
-        ON t.id_grade = g.id_grade
+        JOIN grade g ON t.id_grade = g.id_grade
         WHERE t.status_transaksi = 'Selesai'
-        AND g.id_distributor = p_id_distributor
+          AND g.id_distributor = p_id_distributor
     );
-
 END;
 $$;
