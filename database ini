@@ -610,16 +610,36 @@ CREATE TRIGGER trg_cek_perubahan_transaksi
 -- =========================================
 -- PUNYAK DISTRIBUTOR
 -- =========================================
+CREATE OR REPLACE FUNCTION jumlah_panen()
+RETURNS INT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    RETURN (
+        SELECT COUNT(*)
+        FROM panen
+    );
+END;
+$$;
 
-CREATE OR REPLACE VIEW view_jumlah_panen AS
-SELECT COUNT(*) AS total_panen
-FROM panen;
+-- label demand disstributor
+CREATE OR REPLACE FUNCTION total_demand_distributor()
+RETURNS NUMERIC
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
 
-CREATE OR REPLACE VIEW view_demand_distributor
- AS
- SELECT COALESCE(sum(target_kg), 0::numeric) AS total_demand
-   FROM demand
-  WHERE date_trunc('month'::text, deadline::timestamp with time zone) = date_trunc('month'::text, CURRENT_DATE::timestamp with time zone);
+    RETURN (
+        SELECT COALESCE(SUM(target_kg), 0)
+        FROM demand
+        WHERE DATE_TRUNC('month', deadline)
+              = DATE_TRUNC('month', CURRENT_DATE)
+    );
+
+END;
+$$;
 
 CREATE OR REPLACE FUNCTION kurangi_target_demand()
 
@@ -680,15 +700,30 @@ WHERE DATE_TRUNC('month', deadline)
       =
       DATE_TRUNC('month', CURRENT_DATE);
 
-CREATE OR REPLACE VIEW view_total_transaksi_distributor
- AS
- SELECT count(*) AS total_transaksi,
-    g.id_distributor
-   FROM transaksi t
-     JOIN grade g ON t.id_grade = g.id_grade
-  WHERE t.status_transaksi = 'Selesai'
-  GROUP BY g.id_distributor;
+-- label total transaksi selesai distributor
+CREATE OR REPLACE FUNCTION total_transaksi_distributor(
+    p_id_distributor INT
+)
+RETURNS INT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
 
+    RETURN (
+        SELECT COUNT(*)
+        FROM transaksi t
+        JOIN grade g
+        ON t.id_grade = g.id_grade
+        WHERE t.status_transaksi = 'Selesai'
+        AND g.id_distributor = p_id_distributor
+    );
+
+END;
+$$;
+
+
+-- dgv transaksi paling akhir di dashboard
 CREATE OR REPLACE VIEW view_transaksi_paling_akhir AS
 SELECT
     t.id_transaksi,
@@ -772,6 +807,13 @@ BEGIN
 
 END;
 $$;
+
+SELECT
+    p.id_panen,
+    g.id_grade
+FROM panen p
+LEFT JOIN grade g
+ON p.id_panen = g.id_panen;
 
 CREATE OR REPLACE VIEW public.view_penawaran
  AS
@@ -901,76 +943,49 @@ CREATE OR REPLACE VIEW view_riwayat_transaksi
      JOIN usser n ON p.id_user = n.id_user
   WHERE t.status_transaksi = 'Selesai'
  
+-- label total di riwayat distributor
+CREATE OR REPLACE FUNCTION total_pembayaran_distributor(
+    p_id_distributor INT
+)
+RETURNS NUMERIC
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
 
-CREATE OR REPLACE VIEW view_total_pembayaran_distributor AS
-SELECT
-    g.id_distributor,
-    COALESCE(
-        SUM(t.total_pembayaran),
-        0
-    ) AS total_pembayaran
-FROM transaksi t
-JOIN grade g
-ON t.id_grade = g.id_grade
-WHERE t.status_transaksi = 'Selesai'
-GROUP BY g.id_distributor;
+    RETURN (
+        SELECT COALESCE(
+            SUM(t.total_pembayaran),
+            0
+        )
+        FROM transaksi t
+        JOIN grade g
+        ON t.id_grade = g.id_grade
+        WHERE t.status_transaksi = 'Selesai'
+        AND g.id_distributor = p_id_distributor
+    );
 
+END;
+$$;
 
-CREATE OR REPLACE VIEW view_total_selesai_distributor AS
-SELECT
-    g.id_distributor,
-    COUNT(*) AS total_selesai
-FROM transaksi t
-JOIN grade g
-ON t.id_grade = g.id_grade
-WHERE t.status_transaksi = 'Selesai'
-GROUP BY g.id_distributor;
+-- label total transaksi yang udah dilakukan dis di riwayat transaksi dis
+CREATE OR REPLACE FUNCTION total_selesai_distributor(
+    p_id_distributor INT
+)
+RETURNS INT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
 
--------------------------------------------------------------
-CREATE OR REPLACE VIEW public.view_transaksi_aktif_nelayan
- AS
- SELECT t.id_transaksi AS id,
-    ud.username AS distributor,
-    un.username AS nelayan,
-    p.berat_per_kg AS berat,
-    t.total_pembayaran AS total,
-    p.tanggal,
-    t.status_transaksi AS status
-   FROM transaksi t
-     JOIN grade g ON t.id_grade = g.id_grade
-     JOIN panen p ON g.id_panen = p.id_panen
-     JOIN usser un ON p.id_user = un.id_user
-     JOIN usser ud ON g.id_distributor = ud.id_user
-  WHERE lower(t.status_transaksi::text) <> 'selesai'::text;
+    RETURN (
+        SELECT COUNT(*)
+        FROM transaksi t
+        JOIN grade g
+        ON t.id_grade = g.id_grade
+        WHERE t.status_transaksi = 'Selesai'
+        AND g.id_distributor = p_id_distributor
+    );
 
-ALTER TABLE public.view_transaksi_aktif_nelayan
-    OWNER TO postgres;
-
--- View: public.view_stok_nelayan
-
--- DROP VIEW public.view_stok_nelayan;
-
-CREATE OR REPLACE VIEW public.view_stok_nelayan
- AS
- SELECT u.username,
-    COALESCE(sum(p.berat_per_kg), 0::numeric) AS total_stok
-   FROM usser u
-     LEFT JOIN panen p ON u.id_user = p.id_user
-  GROUP BY u.username;
-
-ALTER TABLE public.view_stok_nelayan
-    OWNER TO postgres;
-
-CREATE OR REPLACE VIEW public.view_total_penjualan_nelayan
- AS
- SELECT u.username,
-    COALESCE(sum(t.total_pembayaran), 0::numeric) AS total_penjualan
-   FROM usser u
-     LEFT JOIN panen p ON u.id_user = p.id_user
-     LEFT JOIN grade g ON p.id_panen = g.id_panen
-     LEFT JOIN transaksi t ON g.id_grade = t.id_grade AND t.status_transaksi::text = 'Selesai'::text
-  GROUP BY u.username;
-
-ALTER TABLE public.view_total_penjualan_nelayan
-    OWNER TO postgres;
-
+END;
+$$;
