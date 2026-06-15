@@ -336,20 +336,31 @@ CREATE OR REPLACE VIEW public.vw_dashboard_nelayan
           WHERE g2.id_panen = p.id_panen AND t2.status_transaksi::text = 'Selesai'::text));
 
 -- fn_label_dashboard_nelayan (function)
-CREATE OR REPLACE FUNCTION public.fn_summary_dashboard_nelayan(p_username text)
+CREATE OR REPLACE FUNCTION public.fn_label_dashboard_nelayan(p_username text)
 RETURNS TABLE(stok integer, jual integer, pendapatan numeric) 
 LANGUAGE 'plpgsql'
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT 
-        public.fn_stok_panen(p_username::character varying) AS stok,
-        public.fn_penjualan(p_username::character varying) AS jual,
+    SELECT
+        (SELECT COUNT(*)::integer 
+         FROM public.panen p2
+         JOIN public.usser u2 ON p2.id_user = u2.id_user
+         WHERE u2.username = p_username) AS stok,
+
+        (SELECT COUNT(*)::integer 
+         FROM public.panen p3
+         JOIN public.grade g3 ON g3.id_panen = p3.id_panen
+         JOIN public.transaksi t3 ON t3.id_grade = g3.id_grade
+         JOIN public.usser u3 ON p3.id_user = u3.id_user
+         WHERE u3.username = p_username AND t3.status_transaksi = 'Selesai') AS jual,
+
         COALESCE(SUM(
             CASE
                 WHEN LOWER(vt.status::text) = 'selesai'::text THEN vt.total
                 ELSE 0::numeric
             END), 0::numeric) AS pendapatan
+            
     FROM public.usser u
     LEFT JOIN public.panen p ON u.id_user = p.id_user
     LEFT JOIN public.vw_riwayat_transaksi vt ON p.id_panen = vt.id_panen
