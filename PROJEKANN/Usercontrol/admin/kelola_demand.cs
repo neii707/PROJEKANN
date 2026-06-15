@@ -42,6 +42,14 @@ namespace PROJEKANN.Usercontrol.admin
         {
             string targetRaw = textBox1.Text.Trim();
             DateTime tanggal = dateTimePicker1.Value.Date;
+            DateTime hariIni = DateTime.Today;
+
+
+            if (tanggal < hariIni.AddDays(-3))
+            {
+                MessageBox.Show("Input demand paling lambat hari ini!", "Input Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             if (string.IsNullOrEmpty(targetRaw))
             {
