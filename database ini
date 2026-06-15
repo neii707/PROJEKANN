@@ -443,6 +443,33 @@ CREATE OR REPLACE VIEW public.vw_konfirmasi_penawaran
      JOIN usser u ON u.id_user = g.id_distributor
   WHERE t.konfir_penawaran::text = 'Menunggu'::text;
 
+--button terima/tolak tawaran
+CREATE OR REPLACE PROCEDURE public.proses_penawaran(
+	IN p_id_panen integer,
+	IN p_keputusan character varying)
+LANGUAGE 'plpgsql'
+AS $BODY$
+BEGIN
+    IF UPPER(p_keputusan) = 'TERIMA' THEN
+        UPDATE public.transaksi
+        SET 
+            konfir_penawaran = 'Diterima', 
+            konfir_pembelian = 'Belum Dibayar', 
+            status_transaksi = 'Proses'
+        WHERE id_grade IN (SELECT id_grade FROM public.grade WHERE id_panen = p_id_panen);
+        
+    ELSIF UPPER(p_keputusan) = 'TOLAK' THEN
+        UPDATE public.transaksi
+        SET 
+            konfir_penawaran = 'Ditolak', 
+            status_transaksi = 'Menunggu Ditawar' 
+        WHERE id_grade IN (SELECT id_grade FROM public.grade WHERE id_panen = p_id_panen);
+    ELSE
+        RAISE EXCEPTION 'Keputusan tidak valid! Gunakan TERIMA atau TOLAK.';
+    END IF;
+END;
+$BODY$;
+
 --vw_konfirmasi_transaksi 
 CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi
  AS
