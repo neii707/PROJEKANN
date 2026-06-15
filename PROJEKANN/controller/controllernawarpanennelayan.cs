@@ -3,6 +3,7 @@ using PROJEKANN.database;
 using PROJEKANN.model;
 using System;
 using System.Data;
+using System.Windows.Forms;
 
 namespace PROJEKANN.controller
 {
@@ -26,7 +27,11 @@ namespace PROJEKANN.controller
 
                     if (!string.IsNullOrEmpty(username))
                     {
-                        string queryTabel = "SELECT vp.* FROM vw_konfirmasi_penawaran vp JOIN panen p ON vp.id_panen = p.id_panen JOIN usser u ON p.id_user = u.id_user WHERE u.username = @username";
+                        string queryTabel = @"SELECT vp.* FROM vw_konfirmasi_penawaran vp 
+                                              JOIN panen p ON vp.id_panen = p.id_panen 
+                                              JOIN usser u ON p.id_user = u.id_user 
+                                              WHERE u.username = @username";
+
                         using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                         {
                             cmd.Parameters.AddWithValue("@username", username);
@@ -42,7 +47,7 @@ namespace PROJEKANN.controller
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Gagal memuat data: " + ex.Message, "Error Database", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBox.Show("Gagal memuat data: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return model;
         }
@@ -55,13 +60,13 @@ namespace PROJEKANN.controller
             if (statusBaru.ToLower() == "diterima")
             {
                 query = @"UPDATE transaksi 
-                          SET konfir_penawaran = 'Diterima', konfir_pembelian = 'Belum Dibayar' 
+                          SET konfir_penawaran = 'Diterima', konfir_pembelian = 'Belum Dibayar', status_transaksi = 'Proses'
                           WHERE id_grade IN (SELECT id_grade FROM grade WHERE id_panen = @id_panen)";
             }
             else if (statusBaru.ToLower() == "ditolak")
             {
                 query = @"UPDATE transaksi 
-                          SET konfir_penawaran = 'Ditolak', status_transaksi = 'Ditolak' 
+                          SET konfir_penawaran = 'Ditolak', status_transaksi = 'Menunggu Ditawar' 
                           WHERE id_grade IN (SELECT id_grade FROM grade WHERE id_panen = @id_panen)";
             }
 
@@ -73,13 +78,22 @@ namespace PROJEKANN.controller
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, kon))
                     {
                         cmd.Parameters.AddWithValue("@id_panen", Convert.ToInt32(idPanen));
-                        if (cmd.ExecuteNonQuery() > 0) isSuccess = true;
+                        if (cmd.ExecuteNonQuery() > 0)
+                        {
+                            isSuccess = true;
+                            MessageBox.Show($"Penawaran sukses {statusBaru}!", "Informasi Sistem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                 }
             }
+            catch (PostgresException ex)
+            {
+                // Menangkap pesan pembatalan otomatis (RAISE EXCEPTION) yang dikirim oleh Trigger database
+                MessageBox.Show(ex.MessageText, "Gagal Memproses", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Gagal merubah status: " + ex.Message, "Error Database", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBox.Show("Gagal merubah status: " + ex.Message, "Error Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return isSuccess;
         }

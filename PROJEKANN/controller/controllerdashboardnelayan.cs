@@ -49,7 +49,7 @@ namespace PROJEKANN.controller
                         }
                     }
 
-                    string sqlSummary = "SELECT stok, jual, pendapatan FROM public.vw_label_dashboard_nelayan WHERE username = @username";
+                    string sqlSummary = "SELECT stok, jual, pendapatan FROM public.fn_summary_dashboard_nelayan(@username)";
 
                     using (NpgsqlCommand cmdSum = new NpgsqlCommand(sqlSummary, kon))
                     {
@@ -66,7 +66,6 @@ namespace PROJEKANN.controller
                     }
                 }
             }
-
             catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show("Gagal memuat data dashboard: " + ex.Message,

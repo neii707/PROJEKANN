@@ -32,10 +32,11 @@ namespace PROJEKANN.controller
                     }
 
                     string queryTabel = @"SELECT * FROM vw_konfirmasi_transaksi 
-                                          WHERE ""ID Panen"" IN (
+                                          WHERE id_panen IN (
                                           SELECT p.id_panen FROM panen p 
                                           JOIN usser u ON p.id_user = u.id_user 
                                           WHERE u.username = @username)";
+
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
@@ -64,12 +65,14 @@ namespace PROJEKANN.controller
                 {
                     kon.Open();
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand("public.sp_konfirmasi_transaksi_by_panen", kon))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                    string queryCall = "CALL public.sp_konfirmasi_transaksi_by_panen(@p_id_panen, @p_tanggal_konfir);";
 
-                        cmd.Parameters.AddWithValue("p_id_panen", idPanen);
-                        cmd.Parameters.AddWithValue("p_tanggal_konfir", DateTime.Today);
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryCall, kon))
+                    {
+                        cmd.CommandType = CommandType.Text;
+
+                        cmd.Parameters.AddWithValue("@p_id_panen", idPanen);
+                        cmd.Parameters.AddWithValue("@p_tanggal_konfir", DateTime.Today);
 
                         cmd.ExecuteNonQuery();
                         return true;
@@ -78,13 +81,12 @@ namespace PROJEKANN.controller
             }
             catch (PostgresException ex)
             {
-                // Pesan error dari 'RAISE EXCEPTION' di pgAdmin otomatis tampil utuh di sini
-                System.Windows.Forms.MessageBox.Show(ex.MessageText, "Konfirmasi Ditolak", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Stop);
+                MessageBox.Show(ex.MessageText, "Konfirmasi Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return false;
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Error Aplikasi: " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBox.Show("Error Aplikasi: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
