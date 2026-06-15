@@ -108,7 +108,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             if (MessageBox.Show("Terima penawaran transaksi ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (_controller.UpdateStatusPenawaran(idPanenSelected, "diterima"))
+                if (_controller.UpdateStatusPenawaran(idPanenSelected, "TERIMA"))
                 {
                     SegarkanTampilanPenawaran();
                 }
@@ -129,7 +129,7 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             if (MessageBox.Show("Tolak penawaran transaksi ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (_controller.UpdateStatusPenawaran(idPanenSelected, "ditolak"))
+                if (_controller.UpdateStatusPenawaran(idPanenSelected, "TOLAK"))
                 {
                     SegarkanTampilanPenawaran();
                 }
