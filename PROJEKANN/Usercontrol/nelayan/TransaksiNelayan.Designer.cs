@@ -181,7 +181,7 @@
             // 
             // colID
             // 
-            colID.HeaderText = "ID Panen";
+            colID.HeaderText = "id_panen";
             colID.MinimumWidth = 8;
             colID.Name = "colID";
             colID.ReadOnly = true;

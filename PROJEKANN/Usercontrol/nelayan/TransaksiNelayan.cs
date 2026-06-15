@@ -37,9 +37,9 @@ namespace PROJEKANN.Usercontrol.nelayan
             {
                 dgvtransaksi.AutoGenerateColumns = false;
 
-                colID.DataPropertyName = "ID Panen";
-                colDistributor.DataPropertyName = "Distributor";
-                colBerat.DataPropertyName = "Berat (kg)";
+                colID.DataPropertyName = "id_panen";
+                colDistributor.DataPropertyName = "nama_distributor";
+                colBerat.DataPropertyName = "berat_kg";
                 total_pembayaran.DataPropertyName = "total_pembayaran";
                 colStatus.DataPropertyName = "Status";
 
@@ -64,7 +64,7 @@ namespace PROJEKANN.Usercontrol.nelayan
                 return;
             }
 
-            int idTransaksiSelected = Convert.ToInt32(row["id_transaksi"]);
+            int idTransaksiSelected = Convert.ToInt32(row["id_panen"]);
 
             DialogResult dr = MessageBox.Show("Apakah Anda yakin ingin memberikan konfirmasi selesai pada transaksi ini?",
                 "Konfirmasi Penyelesaian", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

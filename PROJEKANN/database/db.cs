@@ -12,8 +12,6 @@ namespace PROJEKANN.database
             "Host=localhost;Port=5432;Database=bismillah;Username=postgres;Password=191206;";
 
 
-
-
         public static NpgsqlConnection GetConnection()
         {
             return new NpgsqlConnection(connectionString);

@@ -32,7 +32,7 @@ namespace PROJEKANN.controller
                     }
 
                     string queryTabel = @"SELECT * FROM vw_konfirmasi_transaksi 
-                                          WHERE id_panen IN (
+                                          WHERE ""id_panen"" IN (
                                           SELECT p.id_panen FROM panen p 
                                           JOIN usser u ON p.id_user = u.id_user 
                                           WHERE u.username = @username)";
@@ -71,8 +71,8 @@ namespace PROJEKANN.controller
                     {
                         cmd.CommandType = CommandType.Text;
 
-                        cmd.Parameters.AddWithValue("@p_id_panen", idPanen);
-                        cmd.Parameters.AddWithValue("@p_tanggal_konfir", DateTime.Today);
+                        cmd.Parameters.AddWithValue("p_id_panen", idPanen);
+                        cmd.Parameters.AddWithValue("p_tanggal_konfir", DateTime.Today);
 
                         cmd.ExecuteNonQuery();
                         return true;
