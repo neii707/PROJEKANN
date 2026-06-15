@@ -48,7 +48,6 @@ namespace PROJEKANN.Usercontrol.nelayan
                 colDistributor.DataPropertyName = "nama_distributor";
                 colBerat.DataPropertyName = "berat_kg";
                 colGrade.DataPropertyName = "grade";
-                colHarga.DataPropertyName = "harga_per_kg";
                 colTotal.DataPropertyName = "total";
                 colTanggal.DataPropertyName = "tanggal_konfirmasi";
                 colStatus.DataPropertyName = "status";

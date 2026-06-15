@@ -42,7 +42,6 @@
             colDistributor = new DataGridViewTextBoxColumn();
             colBerat = new DataGridViewTextBoxColumn();
             colGrade = new DataGridViewTextBoxColumn();
-            colHarga = new DataGridViewTextBoxColumn();
             colTotal = new DataGridViewTextBoxColumn();
             colTanggal = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
@@ -56,7 +55,7 @@
             dgvTransaksi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvTransaksi.BackgroundColor = Color.MediumAquamarine;
             dgvTransaksi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colBerat, colGrade, colHarga, colTotal, colTanggal, colStatus });
+            dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colID, colDistributor, colBerat, colGrade, colTotal, colTanggal, colStatus });
             dgvTransaksi.Location = new Point(268, 199);
             dgvTransaksi.Name = "dgvTransaksi";
             dgvTransaksi.ReadOnly = true;
@@ -207,13 +206,6 @@
             colGrade.Name = "colGrade";
             colGrade.ReadOnly = true;
             // 
-            // colHarga
-            // 
-            colHarga.HeaderText = "Harga (kg)";
-            colHarga.MinimumWidth = 8;
-            colHarga.Name = "colHarga";
-            colHarga.ReadOnly = true;
-            // 
             // colTotal
             // 
             colTotal.HeaderText = "Total";
@@ -271,7 +263,6 @@
         private DataGridViewTextBoxColumn colDistributor;
         private DataGridViewTextBoxColumn colBerat;
         private DataGridViewTextBoxColumn colGrade;
-        private DataGridViewTextBoxColumn colHarga;
         private DataGridViewTextBoxColumn colTotal;
         private DataGridViewTextBoxColumn colTanggal;
         private DataGridViewTextBoxColumn colStatus;
