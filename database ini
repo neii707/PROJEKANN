@@ -369,30 +369,6 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION public.fn_stok_panen(
-	p_username character varying)
-    RETURNS integer
-    LANGUAGE 'sql'
-AS $$
-    SELECT COUNT(*)::INT
-    FROM vw_dashboard_nelayan
-    WHERE username = p_username; 
-$$;
-
-CREATE OR REPLACE FUNCTION public.fn_penjualan(
-	p_username character varying)
-    RETURNS integer
-    LANGUAGE 'sql'
-AS $$
-    SELECT COUNT(*)::INT
-    FROM panen p
-    JOIN grade      g ON g.id_panen = p.id_panen
-    JOIN transaksi t ON t.id_grade = g.id_grade
-    JOIN usser     u ON p.id_user = u.id_user                     
-    WHERE u.username       = p_username                           
-      AND t.status_transaksi = 'Selesai';
-$$;
-
 --v_kelola_panen 
 CREATE OR REPLACE VIEW public.v_kelola_panen
  AS
@@ -524,10 +500,14 @@ AS $$
 BEGIN
     RETURN QUERY
     SELECT 
-        COUNT(id_panen) AS total_transaksi,
-        COALESCE(SUM(total), 0::numeric) AS total_nilai
-    FROM public.vw_riwayat_transaksi
-    WHERE username_nelayan = p_username;
+        COUNT(t.id_transaksi)::bigint AS total_transaksi,
+        COALESCE(SUM(t.total_pembayaran), 0::numeric) AS total_nilai 
+    FROM public.transaksi t
+    JOIN public.grade g ON t.id_grade = g.id_grade
+    JOIN public.panen p ON g.id_panen = p.id_panen
+    JOIN public.usser u ON p.id_user = u.id_user
+    WHERE u.username = p_username 
+      AND LOWER(t.status_transaksi) = 'selesai';
 END;
 $$;
 
