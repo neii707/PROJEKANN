@@ -41,7 +41,7 @@ namespace PROJEKANN.Usercontrol.nelayan
                 colDistributor.DataPropertyName = "nama_distributor";
                 colBerat.DataPropertyName = "berat_kg";
                 total_pembayaran.DataPropertyName = "total_pembayaran";
-                colStatus.DataPropertyName = "Status";
+                colStatus.DataPropertyName = "status";
 
                 dgvtransaksi.DataSource = data.TabelTransaksiAktif;
             }
@@ -57,21 +57,21 @@ namespace PROJEKANN.Usercontrol.nelayan
 
             DataRowView row = (DataRowView)dgvtransaksi.CurrentRow.DataBoundItem;
 
-            string statusPembelian = row["Status"].ToString();
+            string statusPembelian = row["status"].ToString();
             if (statusPembelian.ToLower() == "belum dibayar")
             {
                 MessageBox.Show("Transaksi tidak bisa dikonfirmasi! Tunggu distributor melakukan pembayaran terlebih dahulu.", "Konfirmasi Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
-            int idTransaksiSelected = Convert.ToInt32(row["id_panen"]);
+            int idPanenSelected = Convert.ToInt32(row["id_panen"]);
 
             DialogResult dr = MessageBox.Show("Apakah Anda yakin ingin memberikan konfirmasi selesai pada transaksi ini?",
                 "Konfirmasi Penyelesaian", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dr == DialogResult.Yes)
             {
-                bool sukses = _controller.KonfirmasiTransaksiSelesai(idTransaksiSelected);
+                bool sukses = _controller.KonfirmasiTransaksiSelesai(idPanenSelected);
 
                 if (sukses)
                 {
@@ -89,30 +89,11 @@ namespace PROJEKANN.Usercontrol.nelayan
             ucBaru.BringToFront();
         }
 
-        private void dashboardbutton_transaksi_Click(object sender, EventArgs e)
-        {
-            GantiHalaman(new DashboardNelayan(mainForm, userLoginAktif));
-        }
-
-        private void inputpanenbutton_transaksi_Click(object sender, EventArgs e)
-        {
-            GantiHalaman(new KelolaPanenNelayan(mainForm, userLoginAktif));
-        }
-
-        private void penawaranbutton_transaksi_Click(object sender, EventArgs e)
-        {
-            GantiHalaman(new NawarPanenNelayan(mainForm, userLoginAktif));
-        }
-
-        private void transaksibutton_transaksi_Click(object sender, EventArgs e)
-        {
-            SegarkanTampilanTransaksi();
-        }
-
-        private void riwayatbutton_transaksi_Click(object sender, EventArgs e)
-        {
-            GantiHalaman(new RiwayatNelayan(mainForm, userLoginAktif));
-        }
+        private void dashboardbutton_transaksi_Click(object sender, EventArgs e) => GantiHalaman(new DashboardNelayan(mainForm, userLoginAktif));
+        private void inputpanenbutton_transaksi_Click(object sender, EventArgs e) => GantiHalaman(new KelolaPanenNelayan(mainForm, userLoginAktif));
+        private void penawaranbutton_transaksi_Click(object sender, EventArgs e) => GantiHalaman(new NawarPanenNelayan(mainForm, userLoginAktif));
+        private void transaksibutton_transaksi_Click(object sender, EventArgs e) => SegarkanTampilanTransaksi();
+        private void riwayatbutton_transaksi_Click(object sender, EventArgs e) => GantiHalaman(new RiwayatNelayan(mainForm, userLoginAktif));
 
         private void keluarbutton_transaksi_Click(object sender, EventArgs e)
         {
@@ -124,7 +105,6 @@ namespace PROJEKANN.Usercontrol.nelayan
         }
 
         private void paneltransaksi_Paint(object sender, PaintEventArgs e) { }
-
         private void dgvtransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }
 }
