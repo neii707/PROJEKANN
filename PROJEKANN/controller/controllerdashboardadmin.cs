@@ -28,7 +28,7 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryAkun = "SELECT * FROM v_labelakun";
+                    string queryAkun = "SELECT public.fn_labelakun()";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryAkun, conn))
                     {
                         object res = cmd.ExecuteScalar();
@@ -36,7 +36,7 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryStok = "SELECT * FROM v_labelstok";
+                    string queryStok = "SELECT * FROM public.fn_labelstok()";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryStok, conn))
                     {
                         object res = cmd.ExecuteScalar();
@@ -44,7 +44,7 @@ namespace PROJEKANN.controller
                     }
 
 
-                    string queryTransaksi = "SELECT * FROM v_labeltransaksi";
+                    string queryTransaksi = "SELECT * FROM public.fn_labeltransaksi()";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTransaksi, conn))
                     {
                         object res = cmd.ExecuteScalar();
