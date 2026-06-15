@@ -594,6 +594,37 @@ WHERE NOT EXISTS
 )
 ORDER BY p.id_panen DESC;
 
+CREATE OR REPLACE PROCEDURE tambah_grading(
+    p_kategori VARCHAR,
+    p_keterangan TEXT,
+    p_harga NUMERIC,
+    p_id_panen INT,
+    p_id_demand INT,
+    p_id_distributor INT
+)
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+
+    IF (
+        SELECT p.berat_per_kg
+        FROM panen p
+        WHERE p.id_panen = p_id_panen
+    ) > (
+        SELECT SUM(d.target_kg)
+        FROM demand d
+    ) THEN
+
+        RAISE EXCEPTION 'Berat panen melebihi sisa demand';
+
+    END IF;
+
+    INSERT INTO grade (kategori,keterangan,harga_per_kg,id_panen,id_demand,id_distributor)
+    VALUES (p_kategori,p_keterangan,p_harga,p_id_panen,p_id_demand,p_id_distributor);
+
+END;
+$$;
 
 CREATE OR REPLACE VIEW view_penawaran AS
 SELECT
