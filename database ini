@@ -505,14 +505,20 @@ BEGIN
 END;
 $BODY$;
 
---vw_label_riwayat_nelayan
-CREATE OR REPLACE VIEW public.vw_label_riwayat_nelayan
- AS
- SELECT username_nelayan,
-    count(id_panen) AS total_transaksi,
-    COALESCE(sum(total), 0::numeric) AS total_nilai
-   FROM vw_riwayat_transaksi
-  GROUP BY username_nelayan;
+--fn_label_riwayat_nelayan
+CREATE OR REPLACE FUNCTION public.fn_label_riwayat_nelayan(p_username text)
+RETURNS TABLE(total_transaksi bigint, total_nilai numeric) 
+LANGUAGE 'plpgsql'
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        COUNT(id_panen) AS total_transaksi,
+        COALESCE(SUM(total), 0::numeric) AS total_nilai
+    FROM public.vw_riwayat_transaksi
+    WHERE username_nelayan = p_username;
+END;
+$$;
 
 --vw_riwayat_transaksi
 CREATE OR REPLACE VIEW public.vw_riwayat_transaksi
