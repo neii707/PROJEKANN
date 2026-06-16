@@ -237,22 +237,24 @@ WHERE t.status_transaksi = 'Selesai';
 -- FUNGSI & VIEW: ADMIN
 -- =========================================
 
-CREATE OR REPLACE VIEW v_aktivitas_terkini AS
-SELECT
-    'NEL0' || p.id_panen  AS id,
-    u.nama                AS pengguna,
-    'Input Panen (' || p.berat_per_kg || ' Kg)' AS aktivitas
+CREATE OR REPLACE VIEW public.v_aktivitas_terkini AS
+SELECT 
+    'NEL0'::text || p.id_panen AS id,
+    u.nama AS pengguna,
+    ('Input Panen ('::text || p.berat_per_kg) || ' Kg)'::text AS aktivitas
 FROM panen p
 JOIN usser u ON p.id_user = u.id_user
 
 UNION ALL
 
-SELECT
-    'DIS0' || d.id_demand AS id,
-    u.nama                AS pengguna,
-    'Minta Demand (' || d.target_kg || ' Kg)' AS aktivitas
-FROM demand d
-JOIN usser u ON d.id_user = u.id_user;
+SELECT 
+    'DIS0'::text || t.id_transaksi AS id,
+    u.nama AS pengguna, 
+    ('Melakukan Transaksi ('::text || p.berat_per_kg) || ' Kg)'::text AS aktivitas
+FROM transaksi t
+JOIN grade g ON t.id_grade = g.id_grade          
+JOIN panen p ON g.id_panen = p.id_panen         
+JOIN usser u ON g.id_distributor = u.id_user;
 
 CREATE OR REPLACE VIEW public.v_demand AS
 SELECT
