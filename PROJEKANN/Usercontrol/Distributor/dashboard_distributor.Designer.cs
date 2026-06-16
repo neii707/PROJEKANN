@@ -50,7 +50,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
-            label1.Location = new Point(266, 194);
+            label1.Location = new Point(333, 240);
             label1.Name = "label1";
             label1.Size = new Size(240, 38);
             label1.TabIndex = 14;
@@ -62,7 +62,7 @@
             lblTotalTransaksi.AutoSize = true;
             lblTotalTransaksi.BackColor = Color.Transparent;
             lblTotalTransaksi.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTotalTransaksi.Location = new Point(741, 108);
+            lblTotalTransaksi.Location = new Point(935, 145);
             lblTotalTransaksi.Name = "lblTotalTransaksi";
             lblTotalTransaksi.Size = new Size(33, 38);
             lblTotalTransaksi.TabIndex = 13;
@@ -74,7 +74,7 @@
             lblDemand.AutoSize = true;
             lblDemand.BackColor = Color.Transparent;
             lblDemand.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
-            lblDemand.Location = new Point(528, 108);
+            lblDemand.Location = new Point(672, 145);
             lblDemand.Name = "lblDemand";
             lblDemand.Size = new Size(33, 38);
             lblDemand.TabIndex = 12;
@@ -85,10 +85,10 @@
             // 
             lblNamaUser.AutoSize = true;
             lblNamaUser.BackColor = Color.Transparent;
-            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNamaUser.Location = new Point(84, 51);
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            lblNamaUser.Location = new Point(104, 66);
             lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.Size = new Size(44, 32);
             lblNamaUser.TabIndex = 11;
             lblNamaUser.Text = "---";
             lblNamaUser.Click += lblNamaUser_Click;
@@ -99,9 +99,9 @@
             btnKeluar.FlatAppearance.BorderSize = 0;
             btnKeluar.FlatStyle = FlatStyle.Flat;
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(8, 515);
+            btnKeluar.Location = new Point(10, 642);
             btnKeluar.Name = "btnKeluar";
-            btnKeluar.Size = new Size(36, 34);
+            btnKeluar.Size = new Size(46, 41);
             btnKeluar.TabIndex = 10;
             btnKeluar.UseVisualStyleBackColor = false;
             btnKeluar.Click += btnKeluar_Click;
@@ -110,10 +110,10 @@
             // 
             dgvDashboard.BackgroundColor = Color.White;
             dgvDashboard.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDashboard.Location = new Point(266, 235);
+            dgvDashboard.Location = new Point(333, 281);
             dgvDashboard.Name = "dgvDashboard";
             dgvDashboard.RowHeadersWidth = 62;
-            dgvDashboard.Size = new Size(624, 301);
+            dgvDashboard.Size = new Size(783, 388);
             dgvDashboard.TabIndex = 9;
             dgvDashboard.CellContentClick += dgvDashboard_CellContentClick;
             // 
@@ -122,7 +122,7 @@
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(503, 114);
+            label2.Location = new Point(647, 151);
             label2.Name = "label2";
             label2.Size = new Size(0, 28);
             label2.TabIndex = 7;
@@ -132,7 +132,7 @@
             lblJumlahPanen.AutoSize = true;
             lblJumlahPanen.BackColor = Color.Transparent;
             lblJumlahPanen.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
-            lblJumlahPanen.Location = new Point(303, 108);
+            lblJumlahPanen.Location = new Point(389, 145);
             lblJumlahPanen.Name = "lblJumlahPanen";
             lblJumlahPanen.Size = new Size(33, 38);
             lblJumlahPanen.TabIndex = 6;
@@ -145,7 +145,7 @@
             btnRiwayat.FlatAppearance.BorderSize = 0;
             btnRiwayat.FlatStyle = FlatStyle.Flat;
             btnRiwayat.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRiwayat.Location = new Point(35, 296);
+            btnRiwayat.Location = new Point(41, 373);
             btnRiwayat.Name = "btnRiwayat";
             btnRiwayat.Size = new Size(197, 34);
             btnRiwayat.TabIndex = 5;
@@ -159,7 +159,7 @@
             btnTransaksi.FlatAppearance.BorderSize = 0;
             btnTransaksi.FlatStyle = FlatStyle.Flat;
             btnTransaksi.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnTransaksi.Location = new Point(29, 260);
+            btnTransaksi.Location = new Point(35, 326);
             btnTransaksi.Name = "btnTransaksi";
             btnTransaksi.Size = new Size(132, 34);
             btnTransaksi.TabIndex = 4;
@@ -173,7 +173,7 @@
             btnPenawaran.FlatAppearance.BorderSize = 0;
             btnPenawaran.FlatStyle = FlatStyle.Flat;
             btnPenawaran.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPenawaran.Location = new Point(34, 222);
+            btnPenawaran.Location = new Point(40, 281);
             btnPenawaran.Name = "btnPenawaran";
             btnPenawaran.Size = new Size(137, 34);
             btnPenawaran.TabIndex = 3;
@@ -187,7 +187,7 @@
             btnGrading.FlatAppearance.BorderSize = 0;
             btnGrading.FlatStyle = FlatStyle.Flat;
             btnGrading.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGrading.Location = new Point(31, 182);
+            btnGrading.Location = new Point(38, 233);
             btnGrading.Name = "btnGrading";
             btnGrading.Size = new Size(112, 34);
             btnGrading.TabIndex = 2;
@@ -201,7 +201,7 @@
             btnPanen.FlatAppearance.BorderSize = 0;
             btnPanen.FlatStyle = FlatStyle.Flat;
             btnPanen.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPanen.Location = new Point(34, 145);
+            btnPanen.Location = new Point(41, 185);
             btnPanen.Name = "btnPanen";
             btnPanen.Size = new Size(134, 34);
             btnPanen.TabIndex = 1;
@@ -215,7 +215,7 @@
             btnDashboard.FlatAppearance.BorderSize = 0;
             btnDashboard.FlatStyle = FlatStyle.Flat;
             btnDashboard.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDashboard.Location = new Point(29, 112);
+            btnDashboard.Location = new Point(37, 143);
             btnDashboard.Name = "btnDashboard";
             btnDashboard.Size = new Size(140, 34);
             btnDashboard.TabIndex = 0;
@@ -245,7 +245,7 @@
             Controls.Add(btnDashboard);
             DoubleBuffered = true;
             Name = "dashboard_distributor";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
             Load += dashboard_distributor_Load;
             ((System.ComponentModel.ISupportInitialize)dgvDashboard).EndInit();
             ResumeLayout(false);

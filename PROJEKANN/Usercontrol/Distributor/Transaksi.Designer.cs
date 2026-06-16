@@ -45,9 +45,9 @@
             // 
             btnKonfirmasi.BackColor = Color.DarkSeaGreen;
             btnKonfirmasi.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKonfirmasi.Location = new Point(259, 508);
+            btnKonfirmasi.Location = new Point(324, 624);
             btnKonfirmasi.Name = "btnKonfirmasi";
-            btnKonfirmasi.Size = new Size(137, 34);
+            btnKonfirmasi.Size = new Size(137, 50);
             btnKonfirmasi.TabIndex = 1;
             btnKonfirmasi.Text = "KONFIRMASI";
             btnKonfirmasi.UseVisualStyleBackColor = false;
@@ -57,10 +57,10 @@
             // 
             lblNamaUser.AutoSize = true;
             lblNamaUser.BackColor = Color.Transparent;
-            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNamaUser.Location = new Point(80, 47);
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            lblNamaUser.Location = new Point(105, 57);
             lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.Size = new Size(44, 32);
             lblNamaUser.TabIndex = 16;
             lblNamaUser.Text = "---";
             // 
@@ -70,7 +70,7 @@
             btnKeluar.FlatAppearance.BorderSize = 0;
             btnKeluar.FlatStyle = FlatStyle.Flat;
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(3, 515);
+            btnKeluar.Location = new Point(7, 645);
             btnKeluar.Name = "btnKeluar";
             btnKeluar.Size = new Size(68, 34);
             btnKeluar.TabIndex = 15;
@@ -84,7 +84,7 @@
             btnRiwayat.FlatAppearance.BorderSize = 0;
             btnRiwayat.FlatStyle = FlatStyle.Flat;
             btnRiwayat.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRiwayat.Location = new Point(38, 297);
+            btnRiwayat.Location = new Point(43, 373);
             btnRiwayat.Name = "btnRiwayat";
             btnRiwayat.Size = new Size(194, 34);
             btnRiwayat.TabIndex = 14;
@@ -98,7 +98,7 @@
             btnTransaksi.FlatAppearance.BorderSize = 0;
             btnTransaksi.FlatStyle = FlatStyle.Flat;
             btnTransaksi.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnTransaksi.Location = new Point(32, 259);
+            btnTransaksi.Location = new Point(36, 327);
             btnTransaksi.Name = "btnTransaksi";
             btnTransaksi.Size = new Size(129, 34);
             btnTransaksi.TabIndex = 13;
@@ -112,7 +112,7 @@
             btnPenawaran.FlatAppearance.BorderSize = 0;
             btnPenawaran.FlatStyle = FlatStyle.Flat;
             btnPenawaran.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPenawaran.Location = new Point(30, 224);
+            btnPenawaran.Location = new Point(34, 281);
             btnPenawaran.Name = "btnPenawaran";
             btnPenawaran.Size = new Size(147, 34);
             btnPenawaran.TabIndex = 12;
@@ -126,7 +126,7 @@
             btnGrading.FlatAppearance.BorderSize = 0;
             btnGrading.FlatStyle = FlatStyle.Flat;
             btnGrading.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGrading.Location = new Point(33, 184);
+            btnGrading.Location = new Point(38, 232);
             btnGrading.Name = "btnGrading";
             btnGrading.Size = new Size(112, 34);
             btnGrading.TabIndex = 11;
@@ -140,7 +140,7 @@
             btnPanen.FlatAppearance.BorderSize = 0;
             btnPanen.FlatStyle = FlatStyle.Flat;
             btnPanen.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPanen.Location = new Point(28, 146);
+            btnPanen.Location = new Point(32, 187);
             btnPanen.Name = "btnPanen";
             btnPanen.Size = new Size(150, 34);
             btnPanen.TabIndex = 10;
@@ -154,7 +154,7 @@
             btnDashboard.FlatAppearance.BorderSize = 0;
             btnDashboard.FlatStyle = FlatStyle.Flat;
             btnDashboard.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDashboard.Location = new Point(32, 112);
+            btnDashboard.Location = new Point(37, 144);
             btnDashboard.Name = "btnDashboard";
             btnDashboard.Size = new Size(137, 34);
             btnDashboard.TabIndex = 9;
@@ -166,10 +166,10 @@
             // 
             dgvTransaksi.BackgroundColor = Color.White;
             dgvTransaksi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTransaksi.Location = new Point(269, 103);
+            dgvTransaksi.Location = new Point(331, 116);
             dgvTransaksi.Name = "dgvTransaksi";
             dgvTransaksi.RowHeadersWidth = 62;
-            dgvTransaksi.Size = new Size(621, 384);
+            dgvTransaksi.Size = new Size(783, 500);
             dgvTransaksi.TabIndex = 0;
             dgvTransaksi.CellClick += dgvTransaksi_CellClick;
             // 
@@ -190,7 +190,7 @@
             Controls.Add(btnKonfirmasi);
             Controls.Add(dgvTransaksi);
             Name = "Transaksi";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).EndInit();
             ResumeLayout(false);
             PerformLayout();
