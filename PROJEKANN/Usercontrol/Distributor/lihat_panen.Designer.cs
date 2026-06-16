@@ -45,10 +45,10 @@
             // 
             lblNamaUser.AutoSize = true;
             lblNamaUser.BackColor = Color.Transparent;
-            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNamaUser.Location = new Point(83, 49);
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            lblNamaUser.Location = new Point(108, 62);
             lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.Size = new Size(44, 32);
             lblNamaUser.TabIndex = 13;
             lblNamaUser.Text = "---";
             // 
@@ -70,10 +70,10 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(264, 91);
+            label1.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            label1.Location = new Point(325, 105);
             label1.Name = "label1";
-            label1.Size = new Size(193, 28);
+            label1.Size = new Size(271, 38);
             label1.TabIndex = 7;
             label1.Text = "Data Panen Saat Ini:";
             // 
@@ -81,10 +81,10 @@
             // 
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(264, 122);
+            dataGridView1.Location = new Point(334, 145);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(627, 416);
+            dataGridView1.Size = new Size(778, 521);
             dataGridView1.TabIndex = 6;
             // 
             // btnRiwayat
@@ -93,9 +93,9 @@
             btnRiwayat.FlatAppearance.BorderSize = 0;
             btnRiwayat.FlatStyle = FlatStyle.Flat;
             btnRiwayat.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRiwayat.Location = new Point(34, 298);
+            btnRiwayat.Location = new Point(44, 374);
             btnRiwayat.Name = "btnRiwayat";
-            btnRiwayat.Size = new Size(198, 34);
+            btnRiwayat.Size = new Size(193, 34);
             btnRiwayat.TabIndex = 5;
             btnRiwayat.Text = "RIWAYAT TRANSAKSI";
             btnRiwayat.UseVisualStyleBackColor = false;
@@ -107,7 +107,7 @@
             btnTransaksi.FlatAppearance.BorderSize = 0;
             btnTransaksi.FlatStyle = FlatStyle.Flat;
             btnTransaksi.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnTransaksi.Location = new Point(37, 261);
+            btnTransaksi.Location = new Point(44, 327);
             btnTransaksi.Name = "btnTransaksi";
             btnTransaksi.Size = new Size(115, 34);
             btnTransaksi.TabIndex = 4;
@@ -121,7 +121,7 @@
             btnPenawaran.FlatAppearance.BorderSize = 0;
             btnPenawaran.FlatStyle = FlatStyle.Flat;
             btnPenawaran.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPenawaran.Location = new Point(37, 223);
+            btnPenawaran.Location = new Point(43, 283);
             btnPenawaran.Name = "btnPenawaran";
             btnPenawaran.Size = new Size(130, 34);
             btnPenawaran.TabIndex = 3;
@@ -135,7 +135,7 @@
             btnGrading.FlatAppearance.BorderSize = 0;
             btnGrading.FlatStyle = FlatStyle.Flat;
             btnGrading.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGrading.Location = new Point(33, 183);
+            btnGrading.Location = new Point(37, 234);
             btnGrading.Name = "btnGrading";
             btnGrading.Size = new Size(112, 34);
             btnGrading.TabIndex = 2;
@@ -149,9 +149,9 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(26, 145);
+            button2.Location = new Point(41, 184);
             button2.Name = "button2";
-            button2.Size = new Size(156, 34);
+            button2.Size = new Size(132, 34);
             button2.TabIndex = 1;
             button2.Text = "LIHAT PANEN";
             button2.UseVisualStyleBackColor = false;
@@ -163,7 +163,7 @@
             btnPanen.FlatAppearance.BorderSize = 0;
             btnPanen.FlatStyle = FlatStyle.Flat;
             btnPanen.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPanen.Location = new Point(37, 111);
+            btnPanen.Location = new Point(40, 143);
             btnPanen.Name = "btnPanen";
             btnPanen.Size = new Size(130, 34);
             btnPanen.TabIndex = 8;
@@ -188,7 +188,7 @@
             Controls.Add(button2);
             Controls.Add(btnPanen);
             Name = "lihat_panen";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
