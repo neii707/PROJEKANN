@@ -51,7 +51,7 @@ namespace PROJEKANN.controller
 
                     string queryTabel = @"
                         SELECT * FROM public.vw_riwayat_transaksi
-                        WHERE username_nelayan = @username";
+                        WHERE username = @username";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {

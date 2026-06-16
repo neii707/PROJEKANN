@@ -29,7 +29,7 @@ namespace PROJEKANN.controller
 
                     string queryTabel = @"SELECT * FROM public.v_kelola_panen 
                                           WHERE username = @username 
-                                          ORDER BY id DESC";
+                                          ORDER BY id asc";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(queryTabel, kon))
                     {

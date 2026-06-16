@@ -36,7 +36,7 @@ namespace PROJEKANN.controller
 
                     string sqlTabel = @"SELECT * FROM vw_dashboard_nelayan 
                                         WHERE username = @username
-                                        ORDER BY tanggal DESC";
+                                        ORDER BY id_panen asc";
 
                     using (NpgsqlCommand cmdTabel = new NpgsqlCommand(sqlTabel, kon))
                     {
