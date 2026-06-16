@@ -133,11 +133,29 @@ VALUES
 
 INSERT INTO panen (berat_per_kg, tanggal, id_user)
 VALUES
-    (100.50, '2026-05-01', 4),
-    (75.25,  '2026-05-02', 5),
-    (120.00, '2026-05-03', 4),
-    (95.75,  '2026-05-04', 5),
-    (150.00, '2026-05-05', 4);
+	 -- Januari
+    (110.00, '2026-01-05', 4),   -- id_panen 6
+    (85.50,  '2026-01-08', 5),   -- id_panen 7
+ 
+    -- Februari
+    (130.25, '2026-02-03', 4),   -- id_panen 8
+    (92.00,  '2026-02-07', 5),   -- id_panen 9
+ 
+    -- Maret
+    (145.75, '2026-03-04', 4),   -- id_panen 10
+    (78.00,  '2026-03-09', 5),   -- id_panen 11
+ 
+    -- April
+    (120.50, '2026-04-02', 4),   -- id_panen 12
+    (98.25,  '2026-04-06', 5),   -- id_panen 13
+ 
+    -- Mei 	
+    (115.00, '2026-05-10', 4),   -- id_panen 14
+    (88.75,  '2026-05-12', 5),   -- id_panen 15
+ 
+    -- Juni
+    (135.50, '2026-06-03', 4),   -- id_panen 16
+    (102.00, '2026-06-08', 5);   -- id_panen 17
 
 -- =========================================
 -- GRADE
@@ -145,11 +163,92 @@ VALUES
 
 INSERT INTO grade (kategori, keterangan, harga_per_kg, id_panen, id_demand, id_distributor)
 VALUES
-    ('A', 'Kualitas sangat baik', 15000, 1, 1, 2),
-    ('B', 'Kualitas baik',        13000, 2, 2, 2),
-    ('C', 'Kualitas cukup',       11000, 3, 3, 3),
-    ('A', 'Kualitas sangat baik', 15000, 4, 4, 2),
-    ('B', 'Kualitas baik',        13000, 5, 5, 3);
+	-- Januari
+    ('A', 'Kualitas sangat baik', 15000, 6,  1, 2),   -- id_grade 6
+    ('B', 'Kualitas baik',        13000, 7,  2, 3),   -- id_grade 7
+ 
+    -- Februari
+    ('A', 'Kualitas sangat baik', 15500, 8,  3, 2),   -- id_grade 8
+    ('C', 'Kualitas cukup',       11500, 9,  4, 3),   -- id_grade 9
+ 
+    -- Maret
+    ('B', 'Kualitas baik',        13500, 10, 5, 2),   -- id_grade 10
+    ('A', 'Kualitas sangat baik', 16000, 11, 1, 3),   -- id_grade 11
+ 
+    -- April
+    ('A', 'Kualitas sangat baik', 15000, 12, 2, 2),   -- id_grade 12
+    ('B', 'Kualitas baik',        13000, 13, 3, 3),   -- id_grade 13
+ 
+    -- Mei (untuk panen tambahan)
+    ('B', 'Kualitas baik',        13500, 14, 4, 2),   -- id_grade 14
+    ('A', 'Kualitas sangat baik', 15000, 15, 5, 3),   -- id_grade 15
+ 
+    -- Juni
+    ('A', 'Kualitas sangat baik', 16000, 16, 1, 2),   -- id_grade 16
+    ('C', 'Kualitas cukup',       12000, 17, 2, 3);   -- id_grade 17
+
+-- =========================================
+-- TRANSAKSI TAMBAHAN (SUDAH SELESAI)
+-- Dibuat langsung dengan status Selesai
+-- (trigger hitung_total_pembayaran aktif saat INSERT,
+--  namun total_pembayaran diisi manual agar konsisten
+--  dengan harga_tawar x berat_per_kg)
+-- =========================================
+ 
+-- CATATAN:
+-- Trigger hitung_total_pembayaran akan menghitung ulang
+-- total_pembayaran = berat_per_kg * harga_tawar saat INSERT.
+-- Nilai total_pembayaran di bawah sudah dihitung sesuai rumus itu,
+-- namun trigger akan mengoverride nilainya (hasilnya sama).
+ 
+-- Januari
+INSERT INTO transaksi (tanggal, harga_tawar, total_pembayaran, status_transaksi, konfir_penawaran, konfir_pembelian, id_grade)
+VALUES
+    ('2026-01-12', 14800, 1628000,  'Selesai', 'Diterima', 'Selesai', 6),
+    -- 110.00 x 14800 = 1,628,000
+    ('2026-01-15', 12800, 1094400,  'Selesai', 'Diterima', 'Selesai', 7);
+    -- 85.50 x 12800 = 1,094,400
+ 
+-- Februari
+INSERT INTO transaksi (tanggal, harga_tawar, total_pembayaran, status_transaksi, konfir_penawaran, konfir_pembelian, id_grade)
+VALUES
+    ('2026-02-10', 15200, 1980800,  'Selesai', 'Diterima', 'Selesai', 8),
+    -- 130.25 x 15200 = 1,979,800 (trigger override)
+    ('2026-02-13', 11200, 1030400,  'Selesai', 'Diterima', 'Selesai', 9);
+    -- 92.00 x 11200 = 1,030,400
+ 
+-- Maret
+INSERT INTO transaksi (tanggal, harga_tawar, total_pembayaran, status_transaksi, konfir_penawaran, konfir_pembelian, id_grade)
+VALUES
+    ('2026-03-11', 13200, 1924300,  'Selesai', 'Diterima', 'Selesai', 10),
+    -- 145.75 x 13200 = 1,923,900 (trigger override)
+    ('2026-03-14', 15500, 1209000,  'Selesai', 'Diterima', 'Selesai', 11);
+    -- 78.00 x 15500 = 1,209,000
+ 
+-- April
+INSERT INTO transaksi (tanggal, harga_tawar, total_pembayaran, status_transaksi, konfir_penawaran, konfir_pembelian, id_grade)
+VALUES
+    ('2026-04-09', 14700, 1771350,  'Selesai', 'Diterima', 'Selesai', 12),
+    -- 120.50 x 14700 = 1,771,350
+    ('2026-04-12', 12700, 1247775,  'Selesai', 'Diterima', 'Selesai', 13);
+    -- 98.25 x 12700 = 1,247,775
+ 
+-- Mei (transaksi tambahan untuk panen baru)
+INSERT INTO transaksi (tanggal, harga_tawar, total_pembayaran, status_transaksi, konfir_penawaran, konfir_pembelian, id_grade)
+VALUES
+    ('2026-05-17', 13300, 1529950,  'Selesai', 'Diterima', 'Selesai', 14),
+    -- 115.00 x 13300 = 1,529,500 (trigger override)
+    ('2026-05-20', 14900, 1322375,  'Selesai', 'Diterima', 'Selesai', 15);
+    -- 88.75 x 14900 = 1,322,375
+ 
+-- Juni
+INSERT INTO transaksi (tanggal, harga_tawar, total_pembayaran, status_transaksi, konfir_penawaran, konfir_pembelian, id_grade)
+VALUES
+    ('2026-06-10', 15800, 2140900,  'Selesai', 'Diterima', 'Selesai', 16),
+    -- 135.50 x 15800 = 2,140,900
+    ('2026-06-13', 11800, 1203600,  'Selesai', 'Diterima', 'Selesai', 17);
+    -- 102.00 x 11800 = 1,203,600
+
 
 -- =========================================
 -- TRIGGER: HITUNG TOTAL PEMBAYARAN (harus sebelum INSERT transaksi)
