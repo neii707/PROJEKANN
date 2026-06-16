@@ -70,9 +70,9 @@
             btnKeluar.FlatAppearance.BorderSize = 0;
             btnKeluar.FlatStyle = FlatStyle.Flat;
             btnKeluar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnKeluar.Location = new Point(7, 514);
+            btnKeluar.Location = new Point(10, 646);
             btnKeluar.Name = "btnKeluar";
-            btnKeluar.Size = new Size(59, 34);
+            btnKeluar.Size = new Size(43, 34);
             btnKeluar.TabIndex = 13;
             btnKeluar.TextAlign = ContentAlignment.MiddleRight;
             btnKeluar.UseVisualStyleBackColor = false;
