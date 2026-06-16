@@ -48,7 +48,7 @@
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(81, 54);
+            label5.Location = new Point(104, 71);
             label5.Name = "label5";
             label5.Size = new Size(63, 25);
             label5.TabIndex = 17;
@@ -63,9 +63,9 @@
             keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
             keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
             keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_dashboard.Location = new Point(-22, 509);
+            keluarbutton_dashboard.Location = new Point(-24, 635);
             keluarbutton_dashboard.Name = "keluarbutton_dashboard";
-            keluarbutton_dashboard.Size = new Size(85, 46);
+            keluarbutton_dashboard.Size = new Size(108, 55);
             keluarbutton_dashboard.TabIndex = 15;
             keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
             keluarbutton_dashboard.UseVisualStyleBackColor = false;
@@ -90,10 +90,10 @@
             skDefaultLegend1.X = 0F;
             skDefaultLegend1.Y = 0F;
             cartesianChart1.Legend = skDefaultLegend1;
-            cartesianChart1.Location = new Point(283, 111);
+            cartesianChart1.Location = new Point(333, 122);
             cartesianChart1.MatchAxesScreenDataRatio = false;
             cartesianChart1.Name = "cartesianChart1";
-            cartesianChart1.Size = new Size(580, 400);
+            cartesianChart1.Size = new Size(772, 524);
             cartesianChart1.TabIndex = 26;
             skDefaultTooltip1.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
             skDefaultTooltip1.Content = null;
@@ -119,7 +119,7 @@
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.Location = new Point(31, 259);
+            button5.Location = new Point(46, 327);
             button5.Name = "button5";
             button5.Size = new Size(219, 34);
             button5.TabIndex = 24;
@@ -134,7 +134,7 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.Location = new Point(31, 221);
+            button4.Location = new Point(46, 283);
             button4.Name = "button4";
             button4.Size = new Size(219, 34);
             button4.TabIndex = 23;
@@ -149,7 +149,7 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(31, 187);
+            button3.Location = new Point(46, 235);
             button3.Name = "button3";
             button3.Size = new Size(175, 34);
             button3.TabIndex = 22;
@@ -164,7 +164,7 @@
             button6.FlatAppearance.BorderSize = 0;
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button6.Location = new Point(31, 148);
+            button6.Location = new Point(46, 188);
             button6.Name = "button6";
             button6.Size = new Size(149, 34);
             button6.TabIndex = 21;
@@ -180,7 +180,7 @@
             button7.FlatStyle = FlatStyle.Flat;
             button7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ImageAlign = ContentAlignment.MiddleLeft;
-            button7.Location = new Point(31, 112);
+            button7.Location = new Point(46, 142);
             button7.Name = "button7";
             button7.Size = new Size(135, 34);
             button7.TabIndex = 19;
@@ -204,7 +204,7 @@
             Controls.Add(button5);
             Controls.Add(label5);
             Name = "monitor_transaksi";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
             ResumeLayout(false);
             PerformLayout();
         }

@@ -52,7 +52,7 @@
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(81, 54);
+            label5.Location = new Point(104, 75);
             label5.Name = "label5";
             label5.Size = new Size(63, 25);
             label5.TabIndex = 17;
@@ -68,9 +68,9 @@
             keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
             keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
             keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_dashboard.Location = new Point(-19, 509);
+            keluarbutton_dashboard.Location = new Point(-27, 620);
             keluarbutton_dashboard.Name = "keluarbutton_dashboard";
-            keluarbutton_dashboard.Size = new Size(85, 46);
+            keluarbutton_dashboard.Size = new Size(124, 70);
             keluarbutton_dashboard.TabIndex = 15;
             keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
             keluarbutton_dashboard.UseVisualStyleBackColor = false;
@@ -82,7 +82,7 @@
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.Location = new Point(35, 261);
+            button5.Location = new Point(45, 329);
             button5.Name = "button5";
             button5.Size = new Size(219, 34);
             button5.TabIndex = 12;
@@ -97,7 +97,7 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.Location = new Point(35, 225);
+            button4.Location = new Point(46, 282);
             button4.Name = "button4";
             button4.Size = new Size(219, 34);
             button4.TabIndex = 11;
@@ -112,7 +112,7 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(35, 185);
+            button3.Location = new Point(44, 234);
             button3.Name = "button3";
             button3.Size = new Size(175, 34);
             button3.TabIndex = 10;
@@ -127,7 +127,7 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(35, 145);
+            button2.Location = new Point(45, 189);
             button2.Name = "button2";
             button2.Size = new Size(149, 34);
             button2.TabIndex = 9;
@@ -143,7 +143,7 @@
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button6.ImageAlign = ContentAlignment.MiddleLeft;
-            button6.Location = new Point(35, 109);
+            button6.Location = new Point(47, 145);
             button6.Name = "button6";
             button6.Size = new Size(135, 34);
             button6.TabIndex = 8;
@@ -157,28 +157,28 @@
             dataGridView1.BackgroundColor = Color.FromArgb(228, 254, 233);
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.GridColor = Color.FromArgb(192, 255, 192);
-            dataGridView1.Location = new Point(262, 299);
+            dataGridView1.Location = new Point(330, 370);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(618, 206);
+            dataGridView1.Size = new Size(772, 267);
             dataGridView1.TabIndex = 7;
             // 
             // dateTimePicker1
             // 
             dateTimePicker1.CalendarFont = new Font("Segoe UI", 7F);
-            dateTimePicker1.Font = new Font("Segoe UI", 7F);
-            dateTimePicker1.Location = new Point(597, 149);
+            dateTimePicker1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dateTimePicker1.Location = new Point(667, 187);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(283, 26);
+            dateTimePicker1.Size = new Size(434, 34);
             dateTimePicker1.TabIndex = 6;
             dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // textBox1
             // 
-            textBox1.Font = new Font("Segoe UI", 7F);
-            textBox1.Location = new Point(267, 149);
+            textBox1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(329, 189);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(252, 26);
+            textBox1.Size = new Size(315, 31);
             textBox1.TabIndex = 5;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
@@ -186,10 +186,10 @@
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(597, 117);
+            label4.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Location = new Point(667, 150);
             label4.Name = "label4";
-            label4.Size = new Size(97, 25);
+            label4.Size = new Size(114, 30);
             label4.TabIndex = 4;
             label4.Text = "TANGGAL";
             // 
@@ -197,10 +197,10 @@
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(261, 117);
+            label3.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Location = new Point(329, 150);
             label3.Name = "label3";
-            label3.Size = new Size(124, 25);
+            label3.Size = new Size(145, 30);
             label3.TabIndex = 3;
             label3.Text = "TARGET (KG)";
             // 
@@ -209,9 +209,9 @@
             button1.BackColor = Color.FromArgb(69, 115, 28);
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(262, 186);
+            button1.Location = new Point(329, 237);
             button1.Name = "button1";
-            button1.Size = new Size(618, 34);
+            button1.Size = new Size(772, 41);
             button1.TabIndex = 2;
             button1.Text = "TAMBAH DEMAND";
             button1.UseVisualStyleBackColor = false;
@@ -221,10 +221,10 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(251, 249);
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(318, 312);
             label2.Name = "label2";
-            label2.Size = new Size(207, 25);
+            label2.Size = new Size(272, 32);
             label2.TabIndex = 1;
             label2.Text = "LIST TARGET DEMAND";
             // 
@@ -232,10 +232,10 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(248, 77);
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(312, 95);
             label1.Name = "label1";
-            label1.Size = new Size(249, 25);
+            label1.Size = new Size(327, 32);
             label1.TabIndex = 0;
             label1.Text = "+ TAMBAH DEMAND BARU";
             // 
@@ -261,7 +261,7 @@
             Controls.Add(keluarbutton_dashboard);
             Controls.Add(label5);
             Name = "kelola_demand";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
