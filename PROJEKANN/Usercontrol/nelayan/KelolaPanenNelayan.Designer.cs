@@ -61,10 +61,10 @@
             // 
             lbnamauser_kelola.AutoSize = true;
             lbnamauser_kelola.BackColor = Color.Transparent;
-            lbnamauser_kelola.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbnamauser_kelola.Location = new Point(83, 56);
+            lbnamauser_kelola.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            lbnamauser_kelola.Location = new Point(104, 60);
             lbnamauser_kelola.Name = "lbnamauser_kelola";
-            lbnamauser_kelola.Size = new Size(88, 25);
+            lbnamauser_kelola.Size = new Size(123, 36);
             lbnamauser_kelola.TabIndex = 25;
             lbnamauser_kelola.Text = "Natachai";
             // 
@@ -76,12 +76,12 @@
             dgvriwayatpanen.BackgroundColor = Color.MediumAquamarine;
             dgvriwayatpanen.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvriwayatpanen.Columns.AddRange(new DataGridViewColumn[] { colID, colBerat, colGrade, colHarga, colTanggal, colStatus });
-            dgvriwayatpanen.Location = new Point(256, 306);
+            dgvriwayatpanen.Location = new Point(318, 306);
             dgvriwayatpanen.Name = "dgvriwayatpanen";
             dgvriwayatpanen.ReadOnly = true;
             dgvriwayatpanen.RowHeadersVisible = false;
             dgvriwayatpanen.RowHeadersWidth = 62;
-            dgvriwayatpanen.Size = new Size(639, 223);
+            dgvriwayatpanen.Size = new Size(804, 365);
             dgvriwayatpanen.TabIndex = 24;
             dgvriwayatpanen.CellClick += dgvriwayatpanen_CellClick;
             dgvriwayatpanen.CellContentClick += dgvriwayatpanen_CellContentClick;
@@ -133,7 +133,7 @@
             labelriwayat_kelola.AutoSize = true;
             labelriwayat_kelola.BackColor = Color.Transparent;
             labelriwayat_kelola.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            labelriwayat_kelola.Location = new Point(274, 275);
+            labelriwayat_kelola.Location = new Point(316, 275);
             labelriwayat_kelola.Name = "labelriwayat_kelola";
             labelriwayat_kelola.Size = new Size(202, 28);
             labelriwayat_kelola.TabIndex = 23;
@@ -143,10 +143,10 @@
             // 
             labelgrade_kelola.AutoSize = true;
             labelgrade_kelola.BackColor = Color.MediumAquamarine;
-            labelgrade_kelola.Font = new Font("Segoe UI", 7F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            labelgrade_kelola.Location = new Point(274, 223);
+            labelgrade_kelola.Font = new Font("Segoe UI", 8F, FontStyle.Italic);
+            labelgrade_kelola.Location = new Point(340, 231);
             labelgrade_kelola.Name = "labelgrade_kelola";
-            labelgrade_kelola.Size = new Size(276, 19);
+            labelgrade_kelola.Size = new Size(305, 21);
             labelgrade_kelola.TabIndex = 22;
             labelgrade_kelola.Text = "[!] Grade akan ditentukan oleh Distributor.";
             // 
@@ -156,9 +156,9 @@
             hapuspanen_kelola.FlatAppearance.BorderSize = 0;
             hapuspanen_kelola.FlatStyle = FlatStyle.Flat;
             hapuspanen_kelola.Font = new Font("Calibri", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            hapuspanen_kelola.Location = new Point(801, 176);
+            hapuspanen_kelola.Location = new Point(989, 175);
             hapuspanen_kelola.Name = "hapuspanen_kelola";
-            hapuspanen_kelola.Size = new Size(81, 41);
+            hapuspanen_kelola.Size = new Size(116, 41);
             hapuspanen_kelola.TabIndex = 21;
             hapuspanen_kelola.Text = "hapus";
             hapuspanen_kelola.UseVisualStyleBackColor = false;
@@ -170,9 +170,9 @@
             simpanpanen_kelola.FlatAppearance.BorderSize = 0;
             simpanpanen_kelola.FlatStyle = FlatStyle.Flat;
             simpanpanen_kelola.Font = new Font("Calibri", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            simpanpanen_kelola.Location = new Point(711, 176);
+            simpanpanen_kelola.Location = new Point(852, 175);
             simpanpanen_kelola.Name = "simpanpanen_kelola";
-            simpanpanen_kelola.Size = new Size(81, 41);
+            simpanpanen_kelola.Size = new Size(119, 41);
             simpanpanen_kelola.TabIndex = 20;
             simpanpanen_kelola.Text = "simpan";
             simpanpanen_kelola.UseVisualStyleBackColor = false;
@@ -180,9 +180,9 @@
             // 
             // dtptanggalpanen
             // 
-            dtptanggalpanen.Location = new Point(468, 185);
+            dtptanggalpanen.Location = new Point(571, 185);
             dtptanggalpanen.Name = "dtptanggalpanen";
-            dtptanggalpanen.Size = new Size(228, 31);
+            dtptanggalpanen.Size = new Size(247, 31);
             dtptanggalpanen.TabIndex = 19;
             dtptanggalpanen.ValueChanged += dtptanggalpanen_ValueChanged;
             // 
@@ -191,7 +191,7 @@
             tanggalinput_kelola.AutoSize = true;
             tanggalinput_kelola.BackColor = Color.MediumAquamarine;
             tanggalinput_kelola.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            tanggalinput_kelola.Location = new Point(468, 158);
+            tanggalinput_kelola.Location = new Point(564, 157);
             tanggalinput_kelola.Name = "tanggalinput_kelola";
             tanggalinput_kelola.Size = new Size(142, 25);
             tanggalinput_kelola.TabIndex = 18;
@@ -202,7 +202,7 @@
             inputpanen.AutoSize = true;
             inputpanen.BackColor = Color.Transparent;
             inputpanen.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            inputpanen.Location = new Point(274, 108);
+            inputpanen.Location = new Point(337, 108);
             inputpanen.Name = "inputpanen";
             inputpanen.Size = new Size(213, 32);
             inputpanen.TabIndex = 16;
@@ -210,9 +210,9 @@
             // 
             // numBerat
             // 
-            numBerat.Location = new Point(274, 186);
+            numBerat.Location = new Point(340, 186);
             numBerat.Name = "numBerat";
-            numBerat.Size = new Size(180, 31);
+            numBerat.Size = new Size(210, 31);
             numBerat.TabIndex = 15;
             // 
             // beratinput_kelola
@@ -220,7 +220,7 @@
             beratinput_kelola.AutoSize = true;
             beratinput_kelola.BackColor = Color.MediumAquamarine;
             beratinput_kelola.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            beratinput_kelola.Location = new Point(274, 158);
+            beratinput_kelola.Location = new Point(335, 158);
             beratinput_kelola.Name = "beratinput_kelola";
             beratinput_kelola.Size = new Size(103, 25);
             beratinput_kelola.TabIndex = 14;
@@ -235,7 +235,7 @@
             keluarbutton_kelola.FlatAppearance.BorderSize = 0;
             keluarbutton_kelola.FlatStyle = FlatStyle.Flat;
             keluarbutton_kelola.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_kelola.Location = new Point(-23, 486);
+            keluarbutton_kelola.Location = new Point(-19, 621);
             keluarbutton_kelola.Name = "keluarbutton_kelola";
             keluarbutton_kelola.Size = new Size(110, 69);
             keluarbutton_kelola.TabIndex = 13;
@@ -248,10 +248,10 @@
             riwayatbutton_kelola.BackColor = Color.Transparent;
             riwayatbutton_kelola.FlatAppearance.BorderSize = 0;
             riwayatbutton_kelola.FlatStyle = FlatStyle.Flat;
-            riwayatbutton_kelola.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            riwayatbutton_kelola.Location = new Point(36, 264);
+            riwayatbutton_kelola.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            riwayatbutton_kelola.Location = new Point(41, 324);
             riwayatbutton_kelola.Name = "riwayatbutton_kelola";
-            riwayatbutton_kelola.Size = new Size(180, 26);
+            riwayatbutton_kelola.Size = new Size(246, 44);
             riwayatbutton_kelola.TabIndex = 5;
             riwayatbutton_kelola.Text = "RIWAYAT TRANSAKSI";
             riwayatbutton_kelola.TextAlign = ContentAlignment.MiddleLeft;
@@ -263,10 +263,10 @@
             transaksibutton_kelola.BackColor = Color.Transparent;
             transaksibutton_kelola.FlatAppearance.BorderSize = 0;
             transaksibutton_kelola.FlatStyle = FlatStyle.Flat;
-            transaksibutton_kelola.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            transaksibutton_kelola.Location = new Point(37, 220);
+            transaksibutton_kelola.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            transaksibutton_kelola.Location = new Point(46, 265);
             transaksibutton_kelola.Name = "transaksibutton_kelola";
-            transaksibutton_kelola.Size = new Size(101, 26);
+            transaksibutton_kelola.Size = new Size(142, 43);
             transaksibutton_kelola.TabIndex = 4;
             transaksibutton_kelola.Text = "TRANSAKSI";
             transaksibutton_kelola.TextAlign = ContentAlignment.MiddleLeft;
@@ -278,10 +278,10 @@
             penawaranbutton_kelola.BackColor = Color.Transparent;
             penawaranbutton_kelola.FlatAppearance.BorderSize = 0;
             penawaranbutton_kelola.FlatStyle = FlatStyle.Flat;
-            penawaranbutton_kelola.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            penawaranbutton_kelola.Location = new Point(35, 191);
+            penawaranbutton_kelola.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            penawaranbutton_kelola.Location = new Point(46, 233);
             penawaranbutton_kelola.Name = "penawaranbutton_kelola";
-            penawaranbutton_kelola.Size = new Size(180, 26);
+            penawaranbutton_kelola.Size = new Size(180, 38);
             penawaranbutton_kelola.TabIndex = 3;
             penawaranbutton_kelola.Text = "PENAWARAN PANEN";
             penawaranbutton_kelola.TextAlign = ContentAlignment.MiddleLeft;
@@ -293,10 +293,10 @@
             inputpanenbutton_kelola.BackColor = Color.Transparent;
             inputpanenbutton_kelola.FlatAppearance.BorderSize = 0;
             inputpanenbutton_kelola.FlatStyle = FlatStyle.Flat;
-            inputpanenbutton_kelola.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            inputpanenbutton_kelola.Location = new Point(36, 164);
+            inputpanenbutton_kelola.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            inputpanenbutton_kelola.Location = new Point(45, 198);
             inputpanenbutton_kelola.Name = "inputpanenbutton_kelola";
-            inputpanenbutton_kelola.Size = new Size(143, 26);
+            inputpanenbutton_kelola.Size = new Size(189, 33);
             inputpanenbutton_kelola.TabIndex = 2;
             inputpanenbutton_kelola.Text = "KELOLA PANEN";
             inputpanenbutton_kelola.TextAlign = ContentAlignment.MiddleLeft;
@@ -308,10 +308,10 @@
             dashboardbutton_kelola.BackColor = Color.Transparent;
             dashboardbutton_kelola.FlatAppearance.BorderSize = 0;
             dashboardbutton_kelola.FlatStyle = FlatStyle.Flat;
-            dashboardbutton_kelola.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dashboardbutton_kelola.Location = new Point(33, 114);
+            dashboardbutton_kelola.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dashboardbutton_kelola.Location = new Point(32, 137);
             dashboardbutton_kelola.Name = "dashboardbutton_kelola";
-            dashboardbutton_kelola.Size = new Size(119, 26);
+            dashboardbutton_kelola.Size = new Size(173, 47);
             dashboardbutton_kelola.TabIndex = 1;
             dashboardbutton_kelola.Text = "DASHBOARD";
             dashboardbutton_kelola.UseVisualStyleBackColor = false;
@@ -320,9 +320,9 @@
             // labelinput
             // 
             labelinput.BackColor = Color.MediumAquamarine;
-            labelinput.Location = new Point(256, 95);
+            labelinput.Location = new Point(318, 95);
             labelinput.Name = "labelinput";
-            labelinput.Size = new Size(639, 151);
+            labelinput.Size = new Size(804, 168);
             labelinput.TabIndex = 17;
             labelinput.TextAlign = ContentAlignment.BottomCenter;
             // 
@@ -351,7 +351,8 @@
             Controls.Add(dashboardbutton_kelola);
             Controls.Add(labelinput);
             Name = "KelolaPanenNelayan";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
+            Load += KelolaPanenNelayan_Load;
             ((System.ComponentModel.ISupportInitialize)dgvriwayatpanen).EndInit();
             ((System.ComponentModel.ISupportInitialize)numBerat).EndInit();
             ResumeLayout(false);

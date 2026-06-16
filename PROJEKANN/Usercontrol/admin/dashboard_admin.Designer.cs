@@ -49,7 +49,7 @@
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(81, 54);
+            label5.Location = new Point(105, 73);
             label5.Name = "label5";
             label5.Size = new Size(63, 25);
             label5.TabIndex = 16;
@@ -62,7 +62,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             label4.ForeColor = SystemColors.ButtonHighlight;
-            label4.Location = new Point(795, 121);
+            label4.Location = new Point(998, 151);
             label4.Name = "label4";
             label4.Size = new Size(33, 38);
             label4.TabIndex = 15;
@@ -75,7 +75,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label3.ForeColor = SystemColors.ButtonHighlight;
-            label3.Location = new Point(529, 122);
+            label3.Location = new Point(675, 151);
             label3.Name = "label3";
             label3.Size = new Size(28, 32);
             label3.TabIndex = 14;
@@ -91,9 +91,9 @@
             keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
             keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
             keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_dashboard.Location = new Point(-22, 492);
+            keluarbutton_dashboard.Location = new Point(-30, 627);
             keluarbutton_dashboard.Name = "keluarbutton_dashboard";
-            keluarbutton_dashboard.Size = new Size(102, 63);
+            keluarbutton_dashboard.Size = new Size(115, 63);
             keluarbutton_dashboard.TabIndex = 13;
             keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
             keluarbutton_dashboard.UseVisualStyleBackColor = false;
@@ -106,7 +106,7 @@
             label2.FlatStyle = FlatStyle.Flat;
             label2.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.ButtonHighlight;
-            label2.Location = new Point(341, 121);
+            label2.Location = new Point(423, 151);
             label2.Name = "label2";
             label2.Size = new Size(33, 38);
             label2.TabIndex = 7;
@@ -119,7 +119,7 @@
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.Location = new Point(27, 260);
+            button5.Location = new Point(48, 329);
             button5.Name = "button5";
             button5.Size = new Size(213, 34);
             button5.TabIndex = 6;
@@ -134,7 +134,7 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.Location = new Point(27, 225);
+            button4.Location = new Point(48, 281);
             button4.Name = "button4";
             button4.Size = new Size(197, 34);
             button4.TabIndex = 5;
@@ -149,7 +149,7 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(26, 185);
+            button3.Location = new Point(47, 234);
             button3.Name = "button3";
             button3.Size = new Size(175, 34);
             button3.TabIndex = 4;
@@ -164,7 +164,7 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(26, 146);
+            button2.Location = new Point(47, 184);
             button2.Name = "button2";
             button2.Size = new Size(149, 34);
             button2.TabIndex = 3;
@@ -180,7 +180,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ImageAlign = ContentAlignment.MiddleLeft;
-            button1.Location = new Point(26, 113);
+            button1.Location = new Point(47, 144);
             button1.Name = "button1";
             button1.Size = new Size(135, 34);
             button1.TabIndex = 2;
@@ -194,10 +194,10 @@
             dataGridView1.BackgroundColor = Color.FromArgb(219, 255, 234);
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.GridColor = Color.White;
-            dataGridView1.Location = new Point(276, 232);
+            dataGridView1.Location = new Point(332, 286);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(605, 296);
+            dataGridView1.Size = new Size(781, 376);
             dataGridView1.TabIndex = 1;
             dataGridView1.CellContentClick += aktivitas;
             // 
@@ -205,10 +205,10 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(266, 195);
+            label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(332, 245);
             label1.Name = "label1";
-            label1.Size = new Size(181, 25);
+            label1.Size = new Size(195, 28);
             label1.TabIndex = 0;
             label1.Text = "AKTIVITAS TERKINI";
             // 
@@ -231,7 +231,7 @@
             Controls.Add(label4);
             Controls.Add(label5);
             Name = "dashboard_admin";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();

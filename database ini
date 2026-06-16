@@ -534,24 +534,6 @@ CREATE OR REPLACE VIEW public.vw_konfirmasi_transaksi
      JOIN usser u ON u.id_user = g.id_distributor
   WHERE t.konfir_penawaran::text = 'Diterima'::text AND t.konfir_pembelian::text <> 'Selesai'::text;
 
-CREATE OR REPLACE VIEW public.vw_riwayat_transaksi
- AS
- SELECT p.id_panen,
-    u_dist.nama AS nama_distributor,
-    p.berat_per_kg AS berat_kg,
-    g.kategori AS grade,
-    t.total_pembayaran AS total,
-    t.tanggal AS tanggal_konfirmasi,
-    t.status_transaksi AS status,
-    p.id_user AS id_nelayan,
-    u_nel.username AS username_nelayan
-   FROM transaksi t
-     JOIN grade g ON g.id_grade = t.id_grade
-     JOIN panen p ON p.id_panen = g.id_panen
-     JOIN usser u_dist ON u_dist.id_user = g.id_distributor
-     JOIN usser u_nel ON u_nel.id_user = p.id_user
-  WHERE t.status_transaksi::text = 'Selesai'::text;
-
 CREATE OR REPLACE PROCEDURE public.sp_konfirmasi_transaksi_by_panen(
 	IN p_id_panen integer,
 	IN p_tanggal_konfir date DEFAULT CURRENT_DATE)
@@ -704,7 +686,14 @@ SELECT
     p.berat_per_kg,
     p.tanggal
 FROM panen p
-JOIN usser u ON p.id_user = u.id_user
+JOIN usser u
+ON p.id_user = u.id_user
+WHERE NOT EXISTS
+(
+    SELECT 1
+    FROM grade g
+    WHERE g.id_panen = p.id_panen
+)
 ORDER BY p.id_panen DESC;
 
 CREATE OR REPLACE VIEW view_grading_panen AS

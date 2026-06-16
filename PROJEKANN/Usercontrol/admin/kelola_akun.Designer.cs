@@ -47,7 +47,7 @@
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(81, 54);
+            label5.Location = new Point(106, 72);
             label5.Name = "label5";
             label5.Size = new Size(63, 25);
             label5.TabIndex = 17;
@@ -63,9 +63,9 @@
             keluarbutton_dashboard.FlatAppearance.BorderSize = 0;
             keluarbutton_dashboard.FlatStyle = FlatStyle.Flat;
             keluarbutton_dashboard.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            keluarbutton_dashboard.Location = new Point(-20, 509);
+            keluarbutton_dashboard.Location = new Point(-30, 626);
             keluarbutton_dashboard.Name = "keluarbutton_dashboard";
-            keluarbutton_dashboard.Size = new Size(85, 46);
+            keluarbutton_dashboard.Size = new Size(125, 64);
             keluarbutton_dashboard.TabIndex = 14;
             keluarbutton_dashboard.TextAlign = ContentAlignment.MiddleLeft;
             keluarbutton_dashboard.UseVisualStyleBackColor = false;
@@ -77,7 +77,7 @@
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.Location = new Point(34, 261);
+            button5.Location = new Point(43, 328);
             button5.Name = "button5";
             button5.Size = new Size(219, 34);
             button5.TabIndex = 17;
@@ -92,7 +92,7 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.Location = new Point(34, 225);
+            button4.Location = new Point(43, 278);
             button4.Name = "button4";
             button4.Size = new Size(219, 34);
             button4.TabIndex = 16;
@@ -107,7 +107,7 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(34, 185);
+            button3.Location = new Point(43, 235);
             button3.Name = "button3";
             button3.Size = new Size(175, 34);
             button3.TabIndex = 15;
@@ -122,7 +122,7 @@
             button6.FlatAppearance.BorderSize = 0;
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button6.Location = new Point(34, 145);
+            button6.Location = new Point(43, 186);
             button6.Name = "button6";
             button6.Size = new Size(149, 34);
             button6.TabIndex = 14;
@@ -138,7 +138,7 @@
             button7.FlatStyle = FlatStyle.Flat;
             button7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ImageAlign = ContentAlignment.MiddleLeft;
-            button7.Location = new Point(34, 109);
+            button7.Location = new Point(43, 145);
             button7.Name = "button7";
             button7.Size = new Size(135, 34);
             button7.TabIndex = 13;
@@ -150,9 +150,9 @@
             // button2
             // 
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(577, 480);
+            button2.Location = new Point(724, 595);
             button2.Name = "button2";
-            button2.Size = new Size(303, 34);
+            button2.Size = new Size(388, 51);
             button2.TabIndex = 2;
             button2.Text = "✘     BLOKIR";
             button2.UseVisualStyleBackColor = true;
@@ -161,9 +161,9 @@
             // button1
             // 
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(266, 480);
+            button1.Location = new Point(326, 595);
             button1.Name = "button1";
-            button1.Size = new Size(303, 34);
+            button1.Size = new Size(392, 51);
             button1.TabIndex = 1;
             button1.Text = "✔     KONFIRMASI";
             button1.UseVisualStyleBackColor = true;
@@ -173,10 +173,10 @@
             // 
             dataGridView1.BackgroundColor = Color.FromArgb(223, 253, 221);
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(266, 97);
+            dataGridView1.Location = new Point(336, 124);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(614, 327);
+            dataGridView1.Size = new Size(765, 414);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -197,7 +197,7 @@
             Controls.Add(button4);
             Controls.Add(label5);
             Name = "kelola_akun";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();

@@ -21,7 +21,7 @@ namespace PROJEKANN.Usercontrol.nelayan
             InitializeComponent();
             this.mainForm = formUtama;
             this.userLoginAktif = userLogin;
-            username = userLogin; 
+            username = userLogin;
             _controller = new ControllerDashboardNelayan();
             MuatData();
         }
@@ -103,5 +103,10 @@ namespace PROJEKANN.Usercontrol.nelayan
         private void stoklabel_dashboard_Click(object sender, EventArgs e) { }
         private void penawaranlabel_dashboard_Click(object sender, EventArgs e) { }
         private void lbnamauser_dashboard_Click(object sender, EventArgs e) { }
+
+        private void DashboardNelayan_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

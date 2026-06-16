@@ -106,5 +106,10 @@ namespace PROJEKANN.Usercontrol.nelayan
 
         private void paneltransaksi_Paint(object sender, PaintEventArgs e) { }
         private void dgvtransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+
+        private void TransaksiNelayan_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
