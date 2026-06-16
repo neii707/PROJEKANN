@@ -47,10 +47,10 @@
             // 
             dgvGrading.BackgroundColor = Color.White;
             dgvGrading.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvGrading.Location = new Point(269, 143);
+            dgvGrading.Location = new Point(330, 169);
             dgvGrading.Name = "dgvGrading";
             dgvGrading.RowHeadersWidth = 62;
-            dgvGrading.Size = new Size(618, 296);
+            dgvGrading.Size = new Size(785, 388);
             dgvGrading.TabIndex = 0;
             dgvGrading.CellClick += dgvGrading_CellClick;
             // 
@@ -58,10 +58,10 @@
             // 
             lblNamaUser.AutoSize = true;
             lblNamaUser.BackColor = Color.Transparent;
-            lblNamaUser.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNamaUser.Location = new Point(86, 50);
+            lblNamaUser.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            lblNamaUser.Location = new Point(104, 55);
             lblNamaUser.Name = "lblNamaUser";
-            lblNamaUser.Size = new Size(33, 25);
+            lblNamaUser.Size = new Size(44, 32);
             lblNamaUser.TabIndex = 12;
             lblNamaUser.Text = "---";
             // 
@@ -80,10 +80,10 @@
             // 
             // txtKeterangan
             // 
-            txtKeterangan.Location = new Point(629, 468);
+            txtKeterangan.Location = new Point(788, 583);
             txtKeterangan.Multiline = true;
             txtKeterangan.Name = "txtKeterangan";
-            txtKeterangan.Size = new Size(212, 33);
+            txtKeterangan.Size = new Size(266, 33);
             txtKeterangan.TabIndex = 10;
             // 
             // btnDashboard
@@ -92,7 +92,7 @@
             btnDashboard.BackColor = Color.Transparent;
             btnDashboard.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnDashboard.ForeColor = Color.Black;
-            btnDashboard.Location = new Point(37, 118);
+            btnDashboard.Location = new Point(43, 148);
             btnDashboard.Name = "btnDashboard";
             btnDashboard.Size = new Size(121, 25);
             btnDashboard.TabIndex = 9;
@@ -105,7 +105,7 @@
             btnRiwayat.FlatAppearance.BorderSize = 0;
             btnRiwayat.FlatStyle = FlatStyle.Flat;
             btnRiwayat.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRiwayat.Location = new Point(35, 298);
+            btnRiwayat.Location = new Point(43, 374);
             btnRiwayat.Name = "btnRiwayat";
             btnRiwayat.Size = new Size(194, 34);
             btnRiwayat.TabIndex = 8;
@@ -119,9 +119,9 @@
             btnTransaksi.FlatAppearance.BorderSize = 0;
             btnTransaksi.FlatStyle = FlatStyle.Flat;
             btnTransaksi.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnTransaksi.Location = new Point(29, 259);
+            btnTransaksi.Location = new Point(39, 326);
             btnTransaksi.Name = "btnTransaksi";
-            btnTransaksi.Size = new Size(129, 34);
+            btnTransaksi.Size = new Size(119, 34);
             btnTransaksi.TabIndex = 7;
             btnTransaksi.Text = "TRANSAKSI";
             btnTransaksi.UseVisualStyleBackColor = false;
@@ -133,9 +133,9 @@
             btnPenawaran.FlatAppearance.BorderSize = 0;
             btnPenawaran.FlatStyle = FlatStyle.Flat;
             btnPenawaran.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPenawaran.Location = new Point(27, 223);
+            btnPenawaran.Location = new Point(36, 283);
             btnPenawaran.Name = "btnPenawaran";
-            btnPenawaran.Size = new Size(147, 34);
+            btnPenawaran.Size = new Size(138, 34);
             btnPenawaran.TabIndex = 6;
             btnPenawaran.Text = "PENAWARAN";
             btnPenawaran.UseVisualStyleBackColor = false;
@@ -147,9 +147,9 @@
             btnGrading.FlatAppearance.BorderSize = 0;
             btnGrading.FlatStyle = FlatStyle.Flat;
             btnGrading.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGrading.Location = new Point(30, 184);
+            btnGrading.Location = new Point(41, 234);
             btnGrading.Name = "btnGrading";
-            btnGrading.Size = new Size(112, 34);
+            btnGrading.Size = new Size(101, 34);
             btnGrading.TabIndex = 5;
             btnGrading.Text = "GRADING";
             btnGrading.UseVisualStyleBackColor = false;
@@ -161,9 +161,9 @@
             btnPanen.FlatAppearance.BorderSize = 0;
             btnPanen.FlatStyle = FlatStyle.Flat;
             btnPanen.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPanen.Location = new Point(25, 146);
+            btnPanen.Location = new Point(36, 186);
             btnPanen.Name = "btnPanen";
-            btnPanen.Size = new Size(150, 34);
+            btnPanen.Size = new Size(138, 34);
             btnPanen.TabIndex = 4;
             btnPanen.Text = "LIHAT PANEN";
             btnPanen.UseVisualStyleBackColor = false;
@@ -173,7 +173,7 @@
             // 
             btnTetapkan.BackColor = Color.DarkSeaGreen;
             btnTetapkan.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnTetapkan.Location = new Point(629, 505);
+            btnTetapkan.Location = new Point(788, 623);
             btnTetapkan.Name = "btnTetapkan";
             btnTetapkan.Size = new Size(117, 39);
             btnTetapkan.TabIndex = 2;
@@ -184,7 +184,7 @@
             // cbGrade
             // 
             cbGrade.FormattingEnabled = true;
-            cbGrade.Location = new Point(414, 468);
+            cbGrade.Location = new Point(517, 583);
             cbGrade.Name = "cbGrade";
             cbGrade.Size = new Size(90, 33);
             cbGrade.TabIndex = 1;
@@ -209,7 +209,7 @@
             Controls.Add(cbGrade);
             Controls.Add(dgvGrading);
             Name = "Grading";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
             Load += Grading_Load_1;
             ((System.ComponentModel.ISupportInitialize)dgvGrading).EndInit();
             ResumeLayout(false);
