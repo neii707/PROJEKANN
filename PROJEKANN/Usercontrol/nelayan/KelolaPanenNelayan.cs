@@ -92,7 +92,7 @@ namespace PROJEKANN.Usercontrol.nelayan
                 return;
             }
 
-            
+
 
             if (tanggalInput < hariIni.AddDays(-3))
             {
@@ -239,6 +239,11 @@ namespace PROJEKANN.Usercontrol.nelayan
         private void dgvriwayatpanen_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
         private void dtptanggalpanen_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void KelolaPanenNelayan_Load(object sender, EventArgs e)
         {
 
         }

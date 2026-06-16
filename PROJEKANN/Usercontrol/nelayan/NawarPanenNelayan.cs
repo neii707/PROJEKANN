@@ -137,5 +137,10 @@ namespace PROJEKANN.Usercontrol.nelayan
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+
+        private void NawarPanenNelayan_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
