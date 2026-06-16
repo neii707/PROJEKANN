@@ -45,7 +45,7 @@ namespace PROJEKANN.Usercontrol.admin
             DateTime hariIni = DateTime.Today;
 
 
-            if (tanggal < hariIni.AddDays(-3))
+            if (tanggal < hariIni)
             {
                 MessageBox.Show("Input demand paling lambat hari ini!", "Input Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

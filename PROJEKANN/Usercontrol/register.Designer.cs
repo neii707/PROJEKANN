@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new Panel();
             button1 = new Button();
             comboBox1 = new ComboBox();
             textBox6 = new TextBox();
@@ -36,30 +35,13 @@
             textBox4 = new TextBox();
             textBox3 = new TextBox();
             textBox1 = new TextBox();
-            panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.BackgroundImage = Properties.Resources.registrasi;
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(comboBox1);
-            panel1.Controls.Add(textBox6);
-            panel1.Controls.Add(textBox5);
-            panel1.Controls.Add(textBox4);
-            panel1.Controls.Add(textBox3);
-            panel1.Controls.Add(textBox1);
-            panel1.Location = new Point(3, 3);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(902, 549);
-            panel1.TabIndex = 0;
             // 
             // button1
             // 
             button1.BackColor = Color.SeaGreen;
             button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(634, 457);
+            button1.Location = new Point(814, 581);
             button1.Name = "button1";
             button1.Size = new Size(112, 34);
             button1.TabIndex = 14;
@@ -70,11 +52,12 @@
             // comboBox1
             // 
             comboBox1.BackColor = Color.White;
-            comboBox1.Font = new Font("Segoe UI", 5F);
+            comboBox1.FlatStyle = FlatStyle.Flat;
+            comboBox1.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(602, 409);
+            comboBox1.Location = new Point(758, 513);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(201, 20);
+            comboBox1.Size = new Size(247, 29);
             comboBox1.TabIndex = 13;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
@@ -82,70 +65,75 @@
             // 
             textBox6.BackColor = Color.White;
             textBox6.BorderStyle = BorderStyle.None;
-            textBox6.Font = new Font("Segoe UI", 5F);
-            textBox6.Location = new Point(610, 372);
+            textBox6.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox6.Location = new Point(758, 465);
             textBox6.Name = "textBox6";
-            textBox6.Size = new Size(193, 14);
+            textBox6.Size = new Size(247, 22);
             textBox6.TabIndex = 12;
             // 
             // textBox5
             // 
             textBox5.BackColor = Color.White;
             textBox5.BorderStyle = BorderStyle.None;
-            textBox5.Font = new Font("Segoe UI", 5F);
-            textBox5.Location = new Point(610, 331);
+            textBox5.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox5.Location = new Point(763, 414);
             textBox5.Name = "textBox5";
-            textBox5.Size = new Size(193, 14);
+            textBox5.Size = new Size(242, 22);
             textBox5.TabIndex = 11;
             // 
             // textBox4
             // 
             textBox4.BackColor = Color.White;
             textBox4.BorderStyle = BorderStyle.None;
-            textBox4.Font = new Font("Segoe UI", 5F);
-            textBox4.Location = new Point(610, 290);
+            textBox4.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox4.Location = new Point(762, 362);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(193, 14);
+            textBox4.Size = new Size(243, 22);
             textBox4.TabIndex = 10;
             // 
             // textBox3
             // 
             textBox3.BackColor = Color.White;
             textBox3.BorderStyle = BorderStyle.None;
-            textBox3.Font = new Font("Segoe UI", 5F);
-            textBox3.Location = new Point(610, 209);
+            textBox3.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox3.Location = new Point(763, 261);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(193, 14);
+            textBox3.Size = new Size(242, 22);
             textBox3.TabIndex = 9;
             // 
             // textBox1
             // 
             textBox1.BackColor = Color.White;
             textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Font = new Font("Segoe UI", 5F);
-            textBox1.Location = new Point(610, 249);
+            textBox1.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(762, 308);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(193, 14);
+            textBox1.Size = new Size(243, 22);
             textBox1.TabIndex = 8;
             // 
             // register
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.registrasi;
             BackgroundImageLayout = ImageLayout.Stretch;
-            Controls.Add(panel1);
+            Controls.Add(button1);
+            Controls.Add(comboBox1);
+            Controls.Add(textBox1);
+            Controls.Add(textBox3);
+            Controls.Add(textBox5);
+            Controls.Add(textBox4);
+            Controls.Add(textBox6);
             Name = "register";
-            Size = new Size(908, 555);
+            Size = new Size(1135, 690);
             Load += dashboard_Load;
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button REGISTER;
-        private Panel panel1;
         private ComboBox comboBox1;
         private TextBox textBox6;
         private TextBox textBox5;
