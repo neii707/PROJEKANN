@@ -152,7 +152,7 @@ VALUES
     ('B', 'Kualitas baik',        13000, 5, 5, 3);
 
 -- =========================================
--- TRIGGER: HITUNG TOTAL PEMBAYARAN (harus sebelum INSERT transaksi)
+-- TRIGGER: HITUNG TOTAL PEMBAYARAN (sebelum insert)
 -- =========================================
 
 CREATE OR REPLACE FUNCTION hitung_total_pembayaran()
@@ -189,7 +189,7 @@ VALUES
 
 -- =========================================
 -- TRIGGER: CEK PERUBAHAN TRANSAKSI SELESAI
--- (dibuat setelah INSERT data agar data seed tidak terblokir)
+-- (habis insert biar data seed ga terblokir)
 -- =========================================
 
 CREATE OR REPLACE FUNCTION public.log_perubahan_transaksi()
@@ -211,7 +211,6 @@ EXECUTE FUNCTION public.log_perubahan_transaksi();
 
 -- =========================================
 -- VIEW: RIWAYAT TRANSAKSI NELAYAN
--- (dibuat lebih awal karena dipakai fn_label_dashboard_nelayan)
 -- =========================================
 
 CREATE OR REPLACE VIEW public.vw_riwayat_transaksi AS
@@ -333,7 +332,6 @@ BEGIN
 END;
 $$;
 
--- FIX: fungsi ini sebelumnya terpotong, RETURN dan END ditambahkan
 CREATE OR REPLACE FUNCTION public.fn_labelstok()
 RETURNS INTEGER
 LANGUAGE plpgsql
