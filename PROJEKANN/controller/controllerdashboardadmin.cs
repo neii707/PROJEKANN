@@ -52,10 +52,7 @@ namespace PROJEKANN.controller
                     }
 
                     string queryTabel = @"
-                        SELECT 
-                            id AS ""ID"", 
-                            pengguna AS ""Pengguna"", 
-                            aktivitas AS ""Aktivitas"" 
+                        SELECT *
                         FROM v_aktivitas_terkini 
                         LIMIT 10;";
 
